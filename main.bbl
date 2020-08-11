@@ -1,0 +1,103 @@
+\begin{thebibliography}{15}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Abadi et~al.(2016)Abadi, Barham, Chen, Chen, Davis, Dean, Devin,
+  Ghemawat, Irving, Isard, et~al.]{abadi2016tensorflow}
+M.~Abadi, P.~Barham, J.~Chen, Z.~Chen, A.~Davis, J.~Dean, M.~Devin,
+  S.~Ghemawat, G.~Irving, M.~Isard, et~al.
+\newblock Tensorflow: A system for large-scale machine learning.
+\newblock In \emph{OSDI}, volume~16, pages 265--283, 2016.
+
+\bibitem[{Apache Software Foundation}()]{mxnet}
+{Apache Software Foundation}.
+\newblock Apache {MXNet}: A flexible and efficient library for deep learning.
+\newblock \url{https://mxnet.apache.org/}.
+\newblock Accessed: 2018-01-30.
+
+\bibitem[Bengio(2012)]{bengio2012practical}
+Y.~Bengio.
+\newblock Practical recommendations for gradient-based training of deep
+  architectures.
+\newblock In \emph{Neural networks: Tricks of the trade}, pages 437--478.
+  Springer, 2012.
+
+\bibitem[Bezanson et~al.(2017)Bezanson, Edelman, Karpinski, and
+  Shah]{bezanson2017julia}
+J.~Bezanson, A.~Edelman, S.~Karpinski, and V.~B. Shah.
+\newblock Julia: A fresh approach to numerical computing.
+\newblock \emph{SIAM Review}, 59\penalty0 (1):\penalty0 65--98, 2017.
+
+\bibitem[Cho et~al.(2011)Cho, Ilin, and Raiko]{cho2011improved}
+K.~Cho, A.~Ilin, and T.~Raiko.
+\newblock Improved learning of gaussian-bernoulli restricted boltzmann
+  machines.
+\newblock \emph{Artificial Neural Networks and Machine Learning--ICANN 2011},
+  pages 10--17, 2011.
+
+\bibitem[{Facebook, Inc}()]{pytorch}
+{Facebook, Inc}.
+\newblock {PyTorch}, tensors and dynamic neural networks in {Python} with
+  strong {GPU} acceleration.
+\newblock \url{http://pytorch.org/}.
+\newblock Accessed: 2018-01-30.
+
+\bibitem[Hess et~al.(2017)Hess, Lenz, Bl{\"a}tte, Bullinger, and
+  Binder]{hess2017partitioned}
+M.~Hess, S.~Lenz, T.~J. Bl{\"a}tte, L.~Bullinger, and H.~Binder.
+\newblock Partitioned learning of deep boltzmann machines for snp data.
+\newblock \emph{Bioinformatics}, 33\penalty0 (20):\penalty0 3173--3180, 2017.
+
+\bibitem[Krizhevsky and Hinton(2009)]{krizhevsky2009tinyimages}
+A.~Krizhevsky and G.~Hinton.
+\newblock Learning multiple layers of features from tiny images.
+\newblock \emph{Technical report, University of Toronto}, 2009.
+
+\bibitem[Rumbaugh et~al.(1999)Rumbaugh, Jacobson, and Booch]{uml}
+J.~Rumbaugh, I.~Jacobson, and G.~Booch.
+\newblock The unified modeling language reference manual, 1999.
+
+\bibitem[Salakhutdinov(2008)]{salakhutdinov2008learning}
+R.~Salakhutdinov.
+\newblock Learning and evaluating boltzmann machines.
+\newblock \emph{Technical Report UTML TR 2008-002, Department of Computer
+  Science, University of Toronto}, 2008.
+
+\bibitem[Salakhutdinov(2015)]{salakhutdinov2015generativemodels}
+R.~Salakhutdinov.
+\newblock Learning deep generative models.
+\newblock \emph{Annual Review of Statistics and Its Application}, 2:\penalty0
+  361--385, 2015.
+
+\bibitem[Salakhutdinov and Hinton(2009)]{salakhutdinov2009DBMs}
+R.~Salakhutdinov and G.~Hinton.
+\newblock Deep boltzmann machines.
+\newblock In \emph{Artificial Intelligence and Statistics}, pages 448--455,
+  2009.
+
+\bibitem[Salakhutdinov and Hinton(2012)]{sala2012anefficient}
+R.~Salakhutdinov and G.~Hinton.
+\newblock An efficient learning procedure for deep boltzmann machines.
+\newblock \emph{Neural Computation}, 24\penalty0 (8):\penalty0 1967--2006,
+  2012.
+\newblock \doi{10.1162/NECO\_a\_00311}.
+
+\bibitem[Srivastava and Salakhutdinov(2012)]{srivastava2012multimodal}
+N.~Srivastava and R.~R. Salakhutdinov.
+\newblock Multimodal learning with deep boltzmann machines.
+\newblock In \emph{Advances in neural information processing systems}, pages
+  2222--2230, 2012.
+
+\bibitem[Theis et~al.(2011)Theis, Gerwinn, Sinz, and
+  Bethge]{theis2011deepbelief}
+L.~Theis, S.~Gerwinn, F.~Sinz, and M.~Bethge.
+\newblock In all likelihood, deep belief is not enough.
+\newblock \emph{Journal of Machine Learning Research}, 12\penalty0
+  (Nov):\penalty0 3071--3096, 2011.
+\newblock Associated code published on
+  \url{https://github.com/lucastheis/deepbelief}.
+
+\end{thebibliography}
