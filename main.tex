@@ -118,6 +118,7 @@ Cho et al. \citep{cho2011improved} proposed a different parameterization for the
 In this model the distribution of the visible nodes is the multimodal normal distribution $\mathcal{N}(a + Wh, \sigma^2)$.
 The conditional distribution of the hidden nodes is $p(h_j | v) = \sigm \left (b_j + \sum_{i=1}^{n_V} w_{ij} \frac{v_i}{\sigma_i^2} \right )$.
 
+
 \paragraph{Deep Boltzmann machines}
 
 \paragraph{Multimodal deep Boltzmann machines}
@@ -147,7 +148,7 @@ TODO Referenz zu Srivastava
 
 
 
-\subsubsection{Evaluating deep Boltzmann machines}\label{methodAIS}
+\subsubsection{Evaluating deep Boltzmann machines}
 \paragraph{Exact calculation of the partition function}
 \label{methodExactloglik}
 The exact calculation of partition functions is only computationally feasible for very small models as its complexity grows exponentially. Exploiting the layerwise structure allows a faster exact calculation of $Z$ such that the computation time does not grow exponentially with the number of all nodes but only grows exponentially with the number of elements in a subset of the nodes. That means, the complexity is still $\mathcal{O}(2^n)$, but with an $n$ smaller than the number of nodes.
@@ -179,11 +180,12 @@ There are two practical approaches for constructing intermediate models with suc
 \item Combine corresponding weights of two models of the same size to get an intermediate model of the same size.
 \item Constructing a larger model by putting the two models next to each other and connecting their nodes, increasing the energy in one part of the combined model while reducing it in the other part. \citep{theis2011deepbelief}
 \end{enumerate}
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
 \includegraphics[scale=3.]{images/twotypesais.eps}
 \caption{The two approaches for AIS, sketched for restricted Boltzmann machines.
-The weights of the first model are shown depicted as continuous lines, the weights of the second as dashed lines. The tempered weights of the intermediate distributions are shown in grey.}
+Here we can see two models with three visible nodes and two hidden nodes. 
+The weights of the first model are depicted as continuous lines, the weights of the second as dashed lines. The tempered weights of the intermediate distributions are shown in grey. In the first row, annealing approach one is illustrated, where model one is gradually morphed into model two. In the second row one can see the annealing approach two, which works with a combined model.}
 \label{figTwotypesais}
 \end{figure}
 The second approach is more flexible and allows to estimate the ratios of two arbitrary Boltzmann machines of the same type and with the same number of hidden nodes. But it requires sampling in a Boltzmann machine that has as many hidden nodes as the two models together.

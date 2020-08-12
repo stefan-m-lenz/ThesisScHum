@@ -9,12 +9,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 210 297"
+   width="32.24715mm"
+   height="39.590797mm"
+   viewBox="0 0 32.24715 39.590798"
    version="1.1"
    id="svg903"
-   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    sodipodi:docname="BMsOverview.svg">
   <defs
      id="defs897" />
@@ -25,18 +25,22 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2"
-     inkscape:cx="142.09556"
-     inkscape:cy="689.84811"
+     inkscape:zoom="0.70710678"
+     inkscape:cx="-46.126362"
+     inkscape:cy="65.676061"
      inkscape:document-units="mm"
      inkscape:current-layer="layer2"
      showgrid="false"
-     inkscape:window-width="1280"
-     inkscape:window-height="961"
+     inkscape:window-width="1050"
+     inkscape:window-height="1617"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     showguides="false" />
+     showguides="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
   <metadata
      id="metadata900">
     <rdf:RDF>
@@ -45,7 +49,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -53,7 +57,8 @@
      inkscape:label="Kanten"
      inkscape:groupmode="layer"
      id="layer1"
-     style="display:inline">
+     style="display:inline"
+     transform="translate(-19.953852,-91.320197)">
     <path
        style="display:inline;fill:none;stroke:#000000;stroke-width:0.05;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 20.415382,96.43559 1.655103,-3.89171"
@@ -1017,7 +1022,8 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="Knoten"
-     style="display:inline">
+     style="display:inline"
+     transform="translate(-19.953852,-91.320197)">
     <circle
        id="path3699-5-3"
        cx="-25.0921"
@@ -1037,36 +1043,9 @@
        inkscape:transform-center-y="-0.45784811"
        transform="scale(-1)" />
     <circle
-       id="path3699-5-4-5"
-       cx="-26.606001"
-       cy="-296.5"
-       r="0.47089848"
-       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.05820306;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       inkscape:transform-center-x="1.1654143"
-       inkscape:transform-center-y="-0.45784687"
-       transform="scale(-1)" />
-    <circle
-       id="path3699-5-1-7-9"
-       cx="-23.529898"
-       cy="-296.50009"
-       r="0.47089848"
-       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.058;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       inkscape:transform-center-x="1.1654144"
-       inkscape:transform-center-y="-0.45784394"
-       transform="scale(-1)" />
-    <circle
        id="path3699-5-7-1"
        cx="-27.99885"
        cy="-92.627419"
-       r="0.47089848"
-       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.05820306;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       inkscape:transform-center-x="1.1654142"
-       inkscape:transform-center-y="-0.45784687"
-       transform="scale(-1)" />
-    <circle
-       id="path3699-5-7-1-4"
-       cx="-29.681999"
-       cy="-296.5"
        r="0.47089848"
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.05820306;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        inkscape:transform-center-x="1.1654142"
