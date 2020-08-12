@@ -20,6 +20,14 @@
 \usepackage{helvet}
 \renewcommand{\familydefault}{\sfdefault}
 
+\usepackage{titlesec}
+\setcounter{secnumdepth}{4}
+
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
 \newcommand{\inlinecode}[1]{\texttt{#1}}
 \newcommand{\sigm}{\mathrm{sigm}}
 
@@ -41,22 +49,8 @@ Additionally to likelihood estimation, this package offers convenience methods t
 \end{abstract}
 
 \section{Introduction}
-Multimodal DBMs have been used by Srivastava et al. for image captions \citep{srivastava2012multimodal}.
-Here we want to broaden the scope a little bit and present an extensible approach for creating deep Boltzmann architectures with different types of visible units and flexible partitioned hidden layers. Training of such architectures ....
-Those architectures are not only useful for putting data of different types in one model but also in cases where a natural partitioning of the data can be derived from domain knowledge. With partitioning one can greatly reduce the number of parameters in the model. This allows training models on data sets where the sample size would otherwise be too small to fit a full model.
-Hess et al. showed that partitioned training on genetic data is successful \citep{hess2017partitioned}.
-
-A special challenge for unsupervised learning on non-image data is the lack of performance indicators.
-In supervised training, the classification accuracy is the natural evaluation criterion, which is also easy to implement.
-In unsupervised training with a well investigated class of data such as images, there is already much experience available for choosing the model architecture and the hyperparameters. If models are to be trained on very diverse data, the problem of finding good hyperparameters is exacerbated as for each data set the challenge of tuning can pose a different challenge.
-
-Thus the need for having an objective evaluation criterion as a basis for choosing the hyperparameters and monitoring the training becomes very important.
-In case of images or natural language, the generative abilities of a model can be tested by simply looking at the generated images or sentences to see whether these are proper samples. In the case of data from a patient record or genetic data, this approach is not feasible. As the best indicator for successful learning,which is applicable in all cases of data, remains the model likelihood. In most cases, the likelihood cannot be calculated exactly but it can only be estimated by stochastic algorithms like annealed importance sampling (AIS). So we also want to detail the extension of AIS on multimodal deep Boltzmann machines in this article.
-
-For the implementation we chose the Julia language \citep{bezanson2017julia}. % TODO elaborate or remove
-
 \section{Methods}
-
+\subsection{Deep Boltzmann machines}
 \subsection{Basic properties of Boltzmann machines}
 
 A Boltzmann machine model with parameters $\Theta$ defines a probability distribution $p(x)$ for a random variable $x = (v, h)$ in a probability space $\Omega$ via an energy function $E(v, h; \Theta)$:
@@ -82,7 +76,7 @@ This way the log-likelihood
 
 can be calculated efficiently if the partition function $Z$ is given. The free energy is also used for calculating the ratio of the unnormalized probabilities $p^*(v) = e^{-F(v)}$ in the annealed importance sampling algorithm (see \ref{methodAIS}).
 
-\subsection{Subtypes of Boltzmann machines}
+\subsubsection{Subtypes of Boltzmann machines}
 
 Here we only consider the special cases of restricted Boltzmann machines and (multimodal) deep Boltzmann machines.
 These models have restrictions on their parameterization, corresponding to a layered design of their graphs.
@@ -94,7 +88,7 @@ These models have restrictions on their parameterization, corresponding to a lay
  \end{figure}
 
 
-\subsubsection{Bernoulli distributed visible nodes}
+\paragraph{Bernoulli distributed visible nodes}
 The most basic model in this class of models are restricted Boltzmann machines with Bernoulli distributed nodes, most of the time simply called \emph{restricted Boltzmann machines} (RBMs). The energy function is of the form
 \[
    E(v,h) = a^T v + b^T h + v^T W h.
@@ -105,7 +99,7 @@ Employing the sigmoid function $\sigm(x) = \frac{1}{1+ e^{-x}}$, the resulting c
 F(v) = - a^T v - \sum_{j=1}^{n_H} \log \left (1 + e^{(W^T v + b)_j}\right).
 \]
 
-\subsubsection{Continuously valued visible distributions}
+\paragraph{Continuously valued visible distributions}
 One way of modeling continuous values for $v$ are restricted Boltzmann machines with Gaussian distribution of the visible variables and Bernoulli distributed hidden variables. The energy of the model is defined as
 \[
    E(v,h) = \sum_{i=1}^{n_V}\frac{(v_i - a_i)^2}{2\sigma_i^2} - b^T h - \sum_{i=1}^{n_V} \frac{(Wh)_i}{\sigma_i}
@@ -124,12 +118,14 @@ Cho et al. \citep{cho2011improved} proposed a different parameterization for the
 In this model the distribution of the visible nodes is the multimodal normal distribution $\mathcal{N}(a + Wh, \sigma^2)$.
 The conditional distribution of the hidden nodes is $p(h_j | v) = \sigm \left (b_j + \sum_{i=1}^{n_V} w_{ij} \frac{v_i}{\sigma_i^2} \right )$.
 
-\subsubsection{Multimodal deep Boltzmann machines}
+\paragraph{Deep Boltzmann machines}
 
-The energy function of a multimodal deep Boltzmann machine (MDBM) is
+\paragraph{Multimodal deep Boltzmann machines}
+
+The energy function of a multimodal deep Boltzmann machine (MDBM) is TODO
 
 
-\subsection{Training}
+\subsubsection{Training of deep Boltzmann machines}
 
 TODO stochastic gradient descent, batch gradient descent, minibatches \citep{bengio2012practical}
 contrastive divergence, persistent contrastive divergence
@@ -149,16 +145,17 @@ TODO stacking
 TODO Bild von multimodal
 TODO Referenz zu Srivastava
 
-\subsection{Evaluating}
 
-\subsubsection{Exact calculation of the partition function}
+
+\subsubsection{Evaluating deep Boltzmann machines}\label{methodAIS}
+\paragraph{Exact calculation of the partition function}
 \label{methodExactloglik}
 The exact calculation of partition functions is only computationally feasible for very small models as its complexity grows exponentially. Exploiting the layerwise structure allows a faster exact calculation of $Z$ such that the computation time does not grow exponentially with the number of all nodes but only grows exponentially with the number of elements in a subset of the nodes. That means, the complexity is still $\mathcal{O}(2^n)$, but with an $n$ smaller than the number of nodes.
 By using the formulas for the free energy and the symmetry of restricted Boltzmann with binary nodes, $n = \min(n_V, n_H)$.
 In RBMs with one of layer Gaussian nodes and one layer of binary nodes, $n$ is the number of binary nodes, since the contribution of the Gaussian nodes can be integrated analytically.
 In case of a deep Boltzmann machine, it is possible to sum out each second layer, similar to the calculation of the free energy in restricted Boltzmann machines. So for DBMs, $n$ can be reduced to the number of nodes in each second layer.
 
-\subsubsection{Estimating partition functions with annealed importance sampling (AIS)}\label{methodAIS}
+\paragraph{Estimating partition functions with annealed importance sampling (AIS)}\label{methodAIS}
 
 For annealed importance sampling we need a sequence of intermediate distributions
 $p_0, \dots p_K$ with
@@ -193,14 +190,40 @@ The second approach is more flexible and allows to estimate the ratios of two ar
 Both approaches can be used to estimate the partition function of a single Boltzmann machine by estimating the ratio of the model's partition function to the partition function of a base rate model with known partition function.
 
 
-\subsubsection{Calculating or estimating likelihoods} %TODO verbessern
+\paragraph{Calculating or estimating likelihoods} %TODO verbessern
 For a restricted Boltzmann machine, the likelihood can be calculated using formula (\ref{eqpRBMfreeenergy}) if the partition function is known. This is not so easily possible in a DBM, for which calculating the distribution of the hidden nodes is of exponential complexity.
 Estimating the likelihood of DBMs is possible using AIS by constructing a smaller DBM for each sample and estimating its partition function.
 The smaller DBM is constructed by removing the visible layer, and incorporating contribution of the sample to the energy of the first RBM - consisting only of visible and first hidden layer - into the bias of the new visible layer which was the first hidden layer of the original model.
 The partition function of this smaller model is then the unnormalized probability of the sample in the original model.
 In a setting with very large sample size, the cost of estimating the actual likelihood with this procedure is too expensive. But if the sample size is smaller, it is affordable to estimate the likelihood and not fall back on the lower bound.
-
+\subsection{General methods for implementing deep learning}
 \section{Results}
+\subsection{Implementation of deep learning with Boltzmann machines in Julia}
+\subsection{Connecting R and Julia with the JuliaConnectoR}
+\subsection{Privacy-preserving deep learning with DataSHIELD}
+\section{Discussion}
+
+
+
+
+\section{Alt}
+
+\section{Introduction}
+Multimodal DBMs have been used by Srivastava et al. for image captions \citep{srivastava2012multimodal}.
+Here we want to broaden the scope a little bit and present an extensible approach for creating deep Boltzmann architectures with different types of visible units and flexible partitioned hidden layers. Training of such architectures ....
+Those architectures are not only useful for putting data of different types in one model but also in cases where a natural partitioning of the data can be derived from domain knowledge. With partitioning one can greatly reduce the number of parameters in the model. This allows training models on data sets where the sample size would otherwise be too small to fit a full model.
+Hess et al. showed that partitioned training on genetic data is successful \citep{hess2017partitioned}.
+
+A special challenge for unsupervised learning on non-image data is the lack of performance indicators.
+In supervised training, the classification accuracy is the natural evaluation criterion, which is also easy to implement.
+In unsupervised training with a well investigated class of data such as images, there is already much experience available for choosing the model architecture and the hyperparameters. If models are to be trained on very diverse data, the problem of finding good hyperparameters is exacerbated as for each data set the challenge of tuning can pose a different challenge.
+
+Thus the need for having an objective evaluation criterion as a basis for choosing the hyperparameters and monitoring the training becomes very important.
+In case of images or natural language, the generative abilities of a model can be tested by simply looking at the generated images or sentences to see whether these are proper samples. In the case of data from a patient record or genetic data, this approach is not feasible. As the best indicator for successful learning,which is applicable in all cases of data, remains the model likelihood. In most cases, the likelihood cannot be calculated exactly but it can only be estimated by stochastic algorithms like annealed importance sampling (AIS). So we also want to detail the extension of AIS on multimodal deep Boltzmann machines in this article.
+
+For the implementation we chose the Julia language \citep{bezanson2017julia}. % TODO elaborate or remove
+
+
 
 \subsection{Example}
 
