@@ -1,0 +1,808 @@
+\HeaderA{JuliaConnectoR-package}{A Functionally Oriented Interface for Integrating Julia with R}{JuliaConnectoR.Rdash.package}
+%
+\begin{Description}\relax
+This package provides a functionally oriented interface between R and Julia.
+The goal is to call functions from Julia packages directly as R functions.
+\end{Description}
+%
+\begin{Details}\relax
+This R-package provides a functionally oriented interface between R and Julia.
+The goal is to call functions from Julia packages directly as R functions.
+Julia functions imported via the \pkg{JuliaConnectoR} can accept and return R variables.
+It is also possible to pass R functions as arguments in place of Julia functions,
+which allows \emph{callbacks} from Julia to R.
+
+From a technical perspective, R data structures are serialized with an optimized custom streaming format,
+sent to a (local) Julia TCP server, and translated to Julia data structures by Julia.
+The results are returned back to R.
+Simple objects, which correspond to vectors in R, are directly translated.
+Complex Julia structures are by default transferred to R by reference via proxy objects.
+This enables an effective and intuitive handling of the Julia objects via R.
+It is also possible to fully translate Julia objects to R objects.
+These translated objects are annotated with information
+about the original Julia objects, such that they can be translated back to Julia.
+This makes it also possible to serialize them as R objects.
+\end{Details}
+%
+\begin{Section}{Setup}
+
+The package requires that
+\Rhref{https://julialang.org/downloads/}{Julia (Version \eqn{\geq}{} 1.0) is installed}
+and that the Julia executable is in the system search \env{PATH} or that the
+\env{JULIA\_BINDIR} environment variable is set to the \code{bin} directory of
+the Julia installation.
+\end{Section}
+%
+\begin{Section}{Function overview}
+
+The function \code{\LinkA{juliaImport}{juliaImport}} makes
+functions and data types from Julia packages or modules available as R functions.
+
+If only a single Julia function needs to be importedR, \code{\LinkA{juliaFun}{juliaFun}}
+can do this. The simplest way to call a Julia function without any importing
+is to use \code{\LinkA{juliaCall}{juliaCall}} with the function name given
+as character string.
+
+For evaluating expressions in Julia, \code{\LinkA{juliaEval}{juliaEval}} and
+\code{\LinkA{juliaLet}{juliaLet}} can be used. With \code{\LinkA{juliaLet}{juliaLet}} one can use
+R variables in a expression.
+
+\code{\LinkA{juliaExpr}{juliaExpr}} makes it possible use complex Julia syntax in R via R strings
+that contain Julia expressions.
+
+With \code{\LinkA{juliaGet}{juliaGet}}, a full translation of a Julia proxy object into an R object
+is performed.
+
+\code{as.data.frame} is overloaded (\code{\LinkA{as.data.frame.JuliaProxy}{as.data.frame.JuliaProxy}})
+for translating Julia objects that implement the
+\Rhref{https://github.com/JuliaData/Tables.jl}{\code{Tables}} interface
+to R data frames.
+\end{Section}
+%
+\begin{Section}{Translation}
+
+
+Since Julia is more type-sensitive than R, and many Julia functions expect to be called
+using specific types, it is important to know the translations of the R data structures
+to Julia.
+
+%
+\begin{SubSection}{Translation from R to Julia}
+The type correspondences of the basic R data types in Julia are the following:
+
+
+\Tabular{lcl}{
+\strong{R} &  & \strong{Julia}\\{}
+\code{integer} & \eqn{\rightarrow}{} & \code{Int} \\{}
+\code{double}  & \eqn{\rightarrow}{} & \code{Float64} \\{}
+\code{logical}   & \eqn{\rightarrow}{} & \code{Bool} \\{}
+\code{character} & \eqn{\rightarrow}{} & \code{String} \\{}
+\code{complex} & \eqn{\rightarrow}{} & \code{Complex\{Float64\}} \\{}
+\code{raw}  & \eqn{\rightarrow}{} & \code{UInt8} \\{}
+\code{symbol} & \eqn{\rightarrow}{} & \code{Symbol}
+}
+
+R vectors of length 1 of the types in the table above will be translated to the types shown.
+
+R vectors or arrays with more than one element will be translated to Julia \code{Array}s
+of the corresponding types. The dimensions of an R array, as returned by \code{dim()},
+will also be respected.
+For example, the R integer vector \code{c(1L, 2L)} will be of type \code{Vector\{Int\}},
+or \code{Array\{Int,1\}}, in Julia.
+A double matrix such as \code{matrix(c(1,2,3,4), nrow = 2)}
+will be of type \code{Array\{Float64,2\}}.
+
+Missing values (\code{NA}) in R are translated to \code{missing} values in Julia.
+R vectors and arrays with missing values are converted to Julia arrays
+of type \code{Array\{Union\{Missing, T\}\}}, where \code{T} stands for the translated 
+type in the table above.
+
+R lists are translated as \code{Vector\{T\}} in Julia, with \code{T} being
+the most specific supertype of the list elements after translation to Julia.
+
+An R function that is handed to Julia as argument in a function
+call is translated to a Julia callback function that will call the given R function.
+
+Strings with attribute \code{"JLEXPR"}
+will be evaluated as Julia expressions,
+and the value is used in their place (see \code{\LinkA{juliaExpr}{juliaExpr}}).
+
+R data frames are translated to objects that implement the Julia
+\Rhref{https://github.com/JuliaData/Tables.jl}{\code{Tables}} interface.
+Such objects can be used by functions of many different
+Julia packages that deal with table-like data structures.
+
+\end{SubSection}
+
+
+%
+\begin{SubSection}{Translation from Julia to R}
+The type system of Julia is richer than that of R. Therefore, to be able to turn
+the Julia data structures that have been translated to R back to the original Julia
+data structures, the original Julia types are added to the translated Julia objects
+in R via the attribute \code{"JLTYPE"}.
+When passed to Julia, R variables with this
+attribute will be coerced to the respective type.
+This allows the reconstruction of the objects
+with their original type.
+
+It should not be necessary to worry too much
+about the translations from Julia to R because the resulting R objects should be
+intuitive to handle.
+
+The following table shows how basic R-compatible types of Julia are translated to R:
+
+\Tabular{lcl}{
+\strong{Julia} &  & \strong{R} \\{}
+\code{Float64}& \eqn{\rightarrow}{} &\code{double} \\{}
+\code{Float16}, \code{Float32}, \code{UInt32} & \eqn{\rightarrow}{} &\code{double} with type attribute \\{}
+\code{Int64} that fits in 32 bits & \eqn{\rightarrow}{} & \code{integer} \\{}
+\code{Int64} not fitting in 32 bits & \eqn{\rightarrow}{} & \code{double} with type attribute \\{}
+\code{Int8}, \code{Int16}, \code{UInt16}, \code{Int32}, \code{Char} & \eqn{\rightarrow}{} &\code{integer} with type attribute \\{}
+\code{UInt8}& \eqn{\rightarrow}{} &\code{raw} \\{}
+\code{UInt64}, \code{Int128}, \code{UInt128}, \code{Ptr} & \eqn{\rightarrow}{} &\code{raw} with type attribute \\{}
+\code{Complex\{Float64\}}& \eqn{\rightarrow}{} &\code{complex} \\{}
+\code{Complex\{Int\var{X}\}} with \var{X} \eqn{\leq}{} 64 & \eqn{\rightarrow}{} &\code{complex} with type attribute \\{}
+\code{Complex\{Float\var{X}\}} with \var{X} \eqn{\leq}{} 32 & \eqn{\rightarrow}{} &\code{complex} with type attribute \\{}
+}
+
+Julia \code{Array}s of these types are translated to \code{vector}s or \code{array}s of the corresponding types in R.
+
+
+Julia functions are translated to R functions that call the Julia function.
+These functions can also be translated back to the
+corresponding Julia functions when used as argument of another function
+(see \code{\LinkA{juliaFun}{juliaFun}}).
+
+
+Julia object of other types, in particular \code{struct}s, \code{Tuple}s, \code{NamedTuple}s,
+and \code{AbstractArray}s of other types are transferred by reference in the form of proxy objects.
+Elements and properties of these proxy objects can be accessed and mutated via the operators \code{`[[`},
+\code{`[`}, and \code{`\$`} (see \LinkA{AccessMutate.JuliaProxy}{AccessMutate.JuliaProxy}).
+
+A full translation of the proxy objects into R objects, which also allows saving these objects in R,
+is possible via \code{\LinkA{juliaGet}{juliaGet}}.
+
+
+\end{SubSection}
+
+\end{Section}
+%
+\begin{Section}{Limitations}
+
+
+Numbers of type \code{Int64} that are too big to be expressed as 32-bit
+\code{integer} values in R will be translated to \code{double} numbers.
+This may lead to a inaccurate results for very large numbers,
+when they are translated back to Julia, since, e. g.,
+\code{(2\textasciicircum{}53 + 1) - 2\textasciicircum{}53 == 0} holds for double-precision
+floating point numbers.
+\end{Section}
+\inputencoding{utf8}
+\HeaderA{AccessMutate.JuliaProxy}{Access or mutate Julia objects via proxy objects}{AccessMutate.JuliaProxy}
+\aliasA{\$.JuliaStructProxy}{AccessMutate.JuliaProxy}{.Rdol..JuliaStructProxy}
+\aliasA{\$<\Rdash{}.JuliaStructProxy}{AccessMutate.JuliaProxy}{.Rdol.<.Rdash..JuliaStructProxy}
+\aliasA{dim.JuliaArrayProxy}{AccessMutate.JuliaProxy}{dim.JuliaArrayProxy}
+\aliasA{length.JuliaArrayProxy}{AccessMutate.JuliaProxy}{length.JuliaArrayProxy}
+\aliasA{[.JuliaProxy}{AccessMutate.JuliaProxy}{[.JuliaProxy}
+\aliasA{[.JuliaSimpleArrayProxy}{AccessMutate.JuliaProxy}{[.JuliaSimpleArrayProxy}
+\aliasA{[<\Rdash{}.JuliaProxy}{AccessMutate.JuliaProxy}{[<.Rdash..JuliaProxy}
+\aliasA{[[.JuliaArrayProxy}{AccessMutate.JuliaProxy}{[[.JuliaArrayProxy}
+\aliasA{[[.JuliaStructProxy}{AccessMutate.JuliaProxy}{[[.JuliaStructProxy}
+\aliasA{[[<\Rdash{}.JuliaArrayProxy}{AccessMutate.JuliaProxy}{[[<.Rdash..JuliaArrayProxy}
+\aliasA{[[<\Rdash{}.JuliaStructProxy}{AccessMutate.JuliaProxy}{[[<.Rdash..JuliaStructProxy}
+%
+\begin{Description}\relax
+Apply the R operators \code{\$} and \code{\$<-}, \code{[} and \code{[<-}, \code{[[}
+and \code{[[<-} to access or modify parts of Julia objects via their proxy objects.
+For an intuitive understanding, best see the examples below.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+## S3 method for class 'JuliaStructProxy'
+x$name
+
+## S3 replacement method for class 'JuliaStructProxy'
+x$name <- value
+
+## S3 method for class 'JuliaProxy'
+x[...]
+
+## S3 replacement method for class 'JuliaProxy'
+x[i, j, k] <- value
+
+## S3 method for class 'JuliaSimpleArrayProxy'
+x[...]
+
+## S3 method for class 'JuliaArrayProxy'
+x[[...]]
+
+## S3 replacement method for class 'JuliaArrayProxy'
+x[[i, j, k]] <- value
+
+## S3 method for class 'JuliaStructProxy'
+x[[name]]
+
+## S3 replacement method for class 'JuliaStructProxy'
+x[[name]] <- value
+
+## S3 method for class 'JuliaArrayProxy'
+length(x)
+
+## S3 method for class 'JuliaArrayProxy'
+dim(x)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{x}] a Julia proxy object
+
+\item[\code{name}] the field of a struct type, the name of a member in a \code{NamedTuple},
+or a key in a Julia dictionary (type \code{AbstractDict})
+
+\item[\code{value}] a suitable replacement value.
+When replacing a range of elements in an array type, it is possible to
+replace multiple elements with single elements. In all other cases,
+the length of the replacement must match the number of elements to replace.
+
+\item[\code{i, j, k, ...}] index(es) for specifying the elements to extract or replace
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+The operators \code{\$} and \code{[[} allow to access properties of Julia \code{struct}s
+and \code{NamedTuple}s via their proxy objects.
+For dictionaries (Julia type \code{AbstractDict}), \code{\$} and \code{[[}
+can also be used to look up string keys.
+Fields of \code{mutable struct}s and dictionary elements with string keys
+can be set via \code{\$<-} and \code{[[<-}.
+
+For \code{AbstractArray}s, the \code{[}, \code{[<-}, \code{[[}, and \code{[[<-}
+operators relay to the \code{getindex} and \code{setindex!} Julia functions.
+The \code{[[} and \code{[[<-} operators are used to access or mutate a single element.
+With \code{[} and \code{[<-}, a range of objects is accessed or mutated.
+The elements of \code{Tuple}s can also be accessed via \code{[} and \code{[[}.
+
+The dimensions of proxy objects for Julia \code{AbstractArray}s and \code{Tuple}s
+can be queried via \code{length} and \code{dim}.
+\end{Details}
+%
+\begin{Examples}
+\begin{ExampleCode}
+if (juliaSetupOk()) {
+
+   # (Mutable) struct
+   juliaEval("mutable struct MyStruct
+                x::Int
+             end")
+
+   MyStruct <- juliaFun("MyStruct")
+   s <- MyStruct(1L)
+   s$x
+   s$x <- 2
+   s[["x"]]
+
+   # Array
+   x <- juliaCall("map", MyStruct, c(1L, 2L, 3L))
+   x
+   length(x)
+   x[[1]]
+   x[[1]]$x
+   x[[1]] <- MyStruct(2L)
+   x[2:3]
+   x[2:3] <- MyStruct(2L)
+   x
+
+   # Tuple
+   x <- juliaEval("(1, 2, 3)")
+   x[[1]]
+   x[1:2]
+   length(x)
+
+   # NamedTuple
+   x <- juliaEval("(a=1, b=2)")
+   x$a
+
+   # Dictionary
+   strDict <- juliaEval('Dict("hi" => 1, "hello" => 2)')
+   strDict
+   strDict$hi
+   strDict$hi <- 0
+   strDict[["hi"]] <- 2
+   strDict["howdy", "greetings"] <- c(2, 3)
+   strDict["hi", "howdy"]
+
+}
+
+
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{as.data.frame.JuliaProxy}{Coerce a Julia Table to a Data Frame}{as.data.frame.JuliaProxy}
+%
+\begin{Description}\relax
+Get the data from a Julia proxy object that implements the Julia
+\Rhref{https://github.com/JuliaData/Tables.jl}{\code{Tables}} interface,
+and create an R data frame from it.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+## S3 method for class 'JuliaProxy'
+as.data.frame(x, ...)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{x}] a proxy object pointing to a Julia object that implements the interface
+of the package Julia package \code{Tables}
+
+\item[\code{...}] (not used)
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+Strings are not converted to factors.
+\end{Details}
+%
+\begin{Examples}
+\begin{ExampleCode}
+if (juliaSetupOk()) {
+
+   # Demonstrate the usage with the Julia package "JuliaDB"
+   juliaEval('import Pkg; Pkg.add("JuliaDB")')
+   JuliaDB <- juliaImport("JuliaDB")
+
+   mydf <- data.frame(x = c(1, 2, 3),
+                      y = c("a", "b", "c"),
+                      z = c(TRUE, FALSE, NA),
+                      stringsAsFactors = FALSE)
+
+   # create a table in Julia, e. g. via JuliaDB
+   mytbl <- JuliaDB$table(mydf)
+
+   # this table can, e g. be queried and
+   # the result can be translated to an R data frame
+   seltbl <- JuliaDB$select(mytbl, juliaExpr("(:x, :y)"))[1:2]
+
+   # translate selection of Julia table into R data frame
+   as.data.frame(seltbl)
+
+}
+
+
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{juliaCall}{Call a Julia function by name}{juliaCall}
+%
+\begin{Description}\relax
+Call a Julia function via specifying the name as string and get the translated result.
+It is also possible to use a dot at the end of the function name
+for applying the function in a vectorized manner via "broadcasting" in Julia.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+juliaCall(name, ...)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{name}] name of the Julia function. May be prefixed with a package or module
+path.
+
+\item[\code{...}] parameters handed to the function. Will be translated
+to Julia data structures
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+The value returned from Julia, translated to an R data structure.
+If Julia returns \code{nothing}, an invisible \code{NULL} is returned.
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+if (juliaSetupOk()) {
+
+   juliaCall("/", 4, 2)
+   juliaCall("Base.div", 4, 2)
+   juliaCall("sin.", c(1,2,3))
+   juliaCall("Base.cos.", c(1,2,3))
+
+}
+
+
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{juliaEval}{Evaluate a Julia expression}{juliaEval}
+%
+\begin{Description}\relax
+This function evaluates Julia code, given as a string, in Julia,
+and translates the result back to R.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+juliaEval(expr)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{expr}] Julia code, given as a one-element character vector
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+If the code needs to use R variables, consider using \code{juliaLet}
+instead.
+\end{Details}
+%
+\begin{Value}
+The value returned from Julia, translated to an R data structure.
+If Julia returns \code{nothing}, an invisible \code{NULL} is returned.
+This is also the case if the last non-whitespace character of \code{expr}
+is a semicolon.
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+if (juliaSetupOk()) {
+
+   juliaEval("1 + 2")
+   juliaEval('using Pkg; Pkg.add("BoltzmannMachines")')
+   juliaEval('using Random; Random.seed!(5);')
+
+}
+
+
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{juliaExpr}{Mark a string as Julia expression}{juliaExpr}
+%
+\begin{Description}\relax
+A given R character vector is marked as a Julia expression.
+It will be executed and evaluated when passed to Julia.
+This allows to pass a Julia object that is defined by complex Julia syntax
+as an argument without needing the round-trip to R via \code{\LinkA{juliaEval}{juliaEval}}
+or \code{\LinkA{juliaLet}{juliaLet}}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+juliaExpr(expr)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{expr}] a character vector which should contain one string
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Examples}
+\begin{ExampleCode}
+if (juliaSetupOk()) {
+
+   # Create complicated objects like version strings in Julia, and compare them
+   v1 <- juliaExpr('v"1.0.1"')
+   v2 <- juliaExpr('v"1.2.0"')
+   juliaCall("<", v1, v2)
+
+}
+
+
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{juliaFun}{Wrap a Julia function in an R function}{juliaFun}
+%
+\begin{Description}\relax
+Creates an R function that will call the Julia function with the given name
+when it is called. Like any R function, the returned function can
+also be passed as a function argument to Julia functions.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+juliaFun(name, ...)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{name}] the name of the Julia function
+
+\item[\code{...}] optional arguments for currying:
+The resulting function will be called using these arguments.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Examples}
+\begin{ExampleCode}
+if (juliaSetupOk()) {
+
+   # Wrap a Julia function and use it
+   juliaSqrt <- juliaFun("sqrt")
+   juliaSqrt(2)
+   # In the following call, the sqrt function is called without
+   # a callback to R because the linked function object is used.
+   juliaCall("map", juliaSqrt, c(1,4,9))
+
+   # may also be used with arguments
+   plus1 <- juliaFun("+", 1)
+   plus1(2)
+   # Results in an R callback (calling Julia again)
+   # because there is no linked function object in Julia.
+   juliaCall("map", plus1, c(1,2,3))
+
+}
+
+
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{juliaGet}{Translate a Julia proxy object to an R object}{juliaGet}
+%
+\begin{Description}\relax
+R objects of class \code{JuliaProxy} are references to Julia objects in the Julia session.
+These R objects are also called "proxy objects".
+With this function it is possible to translate these objects into R objects.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+juliaGet(x)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{x}] a reference to a Julia object
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+If the corresponding Julia objects do not contain external references,
+translated objects can also saved in R and safely be restored in Julia.
+
+Modifying objects is possible and changes in R will be translated back to Julia.
+
+The following table shows the translation of Julia objects into R objects.
+
+
+\Tabular{lcl}{
+\strong{Julia} &  & \strong{R} \\{}
+\code{struct} & \eqn{\rightarrow}{} & \code{list} with the named struct elements \\{}
+\code{Array} of \code{struct} type & \eqn{\rightarrow}{} & \code{list} (of \code{list}s) \\{}
+\code{Tuple} & \eqn{\rightarrow}{} & \code{list} \\{}
+\code{NamedTuple} & \eqn{\rightarrow}{} & \code{list} with the named elements \\{}
+\code{AbstractDict} & \eqn{\rightarrow}{} & \code{list} with two sub-lists: "\code{keys}" and "\code{values}" \\{}
+\code{AbstractSet} & \eqn{\rightarrow}{} & \code{list} \\
+}
+\end{Details}
+%
+\begin{Note}\relax
+Objects containing cicular references cannot be translated back to Julia.
+
+It is safe to translate objects that contain external references from Julia to R.
+The pointers will be copied as values and the finalization of the translated
+Julia objects is prevented.
+The original objects are garbage collected after all direct or
+indirect copies are garbage collected.
+Note, however, that these translated objects cannot be translated back to Julia
+after the Julia process has been stopped and restarted.
+\end{Note}
+\inputencoding{utf8}
+\HeaderA{juliaImport}{Load and import a Julia package via \code{import} statement}{juliaImport}
+%
+\begin{Description}\relax
+The specified package/module is loaded via \code{import} in Julia.
+Its functions and type constructors are wrapped into R functions.
+The return value is an environment containing all these R functions.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+juliaImport(modulePath, all = TRUE)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{modulePath}] a module path or a module object.
+A module path may simply be the name of a package but it may also
+be a relative module path.
+Specifying a relative Julia module path like \code{.MyModule}
+allows importing a module that does not correspond to a package,
+but has been loaded in the \code{Main} module, e. g. by \\
+\code{juliaCall("include", "path/to/MyModule.jl")}.
+Additionally, via a path such as \code{SomePkg.SubModule},
+a submodule of a package can be imported.
+
+\item[\code{all}] \code{logical} value, default \code{TRUE}.
+Specifies whether all functions and types shall be imported
+or only those exported explicitly.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+an environment containing all functions and type constructors
+from the specified module as R functions
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+if (juliaSetupOk()) {
+
+   # Importing a package and using one of its exported functions
+   UUIDs <- juliaImport("UUIDs")
+   juliaCall("string", UUIDs$uuid4())
+
+
+   # Importing a module without a package
+   testModule <- system.file("examples", "TestModule1.jl",
+                             package = "JuliaConnectoR")
+   # take a look at the file
+   writeLines(readLines(testModule))
+   # load in Julia
+   juliaCall("include", testModule)
+   # import in R via relative module path
+   TestModule1 <- juliaImport(".TestModule1")
+   TestModule1$test1()
+   
+   # Importing a local module is also possible in one line,
+   # by directly using the module object returned by "include".
+   TestModule1 <- juliaImport(juliaCall("include", testModule))
+   TestModule1$test1()
+}
+
+
+if (juliaSetupOk()) {
+
+   # Importing a submodule
+   testModule <- system.file("examples", "TestModule1.jl",
+                             package = "JuliaConnectoR")
+   juliaCall("include", testModule)
+   # load sub-module via module path
+   SubModule1 <- juliaImport(".TestModule1.SubModule1")
+   # call function of submodule
+   SubModule1$test2()
+
+}
+
+
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{juliaLet}{Evaluate Julia code in a \code{let} block using values of R variables}{juliaLet}
+%
+\begin{Description}\relax
+R variables can be passed as named arguments, which are inserted
+for those variables in the Julia expression that have the same name
+as the named arguments. The given Julia code is executed in Julia
+inside a \code{let} block and the result is translated back to R.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+juliaLet(expr, ...)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{expr}] Julia code, given as one-element character vector
+
+\item[\code{...}] arguments that will be introduced as variables in the
+\code{let} block. The values are transferred to Julia and
+assigned to the variables introduced in the \code{let} block.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+A simple, nonsensical example for explaining the principle:
+
+\code{juliaLet('println(x)', x = 1)}
+
+This is the same as
+
+\code{juliaEval('let x = 1.0; println(x) end')}
+
+More complex objects cannot be simply represented in a string like in
+this simple example any more.
+That is the problem that \code{juliaLet} solves.
+
+Note that the evaluation is done in a \code{let} block. Therefore,
+changes to global variables in the Julia session are only possible by
+using the keyword \code{global} in front of the Julia variables
+(see examples).
+\end{Details}
+%
+\begin{Value}
+The value returned from Julia, translated to an R data structure.
+If Julia returns \code{nothing}, an invisible \code{NULL} is returned.
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+if (juliaSetupOk()) {
+
+   # Intended use: Create a complex Julia object
+   # using Julia syntax and data from the R workspace
+   juliaLet('[1 => x, 17 => y]', x = rnorm(1), y = rnorm(2))
+
+   # Assign a global variable
+   # (although not recommended for a functional style)
+   juliaLet("global x = xval", xval = rnorm(10))
+   juliaEval("x")
+
+}
+
+
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{juliaPut}{Create a Julia proxy object from an R object}{juliaPut}
+%
+\begin{Description}\relax
+This function creates a proxy object for a Julia object that would
+otherwise be translated to an R object.
+This is useful to prevent many translations of large objects
+if it is necessary performance reasons.
+To see which objects are translated by default, please see the
+\LinkA{JuliaConnectoR-package}{JuliaConnectoR.Rdash.package} documentation.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+juliaPut(x)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{x}] an R object (can also be a translated Julia object)
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Examples}
+\begin{ExampleCode}
+if (juliaSetupOk()) {
+
+   # Transfer a large vector to Julia and use it in multiple calls
+   x <- juliaPut(rnorm(100))
+   # x is just a reference to a Julia vector now
+   juliaEval("using Statistics")
+   juliaCall("mean", x)
+   juliaCall("var", x)
+
+}
+
+
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{juliaSetupOk}{Check Julia setup}{juliaSetupOk}
+%
+\begin{Description}\relax
+Checks that Julia can be started and that the Julia version is at least 1.0.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+juliaSetupOk()
+\end{verbatim}
+\end{Usage}
+%
+\begin{Value}
+\code{TRUE} if the Julia setup is OK; otherwise \code{FALSE}
+\end{Value}

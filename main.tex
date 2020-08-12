@@ -5,6 +5,9 @@
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{natbib}
+\usepackage[toc,page]{appendix}
+\usepackage[times,inconsolata]{Rd}
+
 \bibliographystyle{abbrvnat}
 \usepackage{amsmath}
 \usepackage{graphicx}
@@ -387,5 +390,10 @@ But with matured multi-threading in Julia, these problems could be solved in the
 
 \bibliography{references}
 
+\appendix
+
+\section{Documentation of R package ``JuliaConnectoR" version 0.6.1}
+
+\input{appendix/JuliaConnectoR_Doku}
 
 \end{document}
