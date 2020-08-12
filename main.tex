@@ -51,7 +51,7 @@ Additionally to likelihood estimation, this package offers convenience methods t
 \section{Introduction}
 \section{Methods}
 \subsection{Deep Boltzmann machines}
-\subsection{Basic properties of Boltzmann machines}
+\subsubsection{Basic properties of Boltzmann machines}
 
 A Boltzmann machine model with parameters $\Theta$ defines a probability distribution $p(x)$ for a random variable $x = (v, h)$ in a probability space $\Omega$ via an energy function $E(v, h; \Theta)$:
 \[
@@ -118,6 +118,10 @@ Cho et al. \citep{cho2011improved} proposed a different parameterization for the
 In this model the distribution of the visible nodes is the multimodal normal distribution $\mathcal{N}(a + Wh, \sigma^2)$.
 The conditional distribution of the hidden nodes is $p(h_j | v) = \sigm \left (b_j + \sum_{i=1}^{n_V} w_{ij} \frac{v_i}{\sigma_i^2} \right )$.
 
+% TODO alternative: use continuous as Gaussian hard.
+
+\paragraph{Categorical data}
+TODO
 
 \paragraph{Deep Boltzmann machines}
 
@@ -197,10 +201,16 @@ For a restricted Boltzmann machine, the likelihood can be calculated using formu
 Estimating the likelihood of DBMs is possible using AIS by constructing a smaller DBM for each sample and estimating its partition function.
 The smaller DBM is constructed by removing the visible layer, and incorporating contribution of the sample to the energy of the first RBM - consisting only of visible and first hidden layer - into the bias of the new visible layer which was the first hidden layer of the original model.
 The partition function of this smaller model is then the unnormalized probability of the sample in the original model.
-In a setting with very large sample size, the cost of estimating the actual likelihood with this procedure is too expensive. But if the sample size is smaller, it is affordable to estimate the likelihood and not fall back on the lower bound.
+In a setting with very large sample size, the cost of estimating the actual likelihood with this procedure is too expensive. But if the sample size is small enough, it is affordable to estimate the likelihood and not fall back on the lower bound.
+
 \subsection{General methods for implementing deep learning}
+TODO
+
+\subsection{Distributed privacy-preserving analyses with DataSHIELD}
+
 \section{Results}
-\subsection{Implementation of deep learning with Boltzmann machines in Julia}
+\subsection{Implementation of deep learning with Boltzmann machines}
+% TODO softmax0
 \subsection{Connecting R and Julia with the JuliaConnectoR}
 \subsection{Privacy-preserving deep learning with DataSHIELD}
 \section{Discussion}
@@ -343,13 +353,16 @@ This trick can be used to fit AIS for GBRBMs in the same schema as RBMs with Ber
 \subsection{Monitoring: Evaluation during the training process}
 
 
-
 The hyperparameters for layerwise pre-training can be defined for the whole network or for each layer separately. %TODO Trainlayer, AbstractTrainLayer.
 
 TODO cross validation
 
 \section{Discussion}
 
+\subsection{Comparison to other approaches for privacy-preserving deep learning}
+TODO
+
+\subsection{Choice of technology}
 For large datasets such as image collections from the internet, optimizing the execution speed is essential.
 Popular libraries like TensorFlow \citep{abadi2016tensorflow}, MXNet \citep{mxnet} and PyTorch \citep{pytorch} work with abstraction of the computations on tensors (multidimensional matrices) with so called computational graphs.
 This way the computations can be performed on the CPU as well as on the GPU.
@@ -364,8 +377,13 @@ In the current version of Julia, explicit control over multi-threading is still 
 Sharing memory between processes is more difficult than sharing memory between threads. Also starting processes is more expensive than starting threads.
 But with matured multi-threading in Julia, these problems could be solved in the future and e. g. computations on different layers of a deep Boltzmann machine could be done in parallel threads without making the code much more complex.
 
+% TODO GPU Computing
+
 % TODO for our purposes, the speed was sufficient, especially for smaller models not relevant.
 
+\subsection{Ideas for future work}
+% TODO supergenerator
+% TODO softmax
 
 \bibliography{references}
 
