@@ -1,0 +1,1244 @@
+\subsection*{AbstractOptimizer}
+The \texttt{AbstractOptimizer} interface allows to specify optimization procedures. It consists of three methods:
+
+\begin{itemize}
+\item \texttt{initialized(optimizer, bm)}: May be used for creating an optimizer that is  specifically initialized for the Boltzmann machine \texttt{bm}.  In particular it may be used to allocate reusable space for the gradient.  The default implementation simply returns the unmodified \texttt{optimizer}.
+
+
+\item \texttt{computegradient!(optimizer, v, vmodel, h, hmodel, rbm)} or \texttt{computegradient!(optimizer, meanfieldparticles, gibbsparticles, dbm)}  needs to be implemented for computing the gradient given the samples  from the positive and negative phase.
+
+
+\item \texttt{updateparameters!(bm, optimizer)} needs to be specified for taking the  gradient step. The default implementation for RBMs expects the fields  \texttt{learningrate} and \texttt{gradient} and adds \texttt{learningrate * gradient} to the  given RBM.
+
+\end{itemize}
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{AbstractRBM}
+Abstract supertype for all RBMs 
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{AbstractTrainLayer}
+Abstract supertype for layerwise training specification. May be specifications for a normal RBM layer (see \texttt{TrainLayer}) or multiple combined specifications for a partitioned layer (see \texttt{TrainPartitionedLayer}).
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{BasicDBM}
+\begin{verbatim}
+Array{T,N} <: AbstractArray{T,N}
+\end{verbatim}
+\texttt{N}-dimensional dense array with elements of type \texttt{T}.
+
+\begin{verbatim}
+Array{T}(undef, dims)
+Array{T,N}(undef, dims)
+\end{verbatim}
+Construct an uninitialized \texttt{N}-dimensional \texttt{Array} containing elements of type \texttt{T}. \texttt{N} can either be supplied explicitly, as in \texttt{Array\{T,N\}(undef, dims)}, or be determined by the length or number of \texttt{dims}. \texttt{dims} may be a tuple or a series of integer arguments corresponding to the lengths in each dimension. If the rank \texttt{N} is supplied explicitly, then it must match the length or number of \texttt{dims}. See \texttt{undef}.
+
+\paragraph*{Examples}
+\begin{verbatim}
+julia> A = Array{Float64,2}(undef, 2, 3) # N given explicitly
+2×3 Array{Float64,2}:
+ 6.90198e-310  6.90198e-310  6.90198e-310
+ 6.90198e-310  6.90198e-310  0.0
+
+julia> B = Array{Float64}(undef, 2) # N determined by the input
+2-element Array{Float64,1}:
+ 1.87103e-320
+ 0.0
+\end{verbatim}
+\begin{verbatim}
+Array{T}(nothing, dims)
+Array{T,N}(nothing, dims)
+\end{verbatim}
+Construct an \texttt{N}-dimensional \texttt{Array} containing elements of type \texttt{T}, initialized with \texttt{nothing} entries. Element type \texttt{T} must be able to hold these values, i.e. \texttt{Nothing <: T}.
+
+\paragraph*{Examples}
+\begin{verbatim}
+julia> Array{Union{Nothing, String}}(nothing, 2)
+2-element Array{Union{Nothing, String},1}:
+ nothing
+ nothing
+
+julia> Array{Union{Nothing, Int}}(nothing, 2, 3)
+2×3 Array{Union{Nothing, Int64},2}:
+ nothing  nothing  nothing
+ nothing  nothing  nothing
+\end{verbatim}
+\begin{verbatim}
+Array{T}(missing, dims)
+Array{T,N}(missing, dims)
+\end{verbatim}
+Construct an \texttt{N}-dimensional \texttt{Array} containing elements of type \texttt{T}, initialized with \texttt{missing} entries. Element type \texttt{T} must be able to hold these values, i.e. \texttt{Missing <: T}.
+
+\paragraph*{Examples}
+\begin{verbatim}
+julia> Array{Union{Missing, String}}(missing, 2)
+2-element Array{Union{Missing, String},1}:
+ missing
+ missing
+
+julia> Array{Union{Missing, Int}}(missing, 2, 3)
+2×3 Array{Union{Missing, Int64},2}:
+ missing  missing  missing
+ missing  missing  missing
+\end{verbatim}
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{BernoulliGaussianRBM}
+\begin{verbatim}
+BernoulliGaussianRBM(weights, visbias, hidbias)
+\end{verbatim}
+Encapsulates the parameters of an RBM with Bernoulli distributed visible nodes and Gaussian distributed hidden nodes. The standard deviation of the Gaussian distribution is 1.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{BernoulliRBM}
+\begin{verbatim}
+BernoulliRBM(weights, visbias, hidbias)
+\end{verbatim}
+Encapsulates the parameters of an RBM with Bernoulli distributed nodes.
+
+\begin{itemize}
+\item \texttt{weights}: matrix of weights with size (number of visible nodes, number of hidden nodes)
+
+
+\item \texttt{visbias}: bias vector for visible nodes
+
+
+\item \texttt{hidbias}: bias vector for hidden nodes
+
+\end{itemize}
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{Binomial2BernoulliRBM}
+\begin{verbatim}
+Binomial2BernoulliRBM(weights, visbias, hidbias)
+\end{verbatim}
+Encapsulates the parameters of an RBM with 0/1/2-valued, Binomial (n=2) distributed visible nodes, and Bernoulli distributed hidden nodes. This model is equivalent to a BernoulliRBM in which every two visible nodes are connected with the same weights to each hidden node. The states (0,0) / (1,0) / (0,1) / (1,1) of the visible nodes connected with with the same weights translate as states 0 / 1 / 1 / 2 in the Binomial2BernoulliRBM.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{DataDict}
+A dictionary containing names of data sets as keys and the data sets (matrices with samples in rows) as values.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{GaussianBernoulliRBM}
+\begin{verbatim}
+GaussianBernoulliRBM(weights, visbias, hidbias, sd)
+\end{verbatim}
+Encapsulates the parameters of an RBM with Gaussian distributed visible nodes and Bernoulli distributed hidden nodes.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{GaussianBernoulliRBM2}
+\begin{verbatim}
+GaussianBernoulliRBM2(weights, visbias, hidbias, sd)
+\end{verbatim}
+Encapsulates the parameters of an RBM with Gaussian distributed visible nodes and Bernoulli distributed hidden nodes with the alternative energy formula proposed by KyungHyun Cho.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{LoglikelihoodOptimizer}
+Implements the \texttt{AbstractOptimizer} interface for optimizing the loglikelihood with stochastic gradient descent.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{Monitor}
+A vector for collecting \texttt{MonitoringItem}s during training.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{MonitoringItem}
+Encapsulates the value of an evaluation calculated in one training epoch. If the evaluation depends on a dataset, the dataset's name can be specified also.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{Particle}
+\begin{verbatim}
+Array{T,N} <: AbstractArray{T,N}
+\end{verbatim}
+\texttt{N}-dimensional dense array with elements of type \texttt{T}.
+
+\begin{verbatim}
+Array{T}(undef, dims)
+Array{T,N}(undef, dims)
+\end{verbatim}
+Construct an uninitialized \texttt{N}-dimensional \texttt{Array} containing elements of type \texttt{T}. \texttt{N} can either be supplied explicitly, as in \texttt{Array\{T,N\}(undef, dims)}, or be determined by the length or number of \texttt{dims}. \texttt{dims} may be a tuple or a series of integer arguments corresponding to the lengths in each dimension. If the rank \texttt{N} is supplied explicitly, then it must match the length or number of \texttt{dims}. See \texttt{undef}.
+
+\paragraph*{Examples}
+\begin{verbatim}
+julia> A = Array{Float64,2}(undef, 2, 3) # N given explicitly
+2×3 Array{Float64,2}:
+ 6.90198e-310  6.90198e-310  6.90198e-310
+ 6.90198e-310  6.90198e-310  0.0
+
+julia> B = Array{Float64}(undef, 2) # N determined by the input
+2-element Array{Float64,1}:
+ 1.87103e-320
+ 0.0
+\end{verbatim}
+\begin{verbatim}
+Array{T}(nothing, dims)
+Array{T,N}(nothing, dims)
+\end{verbatim}
+Construct an \texttt{N}-dimensional \texttt{Array} containing elements of type \texttt{T}, initialized with \texttt{nothing} entries. Element type \texttt{T} must be able to hold these values, i.e. \texttt{Nothing <: T}.
+
+\paragraph*{Examples}
+\begin{verbatim}
+julia> Array{Union{Nothing, String}}(nothing, 2)
+2-element Array{Union{Nothing, String},1}:
+ nothing
+ nothing
+
+julia> Array{Union{Nothing, Int}}(nothing, 2, 3)
+2×3 Array{Union{Nothing, Int64},2}:
+ nothing  nothing  nothing
+ nothing  nothing  nothing
+\end{verbatim}
+\begin{verbatim}
+Array{T}(missing, dims)
+Array{T,N}(missing, dims)
+\end{verbatim}
+Construct an \texttt{N}-dimensional \texttt{Array} containing elements of type \texttt{T}, initialized with \texttt{missing} entries. Element type \texttt{T} must be able to hold these values, i.e. \texttt{Missing <: T}.
+
+\paragraph*{Examples}
+\begin{verbatim}
+julia> Array{Union{Missing, String}}(missing, 2)
+2-element Array{Union{Missing, String},1}:
+ missing
+ missing
+
+julia> Array{Union{Missing, Int}}(missing, 2, 3)
+2×3 Array{Union{Missing, Int64},2}:
+ missing  missing  missing
+ missing  missing  missing
+\end{verbatim}
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{Particles}
+\texttt{Particles} are an array of matrices. The i'th matrix contains in each row the vector of states of the nodes of the i'th layer of an RBM or a DBM. The set of rows with the same index define an activation state in a Boltzmann Machine. Therefore, the size of the i'th matrix is (number of samples/particles, number of nodes in layer i).
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{PartitionedRBM}
+\begin{verbatim}
+PartitionedRBM(rbms)
+\end{verbatim}
+Encapsulates several (parallel) AbstractRBMs that form one partitioned RBM. The nodes of the parallel RBMs are not connected between the RBMs.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{TrainLayer}
+Specify parameters for training one RBM-layer in a DBM.
+
+\paragraph*{Optional keyword arguments:}
+\begin{itemize}
+\item The optional keyword arguments \texttt{rbmtype}, \texttt{nhidden}, \texttt{epochs}, \texttt{learningrate}/\texttt{learningrates}, \texttt{sdlearningrate}/\texttt{sdlearningrates}, \texttt{categories}, \texttt{batchsize}, \texttt{pcd}, \texttt{cdsteps}, \texttt{startrbm} and \texttt{optimizer}/\texttt{optimizers} are passed to \texttt{fitrbm}. For a detailed description, see there. If a negative value is specified for \texttt{learningrate} or \texttt{epochs}, this indicates that a corresponding default value should be used (parameter defined by call to \texttt{stackrbms}).
+
+
+\item \texttt{monitoring}: also like in \texttt{fitrbm}, but may take a \texttt{DataDict} as third argument  (see function \texttt{stackrbms} and its argument \texttt{monitoringdata}).
+
+
+\item \texttt{nvisible}: Number of visible units in the RBM. Only relevant for partitioning.  This parameter is derived as much as possible by \texttt{stackrbms}.  For \texttt{MultimodalDBM}s with a partitioned first layer, it is necessary to specify  the number of visible nodes for all but at most one partition in the input layer.
+
+\end{itemize}
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{TrainPartitionedLayer}
+Encapsulates a vector of \texttt{TrainLayer} objects for training a partitioned layer.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{aislogimpweights}
+\begin{verbatim}
+aislogimpweights(rbm; ...)
+\end{verbatim}
+Computes the logarithmised importance weights for estimating the ratio of the partition functions of the given \texttt{rbm} to the RBM with zero weights, but same visible and hidden bias as the \texttt{rbm}. This function implements the Annealed Importance Sampling algorithm (AIS) like described in section 4.1.3 of [Salakhutdinov, 2008].
+
+\paragraph*{Optional keyword arguments (for all types of Boltzmann Machines):}
+\begin{itemize}
+\item \texttt{ntemperatures}: Number of temperatures for annealing from the starting model to the target model, defaults to 100
+
+
+\item \texttt{temperatures}: Vector of temperatures. By default \texttt{ntemperatures} ascending numbers, equally spaced from 0.0 to 1.0
+
+
+\item \texttt{nparticles}: Number of parallel chains and calculated weights, defaults to  100
+
+
+\item \texttt{burnin}: Number of steps to sample for the Gibbs transition between models
+
+\end{itemize}
+\begin{verbatim}
+aislogimpweights(rbm1, rbm2; ...)
+\end{verbatim}
+Computes the logarithmised importance weights for estimating the log-ratio log(Z2/Z1) for the partition functions Z1 and Z2 of \texttt{rbm1} and \texttt{rbm2}, respectively. Implements the procedure described in section 4.1.2 of [Salakhutdinov, 2008]. This requires that \texttt{rbm1} and \texttt{rbm2} are of the same type and have the same number of visible units.
+
+\begin{verbatim}
+aislogimpweights(dbm; ...)
+\end{verbatim}
+Computes the logarithmised importance weights in the Annealed Importance Sampling algorithm (AIS) for estimating the ratio of the partition functions of the given DBM \texttt{dbm} to the base-rate DBM with all weights being zero and all biases equal to the biases of the \texttt{dbm}.
+
+Implements algorithm 4 in [Salakhutdinov+Hinton, 2012]. For DBMs with Bernoulli-distributed nodes only (i. e. here DBMs of type \texttt{PartitionedBernoulliDBM}), it is possible to calculate the importance weights by summing out either the even layers (h1, h3, ...) or the odd layers (v, h2, h4, ...). In the first case, the nodes' activations in the odd layers are used to calculate the probability ratios, in the second case the even layer are used. If \texttt{dbm} is of type \texttt{PartitionedBernoulliDBM}, the optional keyword argument \texttt{sumout} can be used to choose by specifying the values \texttt{:odd} (default) or \texttt{:even}. In the case of \texttt{MultimodalDBM}s, it is not possible to choose and the second case applies there.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{aisprecision}
+\begin{verbatim}
+aisprecision(logr, aissd, sdrange)
+\end{verbatim}
+Returns the differences of the estimated logratio \texttt{r} to the lower and upper bound of the range defined by the multiple \texttt{sdrange} of the standard deviation of the ratio's estimator \texttt{aissd}.
+
+\begin{verbatim}
+aisprecision(logimpweights, sdrange)
+\end{verbatim}
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{aisstandarddeviation}
+Computes the standard deviation of the AIS estimator (not logarithmised) (eq 4.10 in [Salakhutdinov+Hinton, 2012]) given the logarithmised importance weights.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{barsandstripes}
+\begin{verbatim}
+barsandstripes(nsamples, nvariables)
+\end{verbatim}
+Generates a test data set. To see the structure in the data set, run e. g. \texttt{reshape(barsandstripes(1, 16), 4, 4)} a few times.
+
+Example from: MacKay, D. (2003). Information Theory, Inference, and Learning Algorithms
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{computegradient!}
+\begin{verbatim}
+computegradient!(optimizer, v, vmodel, h, hmodel, rbm)
+\end{verbatim}
+Computes the gradient of the RBM \texttt{rbm} given the the hidden activation \texttt{h} induced by the sample \texttt{v} and the vectors \texttt{vmodel} and \texttt{hmodel} generated by sampling from the model. The result is stored in the \texttt{optimizer} in such a way that it can be applied by a call to \texttt{updateparameters!}. There is no return value.
+
+For RBMs (excluding PartitionedRBMs), this means saving the gradient in a RBM of the same type in the field \texttt{optimizer.gradient}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{crossvalidation}
+\begin{verbatim}
+crossvalidation(x, monitoredfit; ...)
+\end{verbatim}
+Performs k-fold cross-validation, given
+
+\begin{itemize}
+\item the data set \texttt{x} and
+
+
+\item \texttt{monitoredfit}: a function that fits and evaluates a model. As arguments it must accept:
+
+\begin{itemize}
+\item a training data data set
+
+
+\item a \texttt{DataDict} containing the evaluation data.
+
+\end{itemize}
+\end{itemize}
+The return values of the calls to the \texttt{monitoredfit} function are concatenated with \texttt{vcat}. If the monitoredfit function returns \texttt{Monitor} objects, \texttt{crossvalidation} returns a combined \texttt{Monitor} object that can be displayed by creating a cross-validation plot via \texttt{BoltzmannMachinesPlots.crossvalidationplot}.
+
+\paragraph*{Optional named argument:}
+\begin{itemize}
+\item \texttt{kfold}: specifies the \texttt{k} in "\texttt{k}-fold" (defaults to 10).
+
+crossvalidation(x, monitoredfit, pars; ...)
+
+\end{itemize}
+If additionaly a vector of parameters \texttt{pars} is given, \texttt{monitoredfit} also expects an additional parameter from the parameter set.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{empiricalloglikelihood}
+\begin{verbatim}
+empiricalloglikelihood(x, xgen)
+empiricalloglikelihood(bm, x, nparticles)
+empiricalloglikelihood(bm, x, nparticles, burnin)
+\end{verbatim}
+Computes the mean empirical loglikelihood for the data set \texttt{x}. The probability of a sample is estimated to be the empirical probability of the sample in a dataset generated by the model. This data set can be given as \texttt{xgen} or it is generated by running a Gibbs sampler with \texttt{nparticles} for \texttt{burnin} steps (default 5) in the Boltzmann Machine \texttt{bm}. Throws an error if a sample in \texttt{x} is not contained in the generated data set.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{energy}
+\begin{verbatim}
+energy(rbm, v, h)
+\end{verbatim}
+Computes the energy of the configuration of the visible nodes \texttt{v} and the hidden nodes \texttt{h}, specified as vectors, in the \texttt{rbm}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{exactloglikelihood}
+\begin{verbatim}
+exactloglikelihood(rbm, x)
+\end{verbatim}
+Computes the mean log-likelihood for the given dataset \texttt{x} and the RBM \texttt{rbm} exactly. The log of the partition function is computed exactly by \texttt{exactlogpartitionfunction(rbm)}. Besides that, the function simply calls \texttt{loglikelihood(rbm, x)}.
+
+\begin{verbatim}
+exactloglikelihood(dbm, x)
+exactloglikelihood(dbm, x, logz)
+\end{verbatim}
+Computes the mean log-likelihood for the given dataset \texttt{x} and the DBM \texttt{dbm} exactly. If the value of the log of the partition function of the \texttt{dbm} is not supplied as argument \texttt{logz}, it will be computed by \texttt{exactlogpartitionfunction(dbm)}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{exactlogpartitionfunction}
+\begin{verbatim}
+exactlogpartitionfunction(rbm)
+\end{verbatim}
+Calculates the log of the partition function of the BernoulliRBM \texttt{rbm} exactly. The execution time grows exponentially with the minimum of (number of visible nodes, number of hidden nodes).
+
+\begin{verbatim}
+exactlogpartitionfunction(gbrbm)
+\end{verbatim}
+Calculates the log of the partition function of the GaussianBernoulliRBM \texttt{gbrbm} exactly. The execution time grows exponentially with the number of hidden nodes.
+
+\begin{verbatim}
+exactlogpartitionfunction(bgrbm)
+\end{verbatim}
+Calculates the log of the partition function of the BernoulliGaussianRBM \texttt{bgrbm} exactly. The execution time grows exponentially with the number of visible nodes.
+
+\begin{verbatim}
+exactlogpartitionfunction(dbm)
+\end{verbatim}
+Calculates the log of the partition function of the DBM \texttt{dbm} exactly. If the number of hidden layers is even, the execution time grows exponentially with the total number of nodes in hidden layers with odd indexes (i. e. h1, h3, ...). If the number of hidden layers is odd, the execution time grows exponentially with the minimum of (number of nodes in layers with even index, number of nodes in layers with odd index).
+
+\begin{verbatim}
+exactlogpartitionfunction(mdbm)
+\end{verbatim}
+Calculates the log of the partition function of the MultimodalDBM \texttt{mdbm} exactly. The execution time grows exponentially with the total number of nodes in hidden layers with odd indexes (i. e. h1, h3, ...).
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{fitdbm}
+\begin{verbatim}
+fitdbm(x; ...)
+\end{verbatim}
+Fits a (multimodal) DBM to the data set \texttt{x}. The procedure consists of two parts: First a stack of RBMs is pretrained in a greedy layerwise manner (see \texttt{stackrbms(x)}). Then the weights of all layers are jointly trained using the general Boltzmann Machine learning procedure (see \texttt{traindbm!(dbm,x)}).
+
+\paragraph*{Optional keyword arguments (ordered by importance):}
+\begin{itemize}
+\item \texttt{nhiddens}: vector that defines the number of nodes in the hidden layers of  the DBM. The default value specifies two hidden layers with the same size  as the visible layer.
+
+
+\item \texttt{epochs}: number of training epochs for joint training, defaults to 10
+
+
+\item \texttt{epochspretraining}: number of training epochs for pretraining,  defaults to \texttt{epochs}
+
+
+\item \texttt{learningrate}/\texttt{learningrates}:  learning rate(s) for joint training of layers (= fine tuning)  using the learning algorithm for a general Boltzmann Machine.  The learning rate for fine tuning is by default decaying with the number of epochs,  starting with the given value for the \texttt{learningrate}.  (For more details see \texttt{traindbm!}).
+
+
+\item \texttt{learningratepretraining}: learning rate for pretraining,  defaults to \texttt{learningrate}
+
+
+\item \texttt{batchsizepretraining}: batchsize for pretraining, defaults to 1
+
+
+\item \texttt{nparticles}: number of particles used for sampling during joint training of  DBM, default 100
+
+
+\item \texttt{pretraining}: The arguments for layerwise pretraining  can be specified for each layer individually.  This is done via a vector of \texttt{TrainLayer} objects.  (For a detailed description of the possible parameters,  see help for \texttt{TrainLayer}).  If the number of training epochs and the learning rate are not specified  explicitly for a layer, the values of \texttt{epochspretraining},  \texttt{learningratepretraining} and \texttt{batchsizepretraining} are used.
+
+
+\item \texttt{monitoring}: Monitoring function accepting a \texttt{dbm} and the number of epochs,  returning nothing. Used for the monitoring of fine-tuning.  See also \texttt{monitored\_fitdbm} for a more convenient way of monitoring.
+
+
+\item \texttt{monitoringdatapretraining}: a \texttt{DataDict} that contains data used for  monitoring the pretraining (see argument \texttt{monitoringdata} of \texttt{stackrbms}.)
+
+
+\item \texttt{optimizer}/\texttt{optimizers}: an optimizer or a vector of optimizers for each epoch  (see \texttt{AbstractOptimizer}) used for fine-tuning.
+
+
+\item \texttt{optimizerpretraining}: an optimizer used for pre-training.  Defaults to the \texttt{optimizer}.
+
+\end{itemize}
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{fitrbm}
+\begin{verbatim}
+fitrbm(x; ...)
+\end{verbatim}
+Fits an RBM model to the data set \texttt{x}, using Stochastic Gradient Descent (SGD) with Contrastive Divergence (CD), and returns it.
+
+\paragraph*{Optional keyword arguments (ordered by importance):}
+\begin{itemize}
+\item \texttt{rbmtype}: the type of the RBM that is to be trained  This must be a subtype of \texttt{AbstractRBM} and defaults to \texttt{BernoulliRBM}.
+
+
+\item \texttt{nhidden}: number of hidden units for the returned RBM
+
+
+\item \texttt{epochs}: number of training epochs
+
+
+\item \texttt{learningrate}/\texttt{learningrates}: The learning rate for the weights and biases  can be specified as single value, used throughout all epochs, or as a vector  of \texttt{learningrates} that contains a value for each epoch. Defaults to 0.005.
+
+
+\item \texttt{batchsize}: number of samples that are used for making one step in the  stochastic gradient descent optimizer algorithm. Default is 1.
+
+
+\item \texttt{pcd}: indicating whether Persistent Contrastive Divergence (PCD) is to  be used (true, default) or simple CD that initializes the Gibbs Chain with  the training sample (false)
+
+
+\item \texttt{cdsteps}: number of Gibbs sampling steps for (persistent)  contrastive divergence, defaults to 1
+
+
+\item \texttt{monitoring}: a function that is executed after each training epoch.  It takes an RBM and the epoch as arguments.  See also \texttt{monitored\_fitrbm} for another way of monitoring.
+
+
+\item \texttt{categories}: only relevant if \texttt{rbmtype = Softmax0BernoulliRBM}.  The number of categories as \texttt{Int}, if all variables have the same number  of categories, or as \texttt{Vector\{Int\}} that contains the number of categories  of the i'th categorical variable in the i'th entry.
+
+
+\item \texttt{upfactor}, \texttt{downfactor}: If this function is used for pretraining a part of  a DBM, it is necessary to multiply the weights of the RBM with factors.
+
+
+\item \texttt{sdlearningrate}/\texttt{sdlearningrates}: learning rate(s) for the  standard deviation if training a \texttt{GaussianBernoulliRBM} or  \texttt{GaussianBernoulliRBM2}. Ignored for other types of RBMs.  It usually must be much smaller than the learning rates for  the weights. By default it is 0.0, which means that the standard deviation  is not learned.
+
+
+\item \texttt{startrbm}: start training with the parameters of the given RBM.  If this argument is specified, \texttt{nhidden} and \texttt{rbmtype} are ignored.
+
+
+\item \texttt{optimizer}/\texttt{optimizers}: an object of type \texttt{AbstractOptimizer} or a vector of  them for each epoch. If specified, the optimization is performed as implemented  by the given optimizer type. By default, the \texttt{LoglikelihoodOptimizer}  with the \texttt{learningrate}/\texttt{learningrates} and \texttt{sdlearningrate}/\texttt{sdlearningrates}  is used. For other types of optimizers, the learning rates must be specified  in the \texttt{optimizer}. For more information on how to write your own optimizer,  see \texttt{AbstractOptimizer}.
+
+\end{itemize}
+See also: \texttt{monitored\_fitrbm} for a convenient monitoring of the training.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{freeenergy}
+\begin{verbatim}
+freeenergy(rbm, x)
+\end{verbatim}
+Computes the average free energy of the samples in the dataset \texttt{x} for the AbstractRBM \texttt{rbm}.
+
+\begin{verbatim}
+freeenergy(rbm, v)
+\end{verbatim}
+Computes the free energy of the sample \texttt{v} (a vector) for the \texttt{rbm}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{gibbssample!}
+\begin{verbatim}
+gibbssample!(particles, bm, nsteps)
+\end{verbatim}
+Performs Gibbs sampling on the \texttt{particles} in the Boltzmann machine model \texttt{bm} for \texttt{nsteps} steps. (See also: \texttt{Particles}.) When sampling in multimodal deep Boltzmann machines, in-between layers are assumed to contain only Bernoulli-distributed nodes.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{gibbssamplecond!}
+\begin{verbatim}
+gibbssamplecond!(particles, bm, cond, nsteps)
+\end{verbatim}
+Conditional Gibbs sampling on the \texttt{particles} in the \texttt{bm} for \texttt{nsteps} Gibbs sampling steps.
+
+The variables that are marked in the indexing vector \texttt{cond} are fixed to the initial values in \texttt{particles} during sampling. This way, conditional sampling is performed on these variables.
+
+See also: \texttt{Particles}, \texttt{initparticles}
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{hiddeninput}
+\begin{verbatim}
+hiddeninput(rbm, v)
+\end{verbatim}
+Computes the total input of the hidden units in the AbstractRBM \texttt{rbm}, given the activations of the visible units \texttt{v}. \texttt{v} may be a vector or a matrix that contains the samples in its rows.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{hiddeninput!}
+\begin{verbatim}
+hiddeninput!(h, rbm, v)
+\end{verbatim}
+Like \texttt{hiddeninput}, but stores the returned result in \texttt{h}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{hiddenpotential}
+\begin{verbatim}
+hiddenpotential(rbm, v)
+hiddenpotential(rbm, v, factor)
+\end{verbatim}
+Returns the potential for activations of the hidden nodes in the AbstractRBM \texttt{rbm}, given the activations \texttt{v} of the visible nodes. \texttt{v} may be a vector or a matrix that contains the samples in its rows. The potential is a deterministic value to which sampling can be applied to get the activations. In RBMs with Bernoulli distributed hidden units, the potential of the hidden nodes is the vector of probabilities for them to be turned on.
+
+The total input can be scaled with the \texttt{factor}. This is needed when pretraining the \texttt{rbm} as part of a DBM.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{hiddenpotential!}
+\begin{verbatim}
+hiddenpotential!(hh, rbm, vv)
+hiddenpotential!(hh, rbm, vv, factor)
+\end{verbatim}
+Like \texttt{hiddenpotential}, but stores the returned result in \texttt{hh}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{initialized}
+\begin{verbatim}
+initialized(optimizer, rbm)
+\end{verbatim}
+Returns an \texttt{AbstractOptimizer} similar to the given \texttt{optimizer} that can be used to optimize the \texttt{AbstractRBM} \texttt{rbm}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{initparticles}
+\begin{verbatim}
+initparticles(bm, nparticles; biased = false)
+\end{verbatim}
+Creates particles for Gibbs sampling in an Boltzmann machine \texttt{bm}. (See also: \texttt{Particles})
+
+For Bernoulli distributed nodes, the particles are initialized with Bernoulli(p) distributed values. If \texttt{biased == false}, p is 0.5, otherwise the results of applying the sigmoid function to the bias values are used as values for the nodes' individual p's.
+
+Gaussian nodes are sampled from a normal distribution if \texttt{biased == false}. If \texttt{biased == true} the mean of the Gaussian distribution is shifted by the bias vector and the standard deviation of the nodes is used for sampling.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{initrbm}
+\begin{verbatim}
+initrbm(x, nhidden)
+initrbm(x, nhidden, rbmtype)
+\end{verbatim}
+Creates a RBM with \texttt{nhidden} hidden units and initalizes its weights for training on dataset \texttt{x}. \texttt{rbmtype} can be a subtype of \texttt{AbstractRBM}, default is \texttt{BernoulliRBM}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{intensities}
+\begin{verbatim}
+intensities(x)
+intensities(x, q1)
+intensities(x, q1, q2)
+\end{verbatim}
+Performs a linear and monotonous transformation on the data set \texttt{x} to fit it the values into the interval [0.0, 1.0]. For more information see \texttt{intensities\_encode}, \texttt{intensities\_decode}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{intensities\_decode}
+\begin{verbatim}
+intensities_decode(x, its)
+\end{verbatim}
+Backtransforms the intensity values in the data set \texttt{x} (values in the interval [0.0, 1.0])\texttt{to the range of the original values and returns the new data set or vector. The}its\texttt{argument contains the information about the transformation, as it is returned by}intensities\_encode`.
+
+Note that the range is truncated if the original transformation used other quantiles than 0.0 or 1.0 (minimum and maximum).
+
+\paragraph*{Example:}
+\begin{verbatim}
+x = randn(5, 4)
+xint, its = intensities_encode(x, 0.05)
+dbm = fitdbm(xint)
+xgen = samples(dbm, 5)
+intensities_decode(xgen, its)
+\end{verbatim}
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{intensities\_encode}
+\begin{verbatim}
+intensities_encode(x)
+intensities_encode(x, q1)
+intensities_encode(x, q1, q2)
+\end{verbatim}
+Performs a linear and monotonous transformation on the data set \texttt{x} to fit it into the interval [0.0, 1.0]. It returns the transformed data set as a first result and the information to reverse the tranformation as a second result. If you are only interested in the transformed values, you can use the function \texttt{intensities}.
+
+If \texttt{q1} is specified, all values below or equal to the quantile specified  by \texttt{q1} are mapped to 0.0. All values above or equal to the quantile specified by \texttt{q2} are mapped to 1.0. \texttt{q2} defaults to \texttt{1 - q1}.
+
+The quantiles are calculated per column/variable.
+
+See also \texttt{intensities\_decode} for the reverse transformation.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{joindbms}
+\begin{verbatim}
+joindbms(dbms)
+joindbms(dbms, visibleindexes)
+\end{verbatim}
+Joins the DBMs given by the vector \texttt{dbms} by joining each layer of RBMs. The weights cross-linking the models are initialized with zeros.
+
+If the vector \texttt{visibleindexes} is specified, it is supposed to contain in the i'th entry an indexing vector that determines the positions in the combined DBM for the visible nodes of the i'th of the \texttt{dbms}. By default the indexes of the visible nodes are assumed to be consecutive.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{joinrbms}
+\begin{verbatim}
+joinrbms(rbms)
+joinrbms(rbms, visibleindexes)
+\end{verbatim}
+Joins the given vector of \texttt{rbms} of the same type to form one RBM of this type and returns the joined RBM. The weights cross-linking the models are initialized with zeros.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{loglikelihood}
+\begin{verbatim}
+loglikelihood(rbm, x)
+loglikelihood(rbm, x, logz)
+\end{verbatim}
+Computes the average log-likelihood of an RBM on a given dataset \texttt{x}. Uses \texttt{logz} as value for the log of the partition function or estimates the partition function with Annealed Importance Sampling.
+
+\begin{verbatim}
+loglikelihood(dbm, x; ...)
+\end{verbatim}
+Estimates the mean log-likelihood of the DBM on the data set \texttt{x} with Annealed Importance Sampling. This requires a separate run of AIS for each sample.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{logpartitionfunction}
+\begin{verbatim}
+logpartitionfunction(bm; ...)
+logpartitionfunction(bm, logr)
+\end{verbatim}
+Calculates or estimates the log of the partition function of the Boltzmann Machine \texttt{bm}.
+
+\texttt{r} is an estimator of the ratio of the \texttt{bm}'s partition function Z to the partition function Z\emph{0 of the reference BM with zero weights but same biases as the given \texttt{bm}. In case of a GaussianBernoulliRBM, the reference model also has the same standard deviation parameter. The estimated partition function of the Boltzmann Machine is Z = r * Z}0 with \texttt{r} being the mean of the importance weights. Therefore, the log of the estimated partition function is log(Z) = log(r) + log(Z\_0)
+
+If the log of \texttt{r} is not given as argument \texttt{logr}, Annealed Importance Sampling (AIS) is performed to get a value for it. In this case, the optional arguments for AIS can be specified (see \texttt{aislogimpweights}), and the optional boolean argument \texttt{parallelized} can be used to turn on batch-parallelized computing of the importance weights.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{logpartitionfunctionzeroweights}
+\begin{verbatim}
+logpartitionfunctionzeroweights(bm)
+\end{verbatim}
+Returns the value of the log of the partition function of the Boltzmann Machine that results when one sets the weights of \texttt{bm} to zero, and leaves the other parameters (biases) unchanged.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{logproblowerbound}
+\begin{verbatim}
+logproblowerbound(dbm, x; ...)
+logproblowerbound(dbm, x, logimpweights; ...)
+logproblowerbound(dbm, x, logz; ...)
+\end{verbatim}
+Estimates the mean of the variational lower bound for the log probability of the DBM on a given dataset \texttt{x} like described in Equation 38 in [Salakhutdinov, 2015]. The logarithmized partition function can be specified directly as \texttt{logz} or by giving the \texttt{logimpweights} from estimating the partition function with the Annealed Importance Sampling algorithm (AIS). (See \texttt{aislogimpweights}.) If neither \texttt{logimpweights} or \texttt{logz} is given, the partition function will be estimated by AIS with default parameters.
+
+\paragraph*{Optional keyword argument:}
+\begin{itemize}
+\item The approximate posterior distribution may be given as argument \texttt{mu} or is calculated by the mean-field method.
+
+\end{itemize}
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{meanfield}
+\begin{verbatim}
+meanfield(dbm, x)
+meanfield(dbm, x, eps)
+\end{verbatim}
+Computes the mean-field approximation for the data set \texttt{x} and returns a matrix of particles for the DBM. The number of particles is equal to the number of samples in \texttt{x}. \texttt{eps} is the convergence criterion for the fix-point iteration, default 0.001. It is assumed that all nodes in in-between-layers are Bernoulli distributed.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{monitored\_fitdbm}
+\begin{verbatim}
+monitored_fitdbm(x; ...)
+\end{verbatim}
+This function performs the same training procedure as \texttt{fitdbm}, but facilitates monitoring: It fits an DBM model on the data set \texttt{x} using greedy layerwise pre-training and subsequent fine-tuning and collects all the monitoring results during the training. The monitoring results are stored in a vector of \texttt{Monitor}s, containing one element for each RBM layer and as last element the monitoring results for fine-tuning. (Monitoring elements from the pre-training of partitioned layers are again vectors, containing one element for each partition.) Both the collected monitoring results and the trained DBM are returned.
+
+See also: \texttt{monitored\_stackrbms}, \texttt{monitored\_traindbm!}
+
+\paragraph*{Optional keyword arguments:}
+\begin{itemize}
+\item \texttt{monitoring}: Used for fine-tuning. A monitoring function or a vector of monitoring functions that accept four arguments:
+
+\begin{itemize}
+\item[1. ] a \texttt{Monitor} object, which is used to collect the result of the monitoring function(s)
+
+
+\item[2. ] the DBM
+
+
+\item[3. ] the epoch
+
+
+\item[4. ] the data used for monitoring.
+
+\end{itemize}
+By default, there is no monitoring of fine-tuning.
+
+
+\item \texttt{monitoringdata}: a \texttt{DataDict}, which contains the data that is used for the  monitoring. For the pre-training of the first layer and for fine-tuning,  the data is passed directly to the \texttt{monitoring} function(s).  For monitoring the pre-training of the higher RBM layers,  the data is propagated through the layers below first.  By default, the training data \texttt{x} is used for monitoring.
+
+
+\item \texttt{monitoringpretraining}: Used for pre-training. A four-argument function like  \texttt{monitoring}, but accepts as second argument an RBM.  By default there is no monitoring of the pre-training.
+
+
+\item \texttt{monitoringdatapretraining}: Monitoring data used only for pre-training.  Defaults to \texttt{monitoringdata}.
+
+
+\item Other specified keyword arguments are simply handed to \texttt{fitdbm}. For more information, please see the documentation there.
+
+\end{itemize}
+\paragraph*{Example:}
+\begin{verbatim}
+using Random; Random.seed!(1)
+xtrain, xtest = splitdata(barsandstripes(100, 4), 0.5)
+monitors, rbm = monitored_fitdbm(xtrain;
+    monitoringpretraining = monitorreconstructionerror!,
+    monitoring = monitorlogproblowerbound!,
+    monitoringdata = DataDict("Training data" => xtrain, "Test data" => xtest),
+    # some arguments for `fitdbm`:
+    nhiddens = [4; 3], learningratepretraining = 0.01,
+    learningrate = 0.05, epochspretraining = 100, epochs = 50)
+using BoltzmannMachinesPlots
+plotevaluation(monitors[1]) # view monitoring of first RBM
+plotevaluation(monitors[2]) # view monitoring of second RBM
+plotevaluation(monitors[3]) # view monitoring fine-tuning
+\end{verbatim}
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{monitored\_fitrbm}
+\begin{verbatim}
+monitored_fitrbm(x; ...)
+\end{verbatim}
+This function performs the same training procedure as \texttt{fitrbm}, but facilitates monitoring: It fits an RBM model on the data set \texttt{x} and collects monitoring results during the training in one \texttt{Monitor} object. Both the collected monitoring results and the trained RBM are returned.
+
+\paragraph*{Optional keyword arguments:}
+\begin{itemize}
+\item \texttt{monitoring}: A monitoring function or a vector of monitoring functions that accept four arguments:
+
+\begin{itemize}
+\item[1. ] a \texttt{Monitor} object, which is used to collect the result of the monitoring function(s)
+
+
+\item[2. ] the RBM
+
+
+\item[3. ] the epoch
+
+
+\item[4. ] the data used for monitoring.
+
+\end{itemize}
+By default, there is no monitoring.
+
+
+\item \texttt{monitoringdata}: a \texttt{DataDict}, which contains the data that is used for  monitoring and passed to the \texttt{monitoring} functions(s).  By default, the training data \texttt{x} is used for monitoring.
+
+
+\item Other specified keyword arguments are simply handed to \texttt{fitrbm}. For more information, please see the documentation there.
+
+\end{itemize}
+\paragraph*{Example:}
+\begin{verbatim}
+using Random; Random.seed!(0)
+xtrain, xtest = splitdata(barsandstripes(100, 4), 0.3)
+monitor, rbm = monitored_fitrbm(xtrain;
+    monitoring = [monitorreconstructionerror!, monitorexactloglikelihood!],
+    monitoringdata = DataDict("Training data" => xtrain, "Test data" => xtest),
+    # some arguments for `fitrbm`:
+    nhidden = 10, learningrate = 0.002, epochs = 200)
+using BoltzmannMachinesPlots
+plotevaluation(monitor, monitorreconstructionerror)
+plotevaluation(monitor, monitorexactloglikelihood)
+\end{verbatim}
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{monitored\_stackrbms}
+\begin{verbatim}
+monitored_stackrbms(x; ...)
+\end{verbatim}
+This function performs the same training procedure as \texttt{stackrbms}, but facilitates monitoring: It trains a stack of RBMs using the data set \texttt{x} as input to the first layer and collects all the monitoring results during the training in a vector of \texttt{Monitor}s, containing one element for each RBM layer. (Elements for partitioned layers are again vectors, containing one element for each partition.) Both the collected monitoring results and the stack of trained RBMs are returned.
+
+\paragraph*{Optional keyword arguments:}
+\begin{itemize}
+\item \texttt{monitoring}: A monitoring function or a vector of monitoring functions that accept four arguments:
+
+\begin{itemize}
+\item[1. ] a \texttt{Monitor} object, which is used to collect the result of the monitoring function(s)
+
+
+\item[2. ] the RBM
+
+
+\item[3. ] the epoch
+
+
+\item[4. ] the data used for monitoring.
+
+\end{itemize}
+By default, there is no monitoring.
+
+
+\item \texttt{monitoringdata}: a \texttt{DataDict}, which contains the data that is used for  monitoring. For the first layer, the data is passed directly to the \texttt{monitoring}  function(s). For monitoring the training of the higher layers,  the data is propagated through the layers below first.  By default, the training data \texttt{x} is used for monitoring.
+
+
+\item Other specified keyword arguments are simply handed to \texttt{stackrbms}. For more information, please see the documentation there.
+
+\end{itemize}
+\paragraph*{Example:}
+\begin{verbatim}
+using Random; Random.seed!(0)
+xtrain, xtest = splitdata(barsandstripes(100, 4), 0.5)
+monitors, rbm = monitored_stackrbms(xtrain;
+    monitoring = monitorreconstructionerror!,
+    monitoringdata = DataDict("Training data" => xtrain, "Test data" => xtest),
+    # some arguments for `stackrbms`:
+    nhiddens = [4; 3], learningrate = 0.005, epochs = 100)
+using BoltzmannMachinesPlots
+plotevaluation(monitors[1]) # view monitoring of first RBM
+plotevaluation(monitors[2]) # view monitoring of second RBM
+\end{verbatim}
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{monitored\_traindbm!}
+\begin{verbatim}
+monitored_traindbm!(dbm, x; ...)
+\end{verbatim}
+This function performs the same training procedure as \texttt{traindbm!}, but facilitates monitoring: It performs fine-tuning of the given \texttt{dbm} on the data set \texttt{x} and collects monitoring results during the training in one \texttt{Monitor} object. Both the collected monitoring results and the trained \texttt{dbm} are returned.
+
+\paragraph*{Optional keyword arguments:}
+\begin{itemize}
+\item \texttt{monitoring}: A monitoring function or a vector of monitoring functions that accept four arguments:
+
+\begin{itemize}
+\item[1. ] a \texttt{Monitor} object, which is used to collect the result of the monitoring function(s)
+
+
+\item[2. ] the DBM
+
+
+\item[3. ] the epoch
+
+
+\item[4. ] the data used for monitoring.
+
+\end{itemize}
+By default, there is no monitoring.
+
+
+\item \texttt{monitoringdata}: a \texttt{DataDict}, which contains the data that is used for  monitoring and passed to the \texttt{monitoring} functions(s).  By default, the training data \texttt{x} is used for monitoring.
+
+
+\item Other specified keyword arguments are simply handed to \texttt{traindbm!}. For more information, please see the documentation there.
+
+\end{itemize}
+\paragraph*{Example:}
+\begin{verbatim}
+using Random; Random.seed!(0)
+xtrain, xtest = splitdata(barsandstripes(100, 4), 0.1)
+dbm = stackrbms(xtrain; predbm = true, epochs = 20)
+monitor, dbm = monitored_traindbm!(dbm, xtrain;
+    monitoring = monitorlogproblowerbound!,
+    monitoringdata = DataDict("Training data" => xtrain, "Test data" => xtest),
+    # some arguments for `traindbm!`:
+    epochs = 100, learningrate = 0.1)
+using BoltzmannMachinesPlots
+plotevaluation(monitor)
+\end{verbatim}
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{monitorexactloglikelihood!}
+\begin{verbatim}
+monitorexactloglikelihood!(monitor, bm, epoch, datadict)
+\end{verbatim}
+Computes the mean exact log-likelihood in the Boltzmann Machine model \texttt{bm} for the data sets in the DataDict \texttt{datadict} and stores this information in the Monitor \texttt{monitor}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{monitorfreeenergy!}
+\begin{verbatim}
+monitorfreeenergy!(monitor, rbm, epoch, datadict)
+\end{verbatim}
+Computes the free energy for the \texttt{datadict}'s data sets in the RBM model \texttt{rbm} and stores the information in the \texttt{monitor}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{monitorloglikelihood!}
+\begin{verbatim}
+monitorloglikelihood!(monitor, rbm, epoch, datadict)
+\end{verbatim}
+Estimates the log-likelihood of the \texttt{datadict}'s data sets in the RBM model \texttt{rbm} with AIS and stores the values, together with information about the variance of the estimator, in the \texttt{monitor}.
+
+If there is more than one worker available, the computation is parallelized by default. Parallelization can be turned on or off with the optional boolean argument \texttt{parallelized}.
+
+For the other optional keyword arguments, see \texttt{aislogimportanceweights}.
+
+See also: \texttt{loglikelihood}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{monitorlogproblowerbound!}
+\begin{verbatim}
+monitorlogproblowerbound!(monitor, dbm, epoch, datadict)
+\end{verbatim}
+Estimates the lower bound of the log probability of the \texttt{datadict}'s data sets in the DBM \texttt{dbm} with AIS and stores the values, together with information about the variance of the estimator, in the \texttt{monitor}.
+
+If there is more than one worker available, the computation is parallelized by default. Parallelization can be turned on or off with the optional boolean argument \texttt{parallelized}.
+
+For the other optional keyword arguments, see \texttt{aislogimpweights}.
+
+See also: \texttt{logproblowerbound}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{monitorreconstructionerror!}
+\begin{verbatim}
+monitorreconstructionerror!(monitor, rbm, epoch, datadict)
+\end{verbatim}
+Computes the reconstruction error for the data sets in the \texttt{datadict} and the \texttt{rbm} and stores the values in the \texttt{monitor}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{monitorweightsnorm!}
+\begin{verbatim}
+monitorweightsnorm!(monitor, rbm, epoch)
+\end{verbatim}
+Computes the L2-norm of the weights matrix and the bias vectors of the \texttt{rbm} and stores the values in the \texttt{monitor}. These values can give a hint how much the updates are changing the parameters during learning.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{oneornone\_decode}
+\begin{verbatim}
+oneornone_decode(x, categories)
+\end{verbatim}
+Returns a dataset such that \texttt{x .== oneornone\_decode(oneornone\_encode(x, categories), categories)}.
+
+For more, see \texttt{oneornone\_encode}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{oneornone\_encode}
+\begin{verbatim}
+oneornone_encode(x, categories)
+\end{verbatim}
+Expects a data set \texttt{x} containing values 0.0, 1.0, 2.0 ... encoding the categories. Returns a data set that encodes the variables/columns in \texttt{x} in multiple columns with only values 0.0 and 1.0, similiar to the one-hot encoding with the deviation that a zero is encoded as all-zeros.
+
+The \texttt{categories} can be specified as
+
+\begin{itemize}
+\item integer number if all variables have the same number of categories or as
+
+
+\item integer vector, containing for each variable the number of categories encoded.
+
+\end{itemize}
+See also \texttt{oneornone\_decode} for the reverse transformation.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{propagateforward}
+\begin{verbatim}
+propagateforward(rbm, datadict, factor)
+\end{verbatim}
+Returns a new \texttt{DataDict} containing the same labels as the given \texttt{datadict} but as mapped values it contains the hidden potential in the \texttt{rbm} of the original datasets. The factor is applied for calculating the hidden potential and is 1.0 by default.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{reconstructionerror}
+\begin{verbatim}
+reconstructionerror(rbm, x)
+\end{verbatim}
+Computes the mean reconstruction error of the RBM on the dataset \texttt{x}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{samplehidden}
+\begin{verbatim}
+samplehidden(rbm, v)
+samplehidden(rbm, v, factor)
+\end{verbatim}
+Returns activations of the hidden nodes in the AbstractRBM \texttt{rbm}, sampled from the state \texttt{v} of the visible nodes. \texttt{v} may be a vector or a matrix that contains the samples in its rows. For the \texttt{factor}, see \texttt{hiddenpotential(rbm, v, factor)}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{samplehidden!}
+\begin{verbatim}
+samplehidden!(h, rbm, v)
+samplehidden!(h, rbm, v, factor)
+\end{verbatim}
+Like \texttt{samplehidden}, but stores the returned result in \texttt{h}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{sampleparticles}
+\begin{verbatim}
+sampleparticles(bm, nparticles, burnin)
+\end{verbatim}
+Samples in the Boltzmann Machine model \texttt{bm} by running \texttt{nparticles} parallel, randomly initialized Gibbs chains for \texttt{burnin} steps. Returns particles containing \texttt{nparticles} generated samples. See also: \texttt{Particles}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{samples}
+\begin{verbatim}
+samples(bm, nsamples; ...)
+\end{verbatim}
+Generates \texttt{nsamples} samples from a Boltzmann machine model \texttt{bm} by running a Gibbs sampler. This can also be used for sampling from a \emph{conditional distribution} (see argument \texttt{conditions} below.)
+
+\paragraph*{Optional keyword arguments:}
+\begin{itemize}
+\item \texttt{burnin}: Number of Gibbs sampling steps, defaults to 50.
+
+
+\item \texttt{conditions}: \texttt{Vector\{Pair\{Int,Float64\}\}}, containing pairs of variables and their values that are to be conditioned on. E. g. \texttt{[1 => 1.0, 3 => 0.0]}
+
+
+\item \texttt{samplelast}: boolean to indicate whether to sample in last step (true, default) or whether to use the activation potential.
+
+\end{itemize}
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{samplevisible}
+\begin{verbatim}
+samplevisible(rbm, h)
+samplevisible(rbm, h, factor)
+\end{verbatim}
+Returns activations of the visible nodes in the AbstractRBM \texttt{rbm}, sampled from the state \texttt{h} of the hidden nodes. \texttt{h} may be a vector or a matrix that contains the samples in its rows. For the \texttt{factor}, see \texttt{visiblepotential(rbm, h, factor)}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{samplevisible!}
+\begin{verbatim}
+samplevisible!(v, rbm, h)
+samplevisible!(v, rbm, h, factor)
+\end{verbatim}
+Like \texttt{samplevisible}, but stores the returned result in \texttt{v}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{splitdata}
+\begin{verbatim}
+splitdata(x, ratio)
+\end{verbatim}
+Splits the data set \texttt{x} randomly in two data sets \texttt{x1} and \texttt{x2}, such that the fraction of samples in \texttt{x2} is equal to (or as close as possible to) the given \texttt{ratio}.
+
+\paragraph*{Example:}
+\begin{verbatim}
+trainingdata, testdata = splitdata(data, 0.1) # Use 10 % as test data
+\end{verbatim}
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{stackrbms}
+\begin{verbatim}
+stackrbms(x; ...)
+\end{verbatim}
+Performs greedy layerwise training for Deep Belief Networks or greedy layerwise pretraining for Deep Boltzmann Machines and returns the trained model.
+
+\paragraph*{Optional keyword arguments (ordered by importance):}
+\begin{itemize}
+\item \texttt{predbm}: boolean indicating that the greedy layerwise training is  pre-training for a DBM.  If its value is false (default), a DBN is trained.
+
+
+\item \texttt{nhiddens}: vector containing the number of nodes of the i'th hidden layer in  the i'th entry
+
+
+\item \texttt{epochs}: number of training epochs
+
+
+\item \texttt{learningrate}: learningrate, default 0.005
+
+
+\item \texttt{batchsize}: size of minibatches, defaults to 1
+
+
+\item \texttt{trainlayers}: a vector of \texttt{TrainLayer} objects. With this argument it is possible  to specify the training parameters for each layer/RBM individually.  If the number of training epochs and the learning rate are not specified  explicitly for a layer, the values of \texttt{epochs} and \texttt{learningrate} are used.  For more information see help of \texttt{TrainLayer}.
+
+
+\item \texttt{monitoringdata}: a data dictionary (see type \texttt{DataDict})  The data is propagated forward through the  network to monitor higher levels.  If a non-empty dictionary is given, the monitoring functions in the  \texttt{trainlayers}-arguments must accept a \texttt{DataDict} as third argument.
+
+
+\item \texttt{optimizer}: an optimizer (of type \texttt{AbstractOptimizer}) that is used for  computing the gradients when training the individual RBMs.
+
+
+\item \texttt{samplehidden}: boolean indicating that consequent layers are to be trained  with sampled values instead of the deterministic potential.  Using the deterministic potential (\texttt{false}) is the default.
+
+\end{itemize}
+See also: \texttt{monitored\_stackrbms} for a more convenient monitoring.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{traindbm!}
+\begin{verbatim}
+traindbm!(dbm, x; ...)
+\end{verbatim}
+Trains the \texttt{dbm} (a \texttt{BasicDBM} or a more general \texttt{MultimodalDBM}) using the learning procedure for a general Boltzmann Machine with the training data set \texttt{x}. A learning step consists of mean-field inference (positive phase), stochastic approximation by Gibbs Sampling (negative phase) and the parameter updates.
+
+\paragraph*{Optional keyword arguments (ordered by importance):}
+\begin{itemize}
+\item \texttt{epoch}: number of training epochs
+
+
+\item \texttt{learningrate}/\texttt{learningrates}: a vector of learning rates for each epoch to  update the weights and biases. The learning rates should decrease with the  epochs, e. g. with the factor \texttt{a / (b + epoch)}. If only one value is given as  \texttt{learningrate}, \texttt{a} and \texttt{b} are 11.0 and 10.0, respectively.
+
+
+\item \texttt{nparticles}: number of particles used for sampling, default 100
+
+
+\item \texttt{monitoring}: A function that is executed after each training epoch.  It has to accept the trained DBM and the current epoch as arguments.
+
+\end{itemize}
+\begin{verbatim}
+traindbm!(dbm, x, particles, learningrate)
+\end{verbatim}
+Trains the given \texttt{dbm} for one epoch.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{trainrbm!}
+\begin{verbatim}
+trainrbm!(rbm, x)
+\end{verbatim}
+Trains the given \texttt{rbm} for one epoch using the data set \texttt{x}. (See also function \texttt{fitrbm}.)
+
+\paragraph*{Optional keyword arguments:}
+\begin{itemize}
+\item \texttt{learningrate}, \texttt{cdsteps}, \texttt{sdlearningrate}, \texttt{upfactor}, \texttt{downfactor},  \texttt{optimizer}:  See documentation of function \texttt{fitrbm}.
+
+
+\item \texttt{chainstate}: a matrix for holding the states of the RBM's hidden nodes. If  it is specified, PCD is used.
+
+\end{itemize}
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{updateparameters!}
+\begin{verbatim}
+updateparameters!(rbm, optimizer)
+\end{verbatim}
+Updates the RBM \texttt{rbm} by walking a step in the direction of the gradient that has been computed by calling \texttt{computegradient!} on \texttt{optimizer}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{visibleinput}
+\begin{verbatim}
+visibleinput(rbm, h)
+\end{verbatim}
+Returns activations of the visible nodes in the AbstractXBernoulliRBM \texttt{rbm}, sampled from the state \texttt{h} of the hidden nodes. \texttt{h} may be a vector or a matrix that contains the samples in its rows.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{visibleinput!}
+\begin{verbatim}
+visibleinput!(v, rbm, h)
+\end{verbatim}
+Like \texttt{visibleinput} but stores the returned result in \texttt{v}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{visiblepotential}
+\begin{verbatim}
+visiblepotential(rbm, h)
+visiblepotential(rbm, h, factor)
+\end{verbatim}
+Returns the potential for activations of the visible nodes in the AbstractRBM \texttt{rbm}, given the activations \texttt{h} of the hidden nodes. \texttt{h} may be a vector or a matrix that contains the samples in its rows. The potential is a deterministic value to which sampling can be applied to get the activations.
+
+The total input can be scaled with the \texttt{factor}. This is needed when pretraining the \texttt{rbm} as part of a DBM.
+
+In RBMs with Bernoulli distributed visible units, the potential of the visible nodes is the vector of probabilities for them to be turned on.
+
+For a Binomial2BernoulliRBM, the visible units are sampled from a Binomial(2,p) distribution in the Gibbs steps. In this case, the potential is the vector of values for 2p. (The value is doubled to get a value in the same range as the sampled one.)
+
+For GaussianBernoulliRBMs, the potential of the visible nodes is the vector of means of the Gaussian distributions for each node.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{visiblepotential!}
+\begin{verbatim}
+visiblepotential!(v, rbm, h)
+\end{verbatim}
+Like \texttt{visiblepotential} but stores the returned result in \texttt{v}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================

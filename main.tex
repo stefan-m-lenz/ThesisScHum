@@ -5,12 +5,13 @@
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{natbib}
-\usepackage[toc,page]{appendix}
+\usepackage[toc,page,title]{appendix}
 \usepackage[times,inconsolata]{Rd}
 
 \bibliographystyle{abbrvnat}
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{hyperref}
 \usepackage{epstopdf}
 \usepackage[table]{xcolor}
 \usepackage{tabularx}
@@ -44,6 +45,7 @@
 \onehalfspacing
 
 \begin{abstract}
+\texttt{bla}
 We present the Julia package ``BoltzmannMachines.jl" that provides a friendly interface to algorithms for training and evaluating Boltzmann machines.
 The ability of Boltzmann machines to deal with rather small sample sizes makes them especially interesting for analyzing medical data sets. But since these data sets can be very heterogeneous compared to the widely used image data, the choice of hyperparameters for training is especially challenging.
 Therefore the package puts a strong focus on monitoring and evaluating the learning process.
@@ -210,12 +212,29 @@ In a setting with very large sample size, the cost of estimating the actual like
 TODO
 
 \subsection{Distributed privacy-preserving analyses with DataSHIELD}
+\begin{figure}[h]
+   \centering
+   \includegraphics[scale=0.5]{images/dsBoltzmannMachinesOverview.pdf}
+   \caption{Overview of depencies between the developed packages}
+ \end{figure}
+ 
+ 
+\begin{figure}[h]
+   \centering
+   \includegraphics[scale=0.4,trim={0.1cm 0 0 0.1cm},clip]{images/dsBoltzmannLearningcurves.png}
+   \caption{Examples for learning curves produced by the package ``BoltzmannMachinesPlots"}
+ \end{figure}
+ 
+%TODO Bild PCA Plot
+% TODO Workflow with monitored training
 
 \section{Results}
 \subsection{Implementation of deep learning with Boltzmann machines}
 % TODO softmax0
 \subsection{Connecting R and Julia with the JuliaConnectoR}
 \subsection{Privacy-preserving deep learning with DataSHIELD}
+
+
 \section{Discussion}
 
 
@@ -389,11 +408,18 @@ But with matured multi-threading in Julia, these problems could be solved in the
 % TODO softmax
 
 \bibliography{references}
-
+\clearpage
 \appendix
+\begin{appendices}
+\section[Documentation of Julia package ``BoltzmannMachines"]{Documentation of Julia package \\ ``BoltzmannMachines"}
 
-\section{Documentation of R package ``JuliaConnectoR" version 0.6.1}
+This appendix lists the documentation for all exported and documented items of the BoltzmannMachines Julia package, as of version 1.2.0. The code of the package and more documentation can be found on the GitHub repository \url{https://github.com/stefan-m-lenz/BoltzmannMachines.jl}.
 
+\input{appendix/BoltzmannMachines_Doku}
+
+\section[Documentation of R package ``JuliaConnectoR"]{Documentation of R package \\ ``JuliaConnectoR"}
 \input{appendix/JuliaConnectoR_Doku}
+\end{appendices}
+
 
 \end{document}
