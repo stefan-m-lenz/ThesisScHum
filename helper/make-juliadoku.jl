@@ -3,11 +3,10 @@ begin
    io = IOBuffer()
    context = IOContext(io)
    for name in names(BoltzmannMachines)
-      #print(io, "\n\\HeaderA{$name}{}\n")
-      #println(io, "\\noindent\\rule{\\textwidth}{1pt}")
       latexname = replace(String(name), "_" => "\\_")
       x = Main.eval(Meta.parse("@doc "* String(name)))
-      if !startswith(string(x), "No documentation found")
+      if !startswith(string(x), "No documentation found") &&
+            x != Main.eval(Meta.parse("@doc Array"))
          println(io, "\\subsection*{$latexname}")
          show(context, "text/latex", x)
          println(io, "\\noindent\\rule{\\textwidth}{1pt}")
