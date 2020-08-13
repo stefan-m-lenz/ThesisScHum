@@ -7,8 +7,7 @@
 \usepackage{natbib}
 \usepackage[toc,page,title]{appendix}
 \usepackage[times,inconsolata]{Rd}
-%\usepackage{bibentry}
-\bibliographystyle{abbrvnat}
+\bibliographystyle{agsm}
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{hyperref}
@@ -405,7 +404,7 @@ But with matured multi-threading in Julia, these problems could be solved in the
 \subsection{Ideas for future work}
 % TODO supergenerator
 % TODO softmax
-
+%\bibentry{mxnet}
 
 \clearpage
 \appendix
@@ -415,11 +414,13 @@ But with matured multi-threading in Julia, these problems could be solved in the
 \begin{appendices}
 \section{References}
 \renewcommand{\bibsection}{} % funzt nur mit natbib: https://tex.stackexchange.com/a/370784/206178
+
 \bibliography{references}
 
 \section{Publications}
 Parts of this work have been published in the following articles:
-%\bibentry{mxnet}
+
+
 Basis for this was the work on the package BoltzmannMachines (see Appendix \ref{declcontr})
 
 \section{Declaration of own contributions}\label{declcontr}

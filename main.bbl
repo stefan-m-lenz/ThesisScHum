@@ -1,102 +1,89 @@
-\begin{thebibliography}{15}
-\providecommand{\natexlab}[1]{#1}
-\providecommand{\url}[1]{\texttt{#1}}
-\expandafter\ifx\csname urlstyle\endcsname\relax
-  \providecommand{\doi}[1]{doi: #1}\else
-  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+\begin{thebibliography}{xx}
 
-\bibitem[Abadi et~al.(2016)Abadi, Barham, Chen, Chen, Davis, Dean, Devin,
-  Ghemawat, Irving, Isard, et~al.]{abadi2016tensorflow}
-M.~Abadi, P.~Barham, J.~Chen, Z.~Chen, A.~Davis, J.~Dean, M.~Devin,
-  S.~Ghemawat, G.~Irving, M.~Isard, et~al.
-\newblock Tensorflow: A system for large-scale machine learning.
-\newblock In \emph{OSDI}, volume~16, pages 265--283, 2016.
+\harvarditem[Abadi et~al.]{Abadi, Barham, Chen, Chen, Davis, Dean, Devin,
+  Ghemawat, Irving, Isard et~al.}{2016}{abadi2016tensorflow}
+Abadi, M., Barham, P., Chen, J., Chen, Z., Davis, A., Dean, J., Devin, M.,
+  Ghemawat, S., Irving, G., Isard, M. et~al.  \harvardyearleft
+  2016\harvardyearright , Tensorflow: A system for large-scale machine
+  learning., {\em in} `OSDI', Vol.~16, pp.~265--283.
 
-\bibitem[{Apache Software Foundation}()]{mxnet}
-{Apache Software Foundation}.
-\newblock Apache {MXNet}: A flexible and efficient library for deep learning.
-\newblock \url{https://mxnet.apache.org/}.
+\harvarditem{{Apache Software Foundation}}{n.d.}{mxnet}
+{Apache Software Foundation}  \harvardyearleft n.d.\harvardyearright , `Apache
+  {MXNet}: A flexible and efficient library for deep learning',
+  \url{https://mxnet.apache.org/}.
 \newblock Accessed: 2018-01-30.
 
-\bibitem[Bengio(2012)]{bengio2012practical}
-Y.~Bengio.
-\newblock Practical recommendations for gradient-based training of deep
-  architectures.
-\newblock In \emph{Neural networks: Tricks of the trade}, pages 437--478.
-  Springer, 2012.
+\harvarditem{Bengio}{2012}{bengio2012practical}
+Bengio, Y.  \harvardyearleft 2012\harvardyearright , Practical recommendations
+  for gradient-based training of deep architectures, {\em in} `Neural networks:
+  Tricks of the trade', Springer, pp.~437--478.
 
-\bibitem[Bezanson et~al.(2017)Bezanson, Edelman, Karpinski, and
-  Shah]{bezanson2017julia}
-J.~Bezanson, A.~Edelman, S.~Karpinski, and V.~B. Shah.
-\newblock Julia: A fresh approach to numerical computing.
-\newblock \emph{SIAM Review}, 59\penalty0 (1):\penalty0 65--98, 2017.
+\harvarditem[Bezanson et~al.]{Bezanson, Edelman, Karpinski \harvardand\
+  Shah}{2017}{bezanson2017julia}
+Bezanson, J., Edelman, A., Karpinski, S. \harvardand\ Shah, V.~B.
+  \harvardyearleft 2017\harvardyearright , `Julia: A fresh approach to
+  numerical computing', {\em SIAM Review} {\bf 59}(1),~65--98.
 
-\bibitem[Cho et~al.(2011)Cho, Ilin, and Raiko]{cho2011improved}
-K.~Cho, A.~Ilin, and T.~Raiko.
-\newblock Improved learning of gaussian-bernoulli restricted boltzmann
-  machines.
-\newblock \emph{Artificial Neural Networks and Machine Learning--ICANN 2011},
-  pages 10--17, 2011.
+\harvarditem[Cho et~al.]{Cho, Ilin \harvardand\ Raiko}{2011}{cho2011improved}
+Cho, K., Ilin, A. \harvardand\ Raiko, T.  \harvardyearleft
+  2011\harvardyearright , `Improved learning of gaussian-bernoulli restricted
+  boltzmann machines', {\em Artificial Neural Networks and Machine
+  Learning--ICANN 2011} pp.~10--17.
 
-\bibitem[{Facebook, Inc}()]{pytorch}
-{Facebook, Inc}.
-\newblock {PyTorch}, tensors and dynamic neural networks in {Python} with
-  strong {GPU} acceleration.
-\newblock \url{http://pytorch.org/}.
+\harvarditem{{Facebook, Inc}}{n.d.}{pytorch}
+{Facebook, Inc}  \harvardyearleft n.d.\harvardyearright , `{PyTorch}, tensors
+  and dynamic neural networks in {Python} with strong {GPU} acceleration',
+  \url{http://pytorch.org/}.
 \newblock Accessed: 2018-01-30.
 
-\bibitem[Hess et~al.(2017)Hess, Lenz, Bl{\"a}tte, Bullinger, and
-  Binder]{hess2017partitioned}
-M.~Hess, S.~Lenz, T.~J. Bl{\"a}tte, L.~Bullinger, and H.~Binder.
-\newblock Partitioned learning of deep boltzmann machines for snp data.
-\newblock \emph{Bioinformatics}, 33\penalty0 (20):\penalty0 3173--3180, 2017.
+\harvarditem[Hess et~al.]{Hess, Lenz, Bl{\"a}tte, Bullinger \harvardand\
+  Binder}{2017}{hess2017partitioned}
+Hess, M., Lenz, S., Bl{\"a}tte, T.~J., Bullinger, L. \harvardand\ Binder, H.
+  \harvardyearleft 2017\harvardyearright , `Partitioned learning of deep
+  boltzmann machines for snp data', {\em Bioinformatics} {\bf
+  33}(20),~3173--3180.
 
-\bibitem[Krizhevsky and Hinton(2009)]{krizhevsky2009tinyimages}
-A.~Krizhevsky and G.~Hinton.
-\newblock Learning multiple layers of features from tiny images.
-\newblock \emph{Technical report, University of Toronto}, 2009.
+\harvarditem{Krizhevsky \harvardand\ Hinton}{2009}{krizhevsky2009tinyimages}
+Krizhevsky, A. \harvardand\ Hinton, G.  \harvardyearleft 2009\harvardyearright
+  , `Learning multiple layers of features from tiny images', {\em Technical
+  report, University of Toronto} .
 
-\bibitem[Rumbaugh et~al.(1999)Rumbaugh, Jacobson, and Booch]{uml}
-J.~Rumbaugh, I.~Jacobson, and G.~Booch.
-\newblock The unified modeling language reference manual, 1999.
+\harvarditem[Rumbaugh et~al.]{Rumbaugh, Jacobson \harvardand\ Booch}{1999}{uml}
+Rumbaugh, J., Jacobson, I. \harvardand\ Booch, G.  \harvardyearleft
+  1999\harvardyearright , {\em The unified modeling language reference manual},
+  Addison-Wesley.
 
-\bibitem[Salakhutdinov(2008)]{salakhutdinov2008learning}
-R.~Salakhutdinov.
-\newblock Learning and evaluating boltzmann machines.
-\newblock \emph{Technical Report UTML TR 2008-002, Department of Computer
-  Science, University of Toronto}, 2008.
+\harvarditem{Salakhutdinov}{2008}{salakhutdinov2008learning}
+Salakhutdinov, R.  \harvardyearleft 2008\harvardyearright , `Learning and
+  evaluating boltzmann machines', {\em Technical Report UTML TR 2008-002,
+  Department of Computer Science, University of Toronto} .
 
-\bibitem[Salakhutdinov(2015)]{salakhutdinov2015generativemodels}
-R.~Salakhutdinov.
-\newblock Learning deep generative models.
-\newblock \emph{Annual Review of Statistics and Its Application}, 2:\penalty0
-  361--385, 2015.
+\harvarditem{Salakhutdinov}{2015}{salakhutdinov2015generativemodels}
+Salakhutdinov, R.  \harvardyearleft 2015\harvardyearright , `Learning deep
+  generative models', {\em Annual Review of Statistics and Its Application}
+  {\bf 2},~361--385.
 
-\bibitem[Salakhutdinov and Hinton(2009)]{salakhutdinov2009DBMs}
-R.~Salakhutdinov and G.~Hinton.
-\newblock Deep boltzmann machines.
-\newblock In \emph{Artificial Intelligence and Statistics}, pages 448--455,
-  2009.
+\harvarditem{Salakhutdinov \harvardand\ Hinton}{2009}{salakhutdinov2009DBMs}
+Salakhutdinov, R. \harvardand\ Hinton, G.  \harvardyearleft
+  2009\harvardyearright , Deep boltzmann machines, {\em in} `Artificial
+  Intelligence and Statistics', pp.~448--455.
 
-\bibitem[Salakhutdinov and Hinton(2012)]{sala2012anefficient}
-R.~Salakhutdinov and G.~Hinton.
-\newblock An efficient learning procedure for deep boltzmann machines.
-\newblock \emph{Neural Computation}, 24\penalty0 (8):\penalty0 1967--2006,
-  2012.
-\newblock \doi{10.1162/NECO\_a\_00311}.
+\harvarditem{Salakhutdinov \harvardand\ Hinton}{2012}{sala2012anefficient}
+Salakhutdinov, R. \harvardand\ Hinton, G.  \harvardyearleft
+  2012\harvardyearright , `An efficient learning procedure for deep boltzmann
+  machines', {\em Neural Computation} {\bf 24}(8),~1967--2006.
 
-\bibitem[Srivastava and Salakhutdinov(2012)]{srivastava2012multimodal}
-N.~Srivastava and R.~R. Salakhutdinov.
-\newblock Multimodal learning with deep boltzmann machines.
-\newblock In \emph{Advances in neural information processing systems}, pages
-  2222--2230, 2012.
+\harvarditem{Srivastava \harvardand\
+  Salakhutdinov}{2012}{srivastava2012multimodal}
+Srivastava, N. \harvardand\ Salakhutdinov, R.~R.  \harvardyearleft
+  2012\harvardyearright , Multimodal learning with deep boltzmann machines,
+  {\em in} `Advances in neural information processing systems', pp.~2222--2230.
 
-\bibitem[Theis et~al.(2011)Theis, Gerwinn, Sinz, and
-  Bethge]{theis2011deepbelief}
-L.~Theis, S.~Gerwinn, F.~Sinz, and M.~Bethge.
-\newblock In all likelihood, deep belief is not enough.
-\newblock \emph{Journal of Machine Learning Research}, 12\penalty0
-  (Nov):\penalty0 3071--3096, 2011.
+\harvarditem[Theis et~al.]{Theis, Gerwinn, Sinz \harvardand\
+  Bethge}{2011}{theis2011deepbelief}
+Theis, L., Gerwinn, S., Sinz, F. \harvardand\ Bethge, M.  \harvardyearleft
+  2011\harvardyearright , `In all likelihood, deep belief is not enough', {\em
+  Journal of Machine Learning Research} {\bf 12}(Nov),~3071--3096.
 \newblock Associated code published on
   \url{https://github.com/lucastheis/deepbelief}.
 
