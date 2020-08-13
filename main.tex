@@ -7,7 +7,7 @@
 \usepackage{natbib}
 \usepackage[toc,page,title]{appendix}
 \usepackage[times,inconsolata]{Rd}
-
+%\usepackage{bibentry}
 \bibliographystyle{abbrvnat}
 \usepackage{amsmath}
 \usepackage{graphicx}
@@ -45,7 +45,6 @@
 \onehalfspacing
 
 \begin{abstract}
-\texttt{bla}
 We present the Julia package ``BoltzmannMachines.jl" that provides a friendly interface to algorithms for training and evaluating Boltzmann machines.
 The ability of Boltzmann machines to deal with rather small sample sizes makes them especially interesting for analyzing medical data sets. But since these data sets can be very heterogeneous compared to the widely used image data, the choice of hyperparameters for training is especially challenging.
 Therefore the package puts a strong focus on monitoring and evaluating the learning process.
@@ -407,18 +406,53 @@ But with matured multi-threading in Julia, these problems could be solved in the
 % TODO supergenerator
 % TODO softmax
 
-\bibliography{references}
+
 \clearpage
 \appendix
+
+
+
 \begin{appendices}
+\section{References}
+\renewcommand{\bibsection}{} % funzt nur mit natbib: https://tex.stackexchange.com/a/370784/206178
+\bibliography{references}
+
+\section{Publications}
+Parts of this work have been published in the following articles:
+%\bibentry{mxnet}
+Basis for this was the work on the package BoltzmannMachines (see Appendix \ref{declcontr})
+
+\section{Declaration of own contributions}\label{declcontr}
+
+The contributions to the published packages and corresponding publications are as follows:
+
+\begin{itemize}
+\item 
+\end{itemize}
+
+\clearpage
 \section[Documentation of Julia package ``BoltzmannMachines"]{Documentation of Julia package \\ ``BoltzmannMachines"}
 
 This appendix lists the documentation for all exported and documented items of the BoltzmannMachines Julia package, as of version 1.2.0. The code of the package and more documentation can be found on the GitHub repository \url{https://github.com/stefan-m-lenz/BoltzmannMachines.jl}.
 
 \input{appendix/BoltzmannMachines_Doku}
-
+\clearpage
 \section[Documentation of R package ``JuliaConnectoR"]{Documentation of R package \\ ``JuliaConnectoR"}
+This appendix lists the documentation for all exported and items of the JuliaConnectoR R package, as of version 0.6.1. The code of the package and more documentation can be found on the GitHub repository \url{https://github.com/stefan-m-lenz/JuliaConnectoR}. The package is also available from the official R CRAN repository: \url{https://CRAN.R-project.org/package=JuliaConnectoR}.
+
 \input{appendix/JuliaConnectoR_Doku}
+
+
+\section{Zusammenfassung (deutsch)}
+TODO, 1 Seite
+
+\section{Eidesstattliche Versicherung}
+TODO
+
+\section{Danksagung}
+
+
+
 \end{appendices}
 
 
