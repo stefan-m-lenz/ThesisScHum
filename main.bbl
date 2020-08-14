@@ -24,6 +24,12 @@ Bezanson, J., Edelman, A., Karpinski, S. \harvardand\ Shah, V.~B.
   \harvardyearleft 2017\harvardyearright , `Julia: A fresh approach to
   numerical computing', {\em SIAM Review} {\bf 59}(1),~65--98.
 
+\harvarditem{Carreira-Perpinan \harvardand\
+  Hinton}{2005}{perpinan_contrastive_2005}
+Carreira-Perpinan, M.~A. \harvardand\ Hinton, G.~E.  \harvardyearleft
+  2005\harvardyearright , On contrastive divergence learning., {\em in}
+  `Aistats', Vol.~10, Citeseer, pp.~33--40.
+
 \harvarditem[Cho et~al.]{Cho, Ilin \harvardand\ Raiko}{2011}{cho2011improved}
 Cho, K., Ilin, A. \harvardand\ Raiko, T.  \harvardyearleft
   2011\harvardyearright , `Improved learning of gaussian-bernoulli restricted
@@ -36,12 +42,33 @@ Cho, K., Ilin, A. \harvardand\ Raiko, T.  \harvardyearleft
   \url{http://pytorch.org/}.
 \newblock Accessed: 2018-01-30.
 
+\harvarditem{Geman \harvardand\ Geman}{1984}{gibbssamplingorig}
+Geman, S. \harvardand\ Geman, D.  \harvardyearleft 1984\harvardyearright ,
+  `Stochastic {Relaxation}, {Gibbs} {Distributions}, and the {Bayesian}
+  {Restoration} of {Images}', {\em IEEE Transactions on Pattern Analysis and
+  Machine Intelligence} {\bf PAMI-6}(6),~721--741.
+\newblock Conference Name: IEEE Transactions on Pattern Analysis and Machine
+  Intelligence.
+
 \harvarditem[Hess et~al.]{Hess, Lenz, Bl{\"a}tte, Bullinger \harvardand\
   Binder}{2017}{hess2017partitioned}
 Hess, M., Lenz, S., Bl{\"a}tte, T.~J., Bullinger, L. \harvardand\ Binder, H.
   \harvardyearleft 2017\harvardyearright , `Partitioned learning of deep
   boltzmann machines for snp data', {\em Bioinformatics} {\bf
   33}(20),~3173--3180.
+
+\harvarditem{Hinton}{2002}{cdorig}
+Hinton, G.~E.  \harvardyearleft 2002\harvardyearright , `Training {Products} of
+  {Experts} by {Minimizing} {Contrastive} {Divergence}', {\em Neural
+  Computation} {\bf 14}(8),~1771--1800.
+\newblock Publisher: MIT Press.
+\newline\harvardurl{https://doi.org/10.1162/089976602760128018}
+
+\harvarditem{Hinton \harvardand\ Salakhutdinov}{2006}{hinton_reducing_2006}
+Hinton, G.~E. \harvardand\ Salakhutdinov, R.~R.  \harvardyearleft
+  2006\harvardyearright , `Reducing the {Dimensionality} of {Data} with
+  {Neural} {Networks}', {\em Science} {\bf 313}(5786),~504--507.
+\newline\harvardurl{http://science.sciencemag.org/content/313/5786/504}
 
 \harvarditem{Krizhevsky}{2009}{krizhevsky2009tinyimagesthesis}
 Krizhevsky, A.  \harvardyearleft 2009\harvardyearright , Learning multiple
@@ -91,5 +118,13 @@ Theis, L., Gerwinn, S., Sinz, F. \harvardand\ Bethge, M.  \harvardyearleft
   Journal of Machine Learning Research} {\bf 12}(Nov),~3071--3096.
 \newblock Associated code published on
   \url{https://github.com/lucastheis/deepbelief}.
+
+\harvarditem[Theis et~al.]{Theis, Oord \harvardand\
+  Bethge}{2015}{theis_note_2015}
+Theis, L., Oord, A. v.~d. \harvardand\ Bethge, M.  \harvardyearleft
+  2015\harvardyearright , `A note on the evaluation of generative models', {\em
+  arXiv:1511.01844 [cs, stat]} .
+\newblock arXiv: 1511.01844.
+\newline\harvardurl{http://arxiv.org/abs/1511.01844}
 
 \end{thebibliography}

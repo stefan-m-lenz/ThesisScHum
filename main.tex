@@ -74,7 +74,7 @@ Thus the complexity of calculating the free energy becomes linear in the number 
 This way the log-likelihood
 \begin{equation}
    \log p(v) = - F(v) - \log Z
-\label{eqpRBMfreeenergy}
+\label{eqn:pRBMfreeenergy}
 \end{equation}
 
 can be calculated efficiently if the partition function $Z$ is given. The free energy is also used for calculating the ratio of the unnormalized probabilities $p^*(v) = e^{-F(v)}$ in the annealed importance sampling algorithm (see \ref{methodAIS}).
@@ -116,9 +116,10 @@ p(v_i | h) = \sigm ((a + W h)_i)
 p(h_i | v) = \sigm ((b + W^T v)_i).\]
 
 The free energy is
-\[
+\begin{equation}
 F(v) = - a^T v - \sum_{j=1}^{n_H} \log \left (1 + e^{(W^T v + b)_j}\right).
-\]
+\label{eqn:freeenergy_rbm}
+\end{equation}
 
 The trick for deriving the formula of the free energy is to ``analytically sum out" the hidden units \citep{sala2012anefficient}.
 The master thesis of \cite{krizhevsky2009tinyimagesthesis} is a very good resource for looking up the complete derivations of these formulas. This holds not only for the theory of RBMs with Bernoulli distributed nodes but also in particular for RBMs with Gaussian distributed visible nodes, which are presented here in the next paragraph.
@@ -132,9 +133,10 @@ One way of modeling continuous values for $v$ are restricted Boltzmann machines 
 
 The number of visible and hidden nodes is denoted as $n_V$ and $n_H$, respectively. The parameters of this model are $\Theta = (W, a, b, \sigma)$ with weight matrix $W$, visible bias $a$ hidden bias $b$ and standard deviation $\sigma$. The role of $\sigma$ as standard deviation becomes clearer by looking at the conditional distributions of the $v_i$ given $h$, which are distributed according to the normal distribution $\mathcal{N}(a_i + \sigma_i(Wh)_i, \sigma_i^2)$. For the hidden nodes, $p(h_j | v) = \sigm \left (b_j + \sum_{i=1}^{n_V} w_{ij} \frac{v_i}{\sigma_i} \right )$.
 The free energy is
-\[
+\begin{equation}
    F(v) = \sum_{i=1}^{n_V}\frac{(v_i - a_i)^2}{2\sigma_i^2} + \sum_{j=1}^{n_H} \log \left (1 + e^{b_j + \sum_{i=1}^{n_V} \frac{v_i}{\sigma_i} w_{ij}} \right).
-\]
+\label{eqn:freenergy_gbrbm}
+\end{equation}
 \citep{krizhevsky2009tinyimages}.
 
 Cho et al. \citep{cho2011improved} proposed a different parameterization for the energy function:
@@ -156,17 +158,23 @@ For prediction models, categorical data is usually encoded in so-called ``one ho
 The energy function of a multimodal deep Boltzmann machine (MDBM) is TODO
 
 
-\subsubsection{Training of restricted Boltzmann machines}
+\subsubsection{Training of restricted Boltzmann machines}\label{rbmtraining}
 Goal of the training procedure of restricted Boltmann machines is to maximize the likelihood $\sum_{i=1}^n p(v_i)$ for a given data set $(v_1, \dots, v_n)$.
 As mentioned in section \ref{basicbmproperties}, calculating $p(v) = \frac{\sum_{h} p(v,h)}{Z}$ needs the partition function $Z$, and this constant also appears in the derivative.
-To calculate $Z$ exactly, this requires the 
-This means that a simple gradient descent optimization technically not feasible in normal cases, as th. 
+It is possible to utilize the formula for the free energy in the restricted Boltzmann machine (see formulas (\ref{eqn:freenergy_rbm}) and (\ref{eqn:freenergy_gbrbm})), where the hidden layer is summed out analytically.
+With this it is possible to reduce the number of summands
+
+To calculate $Z$ exactly, this requires the can be summed out 
+This means that a simple gradient descent optimization is technically not feasible in normal cases. 
 
 \subsubsection{Training of deep Boltzmann machines}
 TODO stochastic gradient descent, batch gradient descent, minibatches \citep{bengio2012practical}
-contrastive divergence, persistent contrastive divergence
 
-For pre-training the multimodal deep Boltzmann machines, we use greedy layerwise pre-training of layers of restricted Boltzmann machines.
+Gibbs sampling \citep{gibbssamplingorig}
+contrastive divergence \citep{cdorig, perpinan_contrastive_2005} , persistent contrastive divergence
+
+For pre-training the multimodal deep Boltzmann machines, we use greedy layerwise pre-training  of layers of restricted Boltzmann machines.
+DBN \citep{hinton_reducing_2006}
 Fine-tuning of weights can then be performed by the algorithm for training a general Boltzmann machine.
 \citep{salakhutdinov2009DBMs, salakhutdinov2015generativemodels}
 
@@ -180,14 +188,18 @@ is optimized. $\mathcal{H}$ denotes the entropy of the hidden nodes. \citep{sala
 TODO stacking
 TODO Bild von multimodal
 TODO Referenz zu Srivastava
-
+Since the training procedure is very complex and depends on many hyperparameters, it is necessary to test whether the training works well by examining the training objective.
+Although the likelihood is not the best criterion for all kinds of applications \citep{theis_note_2015}, it is essential to have a way to get a value for the likelihood as primary optimization criterion.
+Being able to inspect the learning process is important for finding the best choice of hyperparameters and also for ensuring the quality of the software implementation of the learning algorithm.
+This leads us to the next section, where we want to take a closer look at methods for calculating and estimating the likelihood, and lower bound of the likelihood, in case DBMs.
 
 
 \subsubsection{Evaluating deep Boltzmann machines}
 \paragraph{Exact calculation of the partition function}
 \label{methodExactloglik}
-The exact calculation of partition functions is only computationally feasible for very small models as its complexity grows exponentially. Exploiting the layerwise structure allows a faster exact calculation of $Z$ such that the computation time does not grow exponentially with the number of all nodes but only grows exponentially with the number of elements in a subset of the nodes. That means, the complexity is still $\mathcal{O}(2^n)$, but with an $n$ smaller than the number of nodes.
-By using the formulas for the free energy and the symmetry of restricted Boltzmann with binary nodes, $n = \min(n_V, n_H)$.
+As mentioned in section \ref{rbmtraining}, the exact calculation of partition functions is only computationally feasible for very small models as its complexity grows exponentially. Exploiting the layerwise structure allows a faster exact calculation of $Z$ such that the computation time does not grow exponentially with the number of all nodes but only grows exponentially with the number of elements in a subset of the nodes. That means, the complexity is still $\mathcal{O}(2^n)$, but with an $n$ smaller than the number of nodes.
+
+By using the formulas for the free energy and the symmetry of restricted Boltzmann with binary nodes, $n = \min(n_V, n_H)$ with $n_V$.
 In RBMs with one of layer Gaussian nodes and one layer of binary nodes, $n$ is the number of binary nodes, since the contribution of the Gaussian nodes can be integrated analytically.
 In case of a deep Boltzmann machine, it is possible to sum out each second layer, similar to the calculation of the free energy in restricted Boltzmann machines. So for DBMs, $n$ can be reduced to the number of nodes in each second layer.
 
@@ -228,7 +240,7 @@ Both approaches can be used to estimate the partition function of a single Boltz
 
 
 \paragraph{Calculating or estimating likelihoods} %TODO verbessern
-For a restricted Boltzmann machine, the likelihood can be calculated using formula (\ref{eqpRBMfreeenergy}) if the partition function is known. This is not so easily possible in a DBM, for which calculating the distribution of the hidden nodes is of exponential complexity.
+For a restricted Boltzmann machine, the likelihood can be calculated using formula (\ref{eqn:pRBMfreeenergy}) if the partition function is known. This is not so easily possible in a DBM, for which calculating the distribution of the hidden nodes is of exponential complexity.
 Estimating the likelihood of DBMs is possible using AIS by constructing a smaller DBM for each sample and estimating its partition function.
 The smaller DBM is constructed by removing the visible layer, and incorporating contribution of the sample to the energy of the first RBM - consisting only of visible and first hidden layer - into the bias of the new visible layer which was the first hidden layer of the original model.
 The partition function of this smaller model is then the unnormalized probability of the sample in the original model.
