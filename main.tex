@@ -54,7 +54,7 @@ Additionally to likelihood estimation, this package offers convenience methods t
 \section{Introduction}
 \section{Methods}
 \subsection{Deep Boltzmann machines}
-\subsubsection{Basic properties of Boltzmann machines}
+\subsubsection{Basic properties of Boltzmann machines}\label{basicbmproperties}
 
 A Boltzmann machine model with parameters $\Theta$ defines a probability distribution $p(x)$ for a random variable $x = (v, h)$ in a probability space $\Omega$ via an energy function $E(v, h; \Theta)$:
 \[
@@ -62,7 +62,7 @@ A Boltzmann machine model with parameters $\Theta$ defines a probability distrib
 \]
 The normalizing factor $Z$, the so called \emph{partition function}, is defined as $Z = \int_{\Omega} e^{-E(x)} dx$. In case of a discrete probability distribution, this can be written as $Z = \sum_{v,h}e^{-E(v,h)}$ where the sum goes over all possible combinations of $v$ and $h$.
 The term in the denominator $p^*(v,h) = e^{-E(v,h)}$ is called \emph{unnormalized probability}.
-The probability space is divided into dimensions of observed variables (subsumed in vector $v$) and hidden/latent variables (in $h$), corresponding to visible and hidden nodes in the graphical representation, see figure TODO Bild.
+The probability space is divided into dimensions of observed variables (subsumed in vector $v$) and hidden/latent variables (in $h$), corresponding to visible and hidden nodes in the graphical representation, see figure \ref{fig:bmsoverview}.
 
 The so called \emph{free energy}, a notation inspired by physics, is defined as
 \[
@@ -79,34 +79,57 @@ This way the log-likelihood
 
 can be calculated efficiently if the partition function $Z$ is given. The free energy is also used for calculating the ratio of the unnormalized probabilities $p^*(v) = e^{-F(v)}$ in the annealed importance sampling algorithm (see \ref{methodAIS}).
 
-\subsubsection{Subtypes of Boltzmann machines}
+\subsubsection{Types of Boltzmann machines}
 
-Here we only consider the special cases of restricted Boltzmann machines and (multimodal) deep Boltzmann machines.
-These models have restrictions on their parameterization, corresponding to a layered design of their graphs.
+Here we only consider the special cases of restricted Boltzmann machines (RBMs) and (multimodal) deep Boltzmann machines.
+These models have restrictions on their parameterization compared to a general Boltzmann machine.
+The restrictions correspond to a layered design of their graphs.
+For an intuitive overview of the architectures of the different types that are considered here, see figure \ref{fig:bmsoverview}.
 
 \begin{figure}[h]
+
    \centering
    \includegraphics[scale=3.]{images/BMsOverview.eps}
-   \caption{Different types of Boltzmann machines}
+   \caption{Graph view on different types of Boltzmann machines. Visible units (i. e. input units) are depicted as nodes with doubled circle lines. Hidden units are simple circles.
+ {\bf A}: General Boltzmann machine, with all nodes connected to each other. {\bf B}: Restricted Boltzmann machine (RBM). Each of the lines corresponds to a weight, i.e. an entry in the weight matrix $W$, like in formulas (\ref{eqn:energyformularbm}) and (\ref{eqn:energyformulagbrbm}).  
+{\bf C}: Deep Boltzmann machine. From a graph perspective, this is simply a stack of RBMs.
+{\bf D} and {\bf E}: Multimodal/partitioned deep Boltzmann machines.}
+   \label{fig:bmsoverview}
  \end{figure}
 
 
 \paragraph{Bernoulli distributed visible nodes}
-The most basic model in this class of models are restricted Boltzmann machines with Bernoulli distributed nodes, most of the time simply called \emph{restricted Boltzmann machines} (RBMs). The energy function is of the form
+The most basic model in this class of models are restricted Boltzmann machines with Bernoulli distributed nodes, most of the time simply called \emph{restricted Boltzmann machines} (RBMs). Their energy function is of the form
+\begin{equation}
+   E(v,h) = a^T v + b^T h + v^T W h. \label{eqn:energyformularbm}
+\end{equation}
+
+The parameters of the model are $\Theta = (W, a, b)$ with \emph{weight matrix} $W$, vector $a$ as the \emph{visible bias} and $b$ as the \emph{hidden bias}.
+The weights correspond to the connections between the visible and hidden units in a weighted graph, as shown in figure \ref{fig:bmsoverview}.
+The bias variables are usually not depicted in graph views of neural networks, but they are equivalent to adding additional nodes to the model that are always 1. The visible bias corresponds to the weights on the connections to an additional node that is connected to all nodes of the visible layer, and the hidden bias corresponds to the weights on the connections to an additional node that is connected to all nodes of the hidden layer. The bias variables serve to set a basic level of activation of the nodes, which is then modified by the input from the connected units.
+
+
+Employing the sigmoid function $\sigm(x) = \frac{1}{1+ e^{-x}}$, the resulting conditional distributions can be written as 
 \[
-   E(v,h) = a^T v + b^T h + v^T W h.
-\]
-The parameters of this model are $\Theta = (W, a, b)$ with \emph{weight matrix} $W$, vector $a$ as the \emph{visible bias} and $b$ as the \emph{hidden bias}.
-Employing the sigmoid function $\sigm(x) = \frac{1}{1+ e^{-x}}$, the resulting conditional distributions can be written as $p(v_i | h) = \sigm ((a + W h)_i)$ and $p(h_i | v) = \sigm ((b + W^T v)_i)$. The free energy is
+p(v_i | h) = \sigm ((a + W h)_i)
+ \quad \text{and}\quad 
+p(h_i | v) = \sigm ((b + W^T v)_i).\]
+
+The free energy is
 \[
 F(v) = - a^T v - \sum_{j=1}^{n_H} \log \left (1 + e^{(W^T v + b)_j}\right).
 \]
 
-\paragraph{Continuously valued visible distributions}
+The trick for deriving the formula of the free energy is to ``analytically sum out" the hidden units \citep{sala2012anefficient}.
+The master thesis of \cite{krizhevsky2009tinyimagesthesis} is a very good resource for looking up the complete derivations of these formulas. This holds not only for the theory of RBMs with Bernoulli distributed nodes but also in particular for RBMs with Gaussian distributed visible nodes, which are presented here in the next paragraph.
+
+\paragraph{Gaussian distributed visible nodes for continuous data}
 One way of modeling continuous values for $v$ are restricted Boltzmann machines with Gaussian distribution of the visible variables and Bernoulli distributed hidden variables. The energy of the model is defined as
-\[
+\begin{equation}
    E(v,h) = \sum_{i=1}^{n_V}\frac{(v_i - a_i)^2}{2\sigma_i^2} - b^T h - \sum_{i=1}^{n_V} \frac{(Wh)_i}{\sigma_i}
-\]
+   \label{eqn:energyformulagbrbm}
+\end{equation}
+
 The number of visible and hidden nodes is denoted as $n_V$ and $n_H$, respectively. The parameters of this model are $\Theta = (W, a, b, \sigma)$ with weight matrix $W$, visible bias $a$ hidden bias $b$ and standard deviation $\sigma$. The role of $\sigma$ as standard deviation becomes clearer by looking at the conditional distributions of the $v_i$ given $h$, which are distributed according to the normal distribution $\mathcal{N}(a_i + \sigma_i(Wh)_i, \sigma_i^2)$. For the hidden nodes, $p(h_j | v) = \sigm \left (b_j + \sum_{i=1}^{n_V} w_{ij} \frac{v_i}{\sigma_i} \right )$.
 The free energy is
 \[
@@ -124,7 +147,7 @@ The conditional distribution of the hidden nodes is $p(h_j | v) = \sigm \left (b
 % TODO alternative: use continuous as Gaussian hard.
 
 \paragraph{Categorical data}
-TODO
+For prediction models, categorical data is usually encoded in so-called ``one hot encoding".
 
 \paragraph{Deep Boltzmann machines}
 
@@ -133,14 +156,19 @@ TODO
 The energy function of a multimodal deep Boltzmann machine (MDBM) is TODO
 
 
-\subsubsection{Training of deep Boltzmann machines}
+\subsubsection{Training of restricted Boltzmann machines}
+Goal of the training procedure of restricted Boltmann machines is to maximize the likelihood $\sum_{i=1}^n p(v_i)$ for a given data set $(v_1, \dots, v_n)$.
+As mentioned in section \ref{basicbmproperties}, calculating $p(v) = \frac{\sum_{h} p(v,h)}{Z}$ needs the partition function $Z$, and this constant also appears in the derivative.
+To calculate $Z$ exactly, this requires the 
+This means that a simple gradient descent optimization technically not feasible in normal cases, as th. 
 
+\subsubsection{Training of deep Boltzmann machines}
 TODO stochastic gradient descent, batch gradient descent, minibatches \citep{bengio2012practical}
 contrastive divergence, persistent contrastive divergence
 
 For pre-training the multimodal deep Boltzmann machines, we use greedy layerwise pre-training of layers of restricted Boltzmann machines.
 Fine-tuning of weights can then be performed by the algorithm for training a general Boltzmann machine.
-\citep{salakhutdinov2009DBMs}, \citep{salakhutdinov2015generativemodels}
+\citep{salakhutdinov2009DBMs, salakhutdinov2015generativemodels}
 
 When training with the mean-field approximation $\mu$ used as activation of the hidden nodes in the positive phase,
 the likelihood is not optimized directly but a lower bound

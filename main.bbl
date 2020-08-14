@@ -43,6 +43,11 @@ Hess, M., Lenz, S., Bl{\"a}tte, T.~J., Bullinger, L. \harvardand\ Binder, H.
   boltzmann machines for snp data', {\em Bioinformatics} {\bf
   33}(20),~3173--3180.
 
+\harvarditem{Krizhevsky}{2009}{krizhevsky2009tinyimagesthesis}
+Krizhevsky, A.  \harvardyearleft 2009\harvardyearright , Learning multiple
+  layers of features from tiny images, Master's thesis, University of Toronto,
+  Canada.
+
 \harvarditem{Krizhevsky \harvardand\ Hinton}{2009}{krizhevsky2009tinyimages}
 Krizhevsky, A. \harvardand\ Hinton, G.  \harvardyearleft 2009\harvardyearright
   , `Learning multiple layers of features from tiny images', {\em Technical
