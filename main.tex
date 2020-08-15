@@ -33,7 +33,7 @@
 
 \newcommand{\inlinecode}[1]{\texttt{#1}}
 \newcommand{\sigm}{\mathrm{sigm}}
-
+\newcommand{\apkg}[1]{\emph{#1}}
 
 \begin{document}
 
@@ -253,16 +253,22 @@ TODO
 \begin{figure}[h]
    \centering
    \includegraphics[scale=0.5]{images/dsBoltzmannMachinesOverview.pdf}
-   \caption{Overview of depencies between the developed packages}
+   \caption{Overview of dependencies between the developed packages}
  \end{figure}
  
  
 \begin{figure}[h]
    \centering
    \includegraphics[scale=0.4,trim={0.1cm 0 0 0.1cm},clip]{images/dsBoltzmannLearningcurves.png}
-   \caption{Examples for learning curves produced by the package ``BoltzmannMachinesPlots"}
+   \caption{Examples for learning curves produced by the package \apkg{BoltzmannMachinesPlots}. This shows learning curves for the training of a DBM with three layers. The plots showing the mean reconstruction error are the result of monitoring the greedy layerwise pre-training. The plot showing the lower bound of the log probability comes is the monitoring output of the fine-tuning of the DBM. There are two curves in each plot, one for the training data and one for the test data.}
  \end{figure}
- 
+
+\begin{figure}[h]
+   \centering
+   \includegraphics[scale=0.5]{images/dsBoltzmannWorkflow.pdf}
+   \caption{Exemplary workflow for using the \apkg{dsBoltzmannMachines} package}
+ \end{figure}
+
 %TODO Bild PCA Plot
 % TODO Workflow with monitored training
 
@@ -301,7 +307,7 @@ For the implementation we chose the Julia language \citep{bezanson2017julia}. % 
 
 TODO describe example data set.
 
-The following lines of code shows how a multimodal deep boltzmann machine is trained.
+The following lines of code shows how a multimodal deep Boltzmann machine is trained.
 
 \subsection{Modelling}
 
