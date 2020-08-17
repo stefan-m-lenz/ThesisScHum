@@ -70,6 +70,11 @@ Hinton, G.~E. \harvardand\ Salakhutdinov, R.~R.  \harvardyearleft
   {Neural} {Networks}', {\em Science} {\bf 313}(5786),~504--507.
 \newline\harvardurl{http://science.sciencemag.org/content/313/5786/504}
 
+\harvarditem{{ISO/IEC JTC 1/SC 22}}{1996}{ebnf}
+{ISO/IEC JTC 1/SC 22}  \harvardyearleft 1996\harvardyearright , `Information
+  technology - {Syntactic} metalanguage - {Extended} {BNF}', {\em ISO/IEC
+  International Standard 14977:1996} .
+
 \harvarditem{Krizhevsky}{2009}{krizhevsky2009tinyimagesthesis}
 Krizhevsky, A.  \harvardyearleft 2009\harvardyearright , Learning multiple
   layers of features from tiny images, Master's thesis, University of Toronto,
@@ -79,6 +84,11 @@ Krizhevsky, A.  \harvardyearleft 2009\harvardyearright , Learning multiple
 Krizhevsky, A. \harvardand\ Hinton, G.  \harvardyearleft 2009\harvardyearright
   , `Learning multiple layers of features from tiny images', {\em Technical
   report, University of Toronto} .
+
+\harvarditem{{MongoDB, Inc.}}{2009}{bsonspec}
+{MongoDB, Inc.}  \harvardyearleft 2009\harvardyearright , `{BSON} ({Binary}
+  {JSON}) {Serialization}'.
+\newline\harvardurl{http://bsonspec.org/}
 
 \harvarditem[Rumbaugh et~al.]{Rumbaugh, Jacobson \harvardand\ Booch}{1999}{uml}
 Rumbaugh, J., Jacobson, I. \harvardand\ Booch, G.  \harvardyearleft

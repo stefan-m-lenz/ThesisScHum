@@ -1,0 +1,39 @@
+message & = & '0x01' call \\
+	 & $\mid$ &'0x00' element \\
+	 & $\mid$ &'0x50' output \\
+	 & $\mid$ &'0x5e' output \\
+	 & $\mid$ &'0xff' fail \\
+	 & $\mid$ &byebye \\
+call & = & string list \\
+list & = & int32 \{element\} int32 \{named\_element\} attributes \\
+attributes & = & nattributes \{named\_element\} \\
+nattributes & = & uint8 \\
+named\_element & = & string element \\
+element & = & '0x00' \\
+		& $\mid$ &'0x01' dimensions \{double\} attributes \\
+		& $\mid$ &'0x02' dimensions \{complex\} attributes \\
+		& $\mid$ &'0x03' dimensions \{raw\} attributes \\
+		& $\mid$ &'0x04' dimensions \{integer\} attributes \\
+		& $\mid$ &'0x05' dimensions \{boolean\} \\
+		& $\mid$ &'0x06' dimensions \{string\} attributes \\
+		& $\mid$ &'0x07' list \\
+		& $\mid$ &'0x5b' string (* name of symbol *) \\
+		& $\mid$ &'0x5e' object\_class\_id object\_reference \\
+		& $\mid$ &'0xcb' callback \\
+		& $\mid$ &'0xee' expression \\
+		& $\mid$ &'0xfc' named\_function \\
+object\_class\_id & = & '0x5c' (* class JuliaStructProxy *) \\
+				& $\mid$ &'0x5a' (* class JuliaSimpleArrayProxy *) \\
+				& $\mid$ &'0xaf' (* anonymous function reference *) \\
+				& $\mid$ &'0xaa' (* class JuliaArrayProxy *) \\
+				& $\mid$ &'0x00' (* no information *) \\
+object\_reference & = & 8 * byte \\
+anonymous\_function\_reference & = & 8 * byte \\
+callback & = & string \\
+named\_function & = & string \\
+string & = & int32 utf8string \\
+dimensions & = & ndimensions \{int32\} \\
+ndimensions & = & int32 \\
+output & = & int32 \{byte\} \\
+fail & = & string \\
+byebye & = & '0xbb' \\

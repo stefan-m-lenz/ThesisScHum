@@ -9,6 +9,7 @@
 \usepackage[times,inconsolata]{Rd}
 \bibliographystyle{agsm}
 \usepackage{amsmath}
+\usepackage{listings}
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{epstopdf}
@@ -28,8 +29,7 @@
 
 \titleformat{\paragraph}
 {\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
-\titlespacing*{\paragraph}
-{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+\titlespacing*{\paragraph}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
 \newcommand{\inlinecode}[1]{\texttt{#1}}
 \newcommand{\sigm}{\mathrm{sigm}}
@@ -276,6 +276,23 @@ TODO
 \subsection{Implementation of deep learning with Boltzmann machines}
 % TODO softmax0
 \subsection{Connecting R and Julia with the JuliaConnectoR}
+
+\begin{table}
+\begin{tabular}{lcl}
+\input{includes/ebnftable.tex}
+\end{tabular}
+\caption{Serialization grammar for the \apkg{JuliaConnectoR}}
+\end{table}
+EBNF syntax for \citep{ebnf}
+The grammar is inspired by BSON \citep{bsonspec}.
+
+%* A string is preceded by the number of bytes to UTF-8-encode the string.
+%* The sequence of unnamed/positional elements in a list is preceded by
+%  the number of (named) elements that follow.
+%* Standard output (after '0x50') or standard error output (after '0x5e')
+%  is preceded by the number of bytes that are sent.
+
+
 \subsection{Privacy-preserving deep learning with DataSHIELD}
 
 
