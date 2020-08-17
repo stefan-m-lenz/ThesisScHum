@@ -54,6 +54,10 @@ Additionally to likelihood estimation, this package offers convenience methods t
 \section{Introduction}
 \section{Methods}
 \subsection{Deep Boltzmann machines}
+
+Boltzmann machines are so-called generative models. %TODO expand
+The following paragraphs give a brief overview of the mathematical definitions surrounding Boltzmann machines and introduces some terms that are commonly used in the literature about Boltzmann machines.
+
 \subsubsection{Basic properties of Boltzmann machines}\label{basicbmproperties}
 
 A Boltzmann machine model with parameters $\Theta$ defines a probability distribution $p(x)$ for a random variable $x = (v, h)$ in a probability space $\Omega$ via an energy function $E(v, h; \Theta)$:
@@ -118,7 +122,7 @@ p(h_i | v) = \sigm ((b + W^T v)_i).\]
 The free energy is
 \begin{equation}
 F(v) = - a^T v - \sum_{j=1}^{n_H} \log \left (1 + e^{(W^T v + b)_j}\right).
-\label{eqn:freeenergy_rbm}
+\label{eqn:freenergy_rbm}
 \end{equation}
 
 The trick for deriving the formula of the free energy is to ``analytically sum out" the hidden units \citep{sala2012anefficient}.
@@ -195,6 +199,17 @@ This leads us to the next section, where we want to take a closer look at method
 
 
 \subsubsection{Evaluating deep Boltzmann machines}
+A special challenge for unsupervised learning on non-image data in general is the lack of performance indicators.
+In supervised training, the classification accuracy is the natural evaluation criterion, which is also easy to implement.
+In unsupervised training with a well investigated class of data such as images, there is already much experience available for choosing the model architecture and the hyperparameters. If models are to be trained on very diverse data, the problem of finding good hyperparameters is exacerbated as for each data set the challenge of tuning can pose a different challenge.
+
+Thus the need for having an objective evaluation criterion as a basis for choosing the hyperparameters and monitoring the training becomes very important.
+In case of images or natural language, the generative abilities of a model can be tested by simply looking at the generated images or sentences to see whether these are proper samples. In the case of data from a patient record or genetic data, this approach is not feasible.
+
+One indicator for successful learning in Boltzmann machines, which is applicable in all cases of data, remains the model likelihood. 
+% TODO likelihood calculation requires the partition function
+%In most cases, the likelihood cannot be calculated exactly but it can only be estimated by stochastic algorithms like annealed importance sampling (AIS). So we also want to detail the extension of AIS on multimodal deep Boltzmann machines in this article.
+
 \paragraph{Exact calculation of the partition function}
 \label{methodExactloglik}
 As mentioned in section \ref{rbmtraining}, the exact calculation of partition functions is only computationally feasible for very small models as its complexity grows exponentially. Exploiting the layerwise structure allows a faster exact calculation of $Z$ such that the computation time does not grow exponentially with the number of all nodes but only grows exponentially with the number of elements in a subset of the nodes. That means, the complexity is still $\mathcal{O}(2^n)$, but with an $n$ smaller than the number of nodes.
@@ -237,6 +252,7 @@ The weights of the first model are depicted as continuous lines, the weights of 
 \end{figure}
 The second approach is more flexible and allows to estimate the ratios of two arbitrary Boltzmann machines of the same type and with the same number of hidden nodes. But it requires sampling in a Boltzmann machine that has as many hidden nodes as the two models together.
 Both approaches can be used to estimate the partition function of a single Boltzmann machine by estimating the ratio of the model's partition function to the partition function of a base rate model with known partition function.
+% TODO verweis, was im package benutzt wird.
 
 
 \paragraph{Calculating or estimating likelihoods} %TODO verbessern
@@ -309,12 +325,7 @@ Here we want to broaden the scope a little bit and present an extensible approac
 Those architectures are not only useful for putting data of different types in one model but also in cases where a natural partitioning of the data can be derived from domain knowledge. With partitioning one can greatly reduce the number of parameters in the model. This allows training models on data sets where the sample size would otherwise be too small to fit a full model.
 Hess et al. showed that partitioned training on genetic data is successful \citep{hess2017partitioned}.
 
-A special challenge for unsupervised learning on non-image data is the lack of performance indicators.
-In supervised training, the classification accuracy is the natural evaluation criterion, which is also easy to implement.
-In unsupervised training with a well investigated class of data such as images, there is already much experience available for choosing the model architecture and the hyperparameters. If models are to be trained on very diverse data, the problem of finding good hyperparameters is exacerbated as for each data set the challenge of tuning can pose a different challenge.
 
-Thus the need for having an objective evaluation criterion as a basis for choosing the hyperparameters and monitoring the training becomes very important.
-In case of images or natural language, the generative abilities of a model can be tested by simply looking at the generated images or sentences to see whether these are proper samples. In the case of data from a patient record or genetic data, this approach is not feasible. As the best indicator for successful learning,which is applicable in all cases of data, remains the model likelihood. In most cases, the likelihood cannot be calculated exactly but it can only be estimated by stochastic algorithms like annealed importance sampling (AIS). So we also want to detail the extension of AIS on multimodal deep Boltzmann machines in this article.
 
 For the implementation we chose the Julia language \citep{bezanson2017julia}. % TODO elaborate or remove
 
@@ -438,6 +449,7 @@ This trick can be used to fit AIS for GBRBMs in the same schema as RBMs with Ber
 
 The hyperparameters for layerwise pre-training can be defined for the whole network or for each layer separately. %TODO Trainlayer, AbstractTrainLayer.
 
+TODO reconstruction error
 TODO cross validation
 
 \section{Discussion}
