@@ -114,10 +114,12 @@ The bias variables are usually not depicted in graph views of neural networks, b
 
 
 Employing the sigmoid function $\sigm(x) = \frac{1}{1+ e^{-x}}$, the resulting conditional distributions can be written as 
-\[
+\begin{equation}
 p(v_i | h) = \sigm ((a + W h)_i)
  \quad \text{and}\quad 
-p(h_i | v) = \sigm ((b + W^T v)_i).\]
+p(h_i | v) = \sigm ((b + W^T v)_i).
+\label{eqn:condprobrbm}
+\end{equation}
 
 The free energy is
 \begin{equation}
@@ -126,7 +128,7 @@ F(v) = - a^T v - \sum_{j=1}^{n_H} \log \left (1 + e^{(W^T v + b)_j}\right).
 \end{equation}
 
 The trick for deriving the formula of the free energy is to ``analytically sum out" the hidden units \citep{sala2012anefficient}.
-The master thesis of \cite{krizhevsky2009tinyimagesthesis} is a very good resource for looking up the complete derivations of these formulas. This holds not only for the theory of RBMs with Bernoulli distributed nodes but also in particular for RBMs with Gaussian distributed visible nodes, which are presented here in the next paragraph.
+The master thesis of \cite{krizhevsky2009tinyimagesthesis} is a very good resource for looking up the complete derivations of these formulas. This holds not only for the theory of RBMs with Bernoulli distributed nodes but also in particular for RBMs with Gaussian distributed visible nodes, which are presented in the next paragraph.
 
 \paragraph{Gaussian distributed visible nodes for continuous data}
 One way of modeling continuous values for $v$ are restricted Boltzmann machines with Gaussian distribution of the visible variables and Bernoulli distributed hidden variables. The energy of the model is defined as
@@ -153,7 +155,9 @@ The conditional distribution of the hidden nodes is $p(h_j | v) = \sigm \left (b
 % TODO alternative: use continuous as Gaussian hard.
 
 \paragraph{Categorical data}
-For prediction models, categorical data is usually encoded in so-called ``one hot encoding".
+For most applications using prediction models, categorical data is usually encoded in so-called ``one hot encoding".
+As this data is also binary data, it would be possible to use it as input to a restricted or deep Boltzmann machine with Bernoulli distributed visible units as well.
+But when sampling from such a Boltzmann machine model, the resulting data would not be one-hot encoded in general any more because all combinations of visible nodes have a positive probability. This can be seen from the formula of the conditional probability (\ref{eqn:condprobrbm}) and the fact that the values of the sigmoid function are strictly positive.
 
 \paragraph{Deep Boltzmann machines}
 
@@ -420,7 +424,8 @@ In a \inlinecode{MultimodalDBM}, we use the fact that the states in one layer ar
 For generalizing the implementation of AIS on multimodal deep Boltzmann machines, additional to summing out intermediate Bernoulli distributed layers or the top layer, it then is sufficient to provide the function for calculating $p^*(h)$ for each type of RBM that is usable as bottom RBM in a \inlinecode{MultimodalDBM}.
 
 Due to the symmetry of hidden and visible nodes in a RBM with only Bernoulli distributed nodes, $p^*(h)$ can be derived analogously to the free energy $F(v) = - \log p^*(v)$ in this case.
-The unnormalized probability of the hidden nodes in a \inlinecode{GaussianBernoulliRBM} (original parameterization) can be derived as
+Since I have not found this formula in the literature, I derive it here in detail.
+The unnormalized probability of the hidden nodes in a \inlinecode{GaussianBernoulliRBM} (original parameterization) can be calculated as
 
 \begin{align*}
    p^*(h) &= \int e^{-E \left(v,h \right)} dv \\
@@ -436,9 +441,15 @@ The unnormalized probability of the hidden nodes in a \inlinecode{GaussianBernou
 \end{align*}
 
 For the \inlinecode{GaussianBernoulliRBM2} (with Cho's alternative parameterization), the unnormalized probability calculates analogously as
-\[
-   p^*(h) = \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{\frac{1}{2}(Wh)_i^2 + (Wh)_i a_i}{\sigma_i^2} \right ) \prod_{i=1}^{n_V}\left(\sqrt{2\pi} \sigma_i\right).
-\]
+\begin{align*}
+   p^*(h) &= \int e^{-E \left(v,h \right)} dv \\
+   &= \int \exp \left( - \sum_{i=1}^{n_V} \frac{(v_i - a_i)^2}{2\sigma_i^2} + \sum_{i=1}^{n_V} \sum_{j=1}^{n_H} h_j w_{ij} \frac{v_i}{\sigma_i^2} - \sum_{i=1}^{n_H} b_j h_j \right) dv \\
+   &= e^{b^T h} \int \exp\left( - \sum_{i=1}^{n_V} \frac{(v_i - a_i)^2 - 2 v_i (Wh)_i}{2 \sigma_i^2} \right) dv \\
+   &= e^{b^T h} \int \exp \left( - \sum_{i=1}^{n_V} \frac{\left((v_i - ((Wh)_i + a_i) \right)^2}{2 \sigma_i^2}  + \sum_{i=1}^{n_V} \frac{(Wh)_i^2 + 2 a_i (Wh)_i}{2\sigma_i^2} \right) dv\\
+   &= \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{(Wh)_i^2 + 2 a_i (Wh)_i}{2\sigma_i^2} \right) \cdot \\
+   & \quad \quad \int \exp \left(- \sum_{i=1}^{n_V} \frac{\left((v_i - ((Wh)_i + a_i) \right)^2}{2 \sigma_i^2} \right) dv\\
+   &= \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{\frac{1}{2}(Wh)_i^2 + (Wh)_i a_i}{\sigma_i^2} \right ) \prod_{i=1}^{n_V}\left(\sqrt{2\pi} \sigma_i \right).
+\end{align*}
 
 Note that the model for Gibbs sampling, used as the Markov transition operator, can differ from the model that is used to evaluate the unnormalized probability $p_k^*(h)$ as long as the probability distribution $p_k(h)$ of the hidden nodes is the same.
 This trick can be used to fit AIS for GBRBMs in the same schema as RBMs with Bernoulli distributed nodes.
