@@ -52,6 +52,13 @@ Additionally to likelihood estimation, this package offers convenience methods t
 \end{abstract}
 
 \section{Introduction}
+
+
+TODO not really the introduction: Multimodal DBMs have been used by Srivastava et al. for image captions \citep{srivastava2012multimodal}.
+Here we want to broaden the scope a little bit and present an extensible approach for creating deep Boltzmann architectures with different types of visible units and flexible partitioned hidden layers. Training of such architectures ....
+Those architectures are not only useful for putting data of different types in one model but also in cases where a natural partitioning of the data can be derived from domain knowledge. With partitioning one can greatly reduce the number of parameters in the model. This allows training models on data sets where the sample size would otherwise be too small to fit a full model.
+Hess et al. showed that partitioned training on genetic data is successful \citep{hess2017partitioned}.
+
 \section{Methods}
 \subsection{Deep Boltzmann machines}
 
@@ -61,9 +68,10 @@ The following paragraphs give a brief overview of the mathematical definitions s
 \subsubsection{Basic properties of Boltzmann machines}\label{basicbmproperties}
 
 A Boltzmann machine model with parameters $\Theta$ defines a probability distribution $p(x)$ for a random variable $x = (v, h)$ in a probability space $\Omega$ via an energy function $E(v, h; \Theta)$:
-\[
+\begin{equation}
    p(x) = p(v, h) = \frac{e^{-E(v,h)}}{Z}.
-\]
+   \label{eqn:probbm}
+\end{equation}
 The normalizing factor $Z$, the so called \emph{partition function}, is defined as $Z = \int_{\Omega} e^{-E(x)} dx$. In case of a discrete probability distribution, this can be written as $Z = \sum_{v,h}e^{-E(v,h)}$ where the sum goes over all possible combinations of $v$ and $h$.
 The term in the denominator $p^*(v,h) = e^{-E(v,h)}$ is called \emph{unnormalized probability}.
 The probability space is divided into dimensions of observed variables (subsumed in vector $v$) and hidden/latent variables (in $h$), corresponding to visible and hidden nodes in the graphical representation, see figure \ref{fig:bmsoverview}.
@@ -146,9 +154,10 @@ The free energy is
 \citep{krizhevsky2009tinyimages}.
 
 Cho et al. \citep{cho2011improved} proposed a different parameterization for the energy function:
-\[
+\begin{equation}
    E(v,h) = \sum_{i=1}^{n_V}\frac{(v_i - a_i)^2}{2\sigma_i^2} - b^T h - \sum_{i=1}^{n_V} \frac{(Wh)_i}{\sigma_i^2}
-\]
+   \label{eqn:energyformulagbrbm2}
+\end{equation}
 In this model the distribution of the visible nodes is the multimodal normal distribution $\mathcal{N}(a + Wh, \sigma^2)$.
 The conditional distribution of the hidden nodes is $p(h_j | v) = \sigm \left (b_j + \sum_{i=1}^{n_V} w_{ij} \frac{v_i}{\sigma_i^2} \right )$.
 
@@ -210,9 +219,9 @@ In unsupervised training with a well investigated class of data such as images, 
 Thus the need for having an objective evaluation criterion as a basis for choosing the hyperparameters and monitoring the training becomes very important.
 In case of images or natural language, the generative abilities of a model can be tested by simply looking at the generated images or sentences to see whether these are proper samples. In the case of data from a patient record or genetic data, this approach is not feasible.
 
-One indicator for successful learning in Boltzmann machines, which is applicable in all cases of data, remains the model likelihood. 
-% TODO likelihood calculation requires the partition function
-%In most cases, the likelihood cannot be calculated exactly but it can only be estimated by stochastic algorithms like annealed importance sampling (AIS). So we also want to detail the extension of AIS on multimodal deep Boltzmann machines in this article.
+If there are no other evaluation criteria, one indicator for successful learning in Boltzmann machines remains the model likelihood, which is an inherent property of the model and is therefore applicable in all cases of data. The difficulty for calculating the likelihood is its dependency on the partition function (see formula (\ref{eqn:probbm}).
+In most cases, the likelihood cannot be calculated exactly but it can only be estimated by stochastic algorithms like annealed importance sampling (AIS). 
+% So we also want to detail the extension of AIS on multimodal deep Boltzmann machines in this article.
 
 \paragraph{Exact calculation of the partition function}
 \label{methodExactloglik}
@@ -258,90 +267,88 @@ The second approach is more flexible and allows to estimate the ratios of two ar
 Both approaches can be used to estimate the partition function of a single Boltzmann machine by estimating the ratio of the model's partition function to the partition function of a base rate model with known partition function.
 % TODO verweis, was im package benutzt wird.
 
+TODO deep Boltzmann machine AIS beschreiben
 
-\paragraph{Calculating or estimating likelihoods} %TODO verbessern
+Like described by Salakhutdinov et al. \citep{salakhutdinov2008learning}, we use only the states of each second layer from samples generated by running a Gibbs chain. The unnormalized probabilities of these states can be calculated by analytically summing out the other layers.
+In a \inlinecode{MultimodalDBM}, we use the fact that the states in one layer are independent from the states of each non-adjacent layer to get $p^*(\tilde{x}) = p^*(h^{(1)}) \cdot p^*(h^{(3)}) \cdot \dots $ as unnormalized probability for the subset $\tilde{x} = (h^{(1)}, h^{(3)}, \dots)$ of a generated sample $x = (v, h^{(1)}, h^{(2)}, \dots)$.
+For generalizing the implementation of AIS on multimodal deep Boltzmann machines, additional to summing out intermediate Bernoulli distributed layers or the top layer, it then is sufficient to provide the function for calculating $p^*(h)$ for each type of RBM that is usable as bottom RBM in a \inlinecode{MultimodalDBM}.
+
+Due to the symmetry of hidden and visible nodes in a RBM with only Bernoulli distributed nodes, $p^*(h)$ can be derived analogously to the free energy $F(v) = - \log p^*(v)$ in this case.
+Since I have not found these formula in the literature, I derive it here in detail for the RBMs with Gaussian visible nodes.
+The unnormalized probability of the hidden nodes in a Gaussian RBM with original parameterization (see formula (\ref{eqn:energyformulagbrbm}) can be calculated as
+
+\begin{align*}
+   p^*(h) &= \int e^{-E \left(v,h \right)} dv \\
+   &= \int \exp \left( -\sum_{i=1}^{n_V}\frac{(v_i - a_i)^2}{2\sigma_i^2} + b^T h + \sum_{i=1}^{n_V} \sum_{j=1}^{n_H} \frac{v_i}{\sigma_i}h_j w_{ij} \right) dv\\
+   &= e^{b^T h} \int \exp \left( \frac{v_i^2 -2 a_i v_i + a_i^2 - 2 v_i (Wh)_i \sigma_i}{2 \sigma_i^2} \right) dv \\
+   &= e^{b^T h} \int \exp \left(
+      - \sum_{i=1}^{n_V} \frac{{\left( v_i - \left( (Wh)_i \sigma_i + a_i \right) \right)}^2}{2\sigma_i^2} + \frac{1}{2}(Wh)_i^2 + (Wh)_i \frac{a_i}{\sigma_i} \right ) dv \\
+   \begin{split}
+      &= \exp \left(b^T h + \sum_{i=1}^{n_V} \frac{1}{2}(Wh)_i^2 + (Wh)_i \frac{a_i}{\sigma_i} \right ) \cdot \\
+      & \quad \quad \int \exp \left ( - \sum_{i=1}^{n_V} \frac{{\left( v_i - ((Wh)_i \sigma_i + a_i) \right)}^2}{2\sigma_i^2} \right) dv
+   \end{split} \\
+   & = \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{1}{2}(Wh)_i^2 + (Wh)_i \frac{a_i}{\sigma_i} \right ) \prod_{i=1}^{n_V}\left(\sqrt{2\pi} \sigma_i\right). \\
+\end{align*}
+
+For  Cho's alternative parameterization (see formula (\ref{eqn:energyformulagbrbm2})), the unnormalized probability calculates analogously as
+\begin{align*}
+   p^*(h) &= \int e^{-E \left(v,h \right)} dv \\
+   &= \int \exp \left( - \sum_{i=1}^{n_V} \frac{(v_i - a_i)^2}{2\sigma_i^2} + \sum_{i=1}^{n_V} \sum_{j=1}^{n_H} h_j w_{ij} \frac{v_i}{\sigma_i^2} - \sum_{i=1}^{n_H} b_j h_j \right) dv \\
+   &= e^{b^T h} \int \exp\left( - \sum_{i=1}^{n_V} \frac{(v_i - a_i)^2 - 2 v_i (Wh)_i}{2 \sigma_i^2} \right) dv \\
+   &= e^{b^T h} \int \exp \left( - \sum_{i=1}^{n_V} \frac{\left((v_i - ((Wh)_i + a_i) \right)^2}{2 \sigma_i^2}  + \sum_{i=1}^{n_V} \frac{(Wh)_i^2 + 2 a_i (Wh)_i}{2\sigma_i^2} \right) dv\\
+   &= \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{(Wh)_i^2 + 2 a_i (Wh)_i}{2\sigma_i^2} \right) \cdot \\
+   & \quad \quad \int \exp \left(- \sum_{i=1}^{n_V} \frac{\left((v_i - ((Wh)_i + a_i) \right)^2}{2 \sigma_i^2} \right) dv\\
+   &= \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{\frac{1}{2}(Wh)_i^2 + (Wh)_i a_i}{\sigma_i^2} \right ) \prod_{i=1}^{n_V}\left(\sqrt{2\pi} \sigma_i \right).
+\end{align*}
+
+Note that the model for Gibbs sampling, used as the Markov transition operator, can differ from the model that is used to evaluate the unnormalized probability $p_k^*(h)$ as long as the probability distribution $p_k(h)$ of the hidden nodes is the same.
+This trick can be used to fit AIS for GBRBMs in the same schema as RBMs with Bernoulli distributed nodes.
+
+
+\paragraph{Calculating or estimating likelihoods in deep Boltzmann machines} %TODO verbessern
 For a restricted Boltzmann machine, the likelihood can be calculated using formula (\ref{eqn:pRBMfreeenergy}) if the partition function is known. This is not so easily possible in a DBM, for which calculating the distribution of the hidden nodes is of exponential complexity.
 Estimating the likelihood of DBMs is possible using AIS by constructing a smaller DBM for each sample and estimating its partition function.
 The smaller DBM is constructed by removing the visible layer, and incorporating contribution of the sample to the energy of the first RBM - consisting only of visible and first hidden layer - into the bias of the new visible layer which was the first hidden layer of the original model.
 The partition function of this smaller model is then the unnormalized probability of the sample in the original model.
 In a setting with very large sample size, the cost of estimating the actual likelihood with this procedure is too expensive. But if the sample size is small enough, it is affordable to estimate the likelihood and not fall back on the lower bound.
 
+\paragraph{Alternatives to the likelihood}
+TODO reconstruction error, free energy for monitoring overfitting
+
 \subsection{General methods for implementing deep learning}
 TODO
 
-\subsection{Distributed privacy-preserving analyses with DataSHIELD}
-\begin{figure}[h]
-   \centering
-   \includegraphics[scale=0.5]{images/dsBoltzmannMachinesOverview.pdf}
-   \caption{Overview of dependencies between the developed packages}
- \end{figure}
- 
- 
-\begin{figure}[h]
-   \centering
-   \includegraphics[scale=0.4,trim={0.1cm 0 0 0.1cm},clip]{images/dsBoltzmannLearningcurves.png}
-   \caption{Examples for learning curves produced by the package \apkg{BoltzmannMachinesPlots}. This shows learning curves for the training of a DBM with three layers. The plots showing the mean reconstruction error are the result of monitoring the greedy layerwise pre-training. The plot showing the lower bound of the log probability comes is the monitoring output of the fine-tuning of the DBM. There are two curves in each plot, one for the training data and one for the test data.}
- \end{figure}
 
-\begin{figure}[h]
-   \centering
-   \includegraphics[scale=0.5]{images/dsBoltzmannWorkflow.pdf}
-   \caption{Exemplary workflow for using the \apkg{dsBoltzmannMachines} package}
- \end{figure}
 
 %TODO Bild PCA Plot
 % TODO Workflow with monitored training
-
+\clearpage
 \section{Results}
 \subsection{Implementation of deep learning with Boltzmann machines}
-% TODO softmax0
-\subsection{Connecting R and Julia with the JuliaConnectoR}
-
-\begin{table}
-\begin{tabular}{lcl}
-\input{includes/ebnftable.tex}
-\end{tabular}
-\caption{Serialization grammar for the \apkg{JuliaConnectoR}}
-\end{table}
-EBNF syntax for \citep{ebnf}
-The grammar is inspired by BSON \citep{bsonspec}.
-
-%* A string is preceded by the number of bytes to UTF-8-encode the string.
-%* The sequence of unnamed/positional elements in a list is preceded by
-%  the number of (named) elements that follow.
-%* Standard output (after '0x50') or standard error output (after '0x5e')
-%  is preceded by the number of bytes that are sent.
-
-
-\subsection{Privacy-preserving deep learning with DataSHIELD}
-
-
-\section{Discussion}
 
 
 
+\subsubsection{Choice of technology}
+TODO expand For the implementation we chose the Julia language \citep{bezanson2017julia}. 
 
-\section{Alt}
+For large datasets such as image collections from the internet, optimizing the execution speed is essential.
+Popular libraries like TensorFlow \citep{abadi2016tensorflow}, MXNet \citep{mxnet} and PyTorch \citep{pytorch} work with abstraction of the computations on tensors (multidimensional matrices) with so called computational graphs.
+This way the computations can be performed on the CPU as well as on the GPU.
+The high parallelization in GPUs can bring far greater performance while at the same time it requires a high sophistication of the code to fully exploit the advantages of GPUs and port the algorithms to their SIMD (single instruction multiple data) architecture.
+In order to work with the abstraction, users must learn this new programming style. Extending and modifying the algorithm and is comparatively hard, especially while trying to maintain the speed benefits of the frameworks.
+In contrast to that, we used plain Julia code because we wanted to have an easy access to the code to be able to tailor the algorithms to our needs and experiment with modifications.
+Optimizing code by using parallel execution is also possible with the Julia language although, of course, not on the same level.
+Since the multiplication of large matrices is already threaded by the linear algebra library called by Julia,
+the easiest reduction of execution time can be achieved by reusing allocated space as much as possible.
+With the function \inlinecode{mul!} instead of the normal matrix multiplication operator (\inlinecode{*}), it is possible to perform matrix multiplication in-place, without allocating space for the result. Avoiding the costs of memory allocations and garbage collection this way greatly increased the speed in many parts of the code.
+In the current version of Julia, explicit control over multi-threading is still an experimental feature and the main way to parallelize is by starting processes.
+Sharing memory between processes is more difficult than sharing memory between threads. Also starting processes is more expensive than starting threads.
+But with matured multi-threading in Julia, these problems could be solved in the future and e. g. computations on different layers of a deep Boltzmann machine could be done in parallel threads without making the code much more complex.
 
-\section{Introduction}
-Multimodal DBMs have been used by Srivastava et al. for image captions \citep{srivastava2012multimodal}.
-Here we want to broaden the scope a little bit and present an extensible approach for creating deep Boltzmann architectures with different types of visible units and flexible partitioned hidden layers. Training of such architectures ....
-Those architectures are not only useful for putting data of different types in one model but also in cases where a natural partitioning of the data can be derived from domain knowledge. With partitioning one can greatly reduce the number of parameters in the model. This allows training models on data sets where the sample size would otherwise be too small to fit a full model.
-Hess et al. showed that partitioned training on genetic data is successful \citep{hess2017partitioned}.
+% TODO GPU Computing
 
-
-
-For the implementation we chose the Julia language \citep{bezanson2017julia}. % TODO elaborate or remove
-
-
-
-\subsection{Example}
-
-TODO describe example data set.
-
-The following lines of code shows how a multimodal deep Boltzmann machine is trained.
-
-\subsection{Modelling}
+% TODO for our purposes, the speed was sufficient, especially for smaller models not relevant.
+\subsubsection{Modelling}
 
 In our implementation multimodal deep Boltzmann machines, corresponding to the type \inlinecode{MultimodalDBM}, are constructed using restricted Boltzmann machines as building blocks (see figure \ref{mdbmimplasstack}). For each of the models of Boltzmann machines, it is possible to generate samples by using Gibbs sampling. For efficiently evaluating very small models, the likelihood and the partition function can be calculated exactly. This is also useful to test AIS by comparing the values estimated in small models to the exact ones.
 
@@ -410,87 +417,66 @@ In our implementation multimodal deep Boltzmann machines, corresponding to the t
 \label{juliaFunTableEval}
 \end{table}
 
-\FloatBarrier
-\subsection{Training algorithm and choices of hyperparameters}
+\subsubsection{Training algorithm and choices of hyperparameters}
 
 TODO minibatch - nicht nur für performance
 
 TODO GaussianRBMs
 
-\subsection{Implementation of annealed importance sampling}
+\subsubsection{Implementation of annealed importance sampling}
 
-Like described by Salakhutdinov et al. \citep{salakhutdinov2008learning}, we use only the states of each second layer from samples generated by running a Gibbs chain. The unnormalized probabilities of these states can be calculated by analytically summing out the other layers.
-In a \inlinecode{MultimodalDBM}, we use the fact that the states in one layer are independent from the states of each non-adjacent layer to get $p^*(\tilde{x}) = p^*(h^{(1)}) \cdot p^*(h^{(3)}) \cdot \dots $ as unnormalized probability for the subset $\tilde{x} = (h^{(1)}, h^{(3)}, \dots)$ of a generated sample $x = (v, h^{(1)}, h^{(2)}, \dots)$.
-For generalizing the implementation of AIS on multimodal deep Boltzmann machines, additional to summing out intermediate Bernoulli distributed layers or the top layer, it then is sufficient to provide the function for calculating $p^*(h)$ for each type of RBM that is usable as bottom RBM in a \inlinecode{MultimodalDBM}.
-
-Due to the symmetry of hidden and visible nodes in a RBM with only Bernoulli distributed nodes, $p^*(h)$ can be derived analogously to the free energy $F(v) = - \log p^*(v)$ in this case.
-Since I have not found this formula in the literature, I derive it here in detail.
-The unnormalized probability of the hidden nodes in a \inlinecode{GaussianBernoulliRBM} (original parameterization) can be calculated as
-
-\begin{align*}
-   p^*(h) &= \int e^{-E \left(v,h \right)} dv \\
-   &= \int \exp \left( -\sum_{i=1}^{n_V}\frac{(v_i - a_i)^2}{2\sigma_i^2} + b^T h + \sum_{i=1}^{n_V} \sum_{j=1}^{n_H} \frac{v_i}{\sigma_i}h_j w_{ij} \right) dv\\
-   &= e^{b^T h} \int \exp \left( \frac{v_i^2 -2 a_i v_i + a_i^2 - 2 v_i (Wh)_i \sigma_i}{2 \sigma_i^2} \right) dv \\
-   &= e^{b^T h} \int \exp \left(
-      - \sum_{i=1}^{n_V} \frac{{\left( v_i - \left( (Wh)_i \sigma_i + a_i \right) \right)}^2}{2\sigma_i^2} + \frac{1}{2}(Wh)_i^2 + (Wh)_i \frac{a_i}{\sigma_i} \right ) dv \\
-   \begin{split}
-      &= \exp \left(b^T h + \sum_{i=1}^{n_V} \frac{1}{2}(Wh)_i^2 + (Wh)_i \frac{a_i}{\sigma_i} \right ) \cdot \\
-      & \quad \quad \int \exp \left ( - \sum_{i=1}^{n_V} \frac{{\left( v_i - ((Wh)_i \sigma_i + a_i) \right)}^2}{2\sigma_i^2} \right) dv
-   \end{split} \\
-   & = \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{1}{2}(Wh)_i^2 + (Wh)_i \frac{a_i}{\sigma_i} \right ) \prod_{i=1}^{n_V}\left(\sqrt{2\pi} \sigma_i\right). \\
-\end{align*}
-
-For the \inlinecode{GaussianBernoulliRBM2} (with Cho's alternative parameterization), the unnormalized probability calculates analogously as
-\begin{align*}
-   p^*(h) &= \int e^{-E \left(v,h \right)} dv \\
-   &= \int \exp \left( - \sum_{i=1}^{n_V} \frac{(v_i - a_i)^2}{2\sigma_i^2} + \sum_{i=1}^{n_V} \sum_{j=1}^{n_H} h_j w_{ij} \frac{v_i}{\sigma_i^2} - \sum_{i=1}^{n_H} b_j h_j \right) dv \\
-   &= e^{b^T h} \int \exp\left( - \sum_{i=1}^{n_V} \frac{(v_i - a_i)^2 - 2 v_i (Wh)_i}{2 \sigma_i^2} \right) dv \\
-   &= e^{b^T h} \int \exp \left( - \sum_{i=1}^{n_V} \frac{\left((v_i - ((Wh)_i + a_i) \right)^2}{2 \sigma_i^2}  + \sum_{i=1}^{n_V} \frac{(Wh)_i^2 + 2 a_i (Wh)_i}{2\sigma_i^2} \right) dv\\
-   &= \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{(Wh)_i^2 + 2 a_i (Wh)_i}{2\sigma_i^2} \right) \cdot \\
-   & \quad \quad \int \exp \left(- \sum_{i=1}^{n_V} \frac{\left((v_i - ((Wh)_i + a_i) \right)^2}{2 \sigma_i^2} \right) dv\\
-   &= \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{\frac{1}{2}(Wh)_i^2 + (Wh)_i a_i}{\sigma_i^2} \right ) \prod_{i=1}^{n_V}\left(\sqrt{2\pi} \sigma_i \right).
-\end{align*}
-
-Note that the model for Gibbs sampling, used as the Markov transition operator, can differ from the model that is used to evaluate the unnormalized probability $p_k^*(h)$ as long as the probability distribution $p_k(h)$ of the hidden nodes is the same.
-This trick can be used to fit AIS for GBRBMs in the same schema as RBMs with Bernoulli distributed nodes.
-
-
-\subsection{Monitoring: Evaluation during the training process}
-
-
-The hyperparameters for layerwise pre-training can be defined for the whole network or for each layer separately. %TODO Trainlayer, AbstractTrainLayer.
 
 TODO reconstruction error
 TODO cross validation
 
-\section{Discussion}
+The hyperparameters for layerwise pre-training can be defined for the whole network or for each layer separately. TODO Trainlayer, AbstractTrainLayer.
+% TODO softmax0
+\subsection{Connecting R and Julia with the JuliaConnectoR}
 
+\begin{table}
+\begin{tabular}{lcl}
+\input{includes/ebnftable.tex}
+\end{tabular}
+\caption{Serialization grammar for the \apkg{JuliaConnectoR}}
+\end{table}
+EBNF syntax for \citep{ebnf}
+The grammar is inspired by BSON \citep{bsonspec}.
+
+%* A string is preceded by the number of bytes to UTF-8-encode the string.
+%* The sequence of unnamed/positional elements in a list is preceded by
+%  the number of (named) elements that follow.
+%* Standard output (after '0x50') or standard error output (after '0x5e')
+%  is preceded by the number of bytes that are sent.
+
+
+\subsection{Privacy-preserving deep learning with DataSHIELD}
+\begin{figure}[h]
+   \centering
+   \includegraphics[scale=0.5]{images/dsBoltzmannMachinesOverview.pdf}
+   \caption{Overview of dependencies between the developed packages}
+ \end{figure}
+ 
+ 
+\begin{figure}[h]
+   \centering
+   \includegraphics[scale=0.4,trim={0.1cm 0 0 0.1cm},clip]{images/dsBoltzmannLearningcurves.png}
+   \caption{Examples for learning curves produced by the package \apkg{BoltzmannMachinesPlots}. This shows learning curves for the training of a DBM with three layers. The plots showing the mean reconstruction error are the result of monitoring the greedy layerwise pre-training. The plot showing the lower bound of the log probability comes is the monitoring output of the fine-tuning of the DBM. There are two curves in each plot, one for the training data and one for the test data.}
+ \end{figure}
+
+\begin{figure}[h]
+   \centering
+   \includegraphics[scale=0.5]{images/dsBoltzmannWorkflow.pdf}
+   \caption{Exemplary workflow for using the \apkg{dsBoltzmannMachines} package}
+ \end{figure}
+
+\section{Discussion}
 \subsection{Comparison to other approaches for privacy-preserving deep learning}
 TODO
-
-\subsection{Choice of technology}
-For large datasets such as image collections from the internet, optimizing the execution speed is essential.
-Popular libraries like TensorFlow \citep{abadi2016tensorflow}, MXNet \citep{mxnet} and PyTorch \citep{pytorch} work with abstraction of the computations on tensors (multidimensional matrices) with so called computational graphs.
-This way the computations can be performed on the CPU as well as on the GPU.
-The high parallelization in GPUs can bring far greater performance while at the same time it requires a high sophistication of the code to fully exploit the advantages of GPUs and port the algorithms to their SIMD (single instruction multiple data) architecture.
-In order to work with the abstraction, users must learn this new programming style. Extending and modifying the algorithm and is comparatively hard, especially while trying to maintain the speed benefits of the frameworks.
-In contrast to that, we used plain Julia code because we wanted to have an easy access to the code to be able to tailor the algorithms to our needs and experiment with modifications.
-Optimizing code by using parallel execution is also possible with the Julia language although, of course, not on the same level.
-Since the multiplication of large matrices is already threaded by the linear algebra library called by Julia,
-the easiest reduction of execution time can be achieved by reusing allocated space as much as possible.
-With the function \inlinecode{mul!} instead of the normal matrix multiplication operator (\inlinecode{*}), it is possible to perform matrix multiplication in-place, without allocating space for the result. Avoiding the costs of memory allocations and garbage collection this way greatly increased the speed in many parts of the code.
-In the current version of Julia, explicit control over multi-threading is still an experimental feature and the main way to parallelize is by starting processes.
-Sharing memory between processes is more difficult than sharing memory between threads. Also starting processes is more expensive than starting threads.
-But with matured multi-threading in Julia, these problems could be solved in the future and e. g. computations on different layers of a deep Boltzmann machine could be done in parallel threads without making the code much more complex.
-
-% TODO GPU Computing
-
-% TODO for our purposes, the speed was sufficient, especially for smaller models not relevant.
-
 \subsection{Ideas for future work}
 % TODO supergenerator
 % TODO softmax
-%\bibentry{mxnet}
+
+
 
 \clearpage
 \appendix
