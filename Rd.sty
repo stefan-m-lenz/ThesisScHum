@@ -411,10 +411,12 @@
     {%\addcontentsline{toc}{subsection}{#1}
       \index{#1@\texttt{#1}|textbf}}
     \hrule
+	\vspace{1ex}  % wegen parskip im hauptdokument
     \parbox{0.95\textwidth}{%
       \begin{ldescription}[1.5in]
        \item[\texttt{#1}] \emph{#2}
       \end{ldescription}}
+	  \vspace{2ex} % wegen parskip im hauptdokument
     \hrule
   \end{center}
   \nopagebreak}
