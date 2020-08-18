@@ -1,0 +1,692 @@
+\HeaderA{ds.bm.defineLayer}{Parameters for training one RBM-layer in a DBM or DBN}{ds.bm.defineLayer}
+%
+\begin{Description}\relax
+The call stores the parameters for training one RBM-layer in a DBM or DBN
+on the server side in a Julia \code{TrainLayer} object.
+The parameters \code{rbmtype}, \code{nhidden}, \code{epochs},
+\code{learningrate}/\code{learningrates}, \code{categories},
+\code{batchsize}, \code{pcd}, \code{cdsteps}, \code{startrbm} and \code{monitoring}
+of this object are passed to \code{\LinkA{ds.monitored\_fitrbm}{ds.monitored.Rul.fitrbm}}.
+For a detailed description, see there.
+Values of \code{NULL} indicate that a corresponding default value should be used.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+ds.bm.defineLayer(datasources, newobj, epochs = NULL,
+  learningrate = NULL, learningrates = NULL, sdlearningrate = NULL,
+  sdlearningrates = NULL, categories = NULL, monitoring = NULL,
+  rbmtype = NULL, nhidden = NULL, nvisible = NULL,
+  batchsize = NULL, pcd = NULL, cdsteps = NULL, startrbm = NULL)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{datasources}] A list of Opal object(s) as a handle to the server-side session
+
+\item[\code{newobj}] The name of the server-side object where the parameters are stored
+
+\item[\code{nvisible}] Number of visible units in the RBM. Only relevant for partitioning.
+This parameter is derived as much as possible by \code{\LinkA{ds.monitored\_stackrbms}{ds.monitored.Rul.stackrbms}}.
+For multimodal DBMs with a partitioned first layer, it is necessary to specify
+the number of visible nodes for all but at most one partition in the input layer.
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{ds.bm.definePartitionedLayer}{Parameters for training a partitioned RBM-layer in a DBM or DBN}{ds.bm.definePartitionedLayer}
+%
+\begin{Description}\relax
+Creates an object at the server-side that encapsulates parameters for training
+a partitioned layer.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+ds.bm.definePartitionedLayer(datasources, newobj, parts)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{datasources}] A list of Opal object(s) as a handle to the server-side session
+
+\item[\code{newobj}] The name of the server-side object where the parameters are stored
+
+\item[\code{parts}] A vector with names for \code{TrainLayer} objects which have been created
+by \code{\LinkA{ds.bm.defineLayer}{ds.bm.defineLayer}} before.
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{ds.bm.exactloglikelihood}{Exact calculation of the log-likelihood for a Boltzmann machine}{ds.bm.exactloglikelihood}
+%
+\begin{Description}\relax
+Calculates the log-likelihood of a Boltzmann machine model.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+ds.bm.exactloglikelihood(datasources, bm, data = "D")
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{datasources}] A list of Opal object(s) as a handle to the server-side session
+
+\item[\code{bm}] The name of the Boltzmann machine model on the server-side.
+
+\item[\code{data}] The name of the variable that holds the data on the server-side.
+Defaults to \code{"D"}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+\emph{This is only feasible for very small models, as the runtime grows exponentially with
+the number of hidden nodes.}
+\end{Details}
+\inputencoding{utf8}
+\HeaderA{ds.bm.samples}{Generates samples from a Boltzmann machine model}{ds.bm.samples}
+%
+\begin{Description}\relax
+A Gibbs sampler is run in the Boltzmann machine model to sample from the learnt
+distribution. This can also be used for sampling from a
+\emph{conditional distribution}
+(see argument `conditionIndex` and `conditionValue` below.)
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+ds.bm.samples(datasources, bm, nsamples, burnin = NULL,
+  conditionIndex = NULL, conditionValue = NULL, samplelast = NULL)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{datasources}] A list of Opal object(s) as a handle to the server-side session
+
+\item[\code{bm}] The name of the model to sample from on the server-side
+
+\item[\code{nsamples}] Number of samples to generate
+
+\item[\code{burnin}] Number of Gibbs sampling steps, defaults to 50.
+
+\item[\code{conditionIndex}] A vector containing indices of variables that are to be conditioned on
+
+\item[\code{conditionValue}] A vector containing the values for the variables that are to be conditioned on.
+(must be of same length as \code{conditionIndex})
+
+\item[\code{samplelast}] boolean to indicate whether to sample in last step (\code{TRUE}, default)
+or whether to use the activation potential.
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{ds.dbm.exactloglikelihood}{Exact calculation of the log-likelihood for a DBM}{ds.dbm.exactloglikelihood}
+%
+\begin{Description}\relax
+Same as \code{\LinkA{ds.bm.exactloglikelihood}{ds.bm.exactloglikelihood}}, only with parameter \code{bm} changed to \code{dbm}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+ds.dbm.exactloglikelihood(datasources, dbm = "dbm", data = "D")
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{dbm}] The name of the model to sample from on the server-side. Defaults to \code{"dbm"}.
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{ds.dbm.loglikelihood}{Likelihood estimation for a DBM model}{ds.dbm.loglikelihood}
+%
+\begin{Description}\relax
+Performs a separate run of annealed importance sampling (AIS)
+for each of the samples to estimate the log-likelihood of a DBM in addition to
+estimating the partition function.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+ds.dbm.loglikelihood(datasources, dbm = "dbm", data = "D",
+  parallelized = NULL, ntemperatures = NULL, nparticles = NULL,
+  burnin = NULL)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{datasources}] A list of Opal object(s) as a handle to the server-side session
+
+\item[\code{dbm}] The name of the DBM model on the server-side. Defaults to \code{"dbm"}.
+
+\item[\code{data}] The name of the variable that holds the data on the server-side.
+Defaults to \code{"D"}.
+
+\item[\code{ntemperatures}] Number of temperatures for annealing from the starting model
+to the target model, defaults to 100
+
+\item[\code{nparticles}] Number of parallel chains and calculated weights in AIS, defaults to 100
+
+\item[\code{burnin}] Number of steps to sample for the Gibbs transition between models in AIS
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{ds.dbm.logproblowerbound}{Estimation of Variational lower bound of log probability for a DBM model}{ds.dbm.logproblowerbound}
+%
+\begin{Description}\relax
+Estimates the variational lower bound of the likelihood of a DBM using
+annealed importance sampling (AIS).
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+ds.dbm.logproblowerbound(datasources, dbm = "dbm", data = "D",
+  parallelized = NULL, ntemperatures = NULL, nparticles = NULL,
+  burnin = NULL)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{datasources}] A list of Opal object(s) as a handle to the server-side session
+
+\item[\code{data}] The name of the variable that holds the data on the server-side.
+Defaults to \code{"D"}.
+
+\item[\code{ntemperatures}] Number of temperatures for annealing from the starting model
+to the target model, defaults to 100
+
+\item[\code{nparticles}] Number of parallel chains and calculated weights in AIS, defaults to 100
+
+\item[\code{burnin}] Number of steps to sample for the Gibbs transition between models in AIS
+
+\item[\code{rbm}] The name of the DBM model on the server-side. Defaults to \code{"dbm"}.
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{ds.dbm.samples}{Generate samples from a deep Boltzmann machine}{ds.dbm.samples}
+%
+\begin{Description}\relax
+Same as \code{\LinkA{ds.bm.samples}{ds.bm.samples}}, only with parameter \code{bm} changed to \code{dbm}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+ds.dbm.samples(datasources, dbm = "dbm", ...)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{dbm}] The name of the model to sample from on the server-side. Defaults to \code{"dbm"}.
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{ds.dbm.top2LatentDims}{Two-dimensional representation of latent features}{ds.dbm.top2LatentDims}
+%
+\begin{Description}\relax
+Calculates the mean-field approximation of the activation of the top hidden nodes in
+the DBM. If there are more than two nodes in the top layer, the activation is further
+reduced in dimensionality using a PCA.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+ds.dbm.top2LatentDims(datasources, dbm = "dbm", data = "D")
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{datasources}] A list of Opal object(s) as a handle to the server-side session
+
+\item[\code{dbm}] The name of the DBM model on the server-side. Defaults to \code{"dbm"}.
+
+\item[\code{data}] The name of the variable that holds the data on the server-side.
+Defaults to \code{"D"}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+A matrix with two columns for each of the sites,
+containing the two-dimensional representation for
+each of the samples in the rows. The samples are shuffled at random.
+\end{Value}
+\inputencoding{utf8}
+\HeaderA{ds.monitored\_fitdbm}{Fits a (multimodal) DBM model}{ds.monitored.Rul.fitdbm}
+%
+\begin{Description}\relax
+The procedure for DBM fitting consists of two parts:
+First a stack of RBMs is pretrained in a greedy layerwise manner
+(see \code{\LinkA{ds.monitored\_stackrbms}{ds.monitored.Rul.stackrbms}}). Then the weights of all layers are jointly
+trained using the general Boltzmann Machine learning procedure.
+During pre-training and fine-tuning, monitoring data is collected by default.
+The monitoring data is returned to the user.
+The trained model is stored on the server side (see parameter \code{newobj}).
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+ds.monitored_fitdbm(datasources, newobj = "dbm", data = "D",
+  monitoring = "logproblowerbound", monitoringdata = data,
+  monitoringpretraining = "reconstructionerror",
+  monitoringdatapretraining = monitoringdata, nhiddens = NULL,
+  epochs = NULL, nparticles = NULL, learningrate = NULL,
+  learningrates = NULL, learningratepretraining = NULL,
+  epochspretraining = NULL, batchsizepretraining = NULL,
+  pretraining = NULL)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{datasources}] A list of Opal object(s) as a handle to the server-side session
+
+\item[\code{newobj}] The name for the variable, in which the trained DBM will be stored.
+Defaults to \code{"dbm"}
+
+\item[\code{data}] The name of the variable that holds the data on the server-side.
+Defaults to \code{"D"}.
+
+\item[\code{monitoring}] Name(s) for the monitoring options used for monitoring the fine-tuning.
+Possible options:
+\begin{itemize}
+
+\item \code{"logproblowerbound"}: Variational lower bound of log probability (Default)
+\item \code{"exactloglikelihood"}: Exact calculation of log-likelihood.
+This is only feasible for very small models.
+\item \code{NULL}: No monitoring
+
+\end{itemize}
+
+
+\item[\code{monitoringdata}] A vector of names for server-side data sets that are to be used for
+monitoring
+
+\item[\code{monitoringpretraining}] Name for monitoring options used for monitoring the pre-training.
+The options are the same as for
+training an RBM (see \code{\LinkA{ds.monitored\_fitrbm}{ds.monitored.Rul.fitrbm}}).
+By default, the reconstruction error is monitored.
+
+\item[\code{monitoringdatapretraining}] A vector of names for data sets that are to be used for
+monitoring the pretraining. By default, this is the same as the \code{monitoringdata}.
+
+\item[\code{nhiddens}] A vector that defines the number of nodes in the hidden layers of
+the DBM. The default value specifies two hidden layers with the same size
+as the visible layer.
+
+\item[\code{epochs}] Number of training epochs for fine-tuning, defaults to 10
+
+\item[\code{nparticles}] Number of particles used for sampling during fine-tuning of the
+DBM, defaults to 100
+
+\item[\code{learningrate}] Learning rate for joint training of layers (= fine-tuning)
+using the learning algorithm for a general Boltzmann Machine
+with mean-field approximation.
+The learning rate for fine tuning is by default decaying with the number of epochs,
+starting with the given value for the \code{learningrate}.
+By default, the learning rate decreases with the factor \eqn{11 / (10 + epoch)}{}.
+
+\item[\code{learningrates}] a vector of learning rates for each epoch of fine-tuning
+
+\item[\code{learningratepretraining}] Learning rate for pretraining,
+defaults to \code{learningrate}
+
+\item[\code{epochspretraining}] Number of training epochs for pretraining,
+defaults to \code{epochs}
+
+\item[\code{batchsizepretraining}] Batchsize for pretraining, defaults to 1
+
+\item[\code{pretraining}] The arguments for layerwise pretraining
+can be specified for each layer individually.
+This is done via a vector of names for objects that have previously been defined
+by \code{\LinkA{ds.bm.defineLayer}{ds.bm.defineLayer}} or \code{\LinkA{ds.bm.definePartitionedLayer}{ds.bm.definePartitionedLayer}}.
+(For a detailed description of the possible parameters,
+see the help there).
+If the number of training epochs and the learning rate are not specified
+explicitly for a layer, the values of \code{epochspretraining},
+\code{learningratepretraining} and \code{batchsizepretraining} are used.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+If the option \code{dsBoltzmannMachines.shareModels} is set to \code{TRUE}
+by an administratorat the server side, the models themselves are returned in addition.
+\end{Details}
+\inputencoding{utf8}
+\HeaderA{ds.monitored\_fitrbm}{Fit an RBM model}{ds.monitored.Rul.fitrbm}
+%
+\begin{Description}\relax
+Fits an RBM model using Stochastic Gradient Descent (SGD) on the \code{data}
+with Contrastive Divergence (CD).
+During the training, monitoring data is collected by default.
+The monitoring data is returned to the user.
+The trained model is stored on the server side (see parameter \code{newobj}).
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+ds.monitored_fitrbm(datasources, data = "D", newobj = "rbm",
+  monitoring = "reconstructionerror", monitoringdata = NULL,
+  nhidden = NULL, epochs = NULL, upfactor = NULL,
+  downfactor = NULL, learningrate = NULL, learningrates = NULL,
+  pcd = NULL, cdsteps = NULL, categories = NULL, batchsize = NULL,
+  rbmtype = NULL, startrbm = NULL)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{datasources}] A list of Opal object(s) as a handle to the server-side session
+
+\item[\code{data}] The name of the variable that holds the data on the server-side.
+Defaults to \code{"D"}.
+
+\item[\code{newobj}] The name for the variable, in which the trained RBM will be stored.
+Defaults to \code{"rbm"}
+
+\item[\code{monitoring}] Name for monitoring options used for RBM training.
+Possible options:
+\begin{itemize}
+
+\item \code{"reconstructionerror"}: Calculates the reconstruction error (Default)
+\item \code{"loglikelihood"}: Estimates the loglikelihood via annealed importance sampling (AIS)
+\item \code{"exactloglikelihood"}: Exact calculation of log-likelihood.
+This is only feasible for very small models.
+\item \code{NULL}: No monitoring
+
+\end{itemize}
+
+
+\item[\code{monitoringdata}] A vector of names for server-side data sets that are to be used for
+monitoring
+
+\item[\code{nhidden}] number of hidden units for the returned RBM
+
+\item[\code{epochs}] number of training epochs
+
+\item[\code{upfactor}] If this function is used e.g. for pretraining a part of
+a DBM, it is necessary to multiply the weights of the RBM with factors.
+
+\item[\code{downfactor}] If this function is used e.g. for pretraining a part of
+a DBM, it is necessary to multiply the weights of the RBM with factors.
+
+\item[\code{learningrate}] The learning rate for the weights and biases
+can be specified as single value, used throughout all epochs. Defaults to 0.005.
+
+\item[\code{learningrates}] The learning rate for the weights and biases
+can also be specified as a vector that contains a value for each epoch.
+
+\item[\code{pcd}] indicating whether Persistent Contrastive Divergence (PCD) is to
+be used (true, default) or simple CD that initializes the Gibbs Chain with
+the training sample (false)
+
+\item[\code{cdsteps}] number of Gibbs sampling steps for (persistent)
+contrastive divergence, defaults to 1
+
+\item[\code{categories}] only relevant if \code{rbmtype} is \code{"Softmax0BernoulliRBM"}.
+The number of categories, if all variables have the same number
+of categories, or as vector that contains the number of categories
+of the i'th categorical variable in the i'th entry.
+
+\item[\code{batchsize}] number of samples that are used for making one step in the
+stochastic gradient descent optimizer algorithm. Default is 1.
+
+\item[\code{rbmtype}] the type of the RBM that is to be trained
+This must be a subtype of \code{AbstractRBM} and defaults to \code{BernoulliRBM}.
+
+\item[\code{startrbm}] a name for an RBM object at the server side that
+is used as starting value for training.
+If this argument is specified, \code{nhidden} and \code{rbmtype} are ignored.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+If the option \code{dsBoltzmannMachines.shareModels} is set to \code{TRUE}
+by an administratorat the server side, the models themselves are returned in addition.
+\end{Details}
+\inputencoding{utf8}
+\HeaderA{ds.monitored\_stackrbms}{Train a stack of RBMs}{ds.monitored.Rul.stackrbms}
+%
+\begin{Description}\relax
+Performs greedy layerwise training for Deep Belief Networks or greedy layerwise
+pretraining for Deep Boltzmann Machines.
+During the training, monitoring data is collected by default.
+The monitoring data is returned to the user.
+The trained model is stored on the server side (see parameter \code{newobj}).
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+ds.monitored_stackrbms(datasources, data = "D", newobj = "rbmstack",
+  monitoring = "reconstructionerror", monitoringdata = NULL,
+  nhiddens = NULL, epochs = NULL, predbm = NULL,
+  samplehidden = NULL, learningrate = NULL, batchsize = NULL,
+  trainlayers = NULL)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{datasources}] A list of Opal object(s) as a handle to the server-side session
+
+\item[\code{data}] The name of the variable that holds the data on the server-side.
+Defaults to \code{"D"}.
+
+\item[\code{newobj}] The name for the variable, in which the trained RBM will be stored.
+Defaults to \code{"rbmstack"}
+
+\item[\code{monitoring}] Name for monitoring options used for RBM training.
+For possible options, see \code{\LinkA{ds.monitored\_fitrbm}{ds.monitored.Rul.fitrbm}}
+
+\item[\code{monitoringdata}] A vector of names for server-side data sets that are to be used for
+monitoring. The data is propagated forward through the
+network to monitor higher levels.
+
+\item[\code{nhiddens}] vector containing the number of nodes of the i'th hidden layer in
+the i'th entry
+
+\item[\code{epochs}] number of training epochs
+
+\item[\code{predbm}] logical value indicating that the greedy layerwise training is
+pre-training for a DBM.
+If its value is \code{FALSE} (default), a DBN is trained.
+
+\item[\code{samplehidden}] logical value indicating that consequent layers are to be trained
+with sampled values instead of the deterministic potential.
+Using the deterministic potential (\code{FALSE}) is the default.
+
+\item[\code{learningrate}] learningrate, default 0.005
+
+\item[\code{batchsize}] size of minibatches, defaults to 1
+
+\item[\code{trainlayers}] a vector of names for \code{TrainLayer} objects.
+With this argument it is possible
+to specify the training parameters for each layer/RBM individually.
+If the number of training epochs and the learning rate are not specified
+explicitly for a layer, the values of \code{epochs}, \code{learningrate}
+and \code{batchsize} are used.
+For more information see help of \code{\LinkA{ds.bm.defineLayer}{ds.bm.defineLayer}}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+If the option \code{dsBoltzmannMachines.shareModels} is set to \code{TRUE}
+by an administrator at the server side, the model itself is returned in addition.
+\end{Details}
+\inputencoding{utf8}
+\HeaderA{ds.monitored\_traindbm}{Fine-Tuning of a DBM}{ds.monitored.Rul.traindbm}
+%
+\begin{Description}\relax
+This functions performs monitored fine-tuning of a given DBM model.
+For the complete training, including the pre-training, see \code{\LinkA{ds.monitored\_fitdbm}{ds.monitored.Rul.fitdbm}}.
+During the training, monitoring data is collected by default.
+The monitoring data is returned to the user.
+The trained model is stored on the server side (see parameter \code{newobj}).
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+ds.monitored_traindbm(datasources, dbm = "dbm", newobj = "dbm",
+  data = "D", monitoring = "logproblowerbound",
+  monitoringdata = data, epochs = NULL, nparticles = NULL,
+  learningrate = NULL, learningrates = NULL)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{dbm}] The name of DBM model that is to be fine-tuned. Defaults to \code{"dbm"}.
+
+\item[\code{newobj}] The name of the variable to store the new DBM model.
+Defaults to \code{"dbm"}, such that the previous model is overwritten.
+
+\item[\code{monitoring}] Name for monitoring options used for DBM training.
+For possible options, see \code{\LinkA{ds.monitored\_fitdbm}{ds.monitored.Rul.fitdbm}}
+
+\item[\code{monitoringdata}] A vector of names of server-side data sets that are to be used for
+monitoring
+
+\item[\code{epochs}] Number of training epochs for fine-tuning, defaults to 10
+
+\item[\code{nparticles}] Number of particles used for sampling during fine-tuning of the
+DBM, defaults to 100
+
+\item[\code{learningrate}] Learning rate for fine-tuning,
+decaying by default decaying with the number of epochs,
+starting with the given value for the \code{learningrate}.
+By default, the learning rate decreases with the factor \eqn{11 / (10 + epoch)}{}.
+
+\item[\code{learningrates}] a vector of learning rates for each epoch of fine-tuning
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+If the option \code{dsBoltzmannMachines.shareModels} is set to \code{TRUE}
+by an administrator at the server side, the model itself is returned in addition.
+\end{Details}
+\inputencoding{utf8}
+\HeaderA{ds.rbm.exactloglikelihood}{Exact calculation of the log-likelihood for an RBM}{ds.rbm.exactloglikelihood}
+%
+\begin{Description}\relax
+Same as \code{\LinkA{ds.bm.exactloglikelihood}{ds.bm.exactloglikelihood}}, only with parameter \code{bm} changed to \code{rbm}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+ds.rbm.exactloglikelihood(datasources, rbm = "rbm", data = "D")
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{rbm}] The name of the model to sample from on the server-side. Defaults to \code{"rbm"}.
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{ds.rbm.loglikelihood}{Likelihood  estimation for an RBM model}{ds.rbm.loglikelihood}
+%
+\begin{Description}\relax
+Estimates the log-likelihood for an RBM model using annealed importance sampling (AIS)
+for estimating the partition function.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+ds.rbm.loglikelihood(datasources, rbm = "rbm", data = "D",
+  parallelized = NULL, ntemperatures = NULL, nparticles = NULL,
+  burnin = NULL)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{datasources}] A list of Opal object(s) as a handle to the server-side session
+
+\item[\code{rbm}] The name of the RBM model on the server. Defaults to \code{"rbm"}.
+
+\item[\code{data}] The name of the variable that holds the data on the server-side.
+Defaults to \code{"D"}.
+
+\item[\code{ntemperatures}] Number of temperatures for annealing from the starting model
+to the target model, defaults to 100
+
+\item[\code{nparticles}] Number of parallel chains and calculated weights in AIS, defaults to 100
+
+\item[\code{burnin}] Number of steps to sample for the Gibbs transition between models in AIS
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{ds.rbm.samples}{Generate samples from a restricted Boltzmann machine}{ds.rbm.samples}
+%
+\begin{Description}\relax
+Same as \code{\LinkA{ds.bm.samples}{ds.bm.samples}}, only with parameter \code{bm} changed to \code{rbm}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+ds.rbm.samples(datasources, rbm = "rbm", ...)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{rbm}] The name of the model to sample from on the server-side. Defaults to \code{"rbm"}.
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{ds.setJuliaSeed}{Set a random seed in Julia}{ds.setJuliaSeed}
+%
+\begin{Description}\relax
+Set a seed for the random generator in Julia.
+This makes calls to the non-deterministic algorithms in this package reproducible.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+ds.setJuliaSeed(datasources, seed)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{seed}] the seed to set
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{ds.splitdata}{Split samples of a data set}{ds.splitdata}
+%
+\begin{Description}\relax
+Splits a data set randomly into two data sets \eqn{x_1}{} and \eqn{x_2}{}, such that
+the fraction of samples in \eqn{x_2}{} is equal to (or as close as possible to) the
+given \code{ratio}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+ds.splitdata(datasources, data, ratio, newobj1, newobj2)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{datasources}] A list of Opal object(s) as a handle to the server-side session
+
+\item[\code{data}] The name of the variable that holds the data on the server-side. Defaults to \code{"D"}.
+
+\item[\code{ratio}] The ratio of samples
+
+\item[\code{newobj1}] Name for variable, where \eqn{x_1}{} is stored
+
+\item[\code{newobj2}] Name for variable, where \eqn{x_2}{} is stored
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Examples}
+\begin{ExampleCode}
+    ds.splitdata(o, "D", 0.1, "D.Train", "D.Test")
+\end{ExampleCode}
+\end{Examples}
