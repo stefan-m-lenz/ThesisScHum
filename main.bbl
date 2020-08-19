@@ -7,6 +7,13 @@ Abadi, M., Barham, P., Chen, J., Chen, Z., Davis, A., Dean, J., Devin, M.,
   2016\harvardyearright , Tensorflow: A system for large-scale machine
   learning., {\em in} `OSDI', Vol.~16, pp.~265--283.
 
+\harvarditem[Abadi et~al.]{Abadi, Isard \harvardand\ Murray}{2017}{tensorflow}
+Abadi, M., Isard, M. \harvardand\ Murray, D.~G.  \harvardyearleft
+  2017\harvardyearright , `A {Computational} {Model} for \pkg{TensorFlow}: {An}
+  {Introduction}', {\em Proceedings of the 1st ACM SIGPLAN International
+  Workshop on Machine Learning and Programming Languages} pp.~1--7.
+\newline\harvardurl{http://doi.acm.org/10.1145/3088525.3088527}
+
 \harvarditem{{Apache Software Foundation}}{n.d.}{mxnet}
 {Apache Software Foundation}  \harvardyearleft n.d.\harvardyearright , `Apache
   {MXNet}: A flexible and efficient library for deep learning',
@@ -82,6 +89,12 @@ Hinton, G.~E. \harvardand\ Salakhutdinov, R.~R.  \harvardyearleft
   {Neural} {Networks}', {\em Science} {\bf 313}(5786),~504--507.
 \newline\harvardurl{http://science.sciencemag.org/content/313/5786/504}
 
+\harvarditem{Innes}{2018}{flux}
+Innes, M.  \harvardyearleft 2018\harvardyearright , `\pkg{Flux}: {Elegant}
+  machine learning with \proglang{Julia}.', {\em Journal of Open Source
+  Software} {\bf 3}(25),~602.
+\newline\harvardurl{https://joss.theoj.org/papers/10.21105/joss.00602.pdf}
+
 \harvarditem{{ISO/IEC JTC 1/SC 22}}{1996}{ebnf}
 {ISO/IEC JTC 1/SC 22}  \harvardyearleft 1996\harvardyearright , `Information
   technology - {Syntactic} metalanguage - {Extended} {BNF}', {\em ISO/IEC
@@ -101,6 +114,16 @@ Krizhevsky, A. \harvardand\ Hinton, G.  \harvardyearleft 2009\harvardyearright
 {MongoDB, Inc.}  \harvardyearleft 2009\harvardyearright , `{BSON} ({Binary}
   {JSON}) {Serialization}'.
 \newline\harvardurl{http://bsonspec.org/}
+
+\harvarditem[Pedregosa et~al.]{Pedregosa, Varoquaux, Gramfort, Michel, Thirion,
+  Grisel, Blondel, Prettenhofer, Weiss, Dubourg, Vanderplas, Passos,
+  Cournapeau, Brucher, Perrot \harvardand\ Duchesnay}{2011}{scikit-learn}
+Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel,
+  O., Blondel, M., Prettenhofer, P., Weiss, R., Dubourg, V., Vanderplas, J.,
+  Passos, A., Cournapeau, D., Brucher, M., Perrot, M. \harvardand\ Duchesnay,
+  E.  \harvardyearleft 2011\harvardyearright , `Scikit-learn: Machine learning
+  in {P}ython', {\em Journal of Machine Learning Research} {\bf
+  12},~2825--2830.
 
 \harvarditem[Rumbaugh et~al.]{Rumbaugh, Jacobson \harvardand\ Booch}{1999}{uml}
 Rumbaugh, J., Jacobson, I. \harvardand\ Booch, G.  \harvardyearleft

@@ -35,6 +35,7 @@
 \newcommand{\inlinecode}[1]{\texttt{#1}}
 \newcommand{\sigm}{\mathrm{sigm}}
 \newcommand{\apkg}[1]{\emph{#1}}
+\newcommand{\proglang}[1]{#1} % egal, kommt in kopierten referenzen vor
 
 \begin{document}
 
@@ -106,7 +107,7 @@ For an intuitive overview of the architectures of the different types that are c
    \caption{Graph view on different types of Boltzmann machines. Visible units (i. e. input units) are depicted as nodes with doubled circle lines. Hidden units are simple circles.
  {\bf A}: General Boltzmann machine, with all nodes connected to each other. {\bf B}: Restricted Boltzmann machine (RBM). Each of the lines corresponds to a weight, i.e. an entry in the weight matrix $W$, like in formulas (\ref{eqn:energyformularbm}) and (\ref{eqn:energyformulagbrbm}).  
 {\bf C}: Deep Boltzmann machine. From a graph perspective, this is simply a stack of RBMs.
-{\bf D} and {\bf E}: Multimodal/partitioned deep Boltzmann machines.}
+{\bf D} and {\bf E}: Multimodal/partitioned deep Boltzmann machines. In a multimodal DBM, the different partitions of the visible nodes may also have different distributions.}
    \label{fig:bmsoverview}
  \end{figure}
 
@@ -137,7 +138,7 @@ F(v) = - a^T v - \sum_{j=1}^{n_H} \log \left (1 + e^{(W^T v + b)_j}\right).
 \end{equation}
 
 The trick for deriving the formula of the free energy is to ``analytically sum out" the hidden units \citep{sala2012anefficient}.
-The master thesis of \cite{krizhevsky2009tinyimagesthesis} is a very good resource for looking up the complete derivations of these formulas. This holds not only for the theory of RBMs with Bernoulli distributed nodes but also in particular for RBMs with Gaussian distributed visible nodes, which are presented in the next paragraph.
+The master thesis of \cite{krizhevsky2009tinyimagesthesis} is a very good resource for looking up the complete derivations of these formulas. This holds not only for the theory of RBMs with Bernoulli distributed nodes but also in particular for RBMs with Gaussian distributed visible nodes, which are presented next.
 
 \paragraph{Gaussian distributed visible nodes for continuous data}
 One way of modeling continuous values for $v$ are restricted Boltzmann machines with Gaussian distribution of the visible variables and Bernoulli distributed hidden variables. The energy of the model is defined as
@@ -169,12 +170,46 @@ The conditional distribution of the hidden nodes is $p(h_j | v) = \sigm \left (b
 For most applications in machine learning, categorical data is usually encoded in dummy variables \citep{hastie_elements}.
 It would be possible to use the binary dummy variables as input to a restricted or deep Boltzmann machine with Bernoulli distributed visible units as well.
 But when sampling from such a Boltzmann machine model all combinations of visible nodes have a positive probability. This can be seen from the formula of the conditional probability (\ref{eqn:condprobrbm}) and the fact that the values of the sigmoid function are strictly positive.
-Therefore, the resulting data is not properly encoded in general  because illegal combinations of dummy variables can occur and then sampled values cannot be mapped to the original categories any more.
+Therefore, the resulting data is not properly encoded in general  because illegal combinations of dummy variables can occur. With that, sampled values cannot be mapped to the original categories any more.
 Using dummy variables as input to Boltzmann machines with Bernoulli distributed variables makes it also more difficult to learn higher level patterns, as the Boltzmann machine has at first to learn the pattern that results from the dummy encoding  by itself. Hence it is advised to use a Boltzmann machine that has the knowledge about the encoding built into its energy function and probability distribution.
 
 
-A variable with $k$ categories is 
-Here, I tried a slightly different variant. This variant corresponds to the technique for using dummy variables for categorical variables in regression models \citep{faraway_regression}. A categorical variables with $k$ categories is encoded in $k-1$ binary dummy variables.
+For encoding categorical variables, the most popular encoding used by the deep/machine learning frameworks TensorFlow \citep{tensorflow}, scikit\citep{scikit-learn} or Flux (\citep{flux}) is the so-called ``one-hot encoding", which encodes a variable with $k$ categories in a binary vector of $k$ components, where exactly one component is one and all others are zero.
+An advantage of this is that all categories are treated equally. 
+Here, I tried a slightly different variant.
+A categorical variables with $k$ categories is encoded in $k-1$ binary dummy variables.
+This is the encoding of for values of a variable with four categories:
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{cc}
+Categorical value & Dummy encoding \\
+\hline
+1 & 0 0 0 \\
+2 & 1 0 0 \\
+3 & 0 1 0 \\
+4 & 0 0 1 \\
+\end{tabular}
+\end{table}
+
+This variant is the same the technique for creating dummy variables for categorical variables in regression models \citep{faraway_regression}.
+One category is used as reference category for the interpretation of the regression coefficients.
+This allows to be parsimonious with parameters. Saving parameters can aid in training models also with fewer data points, as was shown with partitioning layers in DBMs \citep{hess2017partitioned}.
+% TODO example with number of parameters in gene rbm
+
+The energy function $E$ for RBMs with categorical data is the same as for Bernoulli distributed visible nodes (see formula \ref{eqn:energyformularbm}).
+The difference is that not all combinations of visible nodes are allowed. Thus the partition function $Z = \sum_{v} \sum_{h} e^{-E(v,h)}$ and the probability
+$p(v) = \frac{\sum_h e^{-E(v,h)}}{Z}$ change because the sum over all possible states of $v$ in the formula for $Z$ contains less summands than in the case with a Bernoulli distribution, where all combinations of activations are possible.
+
+\begin{equation}
+E(v_k=1, v_{i\neq k}, h) = E(v_k = 1, v_{\notin C}, h)
+\end{equation}
+
+\begin{equation*}
+\frac{p*(v_k = 1, h)}{p*(h)} = \
+\end{equation*}
+
+
 
 
 \paragraph{Deep Boltzmann machines}
