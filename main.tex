@@ -67,15 +67,15 @@ Hess et al. showed that partitioned training on genetic data is successful \cite
 Boltzmann machines \citep{ackley_boltzmann_1985} are a special kind of neural networks.
 They have been derived from statistical physics.
 There, Ising models aim at modeling the magnetic spin in lattices of atoms or molecules in ferromagnetic crystals \citep{isingmodel}.
-The probability of the activation is determined by an energy function that assigns an energy to each possible activation in the network or lattice.
-Constellations with lower energy have a higher probability.
-Therefore, Boltzmann machines are a type of so-called ``energy-based" models \citep{ranzato_ebm}.
+The probability of the activation of neurons, or the magnetic spin of molecules is determined by an energy function that assigns an energy to each possible configuration in the network or lattice.
+Configurations with lower energy have a higher probability of occurring.
+This makes Boltzmann machines a type of so-called ``energy-based" models \citep{ranzato_ebm}.
 
-Neural networks have input nodes that receive input from data.
+Neural networks receive input from data in special nodes.
+The information about the data can then be learned by the network.
 In the physics analogue, this corresponds to parts of the lattice that are influenced by a magnetic field.
-This information input is encapsulated in the parameters of the model, which influence the energy function.
-The parameters encapsulate the information about input distribution.
-Boltzmann machines are able to draw or generate new samples from 
+In both cases, the information about the input is encapsulated in the parameters of the model, which influence the energy function, which in turn determines the probability of the activations in the network.
+With this information, Boltzmann machines are then able to draw new samples and generate new data 
 
 
 The following paragraphs give a brief overview of the mathematical definitions surrounding Boltzmann machines and introduces some terms that are commonly used in the literature about Boltzmann machines.
