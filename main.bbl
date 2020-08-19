@@ -14,6 +14,13 @@ Abadi, M., Isard, M. \harvardand\ Murray, D.~G.  \harvardyearleft
   Workshop on Machine Learning and Programming Languages} pp.~1--7.
 \newline\harvardurl{http://doi.acm.org/10.1145/3088525.3088527}
 
+\harvarditem[Ackley et~al.]{Ackley, Hinton \harvardand\
+  Sejnowski}{1985}{ackley_boltzmann_1985}
+Ackley, D.~H., Hinton, G.~E. \harvardand\ Sejnowski, T.~J.  \harvardyearleft
+  1985\harvardyearright , `A learning algorithm for {Boltzmann} machines', {\em
+  Cognitive science} {\bf 9}(1),~147--169.
+\newblock Publisher: Elsevier.
+
 \harvarditem{{Apache Software Foundation}}{n.d.}{mxnet}
 {Apache Software Foundation}  \harvardyearleft n.d.\harvardyearright , `Apache
   {MXNet}: A flexible and efficient library for deep learning',
@@ -110,6 +117,12 @@ Krizhevsky, A. \harvardand\ Hinton, G.  \harvardyearleft 2009\harvardyearright
   , `Learning multiple layers of features from tiny images', {\em Technical
   report, University of Toronto} .
 
+\harvarditem{McCoy \harvardand\ Wu}{2014}{isingmodel}
+McCoy, B.~M. \harvardand\ Wu, T.~T.  \harvardyearleft 2014\harvardyearright ,
+  {\em The {Two}-{Dimensional} {Ising} {Model}: {Second} {Edition}}, Courier
+  Corporation.
+\newblock Google-Books-ID: YO4xAwAAQBAJ.
+
 \harvarditem{{MongoDB, Inc.}}{2009}{bsonspec}
 {MongoDB, Inc.}  \harvardyearleft 2009\harvardyearright , `{BSON} ({Binary}
   {JSON}) {Serialization}'.
@@ -124,6 +137,13 @@ Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel,
   E.  \harvardyearleft 2011\harvardyearright , `Scikit-learn: Machine learning
   in {P}ython', {\em Journal of Machine Learning Research} {\bf
   12},~2825--2830.
+
+\harvarditem[Ranzato et~al.]{Ranzato, Boureau, Chopra \harvardand\
+  LeCun}{2007}{ranzato_ebm}
+Ranzato, M., Boureau, Y.-L., Chopra, S. \harvardand\ LeCun, Y.
+  \harvardyearleft 2007\harvardyearright , A unified energy-based framework for
+  unsupervised learning, {\em in} `Artificial {Intelligence} and {Statistics}',
+  pp.~371--379.
 
 \harvarditem[Rumbaugh et~al.]{Rumbaugh, Jacobson \harvardand\ Booch}{1999}{uml}
 Rumbaugh, J., Jacobson, I. \harvardand\ Booch, G.  \harvardyearleft
