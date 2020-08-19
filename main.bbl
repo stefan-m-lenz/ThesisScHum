@@ -42,6 +42,12 @@ Cho, K., Ilin, A. \harvardand\ Raiko, T.  \harvardyearleft
   \url{http://pytorch.org/}.
 \newblock Accessed: 2018-01-30.
 
+\harvarditem{Faraway}{2002}{faraway_regression}
+Faraway, J.~J.  \harvardyearleft 2002\harvardyearright , {\em Practical
+  regression and {ANOVA} using {R}}, University of Michigan.
+\newblock Available from
+  \url{https://cran.r-project.org/doc/contrib/Faraway-PRA.pdf}.
+
 \harvarditem{Geman \harvardand\ Geman}{1984}{gibbssamplingorig}
 Geman, S. \harvardand\ Geman, D.  \harvardyearleft 1984\harvardyearright ,
   `Stochastic {Relaxation}, {Gibbs} {Distributions}, and the {Bayesian}
@@ -49,6 +55,12 @@ Geman, S. \harvardand\ Geman, D.  \harvardyearleft 1984\harvardyearright ,
   Machine Intelligence} {\bf PAMI-6}(6),~721--741.
 \newblock Conference Name: IEEE Transactions on Pattern Analysis and Machine
   Intelligence.
+
+\harvarditem[Hastie et~al.]{Hastie, Tibshirani \harvardand\
+  Friedman}{2009}{hastie_elements}
+Hastie, T., Tibshirani, R. \harvardand\ Friedman, J.  \harvardyearleft
+  2009\harvardyearright , {\em The elements of statistical learning: data
+  mining, inference, and prediction}, Springer series in statistics, 2 edn.
 
 \harvarditem[Hess et~al.]{Hess, Lenz, Bl{\"a}tte, Bullinger \harvardand\
   Binder}{2017}{hess2017partitioned}
