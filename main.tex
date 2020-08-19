@@ -277,7 +277,12 @@ For generalizing the implementation of AIS on multimodal deep Boltzmann machines
 
 Due to the symmetry of hidden and visible nodes in a RBM with only Bernoulli distributed nodes, $p^*(h)$ can be derived analogously to the free energy $F(v) = - \log p^*(v)$ in this case.
 Since I have not found these formula in the literature, I derive it here in detail for the RBMs with Gaussian visible nodes.
-The unnormalized probability of the hidden nodes in a Gaussian RBM with original parameterization (see formula (\ref{eqn:energyformulagbrbm}) can be calculated as
+The derivations for $p^*(h)$ for RBMs with Gaussian visible nodes use the fact that the integral over the density function of a normal distribution $\mathcal{N}(\mu, \sigma^2)$ is 1:
+\begin{equation} \int \frac{1}{\sqrt{2 \pi \sigma^2}} e^{ -\frac{(x - \mu)^2}{2 \sigma^2}} = 1  
+\label{eqn:densitynormal}
+\end{equation}
+
+With that, the unnormalized probability of the hidden nodes in a Gaussian RBM with original parameterization (see formula (\ref{eqn:energyformulagbrbm})) can be calculated as
 
 \begin{align*}
    p^*(h) &= \int e^{-E \left(v,h \right)} dv \\
@@ -289,7 +294,7 @@ The unnormalized probability of the hidden nodes in a Gaussian RBM with original
       &= \exp \left(b^T h + \sum_{i=1}^{n_V} \frac{1}{2}(Wh)_i^2 + (Wh)_i \frac{a_i}{\sigma_i} \right ) \cdot \\
       & \quad \quad \int \exp \left ( - \sum_{i=1}^{n_V} \frac{{\left( v_i - ((Wh)_i \sigma_i + a_i) \right)}^2}{2\sigma_i^2} \right) dv
    \end{split} \\
-   & = \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{1}{2}(Wh)_i^2 + (Wh)_i \frac{a_i}{\sigma_i} \right ) \prod_{i=1}^{n_V}\left(\sqrt{2\pi} \sigma_i\right). \\
+   & \stackrel{(\ref{eqn:densitynormal})}{=} \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{1}{2}(Wh)_i^2 + (Wh)_i \frac{a_i}{\sigma_i} \right ) \prod_{i=1}^{n_V}\left(\sqrt{2\pi} \sigma_i\right). \\
 \end{align*}
 
 For  Cho's alternative parameterization (see formula (\ref{eqn:energyformulagbrbm2})), the unnormalized probability calculates analogously as
@@ -300,7 +305,7 @@ For  Cho's alternative parameterization (see formula (\ref{eqn:energyformulagbrb
    &= e^{b^T h} \int \exp \left( - \sum_{i=1}^{n_V} \frac{\left((v_i - ((Wh)_i + a_i) \right)^2}{2 \sigma_i^2}  + \sum_{i=1}^{n_V} \frac{(Wh)_i^2 + 2 a_i (Wh)_i}{2\sigma_i^2} \right) dv\\
    &= \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{(Wh)_i^2 + 2 a_i (Wh)_i}{2\sigma_i^2} \right) \cdot \\
    & \quad \quad \int \exp \left(- \sum_{i=1}^{n_V} \frac{\left((v_i - ((Wh)_i + a_i) \right)^2}{2 \sigma_i^2} \right) dv\\
-   &= \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{\frac{1}{2}(Wh)_i^2 + (Wh)_i a_i}{\sigma_i^2} \right ) \prod_{i=1}^{n_V}\left(\sqrt{2\pi} \sigma_i \right).
+   &\stackrel{(\ref{eqn:densitynormal})}{=} \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{\frac{1}{2}(Wh)_i^2 + (Wh)_i a_i}{\sigma_i^2} \right ) \prod_{i=1}^{n_V}\left(\sqrt{2\pi} \sigma_i \right).
 \end{align*}
 
 Note that the model for Gibbs sampling, used as the Markov transition operator, can differ from the model that is used to evaluate the unnormalized probability $p_k^*(h)$ as long as the probability distribution $p_k(h)$ of the hidden nodes is the same.
