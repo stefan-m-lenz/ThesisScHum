@@ -68,21 +68,22 @@ Boltzmann machines \citep{ackley_boltzmann_1985} are a special kind of neural ne
 They have been derived from statistical physics.
 There, Ising models aim at modeling the magnetic spin in lattices of atoms or molecules in ferromagnetic crystals \citep{isingmodel}.
 The probability of the activation of neurons, or the magnetic spin of molecules is determined by an energy function that assigns an energy to each possible configuration in the network or lattice.
-Configurations with lower energy have a higher probability of occurring.
+Configurations with a lower energy have a higher probability of occurring.
 This makes Boltzmann machines a type of so-called ``energy-based" models \citep{ranzato_ebm}.
 
 Neural networks receive input from data in special nodes.
 The information about the data can then be learned by the network.
-In the physics analogue, this corresponds to parts of the lattice that are influenced by a magnetic field.
-In both cases, the information about the input is encapsulated in the parameters of the model, which influence the energy function, which in turn determines the probability of the activations in the network.
-With this information, Boltzmann machines are then able to draw new samples and generate new data 
+In the physics analogue, this corresponds to parts of the lattice that are influenced by an external magnetic field.
+In both cases, the information about the input is encapsulated in the parameters of the model, which influence the energy function and thereby determine the probability of the activations in the network.
+With the information contained in the model parameters, a trained Boltzmann machine is then able to draw new samples according to the distribution that has been learned from the original data.
+With this ability, Boltzmann machines can be employed as ``generative models".
 
-
-The following paragraphs give a brief overview of the mathematical definitions surrounding Boltzmann machines and introduces some terms that are commonly used in the literature about Boltzmann machines.
+The following parts of this section give an overview of the mathematical definitions surrounding Boltzmann machines that will be necessary to understand how Boltzmann machines can be trained and used.
+This also includes the definition of some terminology that is commonly used in the literature about Boltzmann machines.
 
 \subsubsection{Basic properties of Boltzmann machines}\label{basicbmproperties}
 
-A Boltzmann machine model with parameters $\Theta$ defines a probability distribution $p(x)$ for a random variable $x = (v, h)$ in a probability space $\Omega$ via an energy function $E(v, h; \Theta)$:
+A Boltzmann machine model with parameters $\Theta$ defines a probability distribution $p(x)$ for a random variable $x = (v, h)$ in a probability space $\Omega$ via the energy function $E(v, h; \Theta)$:
 \begin{equation}
    p(x) = p(v, h) = \frac{e^{-E(v,h)}}{Z}.
    \label{eqn:probbm}
@@ -187,7 +188,7 @@ Therefore, the resulting data is not properly encoded in general  because illega
 Using dummy variables as input to Boltzmann machines with Bernoulli distributed variables makes it also more difficult to learn higher level patterns, as the Boltzmann machine has at first to learn the pattern that results from the dummy encoding  by itself. Hence it is advised to use a Boltzmann machine that has the knowledge about the encoding built into its energy function and probability distribution.
 
 
-For encoding categorical variables, the most popular encoding used by the deep/machine learning frameworks TensorFlow \citep{tensorflow}, scikit\citep{scikit-learn} or Flux (\citep{flux}) is the so-called ``one-hot encoding", which encodes a variable with $k$ categories in a binary vector of $k$ components, where exactly one component is one and all others are zero.
+For encoding categorical variables, the most popular encoding used by the deep/machine learning frameworks \apkg{TensorFlow} \citep{tensorflow}, \apkg{scikit-learn} \citep{scikit-learn} or \apkg{Flux} \citep{flux} is the so-called ``one-hot encoding", which encodes a variable with $k$ categories in a binary vector of $k$ components, where exactly one component is one and all others are zero.
 An advantage of this is that all categories are treated equally. 
 Here, I tried a slightly different variant.
 A categorical variables with $k$ categories is encoded in $k-1$ binary dummy variables.
