@@ -411,7 +411,28 @@ For {\bf Cho's alternative parameterization} (see formula (\ref{eqn:energyformul
    &\stackrel{(\ref{eqn:densitynormal})}{=} \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{\frac{1}{2}(Wh)_i^2 + (Wh)_i a_i}{\sigma_i^2} \right ) \prod_{i=1}^{n_V}\left(\sqrt{2\pi} \sigma_i \right).
 \end{align*}
 
-% TODO softmax0
+For the RBM for {\bf categorical variables with the dummy encoding with reference level} from section \ref{methodsoftmax0}, the unnormalized probability can be derived similar to the RBM with Bernoulli distributed nodes. At first, the energy function can be rewritten in the same way as with the RBM with Bernoulli distributed nodes:
+\begin{align}
+e^{-E(v,h)} &= \exp \left(\sum_j b_j h_j + \sum_{i,j} w_{ij} v_i h_j + \sum_i a_i v_i \right) \nonumber \\
+&= \exp \left( \sum_i b_j h_j + \sum_i v_i \left( a_i + \sum_j w_{ij} h_j \right) \right) \nonumber \\
+&= e^{\sum b_h h_j} \prod_i \underbrace{e^{v_i (a_i + \sum_j w_{ij} h_j)}}_{(*)}
+\label{eqn:freeenergytrick}
+\end{align}
+\begin{equation*}
+(*) = \left\{
+\begin{array}{l}
+ =1 \text{ for } v_i = 0 \\
+ = e^{a_i +\sum_j w_{ij} h_j} \text{ for } v_i = 1 
+\end{array} \right.
+\end{equation*}
+
+When multiplying out the product below using equation (\ref{eqn:freeenergytrick}), it can be seen that $p^*(h)$ can be written as
+\begin{align*}
+p^*(h) &= \sum_v e^{-E(v,h)} \\
+&= e^{\sum_j b_j h_j} \prod_{C} \left( 1 + \sum_{i \in C} e^{\sum_j w_{ij} h_j + a_i} \right).
+\end{align*}
+Here $C$ denotes the set of all index sets of the dummy variables, where each index set belongs to a categorical variable.
+
 
 \paragraph{Calculating or estimating likelihoods in deep Boltzmann machines} %TODO verbessern
 For a restricted Boltzmann machine, the likelihood can be calculated using formula (\ref{eqn:pRBMfreeenergy}) if the partition function is known. This is not so easily possible in a DBM, for which calculating the distribution of the hidden nodes is of exponential complexity.
