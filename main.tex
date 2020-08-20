@@ -107,7 +107,7 @@ This way the log-likelihood
 
 can be calculated efficiently if the partition function $Z$ is given. The free energy is also used for calculating the ratio of the unnormalized probabilities $p^*(v) = e^{-F(v)}$ in the annealed importance sampling algorithm (see \ref{methodAIS}).
 
-\subsubsection{Types of Boltzmann machines}
+\subsubsection{Types of Boltzmann machines}\label{bmtypes}
 
 Here we only consider the special cases of restricted Boltzmann machines (RBMs) and (multimodal) deep Boltzmann machines.
 These models have restrictions on their parameterization compared to a general Boltzmann machine.
@@ -275,8 +275,7 @@ The energy function of a multimodal deep Boltzmann machine (MDBM) is TODO
 \subsubsection{Training of restricted Boltzmann machines}\label{rbmtraining}
 Goal of the training procedure of restricted Boltmann machines is to maximize the likelihood $\sum_{i=1}^n p(v_i)$ for a given data set $(v_1, \dots, v_n)$.
 As mentioned in section \ref{basicbmproperties}, calculating $p(v) = \frac{\sum_{h} p(v,h)}{Z}$ needs the partition function $Z$, and this constant also appears in the derivative.
-It is possible to utilize the formula for the free energy in the restricted Boltzmann machine (see formulas (\ref{eqn:freenergy_rbm}) and (\ref{eqn:freenergy_gbrbm})), where the hidden layer is summed out analytically.
-With this it is possible to reduce the number of summands
+
 
 To calculate $Z$ exactly, this requires the can be summed out 
 This means that a simple gradient descent optimization is technically not feasible in normal cases. 
@@ -322,11 +321,20 @@ In most cases, the likelihood cannot be calculated exactly but it can only be es
 
 \paragraph{Exact calculation of the partition function}
 \label{methodExactloglik}
-As mentioned in section \ref{rbmtraining}, the exact calculation of partition functions is only computationally feasible for very small models as its complexity grows exponentially. Exploiting the layerwise structure allows a faster exact calculation of $Z$ such that the computation time does not grow exponentially with the number of all nodes but only grows exponentially with the number of elements in a subset of the nodes. That means, the complexity is still $\mathcal{O}(2^n)$, but with an $n$ smaller than the number of nodes.
+As mentioned in section \ref{rbmtraining}, the exact calculation of partition functions is only computationally feasible for very small models as its complexity grows exponentially. Exploiting the layerwise structure allows a faster exact calculation of $Z$ such that the computation time does not grow exponentially with the number of all nodes but only grows exponentially with the number of elements in a subset of the nodes. It is possible to utilize the formula for the free energy in restricted Boltzmann machines (see formulas (\ref{eqn:freenergy_rbm}) and (\ref{eqn:freenergy_gbrbm})), where the hidden layer is summed out analytically.
+With this it is possible to reduce the number of summands. 
+The complexity for calculating the partition function for all the different types of  models described in section \ref{bmtypes} is then still $\mathcal{O}(2^n)$, but with an $n$ smaller than the number of nodes:
 
 By using the formulas for the free energy and the symmetry of restricted Boltzmann with binary nodes, $n = \min(n_V, n_H)$ with $n_V$.
 In RBMs with one of layer Gaussian nodes and one layer of binary nodes, $n$ is the number of binary nodes, since the contribution of the Gaussian nodes can be integrated analytically.
-In case of a deep Boltzmann machine, it is possible to sum out each second layer, similar to the calculation of the free energy in restricted Boltzmann machines. So for DBMs, $n$ can be reduced to the number of nodes in each second layer.
+In case of a deep Boltzmann machine, it is possible to sum out each second layer, similar to the calculation of the free energy in restricted Boltzmann machines. So for DBMs, $n$ can be reduced to the number of nodes in each second layer, see figure \ref{aissummingout}.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=2.5]{images/AISsummingout.pdf}
+\caption{Possibilities for summing out layers for calculating the likelihood. For calculating the likelihood in a more efficient way, the layers in the gray boxes can be summed out analytically. {\bf A:} Summing out the odd layers in this DBM results in $2^{(4 + 4)} = 256$ summands, {\bf B:} Summing out the even layers in this DBM results in $2^{(4 + 3)} = 128$ summands, {\bf C:} Summing out the even layers in  this multimodal DBM results in $2^{(6 + 3)} = 512$ summands.}
+\label{aissummingout}
+\end{figure}
 
 \paragraph{Estimating partition functions with annealed importance sampling (AIS)}\label{methodAIS}
 
