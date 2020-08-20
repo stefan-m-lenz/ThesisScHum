@@ -243,13 +243,12 @@ The input from the hidden nodes can further be extracted from $ \sum_{v_{i \noti
 The unnormalized probability $p^*(h)$ of the hidden nodes can now be rewritten as:
 
 \begin{align}
-p^*(h) =& \sum_{v_{i \notin C_k}} \exp (-E(v_{i \in C_k} = 0, v_{i \notin C_k}, h)) + \nonumber \\ 
+p^*(h) =& \sum_{v_{i \notin C_k}} \exp (-E(v_{i \in C_k} = 0, v_{i \notin C_k}, h)) \; + \nonumber \\ 
 &\quad  \sum_{c \in C_k} \left( (Wh)_c + a_c \right) \sum_{v_{i \notin C_k}} \exp \left(-E(v_{i \in C_k} = 0, v_{i \notin C_k}, h) \right)
 \label{eqn:unnormalizedhiddensplit}
 \end{align}
 
-With this notation defined, the conditional probability of a dummy variable being one can be derived as follows:
-
+With this, the conditional probability of a dummy variable being one can finally be derived as follows:
 \begin{align*}
 p(v_k = 1 \mid h) &= \frac{p(v_k = 1, h)}{p(h)} \\
   &= \frac{p^*(v_k = 1, h)}{p^*(h)}\\
@@ -374,14 +373,14 @@ In a multimodal DBM, we can use the fact that the states in one layer are indepe
 This procedure can generalized for AIS on multimodal DBMs. 
 If we have the unnormalized probability $p^*(h)$ for each type of RBM that receives the data input, it becomes possible to calculate the unnormalized probability of sampled hidden values in a multimodal DBM in the same ways as for a standard DBM with only Bernoulli distributed nodes.
 
-To be able to do this, it is necessary to have formulas for $p^*(h)$ for each different type of RBMs. These can be derived by analytically ``summing out", or in case of Gaussian RBMs,``integrating out" the visible layer.
+To be able to do this, it is necessary to have formulas for $p^*(h)$ for each different type of RBMs. These can be derived by analytically ``summing out", or in case of Gaussian RBMs, ``integrating out" the visible layer.
 
 \paragraph{Derivation of unnormalized probability for different types of restricted Boltzmann machines}
 
 Due to the symmetry of hidden and visible nodes in a RBM with only {\bf Bernoulli distributed nodes}, $p^*(h)$ can be derived analogously to the free energy $F(v) = - \log p^*(v)$ in this case.
 
 Since I have not found formulas for the unnormalized probability of the hidden nodes in RBMs with Gaussian visible nodes in the literature, I derive it here in detail.
-The derivations for $p^*(h)$ for RBMs with Gaussian visible nodes use the fact that the integral over the density function of a normal distribution $\mathcal{N}(\mu, \sigma^2)$ is 1:
+The derivations for $p^*(h)$ for RBMs with Gaussian visible nodes use the fact that the integral over the density function of a normal distribution $\mathcal{N}(\mu, \sigma^2)$ is equal to one:
 \begin{equation} \int \frac{1}{\sqrt{2 \pi \sigma^2}} e^{ -\frac{(x - \mu)^2}{2 \sigma^2}} = 1  
 \label{eqn:densitynormal}
 \end{equation}
