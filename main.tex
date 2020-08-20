@@ -129,7 +129,7 @@ For an intuitive overview of the architectures of the different types that are c
 \paragraph{Bernoulli distributed visible nodes}
 The most basic model in this class of models are restricted Boltzmann machines with Bernoulli distributed nodes, most of the time simply called \emph{restricted Boltzmann machines} (RBMs). Their energy function is of the form
 \begin{equation}
-   E(v,h) = a^T v + b^T h + v^T W h. \label{eqn:energyformularbm}
+   E(v,h) = - a^T v - b^T h - v^T W h. \label{eqn:energyformularbm}
 \end{equation}
 
 The parameters of the model are $\Theta = (W, a, b)$ with \emph{weight matrix} $W$, vector $a$ as the \emph{visible bias} and $b$ as the \emph{hidden bias}.
@@ -221,11 +221,30 @@ For deriving the formulas for an RBM that handles the dummy encoding like exempl
 The visible nodes of the RBM can cover multiple categorical variables and multiple sets of dummy variables, which may differ in the number of categories.
 If the number of categories equals two for all categorical variables, this model is the same as an RBM with Bernoulli distributed nodes.
 
-Similar to \cite{krizhevsky2009tinyimagesthesis} let us write $E(v_{i \in C_k} = 0, v_{i \notin C_k}, h)$ for the energy of the combination of a visible vector $v$ that is zero in all dummy variables that belong to $C_k$ and a hidden vector $h$.
-%If one dummy variable in the set is one, all others are in the set are zero, therefore:
-%\begin{equation}
+Like \cite{krizhevsky2009tinyimagesthesis} let us write $E(v_k = 1, v_{i \neq k}, h)$ for the energy of the combination of a visible vector $v$ with $v_k = 1$ and a hidden vector $h$. Similarly, let us define $E(v_{i \in C_k} = 0, v_{i \notin C_k}, h)$ for the energy of the combination of a visible vector $v$ that is zero in all dummy variables that belong to $C_k$ and a hidden vector $h$.
+
+From the previously defined dummy encoding results that if one dummy variable in the set is one, all others are in the set are zero. 
+The sum of the energies can therefore be split into those parts where a dummy variable $k$ is zero and one part where all others are one, because these covers all allowed combinations.
+This allows to split the formula for the unnormalized probability of the hidden nodes into the following sums:
+\begin{align}
+p^*(h) &= \sum_v  \exp (-E(v,h)) \nonumber \\
+&= \sum_{v_{i \notin C_k}} \exp (-E(v_{i \in C_k} = 0, v_{i \notin C_k}, h)) + \sum_{c \in C_k} \sum_{v_{i \notin C_k}} \exp ( - E(v_c = 1, v_{i \notin C_k},  h))
 %E(v_k=1, v_{i\neq k}, h) = E(v_k = 1, v_{i \notin C_k}, h).
-%\end{equation}
+\end{align}
+
+The input from the hidden nodes can further be extracted from $ \sum_{v_{i \notin C_k}} e^{-E(v_{k=1}, v_{i \neq k}, h)}$ by regrouping the summands:
+\begin{align}
+&\sum_{v_{i \notin C_k}} \exp ( - E(v_c = 1, v_{i \notin C_k},  h)) = \nonumber \\
+&\quad = \sum_{v_{i \notin C_k}} \exp \left( \sum_{i \notin C_k} v_i h_j w_{ij} + \sum_{i \notin C_k} a_i v_i + a_k  + \sum_j h_j w_{kj} +\sum_j h_j b_j \right) \nonumber \\
+&\quad = \exp \left( (Wh)_k + a_k \right) \sum_{v_{i \notin C_k}} \exp \left(-E(v_{i \in C_k} = 0, v_{i \notin C_k}, h) \right)
+\label{eqn:sumvksoftmax}
+\end{align}
+
+The unnormalized probability $p^*(h)$ of the hidden nodes can now be rewritten as:
+
+\begin{equation}
+p^*(h) = 
+\end{equation}
 
 With this notation defined, the conditional probability of a dummy variable being one can be derived as follows:
 
@@ -233,9 +252,11 @@ With this notation defined, the conditional probability of a dummy variable bein
 p(v_k = 1 \mid h) &= \frac{p(v_k = 1, h)}{p(h)} \\
   &= \frac{p^*(v_k = 1, h)}{p^*(h)}\\
   &= \frac{\sum_{v_{i \notin C_k}} e^{-E(v_{k=1}, v_{i \neq k}, h)}}{p^*(h)} \\
-  &\stackrel{(v_k = 1)}{=} \frac{\sum_{v_{i \notin C_k}} \exp \left( \sum_{i \notin C_k} v_i h_j w_{ij} + \sum_{i \notin C_k} a_i v_i + a_k  + \sum h_j w_{kj} +\sum_j h_j b_j \right)}{p^*(h)} \\
- %&= \exp \left( (Wh)_k + a_k \right) \sum_{v_{i \notin C_k}} \exp \left(-E(v_{i \in C_k} = 0, v_h
+%   \frac{\sum_{v_{i \notin C_k}} \exp \left( \sum_{i \notin C_k} v_i h_j w_{ij} + \sum_{i \notin C_k} a_i v_i + a_k  + \sum h_j w_{kj} +\sum_j h_j b_j \right)}{p^*(h)} \\
+ &\stackrel{(\ref{eqn:sumvksoftmax})}{=} \frac{\exp \left( (Wh)_k + a_k \right) \sum_{v_{i \notin C_k}} \exp \left(-E(v_{i \in C_k} = 0, v_{i \notin C_k}, h) \right)}{p^*(h)}
+  %&= \frac{\exp \left( (Wh)_k + a_k \right) \sum_{v_{i \notin C_k}} \exp \left(-E(v_{i \in C_k} = 0, v_{i \notin C_k}, h) \right)}{\sum_{u_{i\notin C_k)}
 \end{align*}
+
 
 
 
