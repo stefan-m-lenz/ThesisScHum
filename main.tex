@@ -211,7 +211,9 @@ Categorical value & Dummy encoding \\
 This variant is the same the technique for creating dummy variables for categorical variables in regression models \citep{faraway_regression}.
 One category is used as reference category for the interpretation of the regression coefficients.
 This allows to be parsimonious with parameters. Saving parameters can aid in training models also with fewer data points, as was shown with partitioning layers in DBMs \citep{hess2017partitioned}.
-% TODO example with number of parameters in gene rbm
+So there is the potential with this encoding to help also with learning on genetic data.
+Consider genetic variant data that contains values 0/1/2 for each of defined location on the human genome to encode that there is no deviation from the reference genome (0), a deviation on one chromosome (1) or a deviation on both chromosomes (2).
+An RBM receiving input with dummy encoding using the natural reference category 0 needs only two thirds of the parameters that an RBM needs which receives the same data in one-hot encoding.
 
 The energy function $E$ for RBMs with categorical data is the same as for Bernoulli distributed visible nodes (see formula \ref{eqn:energyformularbm}).
 The difference is that not all combinations of visible nodes are allowed. Thus the partition function $Z = \sum_{v} \sum_{h} e^{-E(v,h)}$ and the probability
@@ -223,9 +225,9 @@ If the number of categories equals two for all categorical variables, this model
 
 Like \cite{krizhevsky2009tinyimagesthesis} let us write $E(v_k = 1, v_{i \neq k}, h)$ for the energy of the combination of a visible vector $v$ with $v_k = 1$ and a hidden vector $h$. Similarly, let us define $E(v_{i \in C_k} = 0, v_{i \notin C_k}, h)$ for the energy of the combination of a visible vector $v$ that is zero in all dummy variables that belong to $C_k$ and a hidden vector $h$.
 
-From the previously defined dummy encoding results that if one dummy variable in the set is one, all others are in the set are zero. 
-The sum of the energies can therefore be split into those parts where a dummy variable $k$ is zero and one part where all others are one, because these covers all allowed combinations.
-This allows to split the formula for the unnormalized probability of the hidden nodes into the following sums:
+From the previously defined dummy encoding results that if one dummy variable in the set is one, all others in the set are zero. 
+The sum over all possible combinations of $v$ can therefore be split into those parts where a dummy variable $k$ is zero and one part where all others in the corresponding set of dummy variables are one, because these covers all allowed combinations.
+This allows to split the formula for the unnormalized probability of the hidden nodes into the following sum:
 \begin{align}
 p^*(h) &= \sum_v  \exp (-E(v,h)) \nonumber \\
 &= \sum_{v_{i \notin C_k}} \exp (-E(v_{i \in C_k} = 0, v_{i \notin C_k}, h)) + \sum_{c \in C_k} \sum_{v_{i \notin C_k}} \exp ( - E(v_c = 1, v_{i \notin C_k},  h))
