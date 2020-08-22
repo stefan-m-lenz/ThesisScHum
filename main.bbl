@@ -44,6 +44,12 @@ Carreira-Perpinan, M.~A. \harvardand\ Hinton, G.~E.  \harvardyearleft
   2005\harvardyearright , On contrastive divergence learning., {\em in}
   `Aistats', Vol.~10, Citeseer, pp.~33--40.
 
+\harvarditem[Cho et~al.]{Cho, Raiko \harvardand\ Ilin}{2013}{cho_gaussiandbm}
+Cho, K.~H., Raiko, T. \harvardand\ Ilin, A.  \harvardyearleft
+  2013\harvardyearright , Gaussian-{Bernoulli} deep {Boltzmann} machine, {\em
+  in} `The 2013 {International} {Joint} {Conference} on {Neural} {Networks}
+  ({IJCNN})', pp.~1--7.
+
 \harvarditem[Cho et~al.]{Cho, Ilin \harvardand\ Raiko}{2011}{cho2011improved}
 Cho, K., Ilin, A. \harvardand\ Raiko, T.  \harvardyearleft
   2011\harvardyearright , `Improved learning of gaussian-bernoulli restricted
@@ -121,7 +127,13 @@ Krizhevsky, A. \harvardand\ Hinton, G.  \harvardyearleft 2009\harvardyearright
 McCoy, B.~M. \harvardand\ Wu, T.~T.  \harvardyearleft 2014\harvardyearright ,
   {\em The {Two}-{Dimensional} {Ising} {Model}: {Second} {Edition}}, Courier
   Corporation.
-\newblock Google-Books-ID: YO4xAwAAQBAJ.
+
+\harvarditem[Melchior et~al.]{Melchior, Wang \harvardand\
+  Wiskott}{2017}{melchior_gbrbm}
+Melchior, J., Wang, N. \harvardand\ Wiskott, L.  \harvardyearleft
+  2017\harvardyearright , `Gaussian-binary restricted {Boltzmann} machines for
+  modeling natural image statistics', {\em PLoS ONE} {\bf 12}(2).
+\newline\harvardurl{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5289828/}
 
 \harvarditem{{MongoDB, Inc.}}{2009}{bsonspec}
 {MongoDB, Inc.}  \harvardyearleft 2009\harvardyearright , `{BSON} ({Binary}
