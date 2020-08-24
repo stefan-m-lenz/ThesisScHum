@@ -289,7 +289,7 @@ Maximizing the likelihood is equal to maximizing the log-likelihood
 \sum_{k=1}^{n}  \log p(\widetilde{v}_i) = \sum_{k=1}^{n} \left( \log \sum_h e^{-E(\widetilde{v}_k, h)} - \log \sum_v \sum_h e^{-E(v, h)} \right)
 \]
 
-For optimizing with gradient descent, the gradient $\nabla_\Theta \sum_{k=1}^{n}  \log p_\Theta(\widetilde{v}_k)$ needs to be determined.
+For finding an optimum, the gradient $\nabla_\Theta \sum_{k=1}^{n}  \log p_\Theta(\widetilde{v}_k)$ needs to be determined.
 The negative of gradient of the log-likelihood for a single observation
 $\widetilde{v} $ with respect to the parameters $\Theta$ is
 \begin{align}
@@ -300,8 +300,20 @@ $\widetilde{v} $ with respect to the parameters $\Theta$ is
 \end{align}
 In equations (\ref{eqn:derivedlog}) and (\ref{eqn:derivedexp}), the derivative of the logarithm and the exponential function is used, respectively. The resulting terms can be rewritten in equation (\ref{eqn:nablaresult}) as the expectation of the gradient given the distribution of the data and the expectation of the gradient given the distribution of the model.
 
+
 As can be seen in equation (\ref{eqn:derivedexp}), the calculation of the gradient involves sums over lots of possible combinations of activations of nodes. In the first term, the sum goes over all combinations of hidden nodes, in the second over all nodes in the network.
-This means that a simply calculating the gradient and using standard gradient descent for optimization is technically not feasible in normal cases, as the number of summands grows exponentially with the number of nodes.
+Calculating the gradient and is technically not feasible in normal cases, as the number of summands grows exponentially with the number of nodes.
+This means that it is not possible to simply equate the gradient of the log-likelihood with zero and solve the equation to get an optimum. Also finding an optimum with gradient descent, walking with small steps in the direction of the gradient to find an optimum, is not possible directly, because this would as well require the calculation of the gradient in each iteration step.
+
+TODO stochastic gradient descent update term.
+
+In an RBM with Bernoulli distributed nodes, this leads to the following that 
+\begin{align}
+- \frac{\partial}{\partial w_{ij}}  \log p(\widetilde{v}) &= \EX_{P_\text{data}}  \widetilde{v}^T h - \EX_{P_\text{model}} v^T h \\
+- \frac{\partial}{\partial a_{ij}}  \log p(\widetilde{v}) &=  \EX_{P_\text{data}} 
+\widetilde{v} - \EX_{P_\text{model}}  v \\
+- \frac{\partial}{\partial b_{ij}}  \log p(\widetilde{v}) &=  \EX_{P_\text{data}} h - \EX_{P_\text{model}} h 
+\end{align}
 
 TODO stochastic gradient descent, batch gradient descent, minibatches \citep{bengio2012practical}
 Gibbs sampling \citep{gibbssamplingorig}
