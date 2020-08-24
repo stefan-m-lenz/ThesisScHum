@@ -277,23 +277,38 @@ The energy function of a multimodal deep Boltzmann machine (MDBM) is TODO
 
 
 \subsubsection{Training of restricted Boltzmann machines}\label{rbmtraining}
-Goal of the training procedure of restricted Boltmann machines is to maximize the likelihood $\sum_{i=1}^n p(v_i)$ for a given data set $(v_1, \dots, v_n)$.
-As mentioned in section \ref{basicbmproperties}, calculating $p(v) = \frac{\sum_{h} p(v,h)}{Z}$ needs the partition function $Z$, and this constant also appears in the derivative.
+Goal of the training procedure of restricted Boltmann machines is to maximize the likelihood $\prod_{k=1}^n p(\widetilde{v}_k)$ for a given data set $(\widetilde{v}_1, \dots, \widetilde{v}_n)$.
+As mentioned in section \ref{basicbmproperties}, calculating $p(v) = \frac{\sum_{h} p(v,h)}{Z}$ needs the partition function $Z$.
+Maximizing the likelihood is equal to maximizing the log-likelihood
+\[
+\sum_{k=1}^{n}  \log p(\widetilde{v}_i) = \sum_{k=1}^{n} \left( \log \sum_h e^{-E(\widetilde{v}_k, h)} - \log \sum_v \sum_h e^{-E(v, h)} \right)
+\]
+
+For optimizing with gradient descent, the gradient $\nabla_\Theta \sum_{k=1}^{n}  \log p_\Theta(\widetilde{v}_k)$ needs to be determined.
+The gradient of the log-likelihood for a single observation
+$\widetilde{v} $ with respect to the parameters $\Theta$ is
+\begin{align*}
+\nabla_{\!\Theta}  \log p(\widetilde{v}) &= \nabla_{\!\Theta}   \log \sum_h e^{-E(\widetilde{v}, h)} - \log \sum_v \sum_h e^{-E(v, h)} \\
+ &= \frac{\nabla_{\!\Theta} \sum_h e^{-E(\widetilde{v}, h)}}{\sum_h e ^{-E(\widetilde{v}, h)}}  - \frac{\nabla_{\!\Theta} \sum_v \sum_h e^{-E(v,h)}}{\sum_v \sum_h e^{-E(v,h)}} \\
+ &= 
+\end{align*}
 
 
 To calculate $Z$ exactly, this requires the can be summed out 
 This means that a simple gradient descent optimization is technically not feasible in normal cases. 
 
-\subsubsection{Training of deep Boltzmann machines}
 TODO stochastic gradient descent, batch gradient descent, minibatches \citep{bengio2012practical}
-
 Gibbs sampling \citep{gibbssamplingorig}
 contrastive divergence \citep{cdorig, perpinan_contrastive_2005} , persistent contrastive divergence
+
+\subsubsection{Training of deep Boltzmann machines}
 
 For pre-training the multimodal deep Boltzmann machines, we use greedy layerwise pre-training  of layers of restricted Boltzmann machines.
 DBN \citep{hinton_reducing_2006}
 Fine-tuning of weights can then be performed by the algorithm for training a general Boltzmann machine.
 \citep{salakhutdinov2009DBMs, salakhutdinov2015generativemodels}
+This algorithm is also based on stochastic gradient descent.
+Calculating the derivative in deep Boltzmann machines needs an additional technique.
 
 When training with the mean-field approximation $\mu$ used as activation of the hidden nodes in the positive phase,
 the likelihood is not optimized directly but a lower bound
@@ -459,7 +474,8 @@ In a setting with very large sample size, the cost of estimating the actual like
 TODO reconstruction error, free energy for monitoring overfitting
 
 \subsection{General methods for implementing deep learning}
-TODO
+TODO nochmal recherchieren was andere Methoden angeht: variational autoencoder, GANs 
+und implementierungen: TensorFlow, Flux, Pytorch etc.
 
 
 
