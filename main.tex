@@ -9,7 +9,7 @@
 \usepackage[times,inconsolata]{Rd}
 \usepackage[parfill]{parskip}
 \bibliographystyle{agsm}
-\usepackage{amsmath}
+\usepackage{amsmath,amssymb}
 \usepackage{listings}
 \usepackage{graphicx}
 \usepackage{hyperref}
@@ -36,6 +36,11 @@
 \newcommand{\sigm}{\mathrm{sigm}}
 \newcommand{\apkg}[1]{\emph{#1}}
 \newcommand{\proglang}[1]{#1} % egal, kommt in kopierten referenzen vor
+
+
+\DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
+
+\DeclareMathOperator{\EX}{\mathbb{E}}
 
 \begin{document}
 
@@ -285,17 +290,18 @@ Maximizing the likelihood is equal to maximizing the log-likelihood
 \]
 
 For optimizing with gradient descent, the gradient $\nabla_\Theta \sum_{k=1}^{n}  \log p_\Theta(\widetilde{v}_k)$ needs to be determined.
-The gradient of the log-likelihood for a single observation
+The negative of gradient of the log-likelihood for a single observation
 $\widetilde{v} $ with respect to the parameters $\Theta$ is
-\begin{align*}
-\nabla_{\!\Theta}  \log p(\widetilde{v}) &= \nabla_{\!\Theta}   \log \sum_h e^{-E(\widetilde{v}, h)} - \log \sum_v \sum_h e^{-E(v, h)} \\
- &= \frac{\nabla_{\!\Theta} \sum_h e^{-E(\widetilde{v}, h)}}{\sum_h e ^{-E(\widetilde{v}, h)}}  - \frac{\nabla_{\!\Theta} \sum_v \sum_h e^{-E(v,h)}}{\sum_v \sum_h e^{-E(v,h)}} \\
- &= 
-\end{align*}
+\begin{align}
+- \nabla_{\!\Theta}  \log p(\widetilde{v}) &= - \nabla_{\!\Theta}   \log \sum_h e^{-E(\widetilde{v}, h)} + \log \sum_v \sum_h e^{-E(v, h)} \nonumber \\
+ &= - \frac{\nabla_{\!\Theta} \sum_h e^{-E(\widetilde{v}, h)}}{\sum_h e ^{-E(\widetilde{v}, h)}}  + \frac{\nabla_{\!\Theta} \sum_v \sum_h e^{-E(v,h)}}{\sum_v \sum_h e^{-E(v,h)}} \label{eqn:derivedlog}\\
+&=  \frac{\sum_h e^{-E(\widetilde{v}, h)} \nabla_{\!\Theta} E(\widetilde{v}, h)} {\sum_h e^{-E(\widetilde{v}, h)}} - \frac{\sum_v \sum_h e^{-E(v, h)} \nabla_{\!\Theta} E(v, h)}{\sum_v \sum_h e^{-E(v, h)}} \label{eqn:derivedexp}\\
+&=  \EX_{P_\text{data}} \nabla_{\!\Theta} E(\widetilde{v},h) - \EX_{P_\text{model}} \nabla_{\!\Theta} E(v,h) \label{eqn:nablaresult}
+\end{align}
+In equations (\ref{eqn:derivedlog}) and (\ref{eqn:derivedexp}), the derivative of the logarithm and the exponential function is used, respectively. The resulting terms can be rewritten in equation (\ref{eqn:nablaresult}) as the expectation of the gradient given the distribution of the data and the expectation of the gradient given the distribution of the model.
 
-
-To calculate $Z$ exactly, this requires the can be summed out 
-This means that a simple gradient descent optimization is technically not feasible in normal cases. 
+As can be seen in equation (\ref{eqn:derivedexp}), the calculation of the gradient involves sums over lots of possible combinations of activations of nodes. In the first term, the sum goes over all combinations of hidden nodes, in the second over all nodes in the network.
+This means that a simply calculating the gradient and using standard gradient descent for optimization is technically not feasible in normal cases, as the number of summands grows exponentially with the number of nodes.
 
 TODO stochastic gradient descent, batch gradient descent, minibatches \citep{bengio2012practical}
 Gibbs sampling \citep{gibbssamplingorig}
