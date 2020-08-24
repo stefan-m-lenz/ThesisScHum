@@ -335,13 +335,21 @@ Similar to CD, this procedure also uses only very few steps. Here, the state of 
 
 TODO stochastic gradient descent, batch gradient descent, minibatches \citep{bengio2012practical}
 
-In an RBM with Bernoulli distributed nodes, this leads to the following formulas for the negative gradients for the weights and biases:
+\paragraph{Gradients for different types of restricted Boltzmann machines}
+
+In an RBM with Bernoulli distributed nodes, equation (\ref{eqn:nablaresult}) leads to the following formulas for the negative gradients for the weights and biases:
 \begin{align*}
 - \frac{\partial}{\partial w_{ij}}  \log p(\widetilde{v}) &= \EX_{P_\text{data}}  \widetilde{v}^T h - \EX_{P_\text{model}} v^T h \\
 - \frac{\partial}{\partial a_{ij}}  \log p(\widetilde{v}) &=  \EX_{P_\text{data}} 
 \widetilde{v} - \EX_{P_\text{model}}  v = \widetilde{v} - \EX_{P_\text{model}} v\\
 - \frac{\partial}{\partial b_{ij}}  \log p(\widetilde{v}) &=  \EX_{P_\text{data}} h - \EX_{P_\text{model}} h 
 \end{align*}
+
+In an RBM with Gaussian visible nodes \citep{krizhevsky2009tinyimagesthesis}, the negative gradients are
+\begin{align*}
+- \frac{\partial}{\partial \sigma_{i}} \log p(\widetilde{v}) &= \EX_{P_\text{data}} \left( \frac{(\widetilde{v}_i - a_i)^2}{\sigma_i^3} - \sum_{j=1}^{n_H} h_j \frac{w_{ij} \widetilde{v}_i}{\sigma_i^2}\right) \\ & \quad \quad - \EX_{P_\text{model}} \left(\frac{(v_i - a_i)^2}{\sigma_i^3} -\sum_{j=1}^{n_H} h_j \frac{w_{ij} v_i}{\sigma_i^2} \right)
+\end{align*}
+
 
 \subsubsection{Training of deep Boltzmann machines}
 
@@ -516,7 +524,7 @@ In a setting with very large sample size, the cost of estimating the actual like
 TODO reconstruction error, free energy for monitoring overfitting
 
 \subsection{General methods for implementing deep learning}
-TODO nochmal recherchieren was andere Methoden angeht: variational autoencoder, GANs 
+TODO Blick über den Tellerrand von DBMs hinaus. nochmal recherchieren was andere Methoden angeht: variational autoencoder, GANs 
 und implementierungen: TensorFlow, Flux, Pytorch etc.
 
 
@@ -626,7 +634,6 @@ TODO GaussianRBMs
 
 \subsubsection{Implementation of annealed importance sampling}
 
-
 TODO reconstruction error
 TODO cross validation
 
@@ -640,8 +647,13 @@ The hyperparameters for layerwise pre-training can be defined for the whole netw
 \end{tabular}
 \caption{Serialization grammar for the \apkg{JuliaConnectoR}}
 \end{table}
-EBNF syntax for \citep{ebnf}
+
+TODO EBNF syntax \citep{ebnf} für die Grammatik erklären
+
 The grammar is inspired by BSON \citep{bsonspec}.
+
+TODO Rest aus JuliaConnectoR-Paper hier einarbeiten
+
 
 %* A string is preceded by the number of bytes to UTF-8-encode the string.
 %* The sequence of unnamed/positional elements in a list is preceded by
@@ -669,6 +681,9 @@ The grammar is inspired by BSON \citep{bsonspec}.
    \includegraphics[scale=0.5]{images/dsBoltzmannWorkflow.pdf}
    \caption{Exemplary workflow for using the \apkg{dsBoltzmannMachines} package}
  \end{figure}
+ 
+\clearpage
+\FloatBarrier
 
 \section{Discussion}
 \subsection{Comparison to other approaches for privacy-preserving deep learning}
