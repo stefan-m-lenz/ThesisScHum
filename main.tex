@@ -298,26 +298,50 @@ $\widetilde{v} $ with respect to the parameters $\Theta$ is
 &=  \frac{\sum_h e^{-E(\widetilde{v}, h)} \nabla_{\!\Theta} E(\widetilde{v}, h)} {\sum_h e^{-E(\widetilde{v}, h)}} - \frac{\sum_v \sum_h e^{-E(v, h)} \nabla_{\!\Theta} E(v, h)}{\sum_v \sum_h e^{-E(v, h)}} \label{eqn:derivedexp}\\
 &=  \EX_{P_\text{data}} \nabla_{\!\Theta} E(\widetilde{v},h) - \EX_{P_\text{model}} \nabla_{\!\Theta} E(v,h) \label{eqn:nablaresult}
 \end{align}
-In equations (\ref{eqn:derivedlog}) and (\ref{eqn:derivedexp}), the derivative of the logarithm and the exponential function is used, respectively. The resulting terms can be rewritten in equation (\ref{eqn:nablaresult}) as the expectation of the gradient given the distribution of the data and the expectation of the gradient given the distribution of the model.
+In (\ref{eqn:derivedlog}) and (\ref{eqn:derivedexp}), the chain rule is used, together with the derivative of the logarithm and the exponential function, respectively. The resulting terms can be rewritten in equation (\ref{eqn:nablaresult}) as the expectation of the gradient given the distribution of the data and the expectation of the gradient given the distribution of the model.
 
 
-As can be seen in equation (\ref{eqn:derivedexp}), the calculation of the gradient involves sums over lots of possible combinations of activations of nodes. In the first term, the sum goes over all combinations of hidden nodes, in the second over all nodes in the network.
-Calculating the gradient and is technically not feasible in normal cases, as the number of summands grows exponentially with the number of nodes.
-This means that it is not possible to simply equate the gradient of the log-likelihood with zero and solve the equation to get an optimum. Also finding an optimum with gradient descent, walking with small steps in the direction of the gradient to find an optimum, is not possible directly, because this would as well require the calculation of the gradient in each iteration step.
 
-TODO stochastic gradient descent update term.
 
-In an RBM with Bernoulli distributed nodes, this leads to the following that 
-\begin{align}
-- \frac{\partial}{\partial w_{ij}}  \log p(\widetilde{v}) &= \EX_{P_\text{data}}  \widetilde{v}^T h - \EX_{P_\text{model}} v^T h \\
-- \frac{\partial}{\partial a_{ij}}  \log p(\widetilde{v}) &=  \EX_{P_\text{data}} 
-\widetilde{v} - \EX_{P_\text{model}}  v \\
-- \frac{\partial}{\partial b_{ij}}  \log p(\widetilde{v}) &=  \EX_{P_\text{data}} h - \EX_{P_\text{model}} h 
-\end{align}
+
+As can be seen in equation (\ref{eqn:derivedexp}), the calculation of the gradient involves sums over lots of possible combinations of activations of nodes.
+The first term can be calculated in the types of RBMs that have been introducted here.
+For this, one can use the expected value of the conditional probability $p(h\mid\widetilde{v})$ and plug it in:
+\[
+\EX_{P_\text{data}} \nabla_{\!\Theta} E(\widetilde{v},h) =  \nabla_{\!\Theta} E(\widetilde{v}, \EX(p(h \mid \widetilde{v}))
+\]
+In the second term of equation (\ref{eqn:nablaresult}), the sum goes over all nodes in the network.
+Calculating this term is technically not feasible in normal cases, as the number of summands grows exponentially with the number of nodes.
+This means that it is not possible to simply equate the gradient of the log-likelihood with zero and solve the equation to get an optimum. Also finding an optimum with gradient descent, walking with small steps in the direction of the gradient to find an optimum, is not possible directly, because this would as well require the calculation of the whole gradient in each iteration step.
+
+TODO gradient descent formula
+
+An alternative is estimating the term with Gibbs sampling. The Gibbs sampling \citep{gibbssamplingorig} algorithm in RBMs can be formulated as follows:
+
+\begin{enumerate}
+\item Start with an arbitrary $v_1$.
+\item Draw $h_1$ according to $p(h_1 \mid v_1)$.
+\item Draw $v_2$ according to $p(v_2 \mid h_1)$.
+\item Repeat steps 2 and 3 until convergence.
+\item Result: After $n$ steps, $v_n$ and $h_n$ have been drawn according to the joint distribution $p(v,h)$ of the model.
+\end{enumerate}
+
+In other applications, thousands of iterations are used for Gibbs sampling  \citep{gibbssamplingorig}. For training RBMs, a shortcut is used, which is called {\em contrastive divergence} (CD) \citep{cdorig, perpinan_contrastive_2005}.
+In CD, the number of Gibbs sampling steps is reduced drastically. In most cases, only one step is used, which is denoted with $\text{CD}_1$ \citep{hinton_practical_2012}.
+Instead of using a random starting point, CD uses the original sample $\widetilde{v}$, for which the gradient shall be computed, as starting point $v_1$ of the sampling procedure. This should ensure that the starting point is already close to the desired distribution.
+
+Another modification of the Gibbs sampling procedure used for training of RBMs is {\em persistent contrastive divergence} (PCD).
+Similar to CD, this procedure also uses only very few steps. Here, the state of the Gibbs sampling chain for calculating the last update is reused and used as starting point. \cite{hinton_practical_2012} recommends PCD over $\text{CD}_1$ or even $\text{CD}_{10}$.
 
 TODO stochastic gradient descent, batch gradient descent, minibatches \citep{bengio2012practical}
-Gibbs sampling \citep{gibbssamplingorig}
-contrastive divergence \citep{cdorig, perpinan_contrastive_2005} , persistent contrastive divergence
+
+In an RBM with Bernoulli distributed nodes, this leads to the following formulas for the negative gradients for the weights and biases:
+\begin{align*}
+- \frac{\partial}{\partial w_{ij}}  \log p(\widetilde{v}) &= \EX_{P_\text{data}}  \widetilde{v}^T h - \EX_{P_\text{model}} v^T h \\
+- \frac{\partial}{\partial a_{ij}}  \log p(\widetilde{v}) &=  \EX_{P_\text{data}} 
+\widetilde{v} - \EX_{P_\text{model}}  v = \widetilde{v} - \EX_{P_\text{model}} v\\
+- \frac{\partial}{\partial b_{ij}}  \log p(\widetilde{v}) &=  \EX_{P_\text{data}} h - \EX_{P_\text{model}} h 
+\end{align*}
 
 \subsubsection{Training of deep Boltzmann machines}
 

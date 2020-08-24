@@ -96,6 +96,12 @@ Hinton, G.~E.  \harvardyearleft 2002\harvardyearright , `Training {Products} of
 \newblock Publisher: MIT Press.
 \newline\harvardurl{https://doi.org/10.1162/089976602760128018}
 
+\harvarditem{Hinton}{2012}{hinton_practical_2012}
+Hinton, G.~E.  \harvardyearleft 2012\harvardyearright , A {Practical} {Guide}
+  to {Training} {Restricted} {Boltzmann} {Machines}, {\em in} G.~Montavon,
+  G.~B. Orr \harvardand\ K.-R. Müller, eds, `Neural {Networks}: {Tricks} of
+  the {Trade}: {Second} {Edition}', Springer Nature, pp.~599--619.
+
 \harvarditem{Hinton \harvardand\ Salakhutdinov}{2006}{hinton_reducing_2006}
 Hinton, G.~E. \harvardand\ Salakhutdinov, R.~R.  \harvardyearleft
   2006\harvardyearright , `Reducing the {Dimensionality} of {Data} with
