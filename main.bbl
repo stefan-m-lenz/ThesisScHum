@@ -4,14 +4,14 @@
   Ghemawat, Irving, Isard et~al.}{2016}{abadi2016tensorflow}
 Abadi, M., Barham, P., Chen, J., Chen, Z., Davis, A., Dean, J., Devin, M.,
   Ghemawat, S., Irving, G., Isard, M. et~al.  \harvardyearleft
-  2016\harvardyearright , Tensorflow: A system for large-scale machine
+  2016\harvardyearright , {TensorFlow}: A system for large-scale machine
   learning., {\em in} `OSDI', Vol.~16, pp.~265--283.
 
 \harvarditem[Abadi et~al.]{Abadi, Isard \harvardand\ Murray}{2017}{tensorflow}
 Abadi, M., Isard, M. \harvardand\ Murray, D.~G.  \harvardyearleft
-  2017\harvardyearright , `A {Computational} {Model} for \pkg{TensorFlow}: {An}
-  {Introduction}', {\em Proceedings of the 1st ACM SIGPLAN International
-  Workshop on Machine Learning and Programming Languages} pp.~1--7.
+  2017\harvardyearright , `A computational model for {TensorFlow}: an
+  introduction', {\em Proceedings of the 1st ACM SIGPLAN International Workshop
+  on Machine Learning and Programming Languages} pp.~1--7.
 \newline\harvardurl{http://doi.acm.org/10.1145/3088525.3088527}
 
 \harvarditem[Ackley et~al.]{Ackley, Hinton \harvardand\
@@ -48,8 +48,8 @@ Bottou, L., Curtis, F.~E. \harvardand\ Nocedal, J.  \harvardyearleft
 \harvarditem{Carreira-Perpinan \harvardand\
   Hinton}{2005}{perpinan_contrastive_2005}
 Carreira-Perpinan, M.~A. \harvardand\ Hinton, G.~E.  \harvardyearleft
-  2005\harvardyearright , On contrastive divergence learning., {\em in}
-  `Aistats', Vol.~10, Citeseer, pp.~33--40.
+  2005\harvardyearright , On contrastive divergence learning, {\em in}
+  `{AISTATS}', Vol.~10, Citeseer, pp.~33--40.
 
 \harvarditem[Cho et~al.]{Cho, Raiko \harvardand\ Ilin}{2013}{cho_gaussiandbm}
 Cho, K.~H., Raiko, T. \harvardand\ Ilin, A.  \harvardyearleft
@@ -59,8 +59,8 @@ Cho, K.~H., Raiko, T. \harvardand\ Ilin, A.  \harvardyearleft
 
 \harvarditem[Cho et~al.]{Cho, Ilin \harvardand\ Raiko}{2011}{cho2011improved}
 Cho, K., Ilin, A. \harvardand\ Raiko, T.  \harvardyearleft
-  2011\harvardyearright , `Improved learning of gaussian-bernoulli restricted
-  boltzmann machines', {\em Artificial Neural Networks and Machine
+  2011\harvardyearright , `Improved learning of {Gaussian-Bernoulli} restricted
+  {Boltzmann} machines', {\em Artificial Neural Networks and Machine
   Learning--ICANN 2011} pp.~10--17.
 
 \harvarditem{{Facebook, Inc}}{n.d.}{pytorch}
@@ -77,9 +77,9 @@ Faraway, J.~J.  \harvardyearleft 2002\harvardyearright , {\em Practical
 
 \harvarditem{Geman \harvardand\ Geman}{1984}{gibbssamplingorig}
 Geman, S. \harvardand\ Geman, D.  \harvardyearleft 1984\harvardyearright ,
-  `Stochastic {Relaxation}, {Gibbs} {Distributions}, and the {Bayesian}
-  {Restoration} of {Images}', {\em IEEE Transactions on Pattern Analysis and
-  Machine Intelligence} {\bf PAMI-6}(6),~721--741.
+  `Stochastic relaxation, {Gibbs} distributions, and the {Bayesian} restoration
+  of images', {\em IEEE Transactions on Pattern Analysis and Machine
+  Intelligence} {\bf PAMI-6}(6),~721--741.
 \newblock Conference Name: IEEE Transactions on Pattern Analysis and Machine
   Intelligence.
 
@@ -93,26 +93,26 @@ Hastie, T., Tibshirani, R. \harvardand\ Friedman, J.  \harvardyearleft
   Binder}{2017}{hess2017partitioned}
 Hess, M., Lenz, S., Bl{\"a}tte, T.~J., Bullinger, L. \harvardand\ Binder, H.
   \harvardyearleft 2017\harvardyearright , `Partitioned learning of deep
-  boltzmann machines for snp data', {\em Bioinformatics} {\bf
+  {Boltzmann} machines for {SNP} data', {\em Bioinformatics} {\bf
   33}(20),~3173--3180.
 
 \harvarditem{Hinton}{2002}{cdorig}
-Hinton, G.~E.  \harvardyearleft 2002\harvardyearright , `Training {Products} of
-  {Experts} by {Minimizing} {Contrastive} {Divergence}', {\em Neural
-  Computation} {\bf 14}(8),~1771--1800.
+Hinton, G.~E.  \harvardyearleft 2002\harvardyearright , `Training products of
+  experts by minimizing {Contrastive} {Divergence}', {\em Neural Computation}
+  {\bf 14}(8),~1771--1800.
 \newblock Publisher: MIT Press.
 \newline\harvardurl{https://doi.org/10.1162/089976602760128018}
 
 \harvarditem{Hinton}{2012}{hinton_practical_2012}
-Hinton, G.~E.  \harvardyearleft 2012\harvardyearright , A {Practical} {Guide}
-  to {Training} {Restricted} {Boltzmann} {Machines}, {\em in} G.~Montavon,
-  G.~B. Orr \harvardand\ K.-R. Müller, eds, `Neural {Networks}: {Tricks} of
-  the {Trade}: {Second} {Edition}', Springer Nature, pp.~599--619.
+Hinton, G.~E.  \harvardyearleft 2012\harvardyearright , A practical guide to
+  training restricted {Boltzmann} machines, {\em in} G.~Montavon, G.~B. Orr
+  \harvardand\ K.-R. Müller, eds, `Neural {Networks}: {Tricks} of the {Trade}:
+  {Second} {Edition}', Springer Nature, pp.~599--619.
 
 \harvarditem{Hinton \harvardand\ Salakhutdinov}{2006}{hinton_reducing_2006}
 Hinton, G.~E. \harvardand\ Salakhutdinov, R.~R.  \harvardyearleft
-  2006\harvardyearright , `Reducing the {Dimensionality} of {Data} with
-  {Neural} {Networks}', {\em Science} {\bf 313}(5786),~504--507.
+  2006\harvardyearright , `Reducing the dimensionality of data with neural
+  networks', {\em Science} {\bf 313}(5786),~504--507.
 \newline\harvardurl{http://science.sciencemag.org/content/313/5786/504}
 
 \harvarditem{Innes}{2018}{flux}
@@ -138,8 +138,7 @@ Krizhevsky, A. \harvardand\ Hinton, G.  \harvardyearleft 2009\harvardyearright
 
 \harvarditem{McCoy \harvardand\ Wu}{2014}{isingmodel}
 McCoy, B.~M. \harvardand\ Wu, T.~T.  \harvardyearleft 2014\harvardyearright ,
-  {\em The {Two}-{Dimensional} {Ising} {Model}: {Second} {Edition}}, Courier
-  Corporation.
+  {\em The Two-Dimensional {Ising} Model}, 2 edn, Courier Corporation.
 
 \harvarditem[Melchior et~al.]{Melchior, Wang \harvardand\
   Wiskott}{2017}{melchior_gbrbm}
@@ -150,7 +149,7 @@ Melchior, J., Wang, N. \harvardand\ Wiskott, L.  \harvardyearleft
 
 \harvarditem{{MongoDB, Inc.}}{2009}{bsonspec}
 {MongoDB, Inc.}  \harvardyearleft 2009\harvardyearright , `{BSON} ({Binary}
-  {JSON}) {Serialization}'.
+  {JSON}) serialization'.
 \newline\harvardurl{http://bsonspec.org/}
 
 \harvarditem[Pedregosa et~al.]{Pedregosa, Varoquaux, Gramfort, Michel, Thirion,
@@ -177,7 +176,7 @@ Rumbaugh, J., Jacobson, I. \harvardand\ Booch, G.  \harvardyearleft
 
 \harvarditem{Salakhutdinov}{2008}{salakhutdinov2008learning}
 Salakhutdinov, R.  \harvardyearleft 2008\harvardyearright , `Learning and
-  evaluating boltzmann machines', {\em Technical Report UTML TR 2008-002,
+  evaluating {Boltzmann} machines', {\em Technical Report UTML TR 2008-002,
   Department of Computer Science, University of Toronto} .
 
 \harvarditem{Salakhutdinov}{2015}{salakhutdinov2015generativemodels}
@@ -187,18 +186,18 @@ Salakhutdinov, R.  \harvardyearleft 2015\harvardyearright , `Learning deep
 
 \harvarditem{Salakhutdinov \harvardand\ Hinton}{2009}{salakhutdinov2009DBMs}
 Salakhutdinov, R. \harvardand\ Hinton, G.  \harvardyearleft
-  2009\harvardyearright , Deep boltzmann machines, {\em in} `Artificial
+  2009\harvardyearright , Deep {Boltzmann} machines, {\em in} `Artificial
   Intelligence and Statistics', pp.~448--455.
 
 \harvarditem{Salakhutdinov \harvardand\ Hinton}{2012}{sala2012anefficient}
 Salakhutdinov, R. \harvardand\ Hinton, G.  \harvardyearleft
-  2012\harvardyearright , `An efficient learning procedure for deep boltzmann
+  2012\harvardyearright , `An efficient learning procedure for deep {Boltzmann}
   machines', {\em Neural Computation} {\bf 24}(8),~1967--2006.
 
 \harvarditem{Srivastava \harvardand\
   Salakhutdinov}{2012}{srivastava2012multimodal}
 Srivastava, N. \harvardand\ Salakhutdinov, R.~R.  \harvardyearleft
-  2012\harvardyearright , Multimodal learning with deep boltzmann machines,
+  2012\harvardyearright , Multimodal learning with deep {Boltzmann} machines,
   {\em in} `Advances in neural information processing systems', pp.~2222--2230.
 
 \harvarditem[Theis et~al.]{Theis, Gerwinn, Sinz \harvardand\
