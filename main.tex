@@ -324,6 +324,8 @@ Via Gibbs sampling \citep{gibbssamplingorig}, however, the term can be estimated
 \item Result: After $n$ steps, $v_n$ and $h_n$ have been drawn according to the joint distribution $p(v,h)$ of the model.
 \end{enumerate}
 
+This works because the iteration forms a Markov chain, which has the distribution of the model as its equilibrium distribution .
+
 With this, it becomes possible to use the estimated gradients in gradient descent, or here rather ``gradient ascent" as we would like to find a (local) maximum.
 
 \paragraph{Batch gradient optimization and the role of mini-batches}
@@ -559,12 +561,23 @@ The partition function of this smaller model is then the unnormalized probabilit
 In a setting with very large sample size, the cost of estimating the actual likelihood with this procedure is too expensive. But if the sample size is small enough, it is affordable to estimate the likelihood and not fall back on the lower bound.
 
 \paragraph{Alternatives to the likelihood}
-%TODO likelihood complicated to calculate, takes time
+The AIS algorithm is very complex to implement.
+It is also compute-intensive, depending on the required exactness of the estimation.
+So often there are other statistics used for checking the training progress.
+
 The free energy cannot be used for comparing different models because it does not include the normalization by $Z$.
 It can, however, be used to compare how well the same model fits different data sets.
 One application for this is monitoring the overfitting by comparing the training data set and a test data set \citep{hinton_practical_2012}.
 
-TODO reconstruction error
+Another popular statistics, which behaves similar to the likelihood in RBMs in most cases, is the {\em reconstruction error} \citep{hinton_practical_2012}.
+For defining this, one needs at first to define the term {\em reconstruction} in an RBM.
+The reconstruction \citep{hinton_practical_2012} for a sample $\widetilde{v}$ is calculated by using the conditional probabilities as deterministic ``activation potential".
+With $a_h(h) := \EX_v p(h|v)$ and $a_v(h) := \EX_h p(v|h)$, the reconstruction $r(v)$ can be defined as $r(\widetilde{v}) := a_v(a_h(\widetilde{v}))$. The reconstruction error is then the distance between $\widetilde{v}$ and $r(\widetilde{v})$, e.g. measured as absolute distance or quadratic distance.
+
+Calculating the reconstruction error  is a very fast and simple technique for monitoring the training progress for RBMs, DBNs and for greedy layer-wise pre-training of DBMs.
+Although the reconstruction error can serve as a rough proxy statistic for the likelihood, it does not replace the likelihood entirely, as it is not the actual optimization target, and it is strongly influenced by the {\em mixing rate} of the Markov chain for Gibbs sampling, i. e. how fast the Markov chain reaches its equilibrium distribution. If the distribution in the Markov chain changes very slowly, the reconstruction error will be low, even if the distributions of the samples and the model differ much \citep{hinton_practical_2012}.
+
+
 
 
 \subsection{General methods for implementing deep learning}
