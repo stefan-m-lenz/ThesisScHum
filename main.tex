@@ -346,8 +346,10 @@ The number of epochs and the learning rate are the most important hyperparameter
 
 %TODO optional: hier könnte man mehr schreiben über zusammenspiel von learning rate und epochs, außerdem steps auf oberfläche beschreiben und learning rate decay
 
-Initially mini-batches were introduced primarily due to performance reasons. (TODO MATLAB, GPU)
-But using mini-batches can also be advantageous because of another reason: The variance of the steps becomes higher with a with a smaller batch size. This leads to exploring more of the surface of the likelihood function in the high-dimensional space and therefore can lead to finding better local optima in some scenarios \citep{bengio2012practical}.
+Mini-batches are at first introduced for performance reasons.
+It is not necessary to have the exact gradient for walking only small steps into the direction of it.
+So it is sufficient to calculate the gradient for small subsets of the data, which is noisy, but will be correct on average.
+Using mini-batches can also be advantageous because of another reason: The variance of the steps becomes higher with a with a smaller batch size. This leads to exploring more of the surface of the likelihood function in the high-dimensional space and therefore can lead to finding better local optima in some scenarios \citep{bengio2012practical}.
 
 \paragraph{Contrastive divergence}
 
@@ -557,6 +559,7 @@ The partition function of this smaller model is then the unnormalized probabilit
 In a setting with very large sample size, the cost of estimating the actual likelihood with this procedure is too expensive. But if the sample size is small enough, it is affordable to estimate the likelihood and not fall back on the lower bound.
 
 \paragraph{Alternatives to the likelihood}
+%TODO likelihood complicated to calculate, takes time
 The free energy cannot be used for comparing different models because it does not include the normalization by $Z$.
 It can, however, be used to compare how well the same model fits different data sets.
 One application for this is monitoring the overfitting by comparing the training data set and a test data set \citep{hinton_practical_2012}.
