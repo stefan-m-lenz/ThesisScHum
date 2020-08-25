@@ -289,6 +289,9 @@ Maximizing the likelihood is equal to maximizing the log-likelihood
 \sum_{k=1}^{n}  \log p(\widetilde{v}_i) = \sum_{k=1}^{n} \left( \log \sum_h e^{-E(\widetilde{v}_k, h)} - \log \sum_v \sum_h e^{-E(v, h)} \right)
 \]
 
+\paragraph{Deriving the gradient of the log-likelihood}
+
+
 For finding an optimum, the gradient $\nabla_\Theta \sum_{k=1}^{n}  \log p_\Theta(\widetilde{v}_k)$ needs to be determined.
 The negative of gradient of the log-likelihood for a single observation
 $\widetilde{v} $ with respect to the parameters $\Theta$ is
@@ -314,26 +317,48 @@ In the second term of equation (\ref{eqn:nablaresult}), the sum goes over all no
 Calculating this term is technically not feasible in normal cases, as the number of summands grows exponentially with the number of nodes.
 This means that it is not possible to simply equate the gradient of the log-likelihood with zero and solve the equation to get an optimum. Also finding an optimum with gradient descent, walking with small steps in the direction of the gradient to find an optimum, is not possible directly, because this would as well require the calculation of the whole gradient in each iteration step.
 
-TODO gradient descent formula
-
-An alternative is estimating the term with Gibbs sampling. The Gibbs sampling \citep{gibbssamplingorig} algorithm in RBMs can be formulated as follows:
+Via Gibbs sampling \citep{gibbssamplingorig}, however, the term can be estimated. The Gibbs sampling algorithm for RBMs can be formulated as follows:
 
 \begin{enumerate}
 \item Start with an arbitrary $v_1$.
-\item Draw $h_1$ according to $p(h_1 \mid v_1)$.
-\item Draw $v_2$ according to $p(v_2 \mid h_1)$.
+\item Draw $h_1$ according to $p(h \mid v_1)$.
+\item Draw $v_2$ according to $p(v \mid h_1)$.
 \item Repeat steps 2 and 3 until convergence.
 \item Result: After $n$ steps, $v_n$ and $h_n$ have been drawn according to the joint distribution $p(v,h)$ of the model.
 \end{enumerate}
 
+With this, it becomes possible to use the estimated gradients in gradient descent, or here rather ``gradient ascent" as we would like to find a (local) maximum.
+
+\paragraph{Batch gradient optimization and the role of mini-batches}
+
+For the practical implementation, another stochastic approximation of the gradient for the full data set $\sum_{k=1}^n \log p(\widetilde{v}_i)$ is used.
+Usually a form of {\em batch gradient optimization} \citep{bottou_optimization_2018} is performed.
+For this, the samples are split into batches $B_l$, usually of approximately equal sizes $b_l$.
+In each optimization step $t$, the parameters are updated as follows:
+\[
+\Theta^{(t+1)} = \Theta^{(t)} + \frac{\epsilon}{b_l} \sum_{\widetilde{v} \in B_l} \nabla_{\!\Theta} \log p(\widetilde{v})
+\]
+The step size is determined by the {\em learning rate} $\epsilon$.
+The mini-batches are usually reused multiple times for the learning.
+The number of steps after all samples/mini-batches are used for updating the parameters, is called a {\em (training) epoch}.
+(In the formula above one training epoch is over if $t = \sum_l b_l$.)
+Training usually consists of many epochs and the step size is kept small, e.g. a hundred epochs and a learning rate of 0.001 could be a viable combination.
+The number of epochs and the learning rate are the most important hyperparameters for the training.
+
+%TODO optional: hier könnte man mehr schreiben über zusammenspiel von learning rate und epochs, außerdem steps auf oberfläche beschreiben und learning rate decay
+
+Initially mini-batches were introduced primarily due to performance reasons. (TODO MATLAB, GPU)
+But using mini-batches can also be advantageous because of another reason: The variance of the steps becomes higher with a with a smaller batch size. This leads to exploring more of the surface of the likelihood function in the high-dimensional space and therefore can lead to finding better local optima in some scenarios \citep{bengio2012practical}.
+
+\paragraph{Contrastive divergence}
+
+For performing batch gradient optimization, the Gibbs sampling procedure is also modified for RBM training to speed up the learning process.
 In other applications, thousands of iterations are used for Gibbs sampling  \citep{gibbssamplingorig}. For training RBMs, a shortcut is used, which is called {\em contrastive divergence} (CD) \citep{cdorig, perpinan_contrastive_2005}.
 In CD, the number of Gibbs sampling steps is reduced drastically. In most cases, only one step is used, which is denoted with $\text{CD}_1$ \citep{hinton_practical_2012}.
 Instead of using a random starting point, CD uses the original sample $\widetilde{v}$, for which the gradient shall be computed, as starting point $v_1$ of the sampling procedure. This should ensure that the starting point is already close to the desired distribution.
 
 Another modification of the Gibbs sampling procedure used for training of RBMs is {\em persistent contrastive divergence} (PCD).
 Similar to CD, this procedure also uses only very few steps. Here, the state of the Gibbs sampling chain for calculating the last update is reused and used as starting point. \cite{hinton_practical_2012} recommends PCD over $\text{CD}_1$ or even $\text{CD}_{10}$.
-
-TODO stochastic gradient descent, batch gradient descent, minibatches \citep{bengio2012practical}
 
 \paragraph{Gradients for different types of restricted Boltzmann machines}
 
@@ -521,7 +546,12 @@ The partition function of this smaller model is then the unnormalized probabilit
 In a setting with very large sample size, the cost of estimating the actual likelihood with this procedure is too expensive. But if the sample size is small enough, it is affordable to estimate the likelihood and not fall back on the lower bound.
 
 \paragraph{Alternatives to the likelihood}
-TODO reconstruction error, free energy for monitoring overfitting
+The free energy cannot be used for comparing different models because it does not include the normalization by $Z$.
+It can, however, be used to compare how well the same model fits different data sets.
+One application for this is monitoring the overfitting by comparing the training data set and a test data set \citep{hinton_practical_2012}.
+
+TODO reconstruction error
+
 
 \subsection{General methods for implementing deep learning}
 TODO Blick über den Tellerrand von DBMs hinaus. nochmal recherchieren was andere Methoden angeht: variational autoencoder, GANs 

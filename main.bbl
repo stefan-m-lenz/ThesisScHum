@@ -38,6 +38,13 @@ Bezanson, J., Edelman, A., Karpinski, S. \harvardand\ Shah, V.~B.
   \harvardyearleft 2017\harvardyearright , `Julia: A fresh approach to
   numerical computing', {\em SIAM Review} {\bf 59}(1),~65--98.
 
+\harvarditem[Bottou et~al.]{Bottou, Curtis \harvardand\
+  Nocedal}{2018}{bottou_optimization_2018}
+Bottou, L., Curtis, F.~E. \harvardand\ Nocedal, J.  \harvardyearleft
+  2018\harvardyearright , `Optimization methods for large-scale machine
+  learning', {\em Siam Review} {\bf 60}(2),~223--311.
+\newblock Publisher: SIAM.
+
 \harvarditem{Carreira-Perpinan \harvardand\
   Hinton}{2005}{perpinan_contrastive_2005}
 Carreira-Perpinan, M.~A. \harvardand\ Hinton, G.~E.  \harvardyearleft
