@@ -382,7 +382,7 @@ In the alternative formulation of \cite{cho2011improved}, the negative gradients
 - \frac{\partial}{\partial W} \log p(\widetilde{v}) &= \frac{1}{\sigma_i^2} \left ( \EX_{P_\text{data}} \widetilde{v}^T h - \EX_{P_\text{model}} v^T h \right) \\
 - \frac{\partial}{\partial a} \log p(\widetilde{v}) &= \frac{1}{\sigma_i^2} \left(\widetilde{v} - \EX_{P_\text{model}} v \right)\\
 - \frac{\partial}{\partial b} \log p(\widetilde{v}) &= \EX_{P_\text{data}} h - \EX_{P_\text{model}} h \\
-- \frac{\partial}{\partial \sigma_{i}} \log p(\widetilde{v}) &= \EX_{P_\text{data}} \left( \frac{(\widetilde{v}_i - a_i)^2}{\sigma_i^3} - \sum_{j=1}^{n_H} h_j \frac{w_{ij} \widetilde{v}_i}{\sigma_i^2}\right) \\ & \quad \quad - \EX_{P_\text{model}} \left(\frac{(v_i - a_i)^2}{\sigma_i^3} -\sum_{j=1}^{n_H} h_j \frac{w_{ij} v_i}{\sigma_i^2} \right)
+- \frac{\partial}{\partial \sigma_{i}} \log p(\widetilde{v}) &=  \frac{1}{\sigma_i^3} \Bigg( \EX_{P_\text{data}} \left( (\widetilde{v}_i - a_i)^2 - 2\sum_{j=1}^{n_H} h_j w_{ij} \widetilde{v}_i  \right) \\ & \quad \quad - \EX_{P_\text{model}} \left((v_i - a_i)^2 -2\sum_{j=1}^{n_H} h_j w_{ij} v_i \right) \Bigg)
 \end{align*}
 
 
