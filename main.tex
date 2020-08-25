@@ -66,6 +66,7 @@ Here we want to broaden the scope a little bit and present an extensible approac
 Those architectures are not only useful for putting data of different types in one model but also in cases where a natural partitioning of the data can be derived from domain knowledge. With partitioning one can greatly reduce the number of parameters in the model. This allows training models on data sets where the sample size would otherwise be too small to fit a full model.
 Hess et al. showed that partitioned training on genetic data is successful \citep{hess2017partitioned}.
 
+\clearpage
 \section{Methods}
 \subsection{Deep Boltzmann machines}
 
@@ -303,10 +304,6 @@ $\widetilde{v} $ with respect to the parameters $\Theta$ is
 \end{align}
 In (\ref{eqn:derivedlog}) and (\ref{eqn:derivedexp}), the chain rule is used, together with the derivative of the logarithm and the exponential function, respectively. The resulting terms can be rewritten in equation (\ref{eqn:nablaresult}) as the expectation of the gradient given the distribution of the data and the expectation of the gradient given the distribution of the model.
 
-
-
-
-
 As can be seen in equation (\ref{eqn:derivedexp}), the calculation of the gradient involves sums over lots of possible combinations of activations of nodes.
 The first term can be calculated in the types of RBMs that have been introducted here.
 For this, one can use the expected value of the conditional probability $p(h\mid\widetilde{v})$ and plug it in:
@@ -338,7 +335,9 @@ In each optimization step $t$, the parameters are updated as follows:
 \[
 \Theta^{(t+1)} = \Theta^{(t)} + \frac{\epsilon}{b_l} \sum_{\widetilde{v} \in B_l} \nabla_{\!\Theta} \log p(\widetilde{v})
 \]
+
 The step size is determined by the {\em learning rate} $\epsilon$.
+Each iteration $t$ calculates the gradient of a different batch $B_l$ until all samples have been used.
 The mini-batches are usually reused multiple times for the learning.
 The number of steps after all samples/mini-batches are used for updating the parameters, is called a {\em (training) epoch}.
 (In the formula above one training epoch is over if $t = \sum_l b_l$.)
@@ -354,7 +353,7 @@ But using mini-batches can also be advantageous because of another reason: The v
 
 For performing batch gradient optimization, the Gibbs sampling procedure is also modified for RBM training to speed up the learning process.
 In other applications, thousands of iterations are used for Gibbs sampling  \citep{gibbssamplingorig}. For training RBMs, a shortcut is used, which is called {\em contrastive divergence} (CD) \citep{cdorig, perpinan_contrastive_2005}.
-In CD, the number of Gibbs sampling steps is reduced drastically. In most cases, only one step is used, which is denoted with $\text{CD}_1$ \citep{hinton_practical_2012}.
+In CD, the number of Gibbs sampling steps is reduced drastically. In most cases, even only one step is used, which is denoted with $\text{CD}_1$ \citep{hinton_practical_2012}.
 Instead of using a random starting point, CD uses the original sample $\widetilde{v}$, for which the gradient shall be computed, as starting point $v_1$ of the sampling procedure. This should ensure that the starting point is already close to the desired distribution.
 
 Another modification of the Gibbs sampling procedure used for training of RBMs is {\em persistent contrastive divergence} (PCD).
@@ -364,14 +363,25 @@ Similar to CD, this procedure also uses only very few steps. Here, the state of 
 
 In an RBM with Bernoulli distributed nodes, equation (\ref{eqn:nablaresult}) leads to the following formulas for the negative gradients for the weights and biases:
 \begin{align*}
-- \frac{\partial}{\partial w_{ij}}  \log p(\widetilde{v}) &= \EX_{P_\text{data}}  \widetilde{v}^T h - \EX_{P_\text{model}} v^T h \\
-- \frac{\partial}{\partial a_{ij}}  \log p(\widetilde{v}) &=  \EX_{P_\text{data}} 
+- \frac{\partial}{\partial W}  \log p(\widetilde{v}) &= \EX_{P_\text{data}}  \widetilde{v}^T h - \EX_{P_\text{model}} v^T h \\
+- \frac{\partial}{\partial a}  \log p(\widetilde{v}) &=  \EX_{P_\text{data}} 
 \widetilde{v} - \EX_{P_\text{model}}  v = \widetilde{v} - \EX_{P_\text{model}} v\\
-- \frac{\partial}{\partial b_{ij}}  \log p(\widetilde{v}) &=  \EX_{P_\text{data}} h - \EX_{P_\text{model}} h 
+- \frac{\partial}{\partial b}  \log p(\widetilde{v}) &=  \EX_{P_\text{data}} h - \EX_{P_\text{model}} h 
 \end{align*}
 
-In an RBM with Gaussian visible nodes \citep{krizhevsky2009tinyimagesthesis}, the negative gradients are
+In an RBM with Gaussian visible nodes \citep{krizhevsky2009tinyimagesthesis}, the negative gradients are:
 \begin{align*}
+- \frac{\partial}{\partial W} \log p(\widetilde{v}) &= \frac{1}{\sigma_i} \left ( \EX_{P_\text{data}} \widetilde{v}^T h - \EX_{P_\text{model}} v^T h \right) \\
+- \frac{\partial}{\partial a} \log p(\widetilde{v}) &= \frac{1}{\sigma_i^2} \left(\widetilde{v} - \EX_{P_\text{model}} v \right)\\
+- \frac{\partial}{\partial b} \log p(\widetilde{v}) &= \EX_{P_\text{data}} h - \EX_{P_\text{model}} h \\
+- \frac{\partial}{\partial \sigma_{i}} \log p(\widetilde{v}) &= \EX_{P_\text{data}} \left( \frac{(\widetilde{v}_i - a_i)^2}{\sigma_i^3} - \sum_{j=1}^{n_H} h_j \frac{w_{ij} \widetilde{v}_i}{\sigma_i^2}\right) \\ & \quad \quad - \EX_{P_\text{model}} \left(\frac{(v_i - a_i)^2}{\sigma_i^3} -\sum_{j=1}^{n_H} h_j \frac{w_{ij} v_i}{\sigma_i^2} \right)
+\end{align*}
+
+In the alternative formulation of \cite{cho2011improved}, the negative gradients are:
+\begin{align*}
+- \frac{\partial}{\partial W} \log p(\widetilde{v}) &= \frac{1}{\sigma_i^2} \left ( \EX_{P_\text{data}} \widetilde{v}^T h - \EX_{P_\text{model}} v^T h \right) \\
+- \frac{\partial}{\partial a} \log p(\widetilde{v}) &= \frac{1}{\sigma_i^2} \left(\widetilde{v} - \EX_{P_\text{model}} v \right)\\
+- \frac{\partial}{\partial b} \log p(\widetilde{v}) &= \EX_{P_\text{data}} h - \EX_{P_\text{model}} h \\
 - \frac{\partial}{\partial \sigma_{i}} \log p(\widetilde{v}) &= \EX_{P_\text{data}} \left( \frac{(\widetilde{v}_i - a_i)^2}{\sigma_i^3} - \sum_{j=1}^{n_H} h_j \frac{w_{ij} \widetilde{v}_i}{\sigma_i^2}\right) \\ & \quad \quad - \EX_{P_\text{model}} \left(\frac{(v_i - a_i)^2}{\sigma_i^3} -\sum_{j=1}^{n_H} h_j \frac{w_{ij} v_i}{\sigma_i^2} \right)
 \end{align*}
 
