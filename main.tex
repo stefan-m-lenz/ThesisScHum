@@ -273,9 +273,26 @@ p(v_k = 1 \mid h) &= \frac{p(v_k = 1, h)}{p(h)} \\
 
 
 
-
-
 \paragraph{Deep Boltzmann machines}
+
+A deep Boltzmann machine with $n_L$ number of hidden layers has the parameters $\Theta = (W^{(1)}, \dots, W^{(n_L)}, a, b^{(1)}, \dots, b^{(n_L)})$. The energy is defined as 
+\[
+E(v, h^{(1)}, \dots, h^{(n_L)}) = - a^T v - v^T W^{(1)} h^{(1)} - \sum_{k=1}^{n_L} b^{(k)} h^{(k)} -  \sum_{k=2}^{n_L} h^{(k-1)}W^{(k)}h^{(k)}
+\]
+For the resulting network architecture see figure  \ref{fig:bmsoverview}{\bf C}.
+A deep Boltzmann machine has Bernoulli distributed nodes.
+Due to the layer-wise structure, the conditional probability of the visible nodes $p(v \mid h) = p(v \mid h^{(1)})$ depends only on the first hidden layer and can be calculated like in an RBM with Bernoulli distributed nodes.
+The conditional probability of the final hidden layer $p \left( h^{n_L} \mid v, h^{(1)}, \dots, h^{(n_L -1)} \right) = p \left( h^{n_L} \mid h^{(n_L -1)} \right)$ can similarly be calculated by knowing only on $h^{(n_L-1)}$.
+For the intermediate layers, the conditional probability can be calculated if the neighboring layers are given as
+\[
+p\left(h^{(1)} \mid v, h^{(3)}\right) = \sigm \bigg( b^{(1)} + (W^{(1)})^T v + W^{(3)} h^{(3)} \bigg)
+\]
+for the first hidden layer and 
+\[
+p\left(h^{(k)} \mid h^{(k-1)}, h^{(k+1)} \right) = \sigm \bigg( b^{(k)} + (W^{(k-1)})^T h^{(k-1)} + W^{(k+1)} h^{(k+1)} \bigg)
+\]
+for all other intermediate hidden layers.
+
 
 \paragraph{Multimodal deep Boltzmann machines}
 
@@ -416,7 +433,7 @@ Being able to inspect the learning process is important for finding the best cho
 This leads us to the next section, where we want to take a closer look at methods for calculating and estimating the likelihood, and lower bound of the likelihood, in case DBMs.
 
 
-\subsubsection{Evaluating deep Boltzmann machines}
+\subsubsection{Evaluating restricted and deep Boltzmann machines}
 A special challenge for unsupervised learning on non-image data in general is the lack of performance indicators.
 In supervised training, the classification accuracy is the natural evaluation criterion, which is also easy to implement.
 In unsupervised training with a well investigated class of data such as images, there is already much experience available for choosing the model architecture and the hyperparameters. If models are to be trained on very diverse data, the problem of finding good hyperparameters is exacerbated as for each data set the challenge of tuning can pose a different challenge.
