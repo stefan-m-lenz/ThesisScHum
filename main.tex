@@ -275,9 +275,13 @@ p(v_k = 1 \mid h) &= \frac{p(v_k = 1, h)}{p(h)} \\
 
 \paragraph{Deep Boltzmann machines}
 
-A deep Boltzmann machine with $n_L$ number of hidden layers has the parameters $\Theta = (W^{(1)}, \dots, W^{(n_L)}, a, b^{(1)}, \dots, b^{(n_L)})$. The energy is defined as 
+A deep Boltzmann machine, as defined by \cite{salakhutdinov2009DBMs}, with $n_L$ number of hidden layers has parameters 
 \[
-E(v, h^{(1)}, \dots, h^{(n_L)}) = - a^T v - v^T W^{(1)} h^{(1)} - \sum_{k=1}^{n_L} b^{(k)} h^{(k)} -  \sum_{k=2}^{n_L} h^{(k-1)}W^{(k)}h^{(k)}
+\Theta = \left (W^{(1)}, \dots, W^{(n_L)}, a, b^{(1)}, \dots, b^{(n_L)} \right).
+\]
+The energy is defined as 
+\[
+E(v, h^{(1)}, \dots, h^{(n_L)}) = - a^T v - v^T W^{(1)} h^{(1)} - \sum_{k=1}^{n_L} b^{(k)} h^{(k)} -  \sum_{k=2}^{n_L} h^{(k-1)}W^{(k)}h^{(k)}.
 \]
 For the resulting network architecture see figure  \ref{fig:bmsoverview}{\bf C}.
 A deep Boltzmann machine has Bernoulli distributed nodes.
@@ -424,8 +428,8 @@ the likelihood is not optimized directly but a lower bound
 \]
 is optimized. $\mathcal{H}$ denotes the entropy of the hidden nodes. \citep{sala2012anefficient}
 
+TODO parameter updates
 TODO stacking
-TODO Bild von multimodal
 TODO Referenz zu Srivastava
 Since the training procedure is very complex and depends on many hyperparameters, it is necessary to test whether the training works well by examining the training objective.
 Although the likelihood is not the best criterion for all kinds of applications \citep{theis_note_2015}, it is essential to have a way to get a value for the likelihood as primary optimization criterion.
@@ -717,9 +721,10 @@ The hyperparameters for layerwise pre-training can be defined for the whole netw
 
 \begin{table}
 \begin{tabular}{lcl}
+\hiderowcolors
 \input{includes/ebnftable.tex}
 \end{tabular}
-\caption{Serialization grammar for the \apkg{JuliaConnectoR}}
+\caption{Serialization grammar for the \apkg{JuliaConnectoR}. TODO: Tabelle aufteilen und erklären}
 \end{table}
 
 TODO EBNF syntax \citep{ebnf} für die Grammatik erklären
