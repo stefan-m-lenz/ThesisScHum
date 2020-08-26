@@ -485,21 +485,30 @@ and therefore
 The factors $\beta_k$ with $0 = \beta_0 < \beta_1 < ... < \beta_K = 1$ are called temperatures. \citep{salakhutdinov2008learning}
 The choice of the temperatures, the number of importance weights and also the number of Gibbs sampling steps for the transition are hyperparameters for the AIS algorithm.
 
-There are two practical approaches for constructing intermediate models with such a distributions (see also figure \ref{figTwotypesais}):
+With AIS, it is possible to get a direct estimate of $Z$ by annealing from the full model with distribution $p_A$ to a null model with all weights being zero, for $p_B$.
+The partition function $Z_B$ of the null model can be calculated directly, and therefore $Z_A$ can be computed from the AIS estimator of $\frac{Z_B}{Z_A}$. This approach is shown in figure \ref{figTwotypesais}A.
+
+It is also possible to compare the likelihood of two models instead of calculating it directly.
+For this, only the ratio $\frac{Z_B}{Z_A}$ between two full models needs to be estimated.
+There are two practical approaches for constructing intermediate models  for directly annealing from one full model to another full model (see also figure \ref{figTwotypesais}, B and C):
 \begin{enumerate}
-\item Combine corresponding weights of two models of the same size to get an intermediate model of the same size.
-\item Constructing a larger model by putting the two models next to each other and connecting their nodes, increasing the energy in one part of the combined model while reducing it in the other part. \citep{theis2011deepbelief}
+\item Combining (adding) corresponding weights of two models of the same size to get an intermediate model of the same size.
+\item Constructing a larger model by putting the two models next to each other and connecting their nodes, increasing the energy in one part of the combined model while reducing it in the other part \citep{theis2011deepbelief}:
 \end{enumerate}
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=3.5]{images/twotypesais.pdf}
-\caption{The two approaches for AIS, sketched for restricted Boltzmann machines.
-Here we can see two models with three visible nodes and two hidden nodes. 
-The weights of the first model are depicted as continuous lines, the weights of the second as dashed lines. The tempered weights of the intermediate distributions are shown in grey. In the first row, annealing approach one is illustrated, where model one is gradually morphed into model two. In the second row one can see the annealing approach two, which works with a combined model.}
+\caption{Different approaches for performing AIS. 
+The tempered weights of the intermediate distributions are shown in grey. Black lines correspond to the original weights of a model. No lines between nodes are equal to the weights being zero.
+{\bf A:} Annealing from a null model, where all weights are zero, to the full model.
+{\bf B:} Annealing from one RBM model with three visible nodes and two hidden nodes to another model of the same size.
+The weights of the first model are depicted as continuous lines, the weights of the second as dashed lines. Here, model one is gradually morphed into model two. {\bf C:} 
+The same two RBMs are compared again by annealing from a model that is equivalent to the first model to a model that is equivalent to a second model via a combined, bigger model. For this approach, both models do not necessarily have to be of the same size.}
 \label{figTwotypesais}
 \end{figure}
-The second approach is more flexible and allows to estimate the ratios of two arbitrary Boltzmann machines of the same type and with the same number of hidden nodes. But it requires sampling in a Boltzmann machine that has as many hidden nodes as the two models together.
-Both approaches can be used to estimate the partition function of a single Boltzmann machine by estimating the ratio of the model's partition function to the partition function of a base rate model with known partition function.
+The approach with a combined model (see figure \ref{figTwotypesais}C) is more flexible and allows to estimate the ratios of two arbitrary Boltzmann machines of the same type and with the same number of hidden nodes.
+But it requires sampling in a Boltzmann machine that has as many hidden nodes as the two models together.
+
 % TODO verweis, was im package benutzt wird.
 
 
@@ -708,16 +717,14 @@ In our implementation multimodal deep Boltzmann machines, corresponding to the t
 
 \subsubsection{Training algorithm and choices of hyperparameters}
 
-TODO minibatch - nicht nur für performance
+The hyperparameters for layerwise pre-training can be defined for the whole network or for each layer separately. TODO Trainlayer, AbstractTrainLayer.
 
-TODO GaussianRBMs
 
 \subsubsection{Implementation of annealed importance sampling}
 
-TODO reconstruction error
 TODO cross validation
 
-The hyperparameters for layerwise pre-training can be defined for the whole network or for each layer separately. TODO Trainlayer, AbstractTrainLayer.
+
 % TODO softmax0
 \subsection{Connecting R and Julia with the JuliaConnectoR}
 
