@@ -68,7 +68,7 @@ Hess et al. showed that partitioned training on genetic data is successful \cite
 
 \clearpage
 \section{Methods}
-\subsection{Deep Boltzmann machines}
+\subsection{From restricted to multimodal deep Boltzmann machines}
 
 Boltzmann machines \citep{ackley_boltzmann_1985} are a special kind of neural networks.
 They have been derived from statistical physics.
@@ -141,6 +141,14 @@ The most basic model in this class of models are restricted Boltzmann machines w
 The parameters of the model are $\Theta = (W, a, b)$ with \emph{weight matrix} $W$, vector $a$ as the \emph{visible bias} and $b$ as the \emph{hidden bias}.
 The weights correspond to the connections between the visible and hidden units in a weighted graph, as shown in figure \ref{fig:bmsoverview}.
 The bias variables are usually not depicted in graph views of neural networks, but they are equivalent to adding additional nodes to the model that are always 1. The visible bias corresponds to the weights on the connections to an additional node that is connected to all nodes of the visible layer, and the hidden bias corresponds to the weights on the connections to an additional node that is connected to all nodes of the hidden layer. The bias variables serve to set a basic level of activation of the nodes, which is then modified by the input from the connected units.
+To see the mapping from the parameters in the formula to the network view, see figure \ref{fig:rbmweights}.
+
+\begin{figure}[h]
+   \centering
+   \includegraphics[scale=0.5]{images/rbmweights.pdf}
+   \caption{The parameters of an RBM in the graph view. The second visible node and the first node in the hidden layer are connected with weight $w_{21}$ from the weight matrix $W$. The base-level activity of the nodes $v_2$ and $h_1$ is determined by the biases $a_2$ and $b_1$, respectively.}
+   \label{fig:rbmweights}
+ \end{figure}
 
 
 Employing the sigmoid function $\sigm(x) = \frac{1}{1+ e^{-x}}$, the resulting conditional distributions can be written as 
@@ -186,8 +194,8 @@ The conditional distribution of the hidden nodes is $p(h_j | v) = \sigm \left (b
    F(v) = \sum_{i=1}^{n_V}\frac{(v_i - a_i)^2}{2\sigma_i^2} + \sum_{j=1}^{n_H} \log \left (1 + e^{b_j + \sum_{i=1}^{n_V} \frac{v_i}{\sigma_i^2} w_{ij}} \right).
 \end{equation*}
 
-TODO cite: 
-\citep{melchior_gbrbm}, \citep{cho_gaussiandbm}
+%TODO cite: 
+%\citep{melchior_gbrbm}, \citep{cho_gaussiandbm}
 % TODO mention alternative: use continuous as Gaussian hard., verweis auf entsprechenden results teil
 
 \paragraph{Categorical data}\label{methodsoftmax0}
