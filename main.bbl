@@ -51,12 +51,6 @@ Carreira-Perpinan, M.~A. \harvardand\ Hinton, G.~E.  \harvardyearleft
   2005\harvardyearright , On contrastive divergence learning, {\em in}
   `{AISTATS}', Vol.~10, Citeseer, pp.~33--40.
 
-\harvarditem[Cho et~al.]{Cho, Raiko \harvardand\ Ilin}{2013}{cho_gaussiandbm}
-Cho, K.~H., Raiko, T. \harvardand\ Ilin, A.  \harvardyearleft
-  2013\harvardyearright , Gaussian-{Bernoulli} deep {Boltzmann} machine, {\em
-  in} `The 2013 {International} {Joint} {Conference} on {Neural} {Networks}
-  ({IJCNN})', pp.~1--7.
-
 \harvarditem[Cho et~al.]{Cho, Ilin \harvardand\ Raiko}{2011}{cho2011improved}
 Cho, K., Ilin, A. \harvardand\ Raiko, T.  \harvardyearleft
   2011\harvardyearright , `Improved learning of {Gaussian-Bernoulli} restricted
@@ -140,13 +134,6 @@ Krizhevsky, A. \harvardand\ Hinton, G.  \harvardyearleft 2009\harvardyearright
 McCoy, B.~M. \harvardand\ Wu, T.~T.  \harvardyearleft 2014\harvardyearright ,
   {\em The Two-Dimensional {Ising} Model}, 2 edn, Courier Corporation.
 
-\harvarditem[Melchior et~al.]{Melchior, Wang \harvardand\
-  Wiskott}{2017}{melchior_gbrbm}
-Melchior, J., Wang, N. \harvardand\ Wiskott, L.  \harvardyearleft
-  2017\harvardyearright , `Gaussian-binary restricted {Boltzmann} machines for
-  modeling natural image statistics', {\em PLoS ONE} {\bf 12}(2).
-\newline\harvardurl{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5289828/}
-
 \harvarditem{{MongoDB, Inc.}}{2009}{bsonspec}
 {MongoDB, Inc.}  \harvardyearleft 2009\harvardyearright , `{BSON} ({Binary}
   {JSON}) serialization'.
@@ -194,11 +181,11 @@ Salakhutdinov, R. \harvardand\ Hinton, G.  \harvardyearleft
   2012\harvardyearright , `An efficient learning procedure for deep {Boltzmann}
   machines', {\em Neural Computation} {\bf 24}(8),~1967--2006.
 
-\harvarditem{Srivastava \harvardand\
-  Salakhutdinov}{2012}{srivastava2012multimodal}
-Srivastava, N. \harvardand\ Salakhutdinov, R.~R.  \harvardyearleft
-  2012\harvardyearright , Multimodal learning with deep {Boltzmann} machines,
-  {\em in} `Advances in neural information processing systems', pp.~2222--2230.
+\harvarditem{Smolensky}{1986}{smolensky1986foundations}
+Smolensky, P.  \harvardyearleft 1986\harvardyearright , `Foundations of harmony
+  theory: Cognitive dynamical systems and the subsymbolic theory of information
+  processing', {\em Parallel distributed processing: Explorations in the
+  microstructure of cognition} {\bf 1},~191--281.
 
 \harvarditem[Theis et~al.]{Theis, Gerwinn, Sinz \harvardand\
   Bethge}{2011}{theis2011deepbelief}

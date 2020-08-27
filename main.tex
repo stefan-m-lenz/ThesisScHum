@@ -113,9 +113,7 @@ This way the log-likelihood
 
 can be calculated efficiently if the partition function $Z$ is given. The free energy is also used for calculating the ratio of the unnormalized probabilities $p^*(v) = e^{-F(v)}$ in the annealed importance sampling algorithm (see \ref{methodAIS}).
 
-\subsubsection{Types of Boltzmann machines}\label{bmtypes}
-
-Here we only consider the special cases of restricted Boltzmann machines (RBMs) and (multimodal) deep Boltzmann machines.
+Here we only consider the special cases of restricted Boltzmann machines and (multimodal) deep Boltzmann machines.
 These models have restrictions on their parameterization compared to a general Boltzmann machine.
 The restrictions correspond to a layered design of their graphs.
 For an intuitive overview of the architectures of the different types that are considered here, see figure \ref{fig:bmsoverview}.
@@ -132,8 +130,15 @@ For an intuitive overview of the architectures of the different types that are c
  \end{figure}
 
 
+\subsubsection{Types of restricted Boltzmann machines}\label{rbmtypes}
+
+\emph{Restricted Boltzmann machines} \citep{smolensky1986foundations}, or RBMs,  consist of two layers, a visible layer $v$, which receives the input data and a hidden layer $h$, see figure \ref{fig:bmsoverview}B.
+The nodes inside the same layer are not connected to each other and therefore, the network has the form of a bipartite graph.
+Here we only consider RBMs with Bernoulli distributed nodes, although other distributions are also possible for hidden nodes \citep{hinton_practical_2012}.
+The types of RBMs presented in the following differ in the distribution of their visible nodes, which makes them suitable for modeling different types of input data.
+
 \paragraph{Bernoulli distributed visible nodes}
-The most basic model in this class of models are restricted Boltzmann machines with Bernoulli distributed nodes, most of the time simply called \emph{restricted Boltzmann machines} (RBMs). Their energy function is of the form
+The most basic model in this class of models are restricted Boltzmann machines with Bernoulli distributed nodes, most of the time simply called restricted Boltzmann machines. Their energy function is of the form
 \begin{equation}
    E(v,h) = - a^T v - b^T h - v^T W h. \label{eqn:energyformularbm}
 \end{equation}
@@ -279,45 +284,6 @@ p(v_k = 1 \mid h) &= \frac{p(v_k = 1, h)}{p(h)} \\
   %&= \frac{\exp \left( (Wh)_k + a_k \right) \sum_{v_{i \notin C_k}} \exp \left(-E(v_{i \in C_k} = 0, v_{i \notin C_k}, h) \right)}{\sum_{u_{i\notin C_k)}
 \end{align*}
 
-
-
-\paragraph{Deep Boltzmann machines}
-
-A deep Boltzmann machine, as defined by \cite{salakhutdinov2009DBMs}, with $n_L$ number of hidden layers has parameters 
-\[
-\Theta = \left (W^{(1)}, \dots, W^{(n_L)}, a, b^{(1)}, \dots, b^{(n_L)} \right).
-\]
-The energy is defined as 
-\[
-E(v, h^{(1)}, \dots, h^{(n_L)}) = - a^T v - v^T W^{(1)} h^{(1)} - \sum_{k=1}^{n_L} b^{(k)} h^{(k)} -  \sum_{k=2}^{n_L} h^{(k-1)}W^{(k)}h^{(k)}.
-\]
-For the connection between the formula and the resulting network architecture see figure  \ref{fig:dbmweights}.
-\begin{figure}[h]
-   \centering
-   \includegraphics[scale=0.6]{images/dbmweights.pdf}
-   \caption{The nodes and parameters of a deep Boltzmann machine in the graph view}
-   \label{fig:dbmweights}
- \end{figure}
- 
-A deep Boltzmann machine has Bernoulli distributed nodes.
-Due to the layer-wise structure, the conditional probability of the visible nodes $p(v \mid h) = p(v \mid h^{(1)})$ depends only on the first hidden layer and can be calculated like in an RBM with Bernoulli distributed nodes.
-The conditional probability of the final hidden layer $p \left( h^{n_L} \mid v, h^{(1)}, \dots, h^{(n_L -1)} \right) = p \left( h^{n_L} \mid h^{(n_L -1)} \right)$ can similarly be calculated by knowing only on $h^{(n_L-1)}$.
-For the intermediate layers, the conditional probability can be calculated if the neighboring layers are given as
-\[
-p\left(h^{(1)} \mid v, h^{(3)}\right) = \sigm \bigg( b^{(1)} + (W^{(1)})^T v + W^{(3)} h^{(3)} \bigg)
-\]
-for the first hidden layer and 
-\[
-p\left(h^{(k)} \mid h^{(k-1)}, h^{(k+1)} \right) = \sigm \bigg( b^{(k)} + (W^{(k-1)})^T h^{(k-1)} + W^{(k+1)} h^{(k+1)} \bigg)
-\]
-for all other intermediate hidden layers.
-
-
-\paragraph{Multimodal deep Boltzmann machines}
-
-The energy function of a multimodal deep Boltzmann machine (MDBM) is TODO
-
-
 \subsubsection{Training of restricted Boltzmann machines}\label{rbmtraining}
 Goal of the training procedure of restricted Boltmann machines is to maximize the likelihood $\prod_{k=1}^n p(\widetilde{v}_k)$ for a given data set $(\widetilde{v}_1, \dots, \widetilde{v}_n)$.
 As mentioned in section \ref{basicbmproperties}, calculating $p(v) = \frac{\sum_{h} p(v,h)}{Z}$ needs the partition function $Z$.
@@ -427,6 +393,45 @@ In the alternative formulation of \cite{cho2011improved}, the negative gradients
 
 In the RBM with the dummy variables for encoding categorical variables, the gradients are the same as in the one with Bernoulli distributed variables.
 
+
+
+\subsubsection{Deep Boltzmann machines}
+
+A deep Boltzmann machine, as defined by \cite{salakhutdinov2009DBMs}, with $n_L$ number of hidden layers has parameters 
+\[
+\Theta = \left (W^{(1)}, \dots, W^{(n_L)}, a, b^{(1)}, \dots, b^{(n_L)} \right).
+\]
+The energy is defined as 
+\[
+E(v, h^{(1)}, \dots, h^{(n_L)}) = - a^T v - v^T W^{(1)} h^{(1)} - \sum_{k=1}^{n_L} b^{(k)} h^{(k)} -  \sum_{k=2}^{n_L} h^{(k-1)}W^{(k)}h^{(k)}.
+\]
+For the connection between the formula and the resulting network architecture see figure  \ref{fig:dbmweights}.
+\begin{figure}[h]
+   \centering
+   \includegraphics[scale=0.6]{images/dbmweights.pdf}
+   \caption{The nodes and parameters of a deep Boltzmann machine in the graph view}
+   \label{fig:dbmweights}
+ \end{figure}
+ 
+A deep Boltzmann machine has Bernoulli distributed nodes.
+Due to the layer-wise structure, the conditional probability of the visible nodes $p(v \mid h) = p(v \mid h^{(1)})$ depends only on the first hidden layer and can be calculated like in an RBM with Bernoulli distributed nodes.
+The conditional probability of the final hidden layer $p \left( h^{n_L} \mid v, h^{(1)}, \dots, h^{(n_L -1)} \right) = p \left( h^{n_L} \mid h^{(n_L -1)} \right)$ can similarly be calculated by knowing only on $h^{(n_L-1)}$.
+For the intermediate layers, the conditional probability can be calculated if the neighboring layers are given as
+\[
+p\left(h^{(1)} \mid v, h^{(3)}\right) = \sigm \bigg( b^{(1)} + (W^{(1)})^T v + W^{(3)} h^{(3)} \bigg)
+\]
+for the first hidden layer and 
+\[
+p\left(h^{(k)} \mid h^{(k-1)}, h^{(k+1)} \right) = \sigm \bigg( b^{(k)} + (W^{(k-1)})^T h^{(k-1)} + W^{(k+1)} h^{(k+1)} \bigg)
+\]
+for all other intermediate hidden layers.
+
+
+\subsubsection{Multimodal deep Boltzmann machines}
+
+The energy function of a multimodal deep Boltzmann machine (MDBM) is TODO
+
+
 \subsubsection{Training of deep Boltzmann machines}
 
 For pre-training the multimodal deep Boltzmann machines, we use greedy layerwise pre-training  of layers of restricted Boltzmann machines.
@@ -468,7 +473,7 @@ In most cases, the likelihood cannot be calculated exactly but it can only be es
 \label{methodExactloglik}
 As mentioned in section \ref{rbmtraining}, the exact calculation of partition functions is only computationally feasible for very small models as its complexity grows exponentially. Exploiting the layerwise structure allows a faster exact calculation of $Z$ such that the computation time does not grow exponentially with the number of all nodes but only grows exponentially with the number of elements in a subset of the nodes. It is possible to utilize the formula for the free energy in restricted Boltzmann machines (see formulas (\ref{eqn:freenergy_rbm}) and (\ref{eqn:freenergy_gbrbm})), where the hidden layer is summed out analytically.
 With this it is possible to reduce the number of summands. 
-The complexity for calculating the partition function for all the different types of  models described in section \ref{bmtypes} is then still $\mathcal{O}(2^n)$, but with an $n$ smaller than the number of nodes:
+The complexity for calculating the partition function for all the different types of  models described here is then still $\mathcal{O}(2^n)$, but with an $n$ smaller than the number of nodes:
 
 By using the formulas for the free energy and the symmetry of restricted Boltzmann with binary nodes, $n = \min(n_V, n_H)$ with $n_V$.
 In RBMs with one of layer Gaussian nodes and one layer of binary nodes, $n$ is the number of binary nodes, since the contribution of the Gaussian nodes can be integrated analytically.
