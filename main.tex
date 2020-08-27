@@ -284,6 +284,24 @@ p(v_k = 1 \mid h) &= \frac{p(v_k = 1, h)}{p(h)} \\
   %&= \frac{\exp \left( (Wh)_k + a_k \right) \sum_{v_{i \notin C_k}} \exp \left(-E(v_{i \in C_k} = 0, v_{i \notin C_k}, h) \right)}{\sum_{u_{i\notin C_k)}
 \end{align*}
 
+\subsubsection{Gibbs sampling in restricted Boltzmann machines}\label{gibbssamplingrbm}
+To use RBMs as generative models, one must be able to draw samples from the distribution captured in the parameters of the model.
+The straightforward way would be to calculate $p(v)$ and sample according to this distribution.
+But $p(v)$ depends on the partition function $Z$ and calculating $Z$ is not feasible for most practical scenarios, as the number of summands in $Z$ grows exponentially with the number of nodes in the model (see also later in \ref{methodExactloglik}).
+Because of the layered structure of RBMs and the closed form of the conditional distributions $p(v \mid h)$ and $p(h \mid v)$, which is fast to evaluate, it becomes possible to apply a Markov chain Monte Carlo technique called \emph{Gibbs sampling} \citep{gibbssamplingorig}.
+
+The Gibbs sampling  algorithm for RBMs can be formulated as follows:
+
+\begin{enumerate}
+\item Start with an arbitrary $v_1$.
+\item Draw $h_1$ according to $p(h \mid v_1)$.
+\item Draw $v_2$ according to $p(v \mid h_1)$.
+\item Repeat steps 2 and 3 until convergence.
+\item Result: After $n$ steps, $v_n$ and $h_n$ have been drawn according to the joint distribution $p(v,h)$ of the model.
+\end{enumerate}
+
+This works because the iteration forms a Markov chain, which has the distribution $p(v,h)$ of the model as its equilibrium distribution.
+
 \subsubsection{Training of restricted Boltzmann machines}\label{rbmtraining}
 Goal of the training procedure of restricted Boltmann machines is to maximize the likelihood $\prod_{k=1}^n p(\widetilde{v}_k)$ for a given data set $(\widetilde{v}_1, \dots, \widetilde{v}_n)$.
 As mentioned in section \ref{basicbmproperties}, calculating $p(v) = \frac{\sum_{h} p(v,h)}{Z}$ needs the partition function $Z$.
@@ -315,19 +333,7 @@ For this, one can use the expected value of the conditional probability $p(h\mid
 In the second term of equation (\ref{eqn:nablaresult}), the sum goes over all nodes in the network.
 Calculating this term is technically not feasible in normal cases, as the number of summands grows exponentially with the number of nodes.
 This means that it is not possible to simply equate the gradient of the log-likelihood with zero and solve the equation to get an optimum. Also finding an optimum with gradient descent, walking with small steps in the direction of the gradient to find an optimum, is not possible directly, because this would as well require the calculation of the whole gradient in each iteration step.
-
-Via Gibbs sampling \citep{gibbssamplingorig}, however, the term can be estimated. The Gibbs sampling algorithm for RBMs can be formulated as follows:
-
-\begin{enumerate}
-\item Start with an arbitrary $v_1$.
-\item Draw $h_1$ according to $p(h \mid v_1)$.
-\item Draw $v_2$ according to $p(v \mid h_1)$.
-\item Repeat steps 2 and 3 until convergence.
-\item Result: After $n$ steps, $v_n$ and $h_n$ have been drawn according to the joint distribution $p(v,h)$ of the model.
-\end{enumerate}
-
-This works because the iteration forms a Markov chain, which has the distribution of the model as its equilibrium distribution .
-
+Via Gibbs sampling (see section \ref{gibbssamplingrbm}), however, the term can be estimated. 
 With this, it becomes possible to use the estimated gradients in gradient descent, or here rather ``gradient ascent" as we would like to find a (local) maximum.
 
 \paragraph{Batch gradient optimization and the role of mini-batches}
