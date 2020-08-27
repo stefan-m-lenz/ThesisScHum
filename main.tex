@@ -146,7 +146,7 @@ To see the mapping from the parameters in the formula to the network view, see f
 \begin{figure}[h]
    \centering
    \includegraphics[scale=0.5]{images/rbmweights.pdf}
-   \caption{The parameters of an RBM in the graph view. The second visible node and the first node in the hidden layer are connected with weight $w_{21}$ from the weight matrix $W$. The base-level activity of the nodes $v_2$ and $h_1$ is determined by the biases $a_2$ and $b_1$, respectively.}
+   \caption{The nodes and parameters of a restricted Boltzmann machine in the graph view. The second visible node and the first node in the hidden layer are connected with weight $w_{21}$ from the weight matrix $W$. The base-level activity of the nodes $v_2$ and $h_1$ is determined by the biases $a_2$ and $b_1$, respectively.}
    \label{fig:rbmweights}
  \end{figure}
 
@@ -291,7 +291,14 @@ The energy is defined as
 \[
 E(v, h^{(1)}, \dots, h^{(n_L)}) = - a^T v - v^T W^{(1)} h^{(1)} - \sum_{k=1}^{n_L} b^{(k)} h^{(k)} -  \sum_{k=2}^{n_L} h^{(k-1)}W^{(k)}h^{(k)}.
 \]
-For the resulting network architecture see figure  \ref{fig:bmsoverview}{\bf C}.
+For the connection between the formula and the resulting network architecture see figure  \ref{fig:dbmweights}.
+\begin{figure}[h]
+   \centering
+   \includegraphics[scale=0.6]{images/dbmweights.pdf}
+   \caption{The nodes and parameters of a deep Boltzmann machine in the graph view}
+   \label{fig:dbmweights}
+ \end{figure}
+ 
 A deep Boltzmann machine has Bernoulli distributed nodes.
 Due to the layer-wise structure, the conditional probability of the visible nodes $p(v \mid h) = p(v \mid h^{(1)})$ depends only on the first hidden layer and can be calculated like in an RBM with Bernoulli distributed nodes.
 The conditional probability of the final hidden layer $p \left( h^{n_L} \mid v, h^{(1)}, \dots, h^{(n_L -1)} \right) = p \left( h^{n_L} \mid h^{(n_L -1)} \right)$ can similarly be calculated by knowing only on $h^{(n_L-1)}$.
