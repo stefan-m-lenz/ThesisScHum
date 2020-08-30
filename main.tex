@@ -302,6 +302,15 @@ The Gibbs sampling  algorithm for RBMs can be formulated as follows:
 
 This works because the iteration forms a Markov chain, which has the distribution $p(v,h)$ of the model as its equilibrium distribution.
 
+\paragraph{Conditional sampling}
+The Gibbs sampling algorithm can also be easily modified for \emph{conditional sampling} by clamping the activations of the nodes that are to be conditioned on.
+Put more formally, to draw from the probability $p(v, h \mid \tilde{v}_C)$ that is conditioned on the activations $\tilde{v}_C$ of a set $C$ of visible nodes, the Gibbs sampling algorithm above can be run with $v_C$ set to $\tilde{v}_C$ in step 1 and after each sampling step 3.
+This, of course, works analogously for hidden nodes as conditions.
+
+An example for using conditional sampling in a setting with biomedical data could be the simulation of a patient cohort with a specific rare disease pattern using a Boltzmann machine that has been trained with a data set of diagnoses from a more general population cohort.
+A result from such a simulation could be used for a case number calculation when planning a study involving the specific disease pattern and other combinations of characteristics.
+As the combinations might be quite rare, the learned correlations between all the variables can help in estimating the frequencies of the combinations of specific characteristics.
+
 \subsubsection{Training of restricted Boltzmann machines}\label{rbmtraining}
 Goal of the training procedure of restricted Boltmann machines is to maximize the likelihood $\prod_{k=1}^n p(\widetilde{v}_k)$ for a given data set $(\widetilde{v}_1, \dots, \widetilde{v}_n)$.
 As mentioned in section \ref{basicbmproperties}, calculating $p(v) = \frac{\sum_{h} p(v,h)}{Z}$ needs the partition function $Z$.
@@ -401,7 +410,7 @@ In the RBM with the dummy variables for encoding categorical variables, the grad
 
 \subsubsection{Deep belief networks}
 
-Deep belief networks (DBNs) \citep{hinton_reducing_2006}.
+The next step in the evolution of Deep belief networks (DBNs) \citep{hinton_reducing_2006}.
 
 \subsubsection{Deep Boltzmann machines}
 
