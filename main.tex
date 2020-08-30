@@ -302,7 +302,7 @@ The Gibbs sampling  algorithm for RBMs can be formulated as follows:
 
 This works because the iteration forms a Markov chain, which has the distribution $p(v,h)$ of the model as its equilibrium distribution.
 
-\paragraph{Conditional sampling}
+\paragraph{Conditional sampling}\label{condsamplingrbm}
 The Gibbs sampling algorithm can also be easily modified for \emph{conditional sampling} by clamping the activations of the nodes that are to be conditioned on.
 Put more formally, to draw from the probability $p(v, h \mid \tilde{v}_C)$ that is conditioned on the activations $\tilde{v}_C$ of a set $C$ of visible nodes, the Gibbs sampling algorithm above can be run with $v_C$ set to $\tilde{v}_C$ in step 1 and after each sampling step 3.
 This, of course, works analogously for hidden nodes as conditions.
@@ -442,6 +442,15 @@ for the first hidden layer and
 p\left(h^{(k)} \mid h^{(k-1)}, h^{(k+1)} \right) = \sigm \bigg( b^{(k)} + (W^{(k-1)})^T h^{(k-1)} + W^{(k+1)} h^{(k+1)} \bigg)
 \]
 for all other intermediate hidden layers.
+
+These conditional probabilities can be used to perform Gibbs sampling in deep Boltzmann machines (see figure \ref{fig:dbmsampling}) similar to the Gibbs sampling algorithm in restricted Boltzmann machines (as described before in \ref{condsamplingrbm}).
+
+\begin{figure}[h]
+   \centering
+   \includegraphics[scale=1.0]{images/dbmsampling.pdf}
+   \caption{Gibbs sampling step in a deep Boltzmann machine. The visible layer is sampled using only the activation of the first hidden layer from the previous Gibbs sampling step, and the last hidden layer is sampled using only the activation of the penultimate hidden layer. The intermediate layers are sampled by using the activations of the two neighboring layers from the previous Gibbs sampling step. }
+   \label{fig:dbmsampling}
+ \end{figure}
 
 
 \subsubsection{Multimodal deep Boltzmann machines}
