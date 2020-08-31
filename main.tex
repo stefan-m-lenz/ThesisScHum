@@ -20,8 +20,7 @@
 \usepackage{placeins}
 \usepackage{setspace}
 \usepackage[a4paper,bindingoffset=0.2in,%
-            left=2.8cm,right=2.8cm,top=2.1cm,bottom=2.8cm,%
-            footskip=.25in]{geometry}
+            left=2.8cm,right=2.8cm,top=2.1cm,bottom=2.8cm]{geometry}
 \usepackage{helvet}
 \renewcommand{\familydefault}{\sfdefault}
 
@@ -336,9 +335,10 @@ In (\ref{eqn:derivedlog}) and (\ref{eqn:derivedexp}), the chain rule is used, to
 As can be seen in equation (\ref{eqn:derivedexp}), the calculation of the gradient involves sums over lots of possible combinations of activations of nodes.
 The first term can be calculated in the types of RBMs that have been introducted here.
 For this, one can use the expected value of the conditional probability $p(h\mid\widetilde{v})$ and plug it in:
-\[
+\begin{equation}
 \EX_{P_\text{data}} \nabla_{\!\Theta} E(\widetilde{v},h) =  \nabla_{\!\Theta} E(\widetilde{v}, \EX(p(h \mid \widetilde{v}))
-\]
+\label{eqn:plugexpectedh}
+\end{equation}
 In the second term of equation (\ref{eqn:nablaresult}), the sum goes over all nodes in the network.
 Calculating this term is technically not feasible in normal cases, as the number of summands grows exponentially with the number of nodes.
 This means that it is not possible to simply equate the gradient of the log-likelihood with zero and solve the equation to get an optimum. Also finding an optimum with gradient descent, walking with small steps in the direction of the gradient to find an optimum, is not possible directly, because this would as well require the calculation of the whole gradient in each iteration step.
@@ -477,6 +477,7 @@ TODO %The energy function of a multimodal deep Boltzmann machine (MDBM) is
 
 \subsubsection{Training of deep Boltzmann machines}
 
+
 In context of DBMs, the DBN learning algorithm (see \ref{dbns}) is called greedy layerwise pre-training. 
 This pre-training helps the algorithm for training a general Boltzmann machine to find a better optimum.
 An intermediate layer in a DBM receives input from its neighboring layers (see formula (\ref{dbmcondprobintermediate}) and figure \ref{fig:dbmsampling}), but during pre-training it only gets input from the layer below. To account for this, the DBN training is modified for training a DBM and the input from the visible layer ($ = (W^{(1)})^T v$) and from the last hidden layer (= $W^{(n_L-1)} h^{(n_L)}$) is doubled.
@@ -486,8 +487,16 @@ An intermediate layer in a DBM receives input from its neighboring layers (see f
 Using the pre-trained DBM as start parameters, the fine-tuning of the weights can then be performed by the algorithm for training a general Boltzmann machine
 \citep{salakhutdinov2009DBMs, salakhutdinov2015generativemodels}.
 This algorithm is also based on gradient descent.
+In RBMs it is possible to calculate $p(h \mid v)$ because all the hidden nodes are only depending on the visible nodes.
+This allowed to calculate $\EX_{P_{\text{data}}} \nabla_{\!\Theta} E(\tilde{v},h)$ from $\EX p(h \mid \tilde{v})$ (see formula (\ref{eqn:plugexpectedh})).
+In DBMs this is not possible any more as the hidden layers are connected with each other and therefore no simple formula for $p(h \mid v)$ can be derived.
+This means that calculating the derivative of the log-likelihood in deep Boltzmann machines needs an additional technique.
+\cite{salakhutdinov2009DBMs} propose a variational approach for this.
+Instead of optimizing the log-likelihood, a lower bound is optimized, for which the gradient can be computed:
 
-Calculating the derivative in deep Boltzmann machines needs an additional technique.
+
+
+
 
 When training with the mean-field approximation $\mu$ used as activation of the hidden nodes in the positive phase,
 the likelihood is not optimized directly but a lower bound
