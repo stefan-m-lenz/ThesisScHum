@@ -408,7 +408,7 @@ In the alternative formulation of \cite{cho2011improved}, the negative gradients
 
 In the RBM with the dummy variables for encoding categorical variables, the gradients are the same as in the one with Bernoulli distributed variables.
 
-\subsubsection{Deep belief networks}
+\subsubsection{Deep belief networks}\label{dbns}
 
 The next step in the evolution deep Boltzmann machines are deep belief networks (DBNs) \citep{hinton_reducing_2006}, which have been invented to make use of RBMs for dimensionality reduction.
 By stacking RBMs on top of each other (see figure \ref{fig:dbn}), it becomes possible to model higher level features in data.
@@ -420,8 +420,8 @@ By stacking RBMs on top of each other (see figure \ref{fig:dbn}), it becomes pos
    \label{fig:dbn}
  \end{figure}
 For training a DBN, the first RBM is trained with the original data data vectors $\tilde{v}^{(i)}$ with $i = 1, \dots, n$. 
-For training the higher layers, a deterministic activation $f_k(v) :=  \EX p_k(h|v)$, defined via the conditional probability in the $k$-th RBM model, is passed through the lower layers:
-The second RBM is trained with the data set of all $f_1(\tilde{v}^{(i)})$, the third RBM is trained with the data set $f_2(f_1(\tilde{v}^{(i)}))$, and so on.
+For training the higher layers, a deterministic activation $f_k(v) :=  \EX p_k(h|v)$, defined via the conditional probability in the $k$-th RBM model, is passed through the lower layers after they have been trained:
+The second RBM is trained with the data set of all $f_1(\tilde{v}^{(i)})$, the third RBM can then be trained with the data set $f_2(f_1(\tilde{v}^{(i)}))$, and so on.
 
 As shown in figure (\ref{fig:dbn}B), only a part of the network can be used for modeling, which limits the generative capabilities of a DBN.
 The ability to generate data from complex distributions is furthermore reduced if the DBN is used for dimension reduction because in this case the top RBM is also the smallest network.
@@ -454,9 +454,10 @@ For the intermediate layers, the conditional probability can be calculated if th
 p\left(h^{(1)} \mid v, h^{(3)}\right) = \sigm \bigg( b^{(1)} + (W^{(1)})^T v + W^{(3)} h^{(3)} \bigg)
 \]
 for the first hidden layer and 
-\[
+\begin{equation}
 p\left(h^{(k)} \mid h^{(k-1)}, h^{(k+1)} \right) = \sigm \bigg( b^{(k)} + (W^{(k-1)})^T h^{(k-1)} + W^{(k+1)} h^{(k+1)} \bigg)
-\]
+\label{dbmcondprobintermediate}
+\end{equation}
 for all other intermediate hidden layers.
 
 These conditional probabilities can be used to perform Gibbs sampling in deep Boltzmann machines (see figure \ref{fig:dbmsampling}) similar to the Gibbs sampling algorithm in restricted Boltzmann machines (as described before in \ref{condsamplingrbm}).
@@ -476,11 +477,16 @@ TODO %The energy function of a multimodal deep Boltzmann machine (MDBM) is
 
 \subsubsection{Training of deep Boltzmann machines}
 
-For pre-training the multimodal deep Boltzmann machines, we use greedy layerwise pre-training  of layers of restricted Boltzmann machines.
-DBN \citep{hinton_reducing_2006}
-Fine-tuning of weights can then be performed by the algorithm for training a general Boltzmann machine.
-\citep{salakhutdinov2009DBMs, salakhutdinov2015generativemodels}
-This algorithm is also based on stochastic gradient descent.
+In context of DBMs, the DBN learning algorithm (see \ref{dbns}) is called greedy layerwise pre-training. 
+This pre-training helps the algorithm for training a general Boltzmann machine to find a better optimum.
+An intermediate layer in a DBM receives input from its neighboring layers (see formula (\ref{dbmcondprobintermediate}) and figure \ref{fig:dbmsampling}), but during pre-training it only gets input from the layer below. To account for this, the DBN training is modified for training a DBM and the input from the visible layer ($ = (W^{(1)})^T v$) and from the last hidden layer (= $W^{(n_L-1)} h^{(n_L)}$) is doubled.
+\citep{salakhutdinov2009DBMs}.
+
+
+Using the pre-trained DBM as start parameters, the fine-tuning of the weights can then be performed by the algorithm for training a general Boltzmann machine
+\citep{salakhutdinov2009DBMs, salakhutdinov2015generativemodels}.
+This algorithm is also based on gradient descent.
+
 Calculating the derivative in deep Boltzmann machines needs an additional technique.
 
 When training with the mean-field approximation $\mu$ used as activation of the hidden nodes in the positive phase,
@@ -488,15 +494,14 @@ the likelihood is not optimized directly but a lower bound
 \[
    \log p(v) \geq - E(v, \mu) - \log Z + \mathcal{H}(\mu)
 \]
-is optimized. $\mathcal{H}$ denotes the entropy of the hidden nodes. \citep{sala2012anefficient}
+is optimized. $\mathcal{H}$ denotes the entropy of the hidden nodes \citep{sala2012anefficient}.
 
 TODO parameter updates
-TODO stacking
-TODO Referenz zu Srivastava
+
 Since the training procedure is very complex and depends on many hyperparameters, it is necessary to test whether the training works well by examining the training objective.
 Although the likelihood is not the best criterion for all kinds of applications \citep{theis_note_2015}, it is essential to have a way to get a value for the likelihood as primary optimization criterion.
 Being able to inspect the learning process is important for finding the best choice of hyperparameters and also for ensuring the quality of the software implementation of the learning algorithm.
-This leads us to the next section, where we want to take a closer look at methods for calculating and estimating the likelihood, and lower bound of the likelihood, in case DBMs.
+This leads us to the next section, where we want to take a closer look at methods for calculating and estimating the likelihood, and lower bound of the likelihood, in case of DBMs.
 
 
 \subsubsection{Evaluating restricted and deep Boltzmann machines}
