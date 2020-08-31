@@ -312,17 +312,17 @@ A result from such a simulation could be used for a case number calculation when
 As the combinations might be quite rare, the learned correlations between all the variables can help in estimating the frequencies of the combinations of specific characteristics.
 
 \subsubsection{Training of restricted Boltzmann machines}\label{rbmtraining}
-Goal of the training procedure of restricted Boltmann machines is to maximize the likelihood $\prod_{k=1}^n p(\widetilde{v}_k)$ for a given data set $(\widetilde{v}_1, \dots, \widetilde{v}_n)$.
+Goal of the training procedure of restricted Boltmann machines is to maximize the likelihood $\prod_{k=1}^n p(\widetilde{v}^{(k)})$ for a given data set $(\widetilde{v}^{(1)}, \dots, \widetilde{v}^{(n)})$.
 As mentioned in section \ref{basicbmproperties}, calculating $p(v) = \frac{\sum_{h} p(v,h)}{Z}$ needs the partition function $Z$.
 Maximizing the likelihood is equal to maximizing the log-likelihood
 \[
-\sum_{k=1}^{n}  \log p(\widetilde{v}_i) = \sum_{k=1}^{n} \left( \log \sum_h e^{-E(\widetilde{v}_k, h)} - \log \sum_v \sum_h e^{-E(v, h)} \right)
+\sum_{k=1}^{n}  \log p(\widetilde{v}^{(i)}) = \sum_{k=1}^{n} \left( \log \sum_h e^{-E(\widetilde{v}^{(k)}, h)} - \log \sum_v \sum_h e^{-E(v, h)} \right)
 \]
 
 \paragraph{Deriving the gradient of the log-likelihood}
 
 
-For finding an optimum, the gradient $\nabla_\Theta \sum_{k=1}^{n}  \log p_\Theta(\widetilde{v}_k)$ needs to be determined.
+For finding an optimum, the gradient $\nabla_\Theta \sum_{k=1}^{n}  \log p_\Theta(\widetilde{v}^{(k)})$ needs to be determined.
 The negative of gradient of the log-likelihood for a single observation
 $\widetilde{v} $ with respect to the parameters $\Theta$ is
 \begin{align}
@@ -347,7 +347,7 @@ With this, it becomes possible to use the estimated gradients in gradient descen
 
 \paragraph{Batch gradient optimization and the role of mini-batches}
 
-For the practical implementation, another stochastic approximation of the gradient for the full data set $\sum_{k=1}^n \log p(\widetilde{v}_i)$ is used.
+For the practical implementation, another stochastic approximation of the gradient for the full data set $\sum_{k=1}^n \log p(\widetilde{v}^{(k)})$ is used.
 Usually a form of {\em batch gradient optimization} \citep{bottou_optimization_2018} is performed.
 For this, the samples are split into batches $B_l$, usually of approximately equal sizes $b_l$.
 In each optimization step $t$, the parameters are updated as follows:
@@ -410,10 +410,26 @@ In the RBM with the dummy variables for encoding categorical variables, the grad
 
 \subsubsection{Deep belief networks}
 
-The next step in the evolution of Deep belief networks (DBNs) \citep{hinton_reducing_2006}.
+The next step in the evolution deep Boltzmann machines are deep belief networks (DBNs) \citep{hinton_reducing_2006}, which have been invented to make use of RBMs for dimensionality reduction.
+By stacking RBMs on top of each other (see figure \ref{fig:dbn}), it becomes possible to model higher level features in data.
+\begin{figure}[h]
+   \centering
+   \includegraphics[scale=0.7]{images/dbn.pdf}
+   \caption{Training a deep belief network (DBN) and using it as generative model.
+   {\bf A}: The DBN is trained as a stack of RBMs. {\bf B}: In a DBN as generative model, only the top RBM is used for Gibbs sampling, then the activation is passed in a deterministic way downwards to the visible layer.}
+   \label{fig:dbn}
+ \end{figure}
+For training a DBN, the first RBM is trained with the original data data vectors $\tilde{v}^{(i)}$ with $i = 1, \dots, n$. 
+For training the higher layers, a deterministic activation $f_k(v) :=  \EX p_k(h|v)$, defined via the conditional probability in the $k$-th RBM model, is passed through the lower layers:
+The second RBM is trained with the data set of all $f_1(\tilde{v}^{(i)})$, the third RBM is trained with the data set $f_2(f_1(\tilde{v}^{(i)}))$, and so on.
+
+As shown in figure (\ref{fig:dbn}B), only a part of the network can be used for modeling, which limits the generative capabilities of a DBN.
+The ability to generate data from complex distributions is furthermore reduced if the DBN is used for dimension reduction because in this case the top RBM is also the smallest network.
+
 
 \subsubsection{Deep Boltzmann machines}
 
+If the network architecture of a DBN is treated as a Boltzmann machine, we get a \emph{deep Boltzmann machine}, where the complete network can be utilized for generating samples.
 A deep Boltzmann machine, as defined by \cite{salakhutdinov2009DBMs}, with $n_L$ number of hidden layers has parameters 
 \[
 \Theta = \left (W^{(1)}, \dots, W^{(n_L)}, a, b^{(1)}, \dots, b^{(n_L)} \right).
@@ -455,7 +471,7 @@ These conditional probabilities can be used to perform Gibbs sampling in deep Bo
 
 \subsubsection{Multimodal deep Boltzmann machines}
 
-The energy function of a multimodal deep Boltzmann machine (MDBM) is TODO
+TODO %The energy function of a multimodal deep Boltzmann machine (MDBM) is 
 
 
 \subsubsection{Training of deep Boltzmann machines}
