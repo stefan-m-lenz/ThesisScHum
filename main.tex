@@ -450,9 +450,10 @@ A deep Boltzmann machine has Bernoulli distributed nodes.
 Due to the layer-wise structure, the conditional probability of the visible nodes $p(v \mid h) = p(v \mid h^{(1)})$ depends only on the first hidden layer and can be calculated like in an RBM with Bernoulli distributed nodes.
 The conditional probability of the final hidden layer $p \left( h^{n_L} \mid v, h^{(1)}, \dots, h^{(n_L -1)} \right) = p \left( h^{n_L} \mid h^{(n_L -1)} \right)$ can similarly be calculated by knowing only on $h^{(n_L-1)}$.
 For the intermediate layers, the conditional probability can be calculated if the neighboring layers are given as
-\[
+\begin{equation}
 p\left(h^{(1)} \mid v, h^{(3)}\right) = \sigm \bigg( b^{(1)} + (W^{(1)})^T v + W^{(3)} h^{(3)} \bigg)
-\]
+\label{dbmcondprobfirsthidden}
+\end{equation}
 for the first hidden layer and 
 \begin{equation}
 p\left(h^{(k)} \mid h^{(k-1)}, h^{(k+1)} \right) = \sigm \bigg( b^{(k)} + (W^{(k-1)})^T h^{(k-1)} + W^{(k+1)} h^{(k+1)} \bigg)
@@ -494,16 +495,29 @@ This means that calculating the derivative of the log-likelihood in deep Boltzma
 \cite{salakhutdinov2009DBMs} propose a variational approach for this.
 The true distribution $p(h|v)$  is replaced with an approximation $q(h|v)$.
 Instead of optimizing the log-likelihood, a lower bound is optimized, for which the gradient can be computed.
-In this  ``mean-field approximation" $q$, all hidden nodes are assumed to be independent.
+This \emph{variational lower bound} or \emph{evidence lower bound} (ELBO) \citep{blei_variational_2017} for the likelihood is
+\[
+\log p(v) \geq \sum_h q(h|v) \log p(v,h) + \mathcal{H}(q)
+\]
+$\mathcal{H}(q)$ denotes the entropy of the distribution $q$.
+Here a ``mean-field approximation" $q$ is used, where all hidden nodes are assumed to be independent.
 The distribution is then $q(h) = \prod_{k=1}^{n_L} \prod_j^{n_{H,k}} q(h_i^{(k)})$ with $q(h_i^{(k)} = 1) = \mu_i^{(k)}$ for some fixed values $\mu_i^{(k)}$ for each  node $i$ in a hidden layer $k$.
 ($n_L$ denotes the number of hidden layers and $n_{H,k}$ the number of nodes in hidden layer $k$.)
 This leads to the lower bound of the log-likelihood, which will be optimized in the fine-tuning algorithm: %TODO ableiten? steht in sala learning deep generative models equation 36
 \[
-   \log p(v) \geq - E(v, \mu) - \log Z + \mathcal{H}(\mu)
+   \log p(v) \geq - E(v, \mu) - \log Z + \mathcal{H}(q)
 \]
-$E$ is the energy in the DBM and $\mathcal{H}(\mu) = \sum_j \left( \mu_j \log \mu_j + (1- \mu_j) \log ( 1- \mu_j) \right)$ denotes the entropy of the hidden nodes \citep{sala2012anefficient, salakhutdinov2015generativemodels}.
+$E$ is the energy in the DBM and $\mathcal{H}(q) = \sum_j \left( \mu_j \log \mu_j + (1- \mu_j) \log ( 1- \mu_j) \right)$ is the entropy of $q$ \citep{sala2012anefficient, salakhutdinov2015generativemodels}.
 
-To calculate $\mu$ for a given data vector $\tilde{v}$, the following fix-point iteration can be used:
+To calculate $\mu$ for a given data vector $\tilde{v}$, the following equations for a fix-point iteration can be used, which are analogous to formulas (\ref{dbmcondprobfirsthidden}) and (\ref{dbmcondprobintermediate}).
+\begin{align*}
+\mu^{(1)}(t+1)&= \sigm \bigg( b^{(1)} + (W^{(1)})^T \tilde{v} + W^{(2)} \mu ^{(2)(t)} \bigg) \\
+\mu^{(k)}(t+1) &= \sigm \bigg( b^{(k)} + (W^{(k)})^T \mu^{(k-1)}(t) + W^{(k+1)} \mu^{(k+1)}(t) \bigg) \\ 
+&\quad\quad (\text{for} \; k=2,\dots, n_L-1) \\
+\mu^{(n_L)}(t+1)&= \sigm \bigg( b^{(n_L)} + (W^{(n_L)})^T \mu^{(n_L-1)}(t) \bigg)
+\end{align*}
+For  $t \rightarrow \infty$, the series $\mu(t)$ converges to the value of $\mu$, which can be used for calculating the gradient for the lower bound.
+This gradient can be calculated as 
 
 TODO
 %\begin{equation}

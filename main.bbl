@@ -38,6 +38,14 @@ Bezanson, J., Edelman, A., Karpinski, S. \harvardand\ Shah, V.~B.
   \harvardyearleft 2017\harvardyearright , `Julia: A fresh approach to
   numerical computing', {\em SIAM Review} {\bf 59}(1),~65--98.
 
+\harvarditem[Blei et~al.]{Blei, Kucukelbir \harvardand\
+  McAuliffe}{2017}{blei_variational_2017}
+Blei, D.~M., Kucukelbir, A. \harvardand\ McAuliffe, J.~D.  \harvardyearleft
+  2017\harvardyearright , `Variational inference: a review for statisticians',
+  {\em Journal of the American statistical Association} {\bf
+  112}(518),~859--877.
+\newblock Publisher: Taylor \& Francis.
+
 \harvarditem[Bottou et~al.]{Bottou, Curtis \harvardand\
   Nocedal}{2018}{bottou_optimization_2018}
 Bottou, L., Curtis, F.~E. \harvardand\ Nocedal, J.  \harvardyearleft
