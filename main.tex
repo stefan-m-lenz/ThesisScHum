@@ -33,6 +33,7 @@
 
 \newcommand{\inlinecode}[1]{\texttt{#1}}
 \newcommand{\sigm}{\mathrm{sigm}}
+\newcommand{\ELBO}{\mathrm{ELBO}}
 \newcommand{\apkg}[1]{\emph{#1}}
 \newcommand{\proglang}[1]{#1} % egal, kommt in kopierten referenzen vor
 
@@ -505,26 +506,34 @@ The distribution is then $q(h) = \prod_{k=1}^{n_L} \prod_j^{n_{H,k}} q(h_i^{(k)}
 ($n_L$ denotes the number of hidden layers and $n_{H,k}$ the number of nodes in hidden layer $k$.)
 This leads to the lower bound of the log-likelihood, which will be optimized in the fine-tuning algorithm: %TODO ableiten? steht in sala learning deep generative models equation 36
 \[
-   \log p(v) \geq - E(v, \mu) - \log Z + \mathcal{H}(q)
+   \log p(v) \geq - E(v, \mu) - \log Z + \mathcal{H}(q) =: \ELBO(v, \mu)
 \]
 $E$ is the energy in the DBM and $\mathcal{H}(q) = \sum_j \left( \mu_j \log \mu_j + (1- \mu_j) \log ( 1- \mu_j) \right)$ is the entropy of $q$ \citep{sala2012anefficient, salakhutdinov2015generativemodels}.
 
 To calculate $\mu$ for a given data vector $\tilde{v}$, the following equations for a fix-point iteration can be used, which are analogous to formulas (\ref{dbmcondprobfirsthidden}) and (\ref{dbmcondprobintermediate}).
 \begin{align*}
-\mu^{(1)}(t+1)&= \sigm \bigg( b^{(1)} + (W^{(1)})^T \tilde{v} + W^{(2)} \mu ^{(2)(t)} \bigg) \\
+\mu^{(1)}(t+1)&= \sigm \bigg( b^{(1)} + (W^{(1)})^T \tilde{v} + W^{(2)} \mu ^{(2)}(t) \bigg) \\
 \mu^{(k)}(t+1) &= \sigm \bigg( b^{(k)} + (W^{(k)})^T \mu^{(k-1)}(t) + W^{(k+1)} \mu^{(k+1)}(t) \bigg) \\ 
 &\quad\quad (\text{for} \; k=2,\dots, n_L-1) \\
 \mu^{(n_L)}(t+1)&= \sigm \bigg( b^{(n_L)} + (W^{(n_L)})^T \mu^{(n_L-1)}(t) \bigg)
 \end{align*}
-For  $t \rightarrow \infty$, the series $\mu(t)$ converges to the value of $\mu$, which can be used for calculating the gradient for the lower bound.
-This gradient can be calculated as 
+For  $t \rightarrow \infty$, the series $\mu(t)$ converges to the value of $\mu$ that can be used for calculating the gradient for the lower bound.
+Analogously to equation (\ref{eqn:nablaresult}) for calculating the gradient of the log-likelihood in RBMs, this gradient can be calculated as 
+\begin{align*}
+\nabla_{\Theta} \ELBO(v, \mu) &= \nabla_{\Theta} ( - E(\tilde{v}, \mu) - \log Z ) \\
+ &= \nabla_{\Theta} (- E(\tilde{v}, \mu)) + \EX_{P_\text{model}} \nabla_{\Theta} E(v, h).
+\end{align*}
+This results in the following gradients for the different types of model parameters:
+\begin{align*}
+\frac{\partial}{\partial W^{(1)}} \ELBO(\tilde{v}, \mu) &= \widetilde{v}^T \mu - \EX_{P_\text{model}} v^T h^{(1)} \\
+\frac{\partial}{\partial W^{(k)}} \ELBO(\tilde{v}, \mu) &= (\mu^{(k-1)})^T \mu^{(k)}  - \EX_{P_\text{model}} (h^{(k-1)})^T h^{(k)} &\quad(k = 1, \dots, n_L)\\
+\frac{\partial}{\partial a}  \ELBO(\tilde{v}, \mu) &=  \widetilde{v} - \EX_{P_\text{model}}  v \\
+\frac{\partial}{\partial b^{(k)}}  \ELBO(\tilde{v}, \mu) &=  \mu^{(k)} - \EX_{P_\text{model}} h^{(k)}  &\quad ( k = 1, \dots, n_L)
+\end{align*}
 
-TODO
-%\begin{equation}
-%\mu_j^{(t + 1)} = \sigm(
-%\end{equation}
-
-TODO parameter updates
+The expected values under the distribution of the model ($\EX_{P_\text{model}}$) are estimated like in the RBM by running a Gibbs sampler (see figure \ref{fig:dbmsampling}).
+This Gibbs sampler is run with a number of parallel persistent chains, which are called ``fantasy particles" \citep{salakhutdinov2009DBMs}. The results are averaged over the number of fantasy particles to get better estimations for the expected values in the distribution of the model.
+For the convergence of the gradient optimization, it is necessary to decrease the learning rate $\epsilon_t$ over time such that the series $\sum_{k=1}^\infty \epsilon_t^2$ converges, e.g. $\epsilon_t = \frac{c}{d+t}$ with constants $c, d > 0$ \citep{sala2012anefficient}.
 
 Since the training procedure is very complex and depends on many hyperparameters, it is necessary to test whether the training works well by examining the training objective.
 Although the likelihood is not the best criterion for all kinds of applications \citep{theis_note_2015}, it is essential to have a way to get a value for the likelihood as primary optimization criterion.
