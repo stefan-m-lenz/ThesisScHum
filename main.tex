@@ -100,9 +100,9 @@ The probability space is divided into dimensions of observed variables (subsumed
 
 The so called \emph{free energy}, a notation also inspired by physics, is defined as
 \[
-   F(v) = - \log \sum_h e^{-E(v, h)}
+   F(v) = - \log \sum_h e^{-E(v, h)}.
 \]
-This allows rewriting the formula of the logarithmized partition function as $Z = \sum_v e^{-F(v)}$.
+With this definition, we can rewrite the formula of the partition function as $Z = \sum_v e^{-F(v)}$.
 That is useful because the formula for the free energy of restricted Boltzmann machines can be simplified by using the layerwise structure.
 Thus the complexity of calculating the free energy becomes linear in the number of hidden nodes. (This can be seen in the formulas for the free energy in the different types of models that are described below.)
 This way the log-likelihood
@@ -143,9 +143,9 @@ The most basic model in this class of models are restricted Boltzmann machines w
    E(v,h) = - a^T v - b^T h - v^T W h. \label{eqn:energyformularbm}
 \end{equation}
 
-The parameters of the model are $\Theta = (W, a, b)$ with \emph{weight matrix} $W$, vector $a$ as the \emph{visible bias} and $b$ as the \emph{hidden bias}.
+The parameters of the model are $\Theta = (W, a, b)$ with \emph{weight matrix} $W$, vector $a$ as the \emph{visible bias}, and $b$ as the \emph{hidden bias}.
 The weights correspond to the connections between the visible and hidden units in a weighted graph, as shown in figure \ref{fig:bmsoverview}.
-The bias variables are usually not depicted in graph views of neural networks, but they are equivalent to adding additional nodes to the model that are always 1. The visible bias corresponds to the weights on the connections to an additional node that is connected to all nodes of the visible layer, and the hidden bias corresponds to the weights on the connections to an additional node that is connected to all nodes of the hidden layer. The bias variables serve to set a basic level of activation of the nodes, which is then modified by the input from the connected units.
+The bias variables are usually not depicted in graph views of neural networks, but they are equivalent to adding additional nodes to the model that always have the value one. The visible bias corresponds to the weights on the connections to an additional node that is connected to all nodes of the visible layer, and the hidden bias corresponds to the weights on the connections to an additional node that is connected to all nodes of the hidden layer. The bias variables serve to set a basic level of activation of the nodes, which is then modified by the input from the connected units.
 To see the mapping from the parameters in the formula to the network view, see figure \ref{fig:rbmweights}.
 
 \begin{figure}[h]
