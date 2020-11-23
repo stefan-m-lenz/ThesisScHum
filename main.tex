@@ -882,6 +882,14 @@ TODO Rest aus JuliaConnectoR-Paper hier einarbeiten
    \caption{Exemplary workflow for using the \apkg{dsBoltzmannMachines} package}
  \end{figure}
  
+ 
+\begin{figure}[h]
+   \centering
+   \includegraphics[scale=.6]{images/trainingtimes.pdf}
+   \caption{Training times of DBMs using the dsBoltzmannMachines package. On the left, the DBMs are trained on data sets with 50 variables and a varying number of samples. The DBMs have two hidden layers with 50 and 10 nodes, respectively. On the right, the number of samples is fixed as 2500. The DBMs there are trained using data sets with varying numbers of variables. The hidden layers are scaled proportionally. In all cases the training consists of 30 epochs pre-training and 30 epochs fine-tuning and the monitoring is performed on the training data set and a test data set with 10 percent of the samples in the training data set.}
+   \label{fig:dbmtrainingtimes}
+ \end{figure}
+ 
 \clearpage
 \FloatBarrier
 
