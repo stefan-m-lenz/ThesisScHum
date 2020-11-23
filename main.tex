@@ -19,6 +19,7 @@
 \usepackage{makecell}
 \usepackage{placeins}
 \usepackage{setspace}
+\usepackage{lscape}
 \usepackage[a4paper,bindingoffset=0.2in,%
             left=2.8cm,right=2.8cm,top=2.1cm,bottom=2.8cm]{geometry}
 \usepackage{helvet}
@@ -762,13 +763,16 @@ But with matured multi-threading in Julia, these problems could be solved in the
 
 In our implementation multimodal deep Boltzmann machines, corresponding to the type \inlinecode{MultimodalDBM}, are constructed using restricted Boltzmann machines as building blocks (see figure \ref{mdbmimplasstack}). For each of the models of Boltzmann machines, it is possible to generate samples by using Gibbs sampling. For efficiently evaluating very small models, the likelihood and the partition function can be calculated exactly. This is also useful to test AIS by comparing the values estimated in small models to the exact ones.
 
+% TODO bei Diagramm Softmax0 einbauen
+\begin{landscape}
 \begin{figure}[h]
    \centering
-   \includegraphics[scale=0.25]{images/BoltzmannMachinesDiagram.eps}
+   \includegraphics[scale=0.4]{images/BoltzmannMachinesDiagram.eps}
    \caption{UML class diagram \citep{uml} of the type hierarchy for the Boltzmann machines in our Julia implementation. Although the Julia language does not have the concept of classes and visibility, the diagram is suited well to show the connections of the types with the most important associated functions.
    For more details on these functions, see tables \ref{juliaFunTableTrain} and \ref{juliaFunTableEval}.}
    \label{umlclassdiagram}
 \end{figure}
+\end{landscape}
 
 \begin{figure}[h]
    \centering
