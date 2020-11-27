@@ -23,6 +23,7 @@
 \usepackage[a4paper,bindingoffset=0.2in,%
             left=2.8cm,right=2.8cm,top=2.1cm,bottom=2.8cm]{geometry}
 \usepackage{helvet}
+\usepackage{pdfpages}
 \renewcommand{\familydefault}{\sfdefault}
 
 \usepackage{titlesec}
@@ -44,6 +45,7 @@
 \DeclareMathOperator{\EX}{\mathbb{E}}
 
 \begin{document}
+\includepdf[pages=-]{includes/Deckblatt}
 
 %\maketitle
 
@@ -728,7 +730,13 @@ Although the reconstruction error can serve as a rough proxy statistic for the l
 TODO Blick über den Tellerrand von DBMs hinaus. nochmal recherchieren was andere Methoden angeht: variational autoencoder, GANs 
 und Implementierungen: TensorFlow, Flux, Pytorch etc.
 
-\subsection{Distributed privacy-preserving analyses with DataSHIELD}
+\subsection{Distributed privacy-preserving analyses}
+TODO motivation
+
+\subsubsection{Privacy concepts}
+TODO $\epsilon$ differential privacy, aggregated data, overfitting
+
+\subsubsection{The DataSHIELD framework}
 TODO Allgemeines zu DataSHIELD
 
 %TODO Bild PCA Plot
@@ -842,6 +850,7 @@ TODO cross validation
 
 
 % TODO softmax0
+\FloatBarrier
 \subsection{Connecting R and Julia with the JuliaConnectoR}
 
 \begin{table}
@@ -865,7 +874,7 @@ TODO Rest aus JuliaConnectoR-Paper hier einarbeiten
 %* Standard output (after '0x50') or standard error output (after '0x5e')
 %  is preceded by the number of bytes that are sent.
 
-
+\FloatBarrier
 \subsection{Privacy-preserving deep learning with DataSHIELD}
 \begin{figure}[h]
    \centering
@@ -898,13 +907,16 @@ TODO Rest aus JuliaConnectoR-Paper hier einarbeiten
 \FloatBarrier
 
 \section{Discussion}
-\subsection{Comparison to other approaches for privacy-preserving deep learning}
-TODO
+
+\subsection{Comparison of DBMs and other generative approaches}
+
+\subsection{Directions in privacy-perserving deep learning}
+TODO diskutieren: privacy-accounting in DBMs and other approaches
+
 \subsection{Ideas for future work}
-% TODO supergenerator
-% TODO softmax
+TODO idee modelle kombinieren, dbms verbessern missing values, softmax evaluieren
 
-
+\subsection{Conclusion}
 
 \clearpage
 \appendix
