@@ -74,12 +74,15 @@ TODO
 \subsection{From restricted to multimodal deep Boltzmann machines}
 
 Boltzmann machines \citep{ackley_boltzmann_1985} are a special kind of neural networks.
-They have been derived from statistical physics.
+They have been derived from models in statistical physics.
 There, Ising models aim at modeling the magnetic spin in lattices of atoms or molecules in ferromagnetic crystals \citep{isingmodel}.
-The probability of the activation of neurons, or the magnetic spin of molecules is determined by an energy function that assigns an energy to each possible configuration in the network or lattice.
+In Ising models models the probability of the magnetic spin of molecules in a lattice of molecules is determined by an energy function that assigns an energy to each possible configuration of magnetic spins in the lattice.
 Configurations with a lower energy have a higher probability of occurring.
-This makes Boltzmann machines a type of so-called ``energy-based" models \citep{ranzato_ebm}.
+This connection between energy and and probability holds also for Boltzmann machines.
+It makes Boltzmann machines a type of so-called ``energy-based" models \citep{ranzato_ebm}.
 
+The analogy of lattices of molecules with magnetic spin are networks of neurons, where each cell may have a neural activation.
+The analogy goes further.
 Neural networks receive input from data in special nodes.
 The information about the data can then be learned by the network.
 In the physics analogue, this corresponds to parts of the lattice that are influenced by an external magnetic field.
@@ -114,8 +117,9 @@ This way the log-likelihood
 \label{eqn:pRBMfreeenergy}
 \end{equation}
 
-can be calculated efficiently if the partition function $Z$ is given. The free energy is also used for calculating the ratio of the unnormalized probabilities $p^*(v) = e^{-F(v)}$ in the annealed importance sampling algorithm (see \ref{methodAIS}).
+can be calculated efficiently if the partition function $Z$ is given. The free energy is also used for calculating unnormalized probabilities $p^*(v) = e^{-F(v)}$, which is, e.g., used in the annealed importance sampling algorithm (see \ref{methodAIS}) for estimating the partition function via a stochastic algorithm.
 
+With these basic properties defined, we can go further to take a look at the details of specific types of Boltzmann machines.
 Here we only consider the special cases of restricted Boltzmann machines and (multimodal) deep Boltzmann machines.
 These models have restrictions on their parameterization compared to a general Boltzmann machine.
 The restrictions correspond to a layered design of their graphs.
@@ -135,10 +139,10 @@ For an intuitive overview of the architectures of the different types that are c
 
 \subsubsection{Types of restricted Boltzmann machines}\label{rbmtypes}
 
-\emph{Restricted Boltzmann machines} \citep{smolensky1986foundations}, or RBMs,  consist of two layers, a visible layer $v$, which receives the input data and a hidden layer $h$, see figure \ref{fig:bmsoverview}B.
-The nodes inside the same layer are not connected to each other and therefore, the network has the form of a bipartite graph.
-Here we only consider RBMs with Bernoulli distributed nodes, although other distributions are also possible for hidden nodes \citep{hinton_practical_2012}.
-The types of RBMs presented in the following differ in the distribution of their visible nodes, which makes them suitable for modeling different types of input data.
+\emph{Restricted Boltzmann machines} \citep{smolensky1986foundations}, or RBMs,  consist of two layers, a visible layer $v$, which receives the input data, and a hidden layer $h$, which encodes latent features of the data. For a graphical depiction, see figure \ref{fig:bmsoverview}B.
+The nodes inside the same layer are not connected to each other, and therefore, the network has the form of a bipartite graph.
+Although other distributions are also possible for hidden nodes \citep{hinton_practical_2012}, we only consider RBMs with Bernoulli distributed hidden nodes, and therefore only consider data representations via discrete features here.
+The types of RBMs presented in the following may, however, differ in the distribution of their visible nodes, which makes them suitable for modeling different types of input data.
 
 \paragraph{Bernoulli distributed visible nodes}
 The most basic model in this class of models are restricted Boltzmann machines with Bernoulli distributed nodes, most of the time simply called restricted Boltzmann machines. Their energy function is of the form
