@@ -111,13 +111,13 @@ The so called \emph{free energy}, a notation also inspired by physics, is define
 With this definition, we can rewrite the formula of the partition function as $Z = \sum_v e^{-F(v)}$.
 That is useful because the formula for the free energy of restricted Boltzmann machines can be simplified by using the layerwise structure.
 Thus the complexity of calculating the free energy becomes linear in the number of hidden nodes. (This can be seen in the formulas for the free energy in the different types of models that are described below.)
-This way the log-likelihood
+If the partition function $Z$ is given, the log-likelihood
 \begin{equation}
    \log p(v) = - F(v) - \log Z
 \label{eqn:pRBMfreeenergy}
 \end{equation}
 
-can be calculated efficiently if the partition function $Z$ is given. The free energy is also used for calculating unnormalized probabilities $p^*(v) = e^{-F(v)}$, which is, e.g., used in the annealed importance sampling algorithm (see \ref{methodAIS}) for estimating the partition function via a stochastic algorithm.
+can therefore be calculated efficiently using the free energy. The free energy is also used for calculating unnormalized probabilities $p^*(v) = e^{-F(v)}$, which is, e.g., used in the annealed importance sampling algorithm (see \ref{methodAIS}) for estimating the partition function via a stochastic algorithm.
 
 With these basic properties defined, we can go further to take a look at the details of specific types of Boltzmann machines.
 Here we only consider the special cases of restricted Boltzmann machines and (multimodal) deep Boltzmann machines.
@@ -141,7 +141,7 @@ For an intuitive overview of the architectures of the different types that are c
 
 \emph{Restricted Boltzmann machines} \citep{smolensky1986foundations}, or RBMs,  consist of two layers, a visible layer $v$, which receives the input data, and a hidden layer $h$, which encodes latent features of the data. For a graphical depiction, see figure \ref{fig:bmsoverview}B.
 The nodes inside the same layer are not connected to each other, and therefore, the network has the form of a bipartite graph.
-Although other distributions are also possible for hidden nodes \citep{hinton_practical_2012}, we only consider RBMs with Bernoulli distributed hidden nodes, and therefore only consider data representations via discrete features here.
+Although other distributions are also possible for the hidden nodes \citep{hinton_practical_2012}, we only consider RBMs with Bernoulli distributed hidden nodes, and therefore only consider data representations via discrete features.
 The types of RBMs presented in the following may, however, differ in the distribution of their visible nodes, which makes them suitable for modeling different types of input data.
 
 \paragraph{Bernoulli distributed visible nodes}
@@ -219,11 +219,11 @@ Therefore, the resulting data is not properly encoded in general  because illega
 Using dummy variables as input to Boltzmann machines with Bernoulli distributed variables makes it also more difficult to learn higher level patterns, as the Boltzmann machine has at first to learn the pattern that results from the dummy encoding  by itself. Hence it is advised to use a Boltzmann machine that has the knowledge about the encoding built into its energy function and probability distribution.
 
 
-For encoding categorical variables, the most popular encoding used by the deep/machine learning frameworks \apkg{TensorFlow} \citep{tensorflow}, \apkg{scikit-learn} \citep{scikit-learn} or \apkg{Flux} \citep{flux} is the so-called ``one-hot encoding", which encodes a variable with $k$ categories in a binary vector of $k$ components, where exactly one component is one and all others are zero.
+For encoding categorical variables, the most popular encoding used by the machine learning frameworks \apkg{TensorFlow} \citep{tensorflow}, \apkg{scikit-learn} \citep{scikit-learn} or \apkg{Flux} \citep{flux} is the so-called ``one-hot encoding", which encodes a variable with $k$ categories in a binary vector of $k$ components, where exactly one component is one and all others are zero.
 An advantage of this is that all categories are treated equally. 
 Here, I tried a slightly different variant.
-A categorical variables with $k$ categories is encoded in $k-1$ binary dummy variables.
-This is the encoding of for values of a variable with four categories:
+A categorical variable with $k$ categories is encoded in $k-1$ binary dummy variables.
+For example, this is the encoding of the values for a variable with four categories:
 
 \begin{table}[h!]
 \centering
@@ -240,8 +240,11 @@ Categorical value & Dummy encoding \\
 
 This variant is the same the technique for creating dummy variables for categorical variables in regression models \citep{faraway_regression}.
 One category is used as reference category for the interpretation of the regression coefficients.
-This allows to be parsimonious with parameters. Saving parameters can aid in training models also with fewer data points, as was shown with partitioning layers in DBMs \citep{hess2017partitioned}.
+This allows to be parsimonious with parameters.
+Saving parameters can aid in training models also with fewer data points.
+%TODO reference
 So there is the potential with this encoding to help also with learning on genetic data.
+%TODO warum ausgerechnet genetische Daten
 Consider genetic variant data that contains values 0/1/2 for each of defined location on the human genome to encode that there is no deviation from the reference genome (0), a deviation on one chromosome (1) or a deviation on both chromosomes (2).
 An RBM receiving input with dummy encoding using the natural reference category 0 needs only two thirds of the parameters that an RBM needs which receives the same data in one-hot encoding.
 
@@ -292,6 +295,7 @@ p(v_k = 1 \mid h) &= \frac{p(v_k = 1, h)}{p(h)} \\
 \end{align*}
 
 \subsubsection{Gibbs sampling in restricted Boltzmann machines}\label{gibbssamplingrbm}
+%TODO Überleuting
 To use RBMs as generative models, one must be able to draw samples from the distribution captured in the parameters of the model.
 The straightforward way would be to calculate $p(v)$ and sample according to this distribution.
 But $p(v)$ depends on the partition function $Z$ and calculating $Z$ is not feasible for most practical scenarios, as the number of summands in $Z$ grows exponentially with the number of nodes in the model (see also later in \ref{methodExactloglik}).
@@ -730,14 +734,22 @@ Although the reconstruction error can serve as a rough proxy statistic for the l
 
 
 
-\subsection{General methods for implementing deep learning}
-TODO Blick über den Tellerrand von DBMs hinaus. nochmal recherchieren was andere Methoden angeht: variational autoencoder, GANs 
-und Implementierungen: TensorFlow, Flux, Pytorch etc.
+\subsection{General methods for deep learning}
+TODO Blick über den Tellerrand von DBMs hinaus
+
+\subsubsection{Different generative approaches}
+TODO VAE, GAN, MICE, Verweis Goncalves
+
+\subsubsection{Performance measures}
+TODO correlation, ORs, clustering approaches, visual inspection of samples
+
+\subsubsection{Implementation frameworks}
+TODO TensorFlow, Flux, Pytorch etc.
 
 \subsection{Distributed privacy-preserving analyses}
 TODO motivation
 
-\subsubsection{Privacy concepts}
+\subsubsection{Privacy concepts and disclosure metrics}
 TODO $\epsilon$ differential privacy, aggregated data, overfitting
 
 \subsubsection{The DataSHIELD framework}
@@ -771,7 +783,12 @@ But with matured multi-threading in Julia, these problems could be solved in the
 % TODO GPU Computing
 
 % TODO for our purposes, the speed was sufficient, especially for smaller models not relevant.
-\subsubsection{Modelling}
+
+\subsubsection{Examples}
+
+TODO example code, explained
+
+\subsubsection{Modeling}
 
 In our implementation multimodal deep Boltzmann machines, corresponding to the type \inlinecode{MultimodalDBM}, are constructed using restricted Boltzmann machines as building blocks (see figure \ref{mdbmimplasstack}). For each of the models of Boltzmann machines, it is possible to generate samples by using Gibbs sampling. For efficiently evaluating very small models, the likelihood and the partition function can be calculated exactly. This is also useful to test AIS by comparing the values estimated in small models to the exact ones.
 
@@ -846,7 +863,6 @@ In our implementation multimodal deep Boltzmann machines, corresponding to the t
 \subsubsection{Training algorithm and choices of hyperparameters}
 
 The hyperparameters for layerwise pre-training can be defined for the whole network or for each layer separately. TODO Trainlayer, AbstractTrainLayer.
-
 
 \subsubsection{Implementation of annealed importance sampling}
 
