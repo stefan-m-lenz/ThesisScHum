@@ -59,6 +59,14 @@ Carreira-Perpinan, M.~A. \harvardand\ Hinton, G.~E.  \harvardyearleft
   2005\harvardyearright , On contrastive divergence learning, {\em in}
   `{AISTATS}', Vol.~10, Citeseer, pp.~33--40.
 
+\harvarditem[Chan et~al.]{Chan, Sahiner, Wagner \harvardand\
+  Petrick}{1999}{chan_classifier_1999}
+Chan, H.-P., Sahiner, B., Wagner, R.~F. \harvardand\ Petrick, N.
+  \harvardyearleft 1999\harvardyearright , `Classifier design for
+  computer-aided diagnosis: {Effects} of finite sample size on the mean
+  performance of classical and neural network classifiers', {\em Medical
+  Physics} {\bf 26}(12),~2654--2668.
+
 \harvarditem[Cho et~al.]{Cho, Ilin \harvardand\ Raiko}{2011}{cho2011improved}
 Cho, K., Ilin, A. \harvardand\ Raiko, T.  \harvardyearleft
   2011\harvardyearright , `Improved learning of {Gaussian-Bernoulli} restricted
@@ -90,13 +98,6 @@ Geman, S. \harvardand\ Geman, D.  \harvardyearleft 1984\harvardyearright ,
 Hastie, T., Tibshirani, R. \harvardand\ Friedman, J.  \harvardyearleft
   2009\harvardyearright , {\em The elements of statistical learning: data
   mining, inference, and prediction}, Springer series in statistics, 2 edn.
-
-\harvarditem[Hess et~al.]{Hess, Lenz, Bl{\"a}tte, Bullinger \harvardand\
-  Binder}{2017}{hess2017partitioned}
-Hess, M., Lenz, S., Bl{\"a}tte, T.~J., Bullinger, L. \harvardand\ Binder, H.
-  \harvardyearleft 2017\harvardyearright , `Partitioned learning of deep
-  {Boltzmann} machines for {SNP} data', {\em Bioinformatics} {\bf
-  33}(20),~3173--3180.
 
 \harvarditem{Hinton}{2002}{cdorig}
 Hinton, G.~E.  \harvardyearleft 2002\harvardyearright , `Training products of
