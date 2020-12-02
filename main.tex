@@ -422,8 +422,10 @@ Using the gradients specified above, it is possible to run the gradient optimiza
 
 \subsubsection{Deep belief networks}\label{dbns}
 
-The next step in the evolution deep Boltzmann machines are deep belief networks (DBNs) \citep{hinton_reducing_2006}, which have been invented to make use of RBMs for dimensionality reduction.
-By stacking RBMs on top of each other (see figure \ref{fig:dbn}), it becomes possible to model higher level features in data.
+The next step in the evolution deep Boltzmann machines are deep belief networks (DBNs) \citep{hinton_reducing_2006}, which have been invented to make better use of RBMs for dimensionality reduction.
+Detecting higher level features in data is hard using shallow networks such as RBMs.
+The idea of DBNs is to stack RBMs on top of each other (see figure \ref{fig:dbn}) to be able to model features of increasing complexity with an increased depth of the network.
+
 \begin{figure}[h]
    \centering
    \includegraphics[scale=0.7]{images/dbn.pdf}
@@ -431,11 +433,12 @@ By stacking RBMs on top of each other (see figure \ref{fig:dbn}), it becomes pos
    {\bf A}: The DBN is trained as a stack of RBMs. {\bf B}: In a DBN as generative model, only the top RBM is used for Gibbs sampling, then the activation is passed in a deterministic way downwards to the visible layer.}
    \label{fig:dbn}
  \end{figure}
+ 
 For training a DBN, the first RBM is trained with the original data data vectors $\tilde{v}^{(i)}$ with $i = 1, \dots, n$. 
 For training the higher layers, a deterministic activation $f_k(v) :=  \EX p_k(h|v)$, defined via the conditional probability in the $k$-th RBM model, is passed through the lower layers after they have been trained:
 The second RBM is trained with the data set of all $f_1(\tilde{v}^{(i)})$, the third RBM can then be trained with the data set $f_2(f_1(\tilde{v}^{(i)}))$, and so on.
 
-As shown in figure (\ref{fig:dbn}B), only a part of the network can be used for modeling, which limits the generative capabilities of a DBN.
+As shown in figure (\ref{fig:dbn}B), only the last RBM in the network can be used for sampling, which limits the generative capabilities of a DBN.
 The ability to generate data from complex distributions is furthermore reduced if the DBN is used for dimension reduction because in this case the top RBM is also the smallest network.
 
 
@@ -532,7 +535,7 @@ For  $t \rightarrow \infty$, the series $\mu(t)$ converges to the value of $\mu$
 Analogously to equation (\ref{eqn:nablaresult}) for calculating the gradient of the log-likelihood in RBMs, this gradient can be calculated as 
 \begin{align*}
 \nabla_{\Theta} \ELBO(v, \mu) &= \nabla_{\Theta} ( - E(\tilde{v}, \mu) - \log Z ) \\
- &= \nabla_{\Theta} (- E(\tilde{v}, \mu)) + \EX_{P_\text{model}} \nabla_{\Theta} E(v, h).
+ &= \nabla_{\Theta} (- E(\tilde{v}, \mu)) - \EX_{P_\text{model}} \nabla_{\Theta} (-E(v, h)).
 \end{align*}
 This results in the following gradients for the different types of model parameters:
 \begin{align*}
@@ -549,7 +552,7 @@ For the convergence of the gradient optimization, it is necessary to decrease th
 Since the training procedure is very complex and depends on many hyperparameters, it is necessary to test whether the training works well by examining the training objective.
 Although the likelihood is not the best criterion for all kinds of applications \citep{theis_note_2015}, it is essential to have a way to get a value for the likelihood as primary optimization criterion.
 Being able to inspect the learning process is important for finding the best choice of hyperparameters and also for ensuring the quality of the software implementation of the learning algorithm.
-This leads us to the next section, where we want to take a closer look at methods for calculating and estimating the likelihood, and lower bound of the likelihood, in case of DBMs.
+This leads us to the next section, where we want to take a closer look at methods for calculating and estimating the likelihood, and the lower bound of the likelihood, in case of DBMs.
 
 
 \subsubsection{Evaluating restricted and deep Boltzmann machines}
