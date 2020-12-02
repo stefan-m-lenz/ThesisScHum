@@ -73,6 +73,12 @@ Cho, K., Ilin, A. \harvardand\ Raiko, T.  \harvardyearleft
   {Boltzmann} machines', {\em Artificial Neural Networks and Machine
   Learning--ICANN 2011} pp.~10--17.
 
+\harvarditem{Curry}{1944}{gradientdescent}
+Curry, H.~B.  \harvardyearleft 1944\harvardyearright , `The method of steepest
+  descent for non-linear minimization problems', {\em Quarterly of Applied
+  Mathematics} {\bf 2}(3),~258--261.
+\newline\harvardurl{https://www.ams.org/qam/1944-02-03/S0033-569X-1944-10667-3/}
+
 \harvarditem{{Facebook, Inc}}{n.d.}{pytorch}
 {Facebook, Inc}  \harvardyearleft n.d.\harvardyearright , `{PyTorch}, tensors
   and dynamic neural networks in {Python} with strong {GPU} acceleration',

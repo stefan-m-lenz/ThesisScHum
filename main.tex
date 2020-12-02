@@ -320,30 +320,25 @@ The Gibbs sampling algorithm can also be easily modified for sampling conditiona
 Put more formally, to draw from the probability $p(v, h \mid \tilde{v}_C)$ that is conditioned on the activations $\tilde{v}_C$ of a set $C$ of visible nodes, the Gibbs sampling algorithm above can be run with $v_C$ set to $\tilde{v}_C$ in step 1 and after each sampling step 3.
 This, of course, works analogously for hidden nodes as conditions.
 
-An example for using conditional sampling in a setting with biomedical data could be the simulation of a patient cohort with a specific rare disease pattern using a Boltzmann machine that has been trained with a data set of diagnoses from a more general population cohort.
-A result from such a simulation could be used for a sample size calculation when planning a study involving the specific disease pattern and other combinations of characteristics.
-%TODO martin paper zitieren?
-In cases where certain combinations might be quite rare, the learned correlations between all the variables can help in estimating the frequencies of the combinations of specific characteristics.
 
 \subsubsection{Training of restricted Boltzmann machines}\label{rbmtraining}
-Goal of the training procedure of restricted Boltmann machines is to maximize the likelihood $\prod_{k=1}^n p(\widetilde{v}^{(k)})$ for a given data set $(\widetilde{v}^{(1)}, \dots, \widetilde{v}^{(n)})$.
-As mentioned in section \ref{basicbmproperties}, calculating $p(v) = \frac{\sum_{h} p(v,h)}{Z}$ needs the partition function $Z$.
+Goal of the training procedure of restricted Boltzmann machines is to maximize the likelihood $\prod_{k=1}^n p(\widetilde{v}^{(k)})$ for a given data set $(\widetilde{v}^{(1)}, \dots, \widetilde{v}^{(n)})$.
 Maximizing the likelihood is equal to maximizing the log-likelihood
 \[
-\sum_{k=1}^{n}  \log p(\widetilde{v}^{(i)}) = \sum_{k=1}^{n} \left( \log \sum_h e^{-E(\widetilde{v}^{(k)}, h)} - \log \sum_v \sum_h e^{-E(v, h)} \right)
+\sum_{k=1}^{n}  \log p(\widetilde{v}^{(i)}) = \sum_{k=1}^{n} \left( \log \sum_h e^{-E(\widetilde{v}^{(k)}, h)} - \log \sum_v \sum_h e^{-E(v, h)} \right).
 \]
+
 
 \paragraph{Deriving the gradient of the log-likelihood}
 
-
-For finding an optimum, the gradient $\nabla_\Theta \sum_{k=1}^{n}  \log p_\Theta(\widetilde{v}^{(k)})$ needs to be determined.
-The negative of gradient of the log-likelihood for a single observation
-$\widetilde{v} $ with respect to the parameters $\Theta$ is
+For finding an optimum for $\sum_{k=1}^{n}  \log p_\Theta(\widetilde{v}^{(k)})$, the gradient $\nabla_\Theta \sum_{k=1}^{n}  \log p_\Theta(\widetilde{v}^{(k)})$ needs to be determined.
+The gradient of the log-likelihood for a single observation
+$\widetilde{v} $ with respect to the parameter set $\Theta$ is
 \begin{align}
-- \nabla_{\!\Theta}  \log p(\widetilde{v}) &= - \nabla_{\!\Theta}   \log \sum_h e^{-E(\widetilde{v}, h)} + \log \sum_v \sum_h e^{-E(v, h)} \nonumber \\
- &= - \frac{\nabla_{\!\Theta} \sum_h e^{-E(\widetilde{v}, h)}}{\sum_h e ^{-E(\widetilde{v}, h)}}  + \frac{\nabla_{\!\Theta} \sum_v \sum_h e^{-E(v,h)}}{\sum_v \sum_h e^{-E(v,h)}} \label{eqn:derivedlog}\\
-&=  \frac{\sum_h e^{-E(\widetilde{v}, h)} \nabla_{\!\Theta} E(\widetilde{v}, h)} {\sum_h e^{-E(\widetilde{v}, h)}} - \frac{\sum_v \sum_h e^{-E(v, h)} \nabla_{\!\Theta} E(v, h)}{\sum_v \sum_h e^{-E(v, h)}} \label{eqn:derivedexp}\\
-&=  \EX_{P_\text{data}} \nabla_{\!\Theta} E(\widetilde{v},h) - \EX_{P_\text{model}} \nabla_{\!\Theta} E(v,h) \label{eqn:nablaresult}
+\nabla_{\!\Theta}  \log p(\widetilde{v}) &= \nabla_{\!\Theta}   \log \sum_h e^{-E(\widetilde{v}, h)} - \log \sum_v \sum_h e^{-E(v, h)} \nonumber \\
+ &= \frac{\nabla_{\!\Theta} \sum_h e^{-E(\widetilde{v}, h)}}{\sum_h e ^{-E(\widetilde{v}, h)}} - \frac{\nabla_{\!\Theta} \sum_v \sum_h e^{-E(v,h)}}{\sum_v \sum_h e^{-E(v,h)}} \label{eqn:derivedlog}\\
+&=  \frac{\sum_h e^{-E(\widetilde{v}, h)} \nabla_{\!\Theta} (-E(\widetilde{v}, h))} {\sum_h e^{-E(\widetilde{v}, h)}} - \frac{\sum_v \sum_h e^{-E(v, h)} \nabla_{\!\Theta} (-E(v, h))}{\sum_v \sum_h e^{-E(v, h)}} \label{eqn:derivedexp}\\
+&=  \EX_{P_\text{data}} \nabla_{\!\Theta} (- E(\widetilde{v},h)) - \EX_{P_\text{model}} \nabla_{\!\Theta} (-E(v,h)) \label{eqn:nablaresult}
 \end{align}
 In (\ref{eqn:derivedlog}) and (\ref{eqn:derivedexp}), the chain rule is used, together with the derivative of the logarithm and the exponential function, respectively. The resulting terms can be rewritten in equation (\ref{eqn:nablaresult}) as the expectation of the gradient given the distribution of the data and the expectation of the gradient given the distribution of the model.
 
@@ -356,7 +351,7 @@ For this, one can use the expected value of the conditional probability $p(h\mid
 \end{equation}
 In the second term of equation (\ref{eqn:nablaresult}), the sum goes over all nodes in the network.
 Calculating this term is technically not feasible in normal cases, as the number of summands grows exponentially with the number of nodes.
-This means that it is not possible to simply equate the gradient of the log-likelihood with zero and solve the equation to get an optimum. Also finding an optimum with gradient descent, walking with small steps in the direction of the gradient to find an optimum, is not possible directly, because this would as well require the calculation of the whole gradient in each iteration step.
+This means that it is not possible to simply equate the gradient of the log-likelihood with zero and solve the equation to get an optimum. Also finding an optimum with gradient descent \citep{gradientdescent}, walking with small steps in the direction of the gradient to find an optimum, is not possible directly, because this would as well require the calculation of the whole gradient in each iteration step.
 Via Gibbs sampling (see section \ref{gibbssamplingrbm}), however, the term can be estimated. 
 With this, it becomes possible to use the estimated gradients in gradient descent, or here rather ``gradient ascent" as we would like to find a (local) maximum.
 
@@ -380,7 +375,7 @@ The number of epochs and the learning rate are the most important hyperparameter
 
 %TODO optional: hier könnte man mehr schreiben über zusammenspiel von learning rate und epochs, außerdem steps auf oberfläche beschreiben und learning rate decay
 
-Mini-batches are at first introduced for performance reasons.
+Mini-batches were at first introduced for performance reasons.
 It is not necessary to have the exact gradient for walking only small steps into the direction of it.
 So it is sufficient to calculate the gradient for small subsets of the data, which is noisy, but will be correct on average.
 Using mini-batches can also be advantageous because of another reason: The variance of the steps becomes higher with a with a smaller batch size. This leads to exploring more of the surface of the likelihood function in the high-dimensional space and therefore can lead to finding better local optima in some scenarios \citep{bengio2012practical}.
@@ -422,6 +417,8 @@ In the alternative formulation of \cite{cho2011improved}, the gradients are:
 \end{align*}
 
 In the RBM with the dummy variables for encoding categorical variables, the gradients are the same as in the one with Bernoulli distributed variables.
+
+Using the gradients specified above, it is possible to run the gradient optimization for training the different types of RBMs.
 
 \subsubsection{Deep belief networks}\label{dbns}
 
@@ -932,6 +929,13 @@ TODO Rest aus JuliaConnectoR-Paper hier einarbeiten
 \section{Discussion}
 
 \subsection{Comparison of DBMs and other generative approaches}
+
+TODO DBMs are good at conditional sampling:
+
+An example for using conditional sampling in a setting with biomedical data could be the simulation of a patient cohort with a specific rare disease pattern using a Boltzmann machine that has been trained with a data set of diagnoses from a more general population cohort.
+A result from such a simulation could be used for a sample size calculation when planning a study involving the specific disease pattern and other combinations of characteristics.
+%TODO martin paper zitieren?
+In cases where certain combinations might be quite rare, the learned correlations between all the variables can help in estimating the frequencies of the combinations of specific characteristics.
 
 \subsection{Directions in privacy-perserving deep learning}
 TODO diskutieren: privacy-accounting in DBMs and other approaches
