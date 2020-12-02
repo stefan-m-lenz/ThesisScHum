@@ -63,7 +63,15 @@ TODO
 
 \clearpage
 \section{Introduction}
+TODO privacy motivation for using generative models for synthetic data
+
+TODO several approaches, e.g. synthpop. deep learning models as generative models capture more complicated structure
+
+TODO pattern recognition
+
 TODO deep learning popular with images, most popular use cases deal with large sample size
+
+TODO DBMs especially interesting for biomedical data because small sample size
 
 Saving parameters can aid in training models also with fewer data points as the performance of more complex models may deteriorate if the sample size is too small \citep{chan_classifier_1999}.
 The problem of small sample sizes is particularly prevalent when dealing with genetic variant data 
@@ -486,11 +494,6 @@ These conditional probabilities can be used to perform Gibbs sampling in deep Bo
  \end{figure}
 
 
-\subsubsection{Multimodal deep Boltzmann machines}
-
-TODO %The energy function of a multimodal deep Boltzmann machine (MDBM) is 
-
-
 \subsubsection{Training of deep Boltzmann machines}
 
 
@@ -734,8 +737,19 @@ With $f_h(h) := \EX_v p(h|v)$ and $f_v(h) := \EX_h p(v|h)$, the reconstruction $
 Calculating the reconstruction error  is a very fast and simple technique for monitoring the training progress for RBMs, DBNs and for greedy layer-wise pre-training of DBMs.
 Although the reconstruction error can serve as a rough proxy statistic for the likelihood, it does not replace the likelihood entirely, as it is not the actual optimization target, and it is strongly influenced by the {\em mixing rate} of the Markov chain for Gibbs sampling, i. e. how fast the Markov chain reaches its equilibrium distribution. If the distribution in the Markov chain changes very slowly, the reconstruction error will be low, even if the distributions of the samples and the model differ much \citep{hinton_practical_2012}.
 
+\subsubsection{Multimodal deep Boltzmann machines}
 
+Figure \ref{fig:bmsoverview} shows different possible architectures for multimodal Boltzmann machines \citep{srivastava2012multimodal}.
+Multimodal DBMs can be considered a generalization of DBMs.
+They have been invented to make it possible to combine different input data types in a single model.
 
+The training procedure can be generalized as follows:
+For the pre-training of a multimodal DBM, the different layers are trained by stacking RBMs in the same way as for pre-training a DBM.
+The only differences are that the RBMs at the lowest layer may have different input distributions, and that RBMs in higher layers may be partitioned, i.e., some connections are always zero.
+For the fine-tuning, the gradients in the different layers are calculated in the same way as the gradients in the respective RBM types, using the mean-field approximations and the fantasy particles of the DBM fine-tuning algorithm as activations of the respective visible and hidden nodes.
+Gibbs sampling can also be performed in the same way, using the conditional probabilities in the RBMs.
+
+The evaluation via AIS can also be generalized, using the unnormalized probabilities for the different RBMs at the input layer (see \ref{unnormalizedprobsrbm}) to ``sum out" or ``integrate out" the different types of visible nodes (see figure \ref{aissummingout} C).
 
 \subsection{General methods for deep learning}
 TODO Blick über den Tellerrand von DBMs hinaus
