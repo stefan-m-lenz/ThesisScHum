@@ -792,7 +792,7 @@ In contrast to that, we used plain Julia code because we wanted to have an easy 
 Optimizing code by using parallel execution is also possible with the Julia language although, of course, not on the same level.
 Since the multiplication of large matrices is already threaded by the linear algebra library called by Julia,
 the easiest reduction of execution time can be achieved by reusing allocated space as much as possible.
-With the function \inlinecode{mul!} instead of the normal matrix multiplication operator (\inlinecode{*}), it is possible to perform matrix multiplication in-place, without allocating space for the result. Avoiding the costs of memory allocations and garbage collection this way greatly increased the speed in many parts of the code.
+With the function \inlinecode{mul!} instead of the normal matrix multiplication operator (\inlinecode{*}), it is possible to perform matrix multiplication in-place, without allocating space for the result. Avoiding the costs of memory allocations and garbage collection greatly increased the speed in many parts of the code.
 In the current version of Julia, explicit control over multi-threading is still an experimental feature and the main way to parallelize is by starting processes.
 Sharing memory between processes is more difficult than sharing memory between threads. Also starting processes is more expensive than starting threads.
 But with matured multi-threading in Julia, these problems could be solved in the future and e. g. computations on different layers of a deep Boltzmann machine could be done in parallel threads without making the code much more complex.
@@ -813,7 +813,7 @@ In our implementation multimodal deep Boltzmann machines, corresponding to the t
 \begin{landscape}
 \begin{figure}[h]
    \centering
-   \includegraphics[scale=0.4,trim={4cm 4cm 3cm 2.4cm},clip]{images/BoltzmannMachinesDiagram.pdf}
+   \includegraphics[scale=0.41,trim={4cm 4cm 3cm 2.4cm},clip]{images/BoltzmannMachinesDiagram.pdf}
    \caption{UML class diagram \citep{uml} of the type hierarchy for the Boltzmann machines in our Julia implementation. Although the Julia language does not have the concept of classes and visibility, the diagram is suited well to show the connections of the types with the most important associated functions.
    For more details on these functions, see tables \ref{juliaFunTableTrain} and \ref{juliaFunTableEval}.}
    \label{umlclassdiagram}
