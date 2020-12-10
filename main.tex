@@ -26,6 +26,7 @@
 \usepackage{pdfpages}
 \renewcommand{\familydefault}{\sfdefault}
 \usepackage{titlesec}
+\usepackage{rotating}
 \setcounter{secnumdepth}{4}
 
 \titleformat{\paragraph}
@@ -788,26 +789,34 @@ Here $C$ denotes the set of all index sets of the dummy variables, where each in
 
 \subsection{Implementation}
 
-\subsubsection{Existing solutions}
+\subsubsection{Existing implementations}
 
 \begin{table}[h!]
 \centering
-\begin{tabular}{p{4.4cm} p{3.85cm} p{1.9cm} p{1.9cm}}
+\begin{tabular}{p{4.4cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm}}
+\hline \\ [3.9ex]\\
+ & \begin{rotate}{25}\apkg{BoltzmannMachines} \end{rotate} & 
+ \begin{rotate}{25} \apkg{lucastheis/deepbelief} \end{rotate} & 
+ \begin{rotate}{25} \apkg{Boltzmann} \end{rotate} & 
+ \begin{rotate}{25} \apkg{yell/boltzmann-machines}  \end{rotate} &
+ \begin{rotate}{25} \apkg{scikit-learn} \end{rotate} &
+ \begin{rotate}{25} \apkg{darch} \end{rotate} \\
 \hline
-\emph{Feature} & \apkg{BoltzmannMachines} & \apkg{deepbelief} & \apkg{Boltzmann} \\
-\hline
-Language & Julia & Python & Julia \\
-Bernoulli RBM & Yes & Yes & Yes  \\
-Gaussian RBM (Hinton) & Yes & Yes & ? \\
-Gaussian RBM (Cho) & Yes & No & ?  \\
-DBM training & Yes & No & No \\
-DBN training & Yes & Yes & Yes \\
-AIS for RBMs & Yes & Yes & No \\
-AIS for DBMs & Yes & No & No \\
+Language & Julia & Python & Julia & ? & ? & ? \\
+Bernoulli RBM & Yes & Yes & Yes  & ? & ? & ? \\
+Gaussian RBM (Hinton) & Yes & Yes & No (*) & ? & ? & ? \\
+Gaussian RBM (Cho) & Yes & No & No (*)  & ? & ? & ? \\
+DBN training & Yes & Yes & Yes & ? & ? & ? \\
+DBM training & Yes & No & No & ? & ? & ? \\
+Partitioned DBM & Yes & No & No & ? & ? & ? \\
+Multimodal DBM & Yes & No & No & ? & ? & ? \\
+AIS for RBMs & Yes & Yes & No & ? & ? & ? \\
+AIS for DBMs & Yes & No & No & ? & ? & ? \\
 \hline
 \end{tabular}
-\caption{\label{tab:FeatureOverview} Comparison of features between the
-\apkg{BoltzmannMachines} (version 1.2), \apkg{Boltzmann} (version 0.7) and the implementation of \cite{theis2011deepbelief} (\apkg{deepbelief}). In the \apkg{Boltzmann} package, the formulas for the Gaussian are not defined and the implementation is wrong for both ways.}
+\caption{\label{tab:FeatureOverview} Comparison of features between the software packages
+\apkg{BoltzmannMachines} (version 1.2), \apkg{Boltzmann} (version 0.7) and the implementation of \cite{theis2011deepbelief} (\apkg{deepbelief}). 
+\\ (*) In the \apkg{Boltzmann} package, the formulas for the Gaussian RBM are not documented and the implementation does not match the formulas described here.}
 \end{table}
 %
 %
@@ -917,7 +926,7 @@ In our implementation multimodal deep Boltzmann machines, corresponding to the t
 \label{juliaFunTableEval}
 \end{table}
 
-\subsubsection{Usage of the \apkg{BoltzmannMachines} Julia package}
+\subsubsection[Usage of the BoltzmannMachines Julia package]{Usage of the \apkg{BoltzmannMachines} Julia package}
 The \apkg{BoltzmannMachines} package has been registered in the official Julia package repository. It can be installed via:
 
 \begin{lstlisting}
