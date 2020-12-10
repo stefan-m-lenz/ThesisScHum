@@ -25,7 +25,6 @@
 \usepackage{helvet}
 \usepackage{pdfpages}
 \renewcommand{\familydefault}{\sfdefault}
-
 \usepackage{titlesec}
 \setcounter{secnumdepth}{4}
 
@@ -43,6 +42,30 @@
 \DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
 
 \DeclareMathOperator{\EX}{\mathbb{E}}
+
+%%
+%% Julia definition (c) 2014 Jubobs
+%%
+\lstdefinelanguage{Julia}
+  {morekeywords={begin,abstract,break,case,catch,const,continue,do,else,elseif,
+      end,export,false,for,function,immutable,import,importall,if,in,
+      macro,module,otherwise,quote,return,switch,true,try,type,
+      using,while},
+   sensitive=true,
+   alsoother={$},
+   morecomment=[l]\#,
+   morestring=[s]{"}{"},
+   morestring=[m]{'}{'},
+}[keywords,comments,strings]
+
+\lstset{
+    language         = Julia,
+    basicstyle       = \ttfamily,
+    keywordstyle     = \bfseries,
+    commentstyle = \itshape,
+    showstringspaces = false,
+    frame = single
+}
 
 \begin{document}
 \includepdf[pages=-]{includes/Deckblatt}
@@ -764,10 +787,41 @@ p^*(h) &= \sum_v e^{-E(v,h)} \\
 Here $C$ denotes the set of all index sets of the dummy variables, where each index set belongs to a categorical variable.
 
 \subsection{Implementation}
+
+\subsubsection{Existing solutions}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{p{4.4cm} p{3.85cm} p{1.9cm} p{1.9cm}}
+\hline
+\emph{Feature} & \apkg{BoltzmannMachines} & \apkg{deepbelief} & \apkg{Boltzmann} \\
+\hline
+Language & Julia & Python & Julia \\
+Bernoulli RBM & Yes & Yes & Yes  \\
+Gaussian RBM (Hinton) & Yes & Yes & ? \\
+Gaussian RBM (Cho) & Yes & No & ?  \\
+DBM training & Yes & No & No \\
+DBN training & Yes & Yes & Yes \\
+AIS for RBMs & Yes & Yes & No \\
+AIS for DBMs & Yes & No & No \\
+\hline
+\end{tabular}
+\caption{\label{tab:FeatureOverview} Comparison of features between the
+\apkg{BoltzmannMachines} (version 1.2), \apkg{Boltzmann} (version 0.7) and the implementation of \cite{theis2011deepbelief} (\apkg{deepbelief}). In the \apkg{Boltzmann} package, the formulas for the Gaussian are not defined and the implementation is wrong for both ways.}
+\end{table}
+%
+%
+%
+\paragraph{Julia implementations}
+The Julia package \apkg{Boltzmann} existed before the \apkg{BoltzmannMachines} package. 
+It was very much in development and did not have the desired features, so it seemed to be simpler to start with a clean slate and implement the desired features in a new package that was designed for training DBMs and not only RBMs.
+In particular, the algorithm for training deep Boltzmann machines is still not implemented in the \apkg{Boltzmann} package as of version 0.7.
+
+The package of \cite{theis2011deepbelief}
+
+%TODO Tensorflow.jl
+
 %TODO TensorFlow, Flux, Pytorch etc. warum nicht diese verwenden
-
-
-\subsubsection{Choice of technology}
 TODO expand For the implementation we chose the Julia language \citep{bezanson2017julia}. 
 
 For large datasets such as image collections from the internet, optimizing the execution speed is essential.
@@ -788,7 +842,6 @@ But with matured multi-threading in Julia, these problems could be solved in the
 
 % TODO for our purposes, the speed was sufficient, especially for smaller models not relevant.
 
-\subsubsection{Examples}
 
 TODO example code, explained
 
@@ -863,6 +916,14 @@ In our implementation multimodal deep Boltzmann machines, corresponding to the t
 \caption{Functions in the Julia package for evaluating the likelihood of trained models. The exact calculations of the partition function and the likelihood are only feasible for very small models. For the complexity of the corresponding algorithms, see \ref{methodExactloglik}.}
 \label{juliaFunTableEval}
 \end{table}
+
+\subsubsection{Usage of the \apkg{BoltzmannMachines} Julia package}
+The \apkg{BoltzmannMachines} package has been registered in the official Julia package repository. It can be installed via:
+
+\begin{lstlisting}
+import Pkg
+Pkg.add("BoltzmannMachines")
+\end{lstlisting}
 
 \subsubsection{Training algorithm and choices of hyperparameters}
 
