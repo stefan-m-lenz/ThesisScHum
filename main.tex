@@ -788,6 +788,7 @@ p^*(h) &= \sum_v e^{-E(v,h)} \\
 Here $C$ denotes the set of all index sets of the dummy variables, where each index set belongs to a categorical variable.
 
 \subsection{Implementation}
+TODO Einleitung after evaluating Julia package .
 
 \subsubsection{Existing implementations}
 
@@ -802,26 +803,25 @@ Here $C$ denotes the set of all index sets of the dummy variables, where each in
  \begin{rotate}{25} \apkg{scikit-learn} \end{rotate} &
  \begin{rotate}{25} \apkg{darch} \end{rotate} \\
 \hline
-Language & Julia & Python & Julia & ? & ? & ? \\
-Bernoulli RBM & Yes & Yes & Yes  & ? & ? & ? \\
-Gaussian RBM (Hinton) & Yes & Yes & No (*) & ? & ? & ? \\
-Gaussian RBM (Cho) & Yes & No & No (*)  & ? & ? & ? \\
-DBN training & Yes & Yes & Yes & ? & ? & ? \\
-DBM training & Yes & No & No & ? & ? & ? \\
-Partitioned DBM & Yes & No & No & ? & ? & ? \\
-Multimodal DBM & Yes & No & No & ? & ? & ? \\
-AIS for RBMs & Yes & Yes & No & ? & ? & ? \\
-AIS for DBMs & Yes & No & No & ? & ? & ? \\
+Compared version & 1.2 & - & 0.7 & - & 0.23 & 0.13 \\
+Language & Julia & Python & Julia & Python & Python & R \\
+Bernoulli RBM & Yes & Yes & Yes  & Yes & Yes & Yes \\
+Gaussian RBM (Hinton) & Yes & Yes & No (*) & Yes & No & No \\
+Gaussian RBM (Cho) & Yes & No & No (*)  & No & No & No \\
+DBN training & Yes & Yes & Yes & Yes & No & Yes \\
+DBM training & Yes & No & No & Yes & No & No \\
+Multimodal DBM & Yes & No & No & No & No & No \\
+AIS for RBMs & Yes & Yes & No & Yes & No & No \\
+AIS for DBMs & Yes & No & No & Yes & No & No \\
 \hline
 \end{tabular}
-\caption{\label{tab:FeatureOverview} Comparison of features between the software packages
-\apkg{BoltzmannMachines} (version 1.2), \apkg{Boltzmann} (version 0.7) and the implementation of \cite{theis2011deepbelief} (\apkg{deepbelief}). 
+\caption{\label{tab:FeatureOverview} Comparison of features between different implementations of restricted and deep Boltzmann machines
 \\ (*) In the \apkg{Boltzmann} package, the formulas for the Gaussian RBM are not documented and the implementation does not match the formulas described here.}
 \end{table}
-%
-%
-%
-\paragraph{Julia implementations}
+
+The implementation of \cite{theis2011deepbelief} (\apkg{deepbelief}), and TODO \apkg{darch} \citep{darch},
+No learning of $\sigma$ in other implementations. Difficult anyway.
+
 The Julia package \apkg{Boltzmann} existed before the \apkg{BoltzmannMachines} package. 
 It was very much in development and did not have the desired features, so it seemed to be simpler to start with a clean slate and implement the desired features in a new package that was designed for training DBMs and not only RBMs.
 In particular, the algorithm for training deep Boltzmann machines is still not implemented in the \apkg{Boltzmann} package as of version 0.7.

@@ -79,6 +79,11 @@ Curry, H.~B.  \harvardyearleft 1944\harvardyearright , `The method of steepest
   Mathematics} {\bf 2}(3),~258--261.
 \newline\harvardurl{https://www.ams.org/qam/1944-02-03/S0033-569X-1944-10667-3/}
 
+\harvarditem{Drees}{2009}{darch}
+Drees, M.  \harvardyearleft 2009\harvardyearright , {Implementierung} und
+  {Analyse} von tiefen {Architekturen} in {R}, Master's thesis, Fachhochschule
+  Dortmund, Germany.
+
 \harvarditem{{Facebook, Inc}}{n.d.}{pytorch}
 {Facebook, Inc}  \harvardyearleft n.d.\harvardyearright , `{PyTorch}, tensors
   and dynamic neural networks in {Python} with strong {GPU} acceleration',
