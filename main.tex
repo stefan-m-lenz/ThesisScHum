@@ -811,6 +811,7 @@ Gaussian RBM (Cho) & Yes & No & No (*)  & No & No & No \\
 DBN training & Yes & Yes & Yes & Yes & No & Yes \\
 DBM training & Yes & No & No & Yes & No & No \\
 Multimodal DBM & Yes & No & No & No & No & No \\
+Exact likelihood & Yes & No & No & No & No & No \\
 AIS for RBMs & Yes & Yes & No & Yes & No & No \\
 AIS for DBMs & Yes & No & No & Yes & No & No \\
 \hline
@@ -821,12 +822,15 @@ AIS for DBMs & Yes & No & No & Yes & No & No \\
 
 The implementation of \cite{theis2011deepbelief} (\apkg{deepbelief}), and TODO \apkg{darch} \citep{darch},
 No learning of $\sigma$ in other implementations. Difficult anyway.
+% pseudo-likelihood: https://scikit-learn.org/0.23/modules/generated/sklearn.neural_network.BernoulliRBM.html
 
 The Julia package \apkg{Boltzmann} existed before the \apkg{BoltzmannMachines} package. 
 It was very much in development and did not have the desired features, so it seemed to be simpler to start with a clean slate and implement the desired features in a new package that was designed for training DBMs and not only RBMs.
 In particular, the algorithm for training deep Boltzmann machines is still not implemented in the \apkg{Boltzmann} package as of version 0.7.
 
 The package of \cite{theis2011deepbelief}
+
+AIS in yell not generic \footnote[1]{\url{https://github.com/yell/boltzmann-machines/blob/93ece3497816ccf08f687e3237007544268788e7/boltzmann_machines/dbm.py\#L902}}
 
 %TODO Tensorflow.jl
 
