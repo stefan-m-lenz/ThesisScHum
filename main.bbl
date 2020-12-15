@@ -104,6 +104,29 @@ Geman, S. \harvardand\ Geman, D.  \harvardyearleft 1984\harvardyearright ,
 \newblock Conference Name: IEEE Transactions on Pattern Analysis and Machine
   Intelligence.
 
+\harvarditem{{\em GNU General Public License}}{2007}{gplv3}
+{\em GNU General Public License}  \harvardyearleft 2007\harvardyearright .
+\newline\harvardurl{http://www.gnu.org/licenses/gpl.html}
+
+\harvarditem[Goodfellow et~al.]{Goodfellow, Bengio \harvardand\
+  Courville}{2016}{goodfellow_deep_2016}
+Goodfellow, I., Bengio, Y. \harvardand\ Courville, A.  \harvardyearleft
+  2016\harvardyearright , {\em Deep {Learning}}, MIT Press.
+
+\harvarditem[Harris et~al.]{Harris, Millman, van~der Walt, Gommers, Virtanen,
+  Cournapeau, Wieser, Taylor, Berg, Smith, Kern, Picus, Hoyer, van Kerkwijk,
+  Brett, Haldane, del R{'{\i}}o, Wiebe, Peterson, G{'{e}}rard-Marchant,
+  Sheppard, Reddy, Weckesser, Abbasi, Gohlke \harvardand\
+  Oliphant}{2020}{numpy}
+Harris, C.~R., Millman, K.~J., van~der Walt, S.~J., Gommers, R., Virtanen, P.,
+  Cournapeau, D., Wieser, E., Taylor, J., Berg, S., Smith, N.~J., Kern, R.,
+  Picus, M., Hoyer, S., van Kerkwijk, M.~H., Brett, M., Haldane, A., del
+  R{'{\i}}o, J.~F., Wiebe, M., Peterson, P., G{'{e}}rard-Marchant, P.,
+  Sheppard, K., Reddy, T., Weckesser, W., Abbasi, H., Gohlke, C. \harvardand\
+  Oliphant, T.~E.  \harvardyearleft 2020\harvardyearright , `Array programming
+  with {NumPy}', {\em Nature} {\bf 585}(7825),~357--362.
+\newline\harvardurl{https://doi.org/10.1038/s41586-020-2649-2}
+
 \harvarditem[Hastie et~al.]{Hastie, Tibshirani \harvardand\
   Friedman}{2009}{hastie_elements}
 Hastie, T., Tibshirani, R. \harvardand\ Friedman, J.  \harvardyearleft
@@ -150,6 +173,11 @@ Krizhevsky, A. \harvardand\ Hinton, G.  \harvardyearleft 2009\harvardyearright
   , `Learning multiple layers of features from tiny images', {\em Technical
   report, University of Toronto} .
 
+\harvarditem{{Massachusetts Institute of Technology}}{n.d.}{mitlicense}
+{Massachusetts Institute of Technology}  \harvardyearleft n.d.\harvardyearright
+  , `Mit license'.
+\newline\harvardurl{https://opensource.org/licenses/MIT}
+
 \harvarditem{McCoy \harvardand\ Wu}{2014}{isingmodel}
 McCoy, B.~M. \harvardand\ Wu, T.~T.  \harvardyearleft 2014\harvardyearright ,
   {\em The Two-Dimensional {Ising} Model}, 2 edn, Courier Corporation.
@@ -175,6 +203,12 @@ Ranzato, M., Boureau, Y.-L., Chopra, S. \harvardand\ LeCun, Y.
   \harvardyearleft 2007\harvardyearright , A unified energy-based framework for
   unsupervised learning, {\em in} `Artificial {Intelligence} and {Statistics}',
   pp.~371--379.
+
+\harvarditem{{Regents of the University of California}}{1999}{bsd3}
+{Regents of the University of California}  \harvardyearleft
+  1999\harvardyearright , `The 3-{Clause} {BSD} {License} {\textbar} {Open}
+  {Source} {Initiative}'.
+\newline\harvardurl{https://opensource.org/licenses/BSD-3-Clause}
 
 \harvarditem[Rumbaugh et~al.]{Rumbaugh, Jacobson \harvardand\ Booch}{1999}{uml}
 Rumbaugh, J., Jacobson, I. \harvardand\ Booch, G.  \harvardyearleft
@@ -212,6 +246,12 @@ Smolensky, P.  \harvardyearleft 1986\harvardyearright , `Foundations of harmony
 Srivastava, N. \harvardand\ Salakhutdinov, R.~R.  \harvardyearleft
   2012\harvardyearright , Multimodal learning with deep {Boltzmann} machines,
   {\em in} `Advances in neural information processing systems', pp.~2222--2230.
+
+\harvarditem{Theis}{2011}{deepbelief_github}
+Theis, L.  \harvardyearleft 2011\harvardyearright , `Code for training and
+  evaluating restricted boltzmann machines ({RBMs}) and deep belief networks
+  ({DBNs})'.
+\newline\harvardurl{https://github.com/lucastheis/deepbelief}
 
 \harvarditem[Theis et~al.]{Theis, Gerwinn, Sinz \harvardand\
   Bethge}{2011}{theis2011deepbelief}
