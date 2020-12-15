@@ -788,14 +788,20 @@ Here $C$ denotes the set of all index sets of the dummy variables, where each in
 A first product of this work on deep and restricted Boltzmann machines algorithms is a software implementation that aims at  ....
 Algorithms described previously 
 The Julia package \apkg{BoltzmannMachines} was designed to 
+This implementationwhich has been published as open source software on GitHub.
+
 
 \subsubsection{Existing implementations}
 
-At the time of the decision whether to start a new implementation, several software implementations for RBMs and DBNs already existed. 
-%TODO hinton original code
-As there was no package for training DBMs that was very user-friendly and easily extensible, a new software implementation was started.
-This section describes the features and characteristics of the existing software implementations.
-Table \ref{tab:FeatureOverviewBoltzmann} summarizes the existing solutions and compares them to the \apkg{BoltzmannMachines} package.
+At the time of the decision whether to start a new implementation, several software implementations for RBMs and DBNs already existed.
+Yet, there was no user-friendly software solution for training and evaluating DBMs.
+The original implementation of DBM training\footnote{\url{http://www.cs.toronto.edu/~rsalakhu/DBM.html}} was written in MATLAB.
+It consists of a collection of scripts and it is hard to re-use because it does not encapsulate the code in functions.
+Therefore, the decision for creating a new software implementation of the algorithms was made.
+%TODO warum rbm code nicht benutzt
+
+This section describes the features and characteristics of the existing software implementations for training and evaluating RBMs, DBNs, and DBMs.
+Table \ref{tab:FeatureOverviewBoltzmann} summarizes the informations about the existing solutions and compares them with the features of the \apkg{BoltzmannMachines} package.
 
 \begin{table}[h!]
 \centering
@@ -827,8 +833,6 @@ AIS for DBMs & Yes & No & No & Yes & No & No \\
 \end{table}
 
 
-The original implementation of DBMs\footnote{\url{http://www.cs.toronto.edu/~rsalakhu/DBM.html}} was built in MATLAB (TODO ref).
-
 
 The Julia package \apkg{Boltzmann} implements algorithms for training RBMs and DBNs. 
 The only measure for evaluating RBMs provided there\footnote{\url{https://github.com/dfdx/Boltzmann.jl/blob/0a1848a190c4cd7aa2ae3c0f6b6fa83ceac1613e/src/rbm.jl\#L169}} is the pseudo-likelihood (see \cite{goodfellow_deep_2016}, chapter 18.3).
@@ -836,7 +840,7 @@ The \apkg{Boltzmann} package also offers a Gaussian RBM (type \inlinecode{GRBM})
 
 The \apkg{deepbelief} package \citep{deepbelief_github} provides an object-oriented implementation of RBMs and DBNs in Python, using the linear algebra library \apkg{NumPy} \citep{numpy}.
 It provides an implementation of an estimator of the likelihood of DBNs that is described in the corresponding publication \citep{theis2011deepbelief}.
-It also allows training binary RBMs and Gaussian RBMs as described by \cite{krizhevsky2009tinyimages} and evaluating them via estimating the likelihood with AIS.
+It also allows training binary RBMs and Gaussian RBMs as described by \cite{krizhevsky2009tinyimages}, and it implements the AIS algorithm for estimating the likelihood for the two types of RBMs.
 It served as a reference for parts of the implementation of AIS in RBMs in the \apkg{BoltzmannMachines} package.
 
 The \apkg{yell/boltzmann-machines} package dates later than the \apkg{BoltzmannMachines} package\footnote{\apkg{yell/boltzmann-machines}: first commit May 2017, \apkg{BoltzmannMachines}: first commit September 2016, first release June 2017}.
@@ -845,10 +849,15 @@ AIS in yell not generic \footnote{\url{https://github.com/yell/boltzmann-machine
 The prominent machine learning package \apkg{scikit-learn} can train binary restricted Boltzmann machines with the \inlinecode{BernoulliRBM} module\footnote{\url{https://scikit-learn.org/0.23/modules/generated/sklearn.neural\_network.BernoulliRBM.html}}.
 Similar to the \apkg{Boltzmann} Julia package, it offers as evaluation metric the pseudo-likelihood.
 
+%TODO darch
+\apkg{darch} has been  registered in the official CRAN repository of the R language but it has been archived since January 2018.
+(The archived status means that it failed checks in newer versions of R and that it cannot be installed directly any more.)
+%TODO darch: DataSHIELD. muss ich hier mit performance argumentieren?
+
 The implementation (\apkg{deepbelief}) \apkg{yell/boltzmann-machines} do not provide the possibility to learn the noise parameter $\sigma$ for the visible nodes.
 This is difficult
 
-The Julia packages \apkg{Boltzmann} and \apkg{BoltzmannMachines} as well as the Python packages \apkg{deepbelief} and \apkg{yell/BoltzmannMachines}, are published under the MIT license \citep{mitlicense}.
+The Julia packages \apkg{Boltzmann} and \apkg{BoltzmannMachines} as well as the Python packages \apkg{deepbelief} and \apkg{yell/BoltzmannMachines} are published under the MIT license \citep{mitlicense}.
 This allows a very free use of the code, also for commercial purposes.
 \apkg{scikit-learn} uses the 3-clause BSD license \citep{bsd3}, which is similarly permissive as the MIT license but explicitly forbids the promotion of products derived from the code using the name of the copyright holders.
 The \apkg{darch} package uses the GPL-3 license \citep{gplv3}, which enforces that the code for derived software must also be provided as open source.
@@ -877,8 +886,6 @@ But with matured multi-threading in Julia, these problems could be solved in the
 
 % TODO for our purposes, the speed was sufficient, especially for smaller models not relevant.
 
-
-TODO example code, explained
 
 \subsubsection{Modeling}
 
