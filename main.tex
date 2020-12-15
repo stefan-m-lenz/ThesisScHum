@@ -803,10 +803,10 @@ TODO Einleitung after evaluating Julia package .
  \begin{rotate}{25} \apkg{scikit-learn} \end{rotate} &
  \begin{rotate}{25} \apkg{darch} \end{rotate} \\
 \hline
-Compared version & 1.2 & - & 0.7 & - & 0.23 & 0.13 \\
+Compared version & 1.2 & - & 0.7 & - & 0.23 & 0.12 \\
 Language & Julia & Python & Julia & Python & Python & R \\
 Registered package & Yes & No & Yes & No & Yes & Yes \\ 
-License & MIT & MIT & MIT & MIT & BSD-3 & GPL-2 \\
+License & MIT & MIT & MIT & MIT & BSD-3 & GPL-3 \\ 
 Bernoulli RBM & Yes & Yes & Yes  & Yes & Yes & Yes \\
 Gaussian RBM (Hinton) & Yes & Yes & No & Yes & No & No \\
 Gaussian RBM (Cho) & Yes & No & No & No & No & No \\
@@ -818,7 +818,7 @@ AIS for RBMs & Yes & Yes & No & Yes & No & No \\
 AIS for DBMs & Yes & No & No & Yes & No & No \\
 \hline
 \end{tabular}
-\caption{\label{tab:FeatureOverviewBoltzmann} Comparison of features between different implementations of restricted and deep Boltzmann machines.}
+\caption{\label{tab:FeatureOverviewBoltzmann} Comparison of features and basic charateristics of different software implementations of restricted and deep Boltzmann machines.}
 \end{table}
 
 
@@ -833,16 +833,14 @@ The \apkg{Boltzmann} package also offers a Gaussian RBM (type \inlinecode{GRBM})
 
 The \apkg{deepbelief} package \citep{deepbelief_github} provides a very clean, object-oriented implementation of RBMs and DBNs in Python, using the linear algebra library \apkg{NumPy} \citep{numpy}.
 It provides an implementation of an estimator of the likelihood of DBNs that is described in the corresponding publication \citep{theis2011deepbelief}.
-It also provides an implementation of binary RBMs and Gaussian RBMs as described by \cite{krizhevsky2009tinyimages}.
-It also provides implementations for AIS in both RBMs with only Bernoulli distributed nodes and Gaussian RBMs.
-Training and evaluation of DBMs is not provided.
+It also allows training binary RBMs and Gaussian RBMs as described by \cite{krizhevsky2009tinyimages} and evaluating them via estimating the likelihood with AIS.
 
 AIS in yell not generic \footnote[1]{\url{https://github.com/yell/boltzmann-machines/blob/93ece3497816ccf08f687e3237007544268788e7/boltzmann_machines/dbm.py\#L902}}
 
 The Julia packages \apkg{Boltzmann} and \apkg{BoltzmannMachines} as well as the Python packages \apkg{deepbelief} and \apkg{yell/BoltzmannMachines}, are published under the MIT license \citep{mitlicense}.
 This allows a very free use of the code, also for commercial purposes.
 \apkg{scikit-learn} uses the 3-clause BSD license \citep{bsd3}, which is similarly permissive as the MIT license but explicitly forbids the promotion of products derived from the code using the name of the copyright holders.
-The \apkg{darch} package uses the GNU general public license version 3 (GPL-3,  \cite{gplv3}), which does not allow commercial derivations of the code.
+The \apkg{darch} package uses the GPL-3 license \citep{gplv3}, which does not allow commercial derivations of the code.
 
 
 %TODO Tensorflow.jl
