@@ -788,9 +788,17 @@ p^*(h) &= \sum_v e^{-E(v,h)} \\
 Here $C$ denotes the set of all index sets of the dummy variables, where each index set belongs to a categorical variable.
 
 \subsection{Implementation}
-TODO Einleitung after evaluating Julia package .
+A first product of this work on deep and restricted Boltzmann machines algorithms is a software implementation that aims at  ....
+Algorithms described previously 
+The Julia package \apkg{BoltzmannMachines} was designed to 
 
 \subsubsection{Existing implementations}
+
+At the time of the decision whether to start a new implementation, several software implementations for RBMs and DBNs already existed. 
+%TODO hinton original code
+As there was no package for training DBMs that was very user-friendly and easily extensible, a new software implementation was started.
+This section describes the features and characteristics of the existing software implementations.
+Table \ref{tab:FeatureOverviewBoltzmann} summarizes the existing solutions and compares them to the \apkg{BoltzmannMachines} package.
 
 \begin{table}[h!]
 \centering
@@ -822,25 +830,31 @@ AIS for DBMs & Yes & No & No & Yes & No & No \\
 \end{table}
 
 
-The implementation of \cite{theis2011deepbelief} (\apkg{deepbelief}), and TODO \apkg{darch} \citep{darch},
-No learning of $\sigma$ in other implementations. Difficult anyway.
-% pseudo-likelihood: https://scikit-learn.org/0.23/modules/generated/sklearn.neural_network.BernoulliRBM.html
+The original implementation of DBMs\footnote{\url{http://www.cs.toronto.edu/~rsalakhu/DBM.html}} was built in MATLAB (TODO ref).
 
-The Julia package \apkg{Boltzmann} existed before the \apkg{BoltzmannMachines} package. 
-At the time of the decision whether to start a new implementation, the \apkg{Boltzmann} package was very much in development and did not have the desired features, so it seemed to be simpler to start with a clean slate and implement the desired features in a new package that was designed for training DBMs. In the current version, the \apkg{Boltzmann} implements algorithms for training RBMs and DBNs. The algorithm for training deep Boltzmann machines is not implemented in the \apkg{Boltzmann} package as of version 0.7.
-The only measure for evaluating RBMs\footnote[1]{\url{https://github.com/dfdx/Boltzmann.jl/blob/0a1848a190c4cd7aa2ae3c0f6b6fa83ceac1613e/src/rbm.jl\#L169}} provided there is the pseudo-likelihood (see \cite{goodfellow_deep_2016}, chapter 18.3).
+
+The Julia package \apkg{Boltzmann} implements algorithms for training RBMs and DBNs. 
+The only measure for evaluating RBMs provided there\footnote{\url{https://github.com/dfdx/Boltzmann.jl/blob/0a1848a190c4cd7aa2ae3c0f6b6fa83ceac1613e/src/rbm.jl\#L169}} is the pseudo-likelihood (see \cite{goodfellow_deep_2016}, chapter 18.3).
 The \apkg{Boltzmann} package also offers a Gaussian RBM (type \inlinecode{GRBM}), but the formulas for the Gaussian RBM are not documented and the implementation does not match the formulas described here in \ref{gaussianrbm}.
 
-The \apkg{deepbelief} package \citep{deepbelief_github} provides a very clean, object-oriented implementation of RBMs and DBNs in Python, using the linear algebra library \apkg{NumPy} \citep{numpy}.
+The \apkg{deepbelief} package \citep{deepbelief_github} provides an object-oriented implementation of RBMs and DBNs in Python, using the linear algebra library \apkg{NumPy} \citep{numpy}.
 It provides an implementation of an estimator of the likelihood of DBNs that is described in the corresponding publication \citep{theis2011deepbelief}.
 It also allows training binary RBMs and Gaussian RBMs as described by \cite{krizhevsky2009tinyimages} and evaluating them via estimating the likelihood with AIS.
+It served as a reference for parts of the implementation of AIS in RBMs in the \apkg{BoltzmannMachines} package.
 
-AIS in yell not generic \footnote[1]{\url{https://github.com/yell/boltzmann-machines/blob/93ece3497816ccf08f687e3237007544268788e7/boltzmann_machines/dbm.py\#L902}}
+The \apkg{yell/boltzmann-machines} package dates later than the \apkg{BoltzmannMachines} package\footnote{\apkg{yell/boltzmann-machines}: first commit May 2017, \apkg{BoltzmannMachines}: first commit September 2016, first release June 2017}.
+AIS in yell not generic \footnote{\url{https://github.com/yell/boltzmann-machines/blob/93ece3497816ccf08f687e3237007544268788e7/boltzmann_machines/dbm.py\#L902}}
+
+The prominent machine learning package \apkg{scikit-learn} can train binary restricted Boltzmann machines with the \inlinecode{BernoulliRBM} module\footnote{\url{https://scikit-learn.org/0.23/modules/generated/sklearn.neural\_network.BernoulliRBM.html}}.
+Similar to the \apkg{Boltzmann} Julia package, it offers as evaluation metric the pseudo-likelihood.
+
+The implementation (\apkg{deepbelief}) \apkg{yell/boltzmann-machines} do not provide the possibility to learn the noise parameter $\sigma$ for the visible nodes.
+This is difficult
 
 The Julia packages \apkg{Boltzmann} and \apkg{BoltzmannMachines} as well as the Python packages \apkg{deepbelief} and \apkg{yell/BoltzmannMachines}, are published under the MIT license \citep{mitlicense}.
 This allows a very free use of the code, also for commercial purposes.
 \apkg{scikit-learn} uses the 3-clause BSD license \citep{bsd3}, which is similarly permissive as the MIT license but explicitly forbids the promotion of products derived from the code using the name of the copyright holders.
-The \apkg{darch} package uses the GPL-3 license \citep{gplv3}, which does not allow commercial derivations of the code.
+The \apkg{darch} package uses the GPL-3 license \citep{gplv3}, which enforces that the code for derived software must also be provided as open source.
 
 
 %TODO Tensorflow.jl
