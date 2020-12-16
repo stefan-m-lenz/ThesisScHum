@@ -13,6 +13,7 @@
 \usepackage{listings}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage[nobiblatex]{xurl}
 \usepackage{epstopdf}
 \usepackage[table]{xcolor}
 \usepackage{tabularx}
@@ -94,6 +95,8 @@ TODO pattern recognition
 TODO deep learning popular with images, most popular use cases deal with large sample size
 
 TODO DBMs especially interesting for biomedical data because small sample size
+
+TODO GAN VAE
 
 Saving parameters can aid in training models also with fewer data points as the performance of more complex models may deteriorate if the sample size is too small \citep{chan_classifier_1999}.
 The problem of small sample sizes is particularly prevalent when dealing with genetic variant data 
@@ -822,7 +825,7 @@ Table \ref{tab:FeatureOverviewBoltzmann} summarizes the informations about the e
 Compared version & 1.2 & - & 0.7 & - & 0.23 & 0.12 \\
 Language & Julia & Python & Julia & Python & Python & R \\
 Registered package & Yes & No & Yes & No & Yes & Yes \\ 
-License & MIT & MIT & MIT & MIT & BSD-3 & GPL-3 \\ 
+License & MIT & MIT & MIT & MIT & 3-BSD & GPL-3 \\ 
 Bernoulli RBM & Yes & Yes & Yes  & Yes & Yes & Yes \\
 Gaussian RBM (Hinton) & Yes & Yes & No & Yes & No & No \\
 Gaussian RBM (Cho) & Yes & No & No & No & No & No \\
@@ -868,8 +871,8 @@ However, it is very hard to learn the correct value of $\sigma$ in practical app
 
 Another unique feature of the \apkg{BoltzmannMachines} package is the possibility to calculate the exact likelihood for RBM and DBM models.
 Although the calculation is computationally not feasible for bigger models, which are used in most practical use cases, this is a fast way to evaluate toy models.
-This feature can also be used to validate the AIS implementation by testing its results against the exact calculated value in smaller models.
-This is used in the test suite of the \apkg{BoltzmannMachines} package, which ensures the correctness of the implementation.
+This feature is also be used to validate the AIS implementation by testing its results against the exact calculated value in smaller models in the test suite of the \apkg{BoltzmannMachines} package.
+This proved to be very useful for ensuring the correctness of the AIS implementation.
 
 
 The Julia packages \apkg{Boltzmann} and \apkg{BoltzmannMachines} as well as the Python packages \apkg{deepbelief} and \apkg{yell/BoltzmannMachines} are published under the MIT license \citep{mitlicense}.
@@ -881,18 +884,45 @@ The \apkg{darch} package uses the GPL-3 license \citep{gplv3}, which enforces th
 %TODO Tensorflow.jl
 \subsubsection{Choice of technology}
 %TODO TensorFlow, Flux, Pytorch etc. warum nicht diese verwenden
-TODO expand For the implementation we chose the Julia language \citep{bezanson2017julia}. 
+Starting from the original MATLAB implementation of \cite{hinton_reducing_2006}, the first attempt for experimenting with the algorithms was to use MATLAB.
+The resulting MATLAB implementation was very slow, however, and the possibilities for making MATLAB code run faster are limited.
+At some point, if the performance needs to be increased further,  it becomes necessary to switch to C for time-critical portions of the code and call the C code using the MATLAB C interface.
+This complication, which similarly occurs in Python and R, is known as the ``two-language problem". 
+It has been the main motivation behind the Julia programming language \citep{bezanson2017julia}.
+In contrast to MATLAB or R, in Julia it is possible to gradually optimize the speed of code.
+One particular optimization strategy is to minimize the amount of memory allocations by reusing allocated space as much as possible.
+Avoiding the costs of memory allocations and garbage collection greatly increased the speed in many parts of the code.
+Allocations for matrices can be avoided by using, e.g. the function \inlinecode{mul!} instead of the normal matrix multiplication operator (\inlinecode{*}).
+This function performs matrix multiplication without allocating new space for the result.
+Instead it stores the result in a pre-existing matrix that is passed as argument.
+In MATLAB or R this is not possible without resorting to C because there matrices are language objects that cannot be modified.
 
-For large datasets such as image collections from the internet, optimizing the execution speed is essential.
+For performing deep learning on large datasets, such as image collections from the internet, optimizing the execution speed is essential.
 Popular libraries like TensorFlow \citep{abadi2016tensorflow}, MXNet \citep{mxnet} and PyTorch \citep{pytorch} work with abstraction of the computations on tensors (multidimensional matrices) with so called computational graphs.
 This way the computations can be performed on the CPU as well as on the GPU.
 The high parallelization in GPUs can bring far greater performance while at the same time it requires a high sophistication of the code to fully exploit the advantages of GPUs and port the algorithms to their SIMD (single instruction multiple data) architecture.
-In order to work with the abstraction, users must learn this new programming style. Extending and modifying the algorithm and is comparatively hard, especially while trying to maintain the speed benefits of the frameworks.
+In order to work with the abstraction, users must learn this new programming style, and, e.g., define the algorithms via computational graphs.
+
+For a scientific use, flexibility is more useful than speed.
+
+The automatic differentiation does not work with the Gibbs sampling algorithm. DBMs training fundamentally different from training other types of neural networks.
+knet \citep{knetjl}
+mocha \citep{mochajl}
+
+Parallelization with Julia on compute cluster very easy.
+
+
+tensorflow.jl \citep{tensorflowjl}
+theano \citep{theano}
+
+
+
+
+TODO expand For the implementation we chose the Julia language \citep{bezanson2017julia}. 
+
 In contrast to that, we used plain Julia code because we wanted to have an easy access to the code to be able to tailor the algorithms to our needs and experiment with modifications.
 Optimizing code by using parallel execution is also possible with the Julia language although, of course, not on the same level.
-Since the multiplication of large matrices is already threaded by the linear algebra library called by Julia,
-the easiest reduction of execution time can be achieved by reusing allocated space as much as possible.
-With the function \inlinecode{mul!} instead of the normal matrix multiplication operator (\inlinecode{*}), it is possible to perform matrix multiplication in-place, without allocating space for the result. Avoiding the costs of memory allocations and garbage collection greatly increased the speed in many parts of the code.
+
 In the current version of Julia, explicit control over multi-threading is still an experimental feature and the main way to parallelize is by starting processes.
 Sharing memory between processes is more difficult than sharing memory between threads. Also starting processes is more expensive than starting threads.
 But with matured multi-threading in Julia, these problems could be solved in the future and e. g. computations on different layers of a deep Boltzmann machine could be done in parallel threads without making the code much more complex.

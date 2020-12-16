@@ -21,12 +21,6 @@ Ackley, D.~H., Hinton, G.~E. \harvardand\ Sejnowski, T.~J.  \harvardyearleft
   Cognitive science} {\bf 9}(1),~147--169.
 \newblock Publisher: Elsevier.
 
-\harvarditem{{Apache Software Foundation}}{n.d.}{mxnet}
-{Apache Software Foundation}  \harvardyearleft n.d.\harvardyearright , `Apache
-  {MXNet}: A flexible and efficient library for deep learning',
-  \url{https://mxnet.apache.org/}.
-\newblock Accessed: 2018-01-30.
-
 \harvarditem{Bengio}{2012}{bengio2012practical}
 Bengio, Y.  \harvardyearleft 2012\harvardyearright , Practical recommendations
   for gradient-based training of deep architectures, {\em in} `Neural networks:
@@ -66,6 +60,14 @@ Chan, H.-P., Sahiner, B., Wagner, R.~F. \harvardand\ Petrick, N.
   computer-aided diagnosis: {Effects} of finite sample size on the mean
   performance of classical and neural network classifiers', {\em Medical
   Physics} {\bf 26}(12),~2654--2668.
+
+\harvarditem[Chen et~al.]{Chen, Li, Li, Lin, Wang, Wang, Xiao, Xu, Zhang
+  \harvardand\ Zhang}{2015}{mxnet}
+Chen, T., Li, M., Li, Y., Lin, M., Wang, N., Wang, M., Xiao, T., Xu, B., Zhang,
+  C. \harvardand\ Zhang, Z.  \harvardyearleft 2015\harvardyearright , `{MXNet}:
+  {A} {Flexible} and {Efficient} {Machine} {Learning} {Library} for
+  {Heterogeneous} {Distributed} {Systems}', {\em arXiv:1512.01274 [cs]} .
+\newline\harvardurl{http://arxiv.org/abs/1512.01274}
 
 \harvarditem[Cho et~al.]{Cho, Ilin \harvardand\ Raiko}{2011}{cho2011improved}
 Cho, K., Ilin, A. \harvardand\ Raiko, T.  \harvardyearleft
@@ -173,9 +175,15 @@ Krizhevsky, A. \harvardand\ Hinton, G.  \harvardyearleft 2009\harvardyearright
   , `Learning multiple layers of features from tiny images', {\em Technical
   report, University of Toronto} .
 
+\harvarditem{Malmaud \harvardand\ White}{2018}{tensorflowjl}
+Malmaud, J. \harvardand\ White, L.  \harvardyearleft 2018\harvardyearright ,
+  `{TensorFlow}.jl: {An} {Idiomatic} {Julia} {Front} {End} for {TensorFlow}',
+  {\em Journal of Open Source Software} {\bf 3}(31),~1002.
+\newline\harvardurl{https://joss.theoj.org/papers/10.21105/joss.01002}
+
 \harvarditem{{Massachusetts Institute of Technology}}{n.d.}{mitlicense}
 {Massachusetts Institute of Technology}  \harvardyearleft n.d.\harvardyearright
-  , `Mit license'.
+  , `{MIT} license'.
 \newline\harvardurl{https://opensource.org/licenses/MIT}
 
 \harvarditem{McCoy \harvardand\ Wu}{2014}{isingmodel}
@@ -247,6 +255,12 @@ Srivastava, N. \harvardand\ Salakhutdinov, R.~R.  \harvardyearleft
   2012\harvardyearright , Multimodal learning with deep {Boltzmann} machines,
   {\em in} `Advances in neural information processing systems', pp.~2222--2230.
 
+\harvarditem{{The Theano Development Team}}{2016}{theano}
+{The Theano Development Team}  \harvardyearleft 2016\harvardyearright ,
+  `Theano: {A} {Python} framework for fast computation of mathematical
+  expressions', {\em arXiv:1605.02688 [cs]} .
+\newline\harvardurl{http://arxiv.org/abs/1605.02688}
+
 \harvarditem{Theis}{2011}{deepbelief_github}
 Theis, L.  \harvardyearleft 2011\harvardyearright , `Code for training and
   evaluating restricted boltzmann machines ({RBMs}) and deep belief networks
@@ -268,5 +282,15 @@ Theis, L., Oord, A. v.~d. \harvardand\ Bethge, M.  \harvardyearleft
   arXiv:1511.01844 [cs, stat]} .
 \newblock arXiv: 1511.01844.
 \newline\harvardurl{http://arxiv.org/abs/1511.01844}
+
+\harvarditem{Yuret}{2016}{knetjl}
+Yuret, D.  \harvardyearleft 2016\harvardyearright , `\apkg{Knet} - koç
+  university deep learning framework for {Julia}'.
+\newline\harvardurl{https://github.com/denizyuret/Knet.jl}
+
+\harvarditem{Zhang}{2018}{mochajl}
+Zhang, C.  \harvardyearleft 2018\harvardyearright , `\apkg{Mocha.jl} - deep
+  learning framework for {Julia}'.
+\newline\harvardurl{https://github.com/pluskid/Mocha.jl}
 
 \end{thebibliography}
