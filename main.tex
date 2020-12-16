@@ -836,19 +836,20 @@ AIS for DBMs & Yes & No & No & Yes & No & No \\
 \caption{\label{tab:FeatureOverviewBoltzmann} Comparison of features and basic charateristics of different software implementations of restricted and deep Boltzmann machines.}
 \end{table}
 
-
-
-The Julia package \apkg{Boltzmann} implements algorithms for training RBMs and DBNs. 
-The only measure for evaluating RBMs provided there\footnote{\url{https://github.com/dfdx/Boltzmann.jl/blob/0a1848a190c4cd7aa2ae3c0f6b6fa83ceac1613e/src/rbm.jl\#L169}} is the pseudo-likelihood (see \cite{goodfellow_deep_2016}, chapter 18.3).
-The \apkg{Boltzmann} package also offers a Gaussian RBM (type \inlinecode{GRBM}), but the formulas for the Gaussian RBM are not documented and the implementation does not match the formulas described here in \ref{gaussianrbm}.
-
 The \apkg{deepbelief} package \citep{deepbelief_github} provides an object-oriented implementation of RBMs and DBNs in Python, using the linear algebra library \apkg{NumPy} \citep{numpy}.
 It provides an implementation of an estimator of the likelihood of DBNs that is described in the corresponding publication \citep{theis2011deepbelief}.
 It also allows training binary RBMs and Gaussian RBMs as described by \cite{krizhevsky2009tinyimages}, and it implements the AIS algorithm for estimating the likelihood for the two types of RBMs.
 It served as a reference for parts of the implementation of AIS in RBMs in the \apkg{BoltzmannMachines} package.
 
+The Julia package \apkg{Boltzmann} implements algorithms for training RBMs and DBNs. 
+The only measure for evaluating RBMs provided there\footnote{\url{https://github.com/dfdx/Boltzmann.jl/blob/0a1848a190c4cd7aa2ae3c0f6b6fa83ceac1613e/src/rbm.jl\#L169}} is the pseudo-likelihood (see \cite{goodfellow_deep_2016}, chapter 18.3).
+The \apkg{Boltzmann} package also offers a Gaussian RBM (type \inlinecode{GRBM}), but the formulas for the Gaussian RBM are not documented and the implementation does not match the formulas described here in \ref{gaussianrbm}.
+
+
 The \apkg{yell/boltzmann-machines} package dates later than the \apkg{BoltzmannMachines} package\footnote{\apkg{yell/boltzmann-machines}: first commit May 2017, \apkg{BoltzmannMachines}: first commit September 2016, first release June 2017}.
-AIS in yell not generic \footnote{\url{https://github.com/yell/boltzmann-machines/blob/93ece3497816ccf08f687e3237007544268788e7/boltzmann_machines/dbm.py\#L902}}
+From all the existing solutions described here, it comes closest to the \apkg{BoltzmannMachines} packages in terms of the features that are covered.
+It is also the only known other publicly available implementation of AIS in DBMs.
+Yet, its implementation of AIS is not completely generic and covers only DBMs with two hidden layers\footnote{\url{https://github.com/yell/boltzmann-machines/blob/93ece3497816ccf08f687e3237007544268788e7/boltzmann\_machines/dbm.py\#L902}}.
 
 The prominent machine learning package \apkg{scikit-learn} can train binary restricted Boltzmann machines with the \inlinecode{BernoulliRBM} module\footnote{\url{https://scikit-learn.org/0.23/modules/generated/sklearn.neural\_network.BernoulliRBM.html}}.
 Similar to the \apkg{Boltzmann} Julia package, it offers as evaluation metric the pseudo-likelihood.
