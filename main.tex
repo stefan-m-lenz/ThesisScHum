@@ -439,7 +439,7 @@ These conditional probabilities can be used to perform Gibbs sampling in deep Bo
  \end{figure}
 
 
-\subsubsection{Training of deep Boltzmann machines}
+\subsubsection{Training of deep Boltzmann machines}\label{dbmtraining}
 
 
 In context of DBMs, the DBN learning algorithm (see \ref{dbns}) is called greedy layerwise pre-training. 
@@ -882,7 +882,7 @@ The \apkg{darch} package uses the GPL-3 license \citep{gplv3}, which enforces th
 
 
 %TODO Tensorflow.jl
-\subsubsection{Choice of technology}
+\subsubsection{Choice of implementation technology}
 %TODO TensorFlow, Flux, Pytorch etc. warum nicht diese verwenden
 Starting from the original MATLAB implementation of \cite{hinton_reducing_2006}, the first attempt for experimenting with the algorithms was to use MATLAB.
 The resulting MATLAB implementation was very slow, however, and the possibilities for making MATLAB code run faster are limited.
@@ -913,14 +913,16 @@ Processes from the same or different computers can be added to a worker pool via
 This is particulary useful for optimizing hyperparameters.
 In grid search \citep{bergstra_algorithms_2011} for example, many models can be trained completely in parallel in Julia, e.g., via using the Julia function  \inlinecode{pmap}, and the execution time of the whole search can therefore be divided by the number of processes available in the compute cluster.
 
-
-
-Julia also offered and offers many different approaches for deep learning, namely the packages \apkg{Flux} \citep{flux}, \apkg{Knet} \citep{knetjl}, \apkg{Mocha} \citep{mochajl}, and \apkg{Tensorflow} \citep{tensorflowjl} among others.
+Julia also offered and offers many different approaches for deep learning, namely the packages \apkg{Flux} \citep{flux}, \apkg{Knet} \citep{knetjl}, \apkg{Mocha} \citep{mochajl}, and \apkg{TensorFlow} \citep{tensorflowjl} among others.
 At the time of starting the work on the \apkg{BoltzmannMachines} package, the other solutions were also very young, often not very stable across different platforms, and their API changed often.
 This rapid development can also be seen from the fact that the Julia packages \apkg{Mocha} and \apkg{TensorFlow} are now already officially deprecated or retired.
+The \apkg{BoltzmannMachines} package depends only on the API of Julia 1.0 and has no dependencies on other packages, which eliminates the main task for maintaining a package, which is to handle changes in dependencies.
 
-Another reason for Also, the training algorithms RBM and DBM  are automatic differentiation does not work with the Gibbs sampling algorithm.
- DBMs training fundamentally different from training other types of neural networks.
+Another reason for not building on existing deep learning frameworks is that the training algorithms for RBMs, DBNs and DBMs are fundamentally different from the algorithms for training many other types of neural networks.
+Most neural networks used for classification as well as GANs and VAEs are trained via a backpropagation of errors \citep{backpropagation}.
+The gradients for training RBMs and DBMs (see \ref{rbmgradients} and \ref{dbmtraining}), however, rely on the Gibbs sampling and mean-field algorithm.
+Thus it becomes less straightforward to implement code in such a framework and there is less benefit in doing so.
+ 
 
 
 
@@ -1112,7 +1114,7 @@ TODO diskutieren: privacy-accounting in DBMs and other approaches
 \subsection{Ideas for future work}
 TODO idee modelle kombinieren, dbms verbessern missing values, softmax evaluieren
 
-\subsubsection{Performance optimization}
+
 One possibility for future steps for developing the \apkg{BoltzmannMachines} package is to further optimize its performance.
 In Julia version 1.5, multi-threading is now an official and stable language feature.
 It could be investigated whether the use of threads could speed up some parts of the code.

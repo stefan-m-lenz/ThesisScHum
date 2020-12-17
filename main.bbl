@@ -33,7 +33,6 @@ Bergstra, J., Bardenet, R., Bengio, Y. \harvardand\ Kégl, B.  \harvardyearleft
   {\em in} J.~Shawe-Taylor, R.~Zemel, P.~Bartlett, F.~Pereira \harvardand\
   K.~Q. Weinberger, eds, `Advances in {Neural} {Information} {Processing}
   {Systems}', Vol.~24, Curran Associates, Inc., pp.~2546--2554.
-\newline\harvardurl{https://proceedings.neurips.cc/paper/2011/file/86e8f7ab32cfd12577bc2619bc635690-Paper.pdf}
 
 \harvarditem[Bezanson et~al.]{Bezanson, Edelman, Karpinski \harvardand\
   Shah}{2017}{bezanson2017julia}
@@ -238,6 +237,13 @@ Ranzato, M., Boureau, Y.-L., Chopra, S. \harvardand\ LeCun, Y.
 Rumbaugh, J., Jacobson, I. \harvardand\ Booch, G.  \harvardyearleft
   1999\harvardyearright , {\em The unified modeling language reference manual},
   Addison-Wesley.
+
+\harvarditem[Rumelhart et~al.]{Rumelhart, Hinton \harvardand\
+  Williams}{1986}{backpropagation}
+Rumelhart, D.~E., Hinton, G.~E. \harvardand\ Williams, R.~J.  \harvardyearleft
+  1986\harvardyearright , `Learning representations by back-propagating
+  errors', {\em Nature} {\bf 323}(6088),~533--536.
+\newline\harvardurl{https://www.nature.com/articles/323533a0}
 
 \harvarditem{Salakhutdinov}{2008}{salakhutdinov2008learning}
 Salakhutdinov, R.  \harvardyearleft 2008\harvardyearright , `Learning and
