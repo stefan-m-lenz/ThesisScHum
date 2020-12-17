@@ -40,6 +40,7 @@
 \newcommand{\apkg}[1]{\emph{#1}}
 \newcommand{\proglang}[1]{#1} % egal, kommt in kopierten referenzen vor
 
+\newcommand{\rightpageref}[1]{\hfill see p. \pageref{#1}}
 \interfootnotelinepenalty=10000
 
 \DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
@@ -957,7 +958,7 @@ In our implementation multimodal deep Boltzmann machines, corresponding to the t
 \begin{table}
 \begin{tabularx}{\textwidth}{X}
    \hline
-   \inlinecode{fitrbm(x;...)} \\
+   \inlinecode{fitrbm(x;...)} \rightpageref{bms_fitrbm}  \\
    Fits a restricted Boltzmann machine model for a given data set \inlinecode{x} and additional model hyperparameters \\
    \inlinecode{fitdbm(x; ...)} \\
    Fits a (multimodal) deep Boltzmann machine model for a given data set \inlinecode{x} and model hyperparameters \\
@@ -998,7 +999,7 @@ In our implementation multimodal deep Boltzmann machines, corresponding to the t
 \label{juliaFunTableEval}
 \end{table}
 
-\subsubsection[Usage of the BoltzmannMachines Julia package]{Usage of the \apkg{BoltzmannMachines} Julia package}
+\subsubsection{Usage of the \apkg{BoltzmannMachines} Julia package}
 The \apkg{BoltzmannMachines} package has been registered in the official Julia package repository. It can be installed via:
 
 \begin{lstlisting}
