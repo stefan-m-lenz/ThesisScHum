@@ -898,38 +898,30 @@ Instead it stores the result in a pre-existing matrix that is passed as argument
 In MATLAB or R this is not possible without resorting to C because there matrices are language objects that cannot be modified.
 
 For performing deep learning on large datasets, such as image collections from the internet, optimizing the execution speed is essential.
-Popular libraries like TensorFlow \citep{abadi2016tensorflow}, MXNet \citep{mxnet} and PyTorch \citep{pytorch} work with abstraction of the computations on tensors (multidimensional matrices) with so called computational graphs.
+Popular libraries like TensorFlow \citep{abadi2016tensorflow}, Apache MXNet \citep{mxnet}, PyTorch \citep{pytorch} and Theano \citep{theano}
+work with abstraction of the computations on tensors (multidimensional matrices) with so called computational graphs.
 This way the computations can be performed on the CPU as well as on the GPU.
 The high parallelization in GPUs can bring far greater performance while at the same time it requires a high sophistication of the code to fully exploit the advantages of GPUs and port the algorithms to their SIMD (single instruction multiple data) architecture.
-In order to work with the abstraction, users must learn this new programming style, and, e.g., define the algorithms via computational graphs.
+In order to work with the abstraction, users must adapt this new programming style, and, e.g., define the algorithms via computational graphs.
 
-For a scientific use, flexibility is more useful than speed.
+For a scientific use, having the flexibility to change the algorithms is often more important than their execution speed because in many cases it can be better to save human time than to save computation time. 
+Coming from this perspective, we used plain Julia code because we wanted to have an easy access to the code to be able to tailor the algorithms to our needs and experiment with modifications.
+With respect also to the biomedical data sets of rather small sample sizes, the speed of Julia and its for gradual optimization was sufficient.
 
-The automatic differentiation does not work with the Gibbs sampling algorithm. DBMs training fundamentally different from training other types of neural networks.
-knet \citep{knetjl}
-mocha \citep{mochajl}
-
-Parallelization with Julia on compute cluster very easy.
-
-
-tensorflow.jl \citep{tensorflowjl}
-theano \citep{theano}
+Julia also offers the possibility to use parallelization via parallel processes very easily, This works also across different computers in a compute cluster without requiring the developer to change the code to adapt to a setting with involving multiple computers.
+Processes from the same or different computers can be added to a worker pool via the function \inlinecode{addprocs} and the inter-process communication is handled by Julia across the machines.
+This is particulary useful for optimizing hyperparameters.
+In grid search \citep{bergstra_algorithms_2011} for example, many models can be trained completely in parallel in Julia, e.g., via using the Julia function  \inlinecode{pmap}, and the execution time of the whole search can therefore be divided by the number of processes available in the compute cluster.
 
 
 
+Julia also offered and offers many different approaches for deep learning, namely the packages \apkg{Flux} \citep{flux}, \apkg{Knet} \citep{knetjl}, \apkg{Mocha} \citep{mochajl}, and \apkg{Tensorflow} \citep{tensorflowjl} among others.
+At the time of starting the work on the \apkg{BoltzmannMachines} package, the other solutions were also very young, often not very stable across different platforms, and their API changed often.
+This rapid development can also be seen from the fact that the Julia packages \apkg{Mocha} and \apkg{TensorFlow} are now already officially deprecated or retired.
 
-TODO expand For the implementation we chose the Julia language \citep{bezanson2017julia}. 
+Another reason for Also, the training algorithms RBM and DBM  are automatic differentiation does not work with the Gibbs sampling algorithm.
+ DBMs training fundamentally different from training other types of neural networks.
 
-In contrast to that, we used plain Julia code because we wanted to have an easy access to the code to be able to tailor the algorithms to our needs and experiment with modifications.
-Optimizing code by using parallel execution is also possible with the Julia language although, of course, not on the same level.
-
-In the current version of Julia, explicit control over multi-threading is still an experimental feature and the main way to parallelize is by starting processes.
-Sharing memory between processes is more difficult than sharing memory between threads. Also starting processes is more expensive than starting threads.
-But with matured multi-threading in Julia, these problems could be solved in the future and e. g. computations on different layers of a deep Boltzmann machine could be done in parallel threads without making the code much more complex.
-
-% TODO GPU Computing
-
-% TODO for our purposes, the speed was sufficient, especially for smaller models not relevant.
 
 
 \subsubsection{Modeling}
@@ -938,7 +930,7 @@ In our implementation multimodal deep Boltzmann machines, corresponding to the t
 
 % TODO bei Diagramm Softmax0 einbauen
 \begin{landscape}
-\begin{figure}[h]
+\begin{figure}
    \centering
    \includegraphics[scale=0.41,trim={4cm 4cm 3cm 2.4cm},clip]{images/BoltzmannMachinesDiagram.pdf}
    \caption{UML class diagram \citep{uml} of the type hierarchy for the Boltzmann machines in our Julia implementation. Although the Julia language does not have the concept of classes and visibility, the diagram is suited well to show the connections of the types with the most important associated functions.
@@ -1119,6 +1111,18 @@ TODO diskutieren: privacy-accounting in DBMs and other approaches
 
 \subsection{Ideas for future work}
 TODO idee modelle kombinieren, dbms verbessern missing values, softmax evaluieren
+
+\subsubsection{Performance optimization}
+One possibility for future steps for developing the \apkg{BoltzmannMachines} package is to further optimize its performance.
+In Julia version 1.5, multi-threading is now an official and stable language feature.
+It could be investigated whether the use of threads could speed up some parts of the code.
+For this it must be considered that the multiplication of large matrices is already multi-threaded since Julia uses the OpenBLAS library, which already uses multi-threading internally \citep{openblas}.
+So performance gains may only be expected if the matrix operations cannot exhaust the threading capabilities of the CPU.
+
+TODO discuss GPU
+
+
+
 
 \subsection{Conclusion}
 

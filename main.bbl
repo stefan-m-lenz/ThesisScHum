@@ -26,6 +26,15 @@ Bengio, Y.  \harvardyearleft 2012\harvardyearright , Practical recommendations
   for gradient-based training of deep architectures, {\em in} `Neural networks:
   Tricks of the trade', Springer, pp.~437--478.
 
+\harvarditem[Bergstra et~al.]{Bergstra, Bardenet, Bengio \harvardand\
+  Kégl}{2011}{bergstra_algorithms_2011}
+Bergstra, J., Bardenet, R., Bengio, Y. \harvardand\ Kégl, B.  \harvardyearleft
+  2011\harvardyearright , Algorithms for {Hyper}-{Parameter} {Optimization},
+  {\em in} J.~Shawe-Taylor, R.~Zemel, P.~Bartlett, F.~Pereira \harvardand\
+  K.~Q. Weinberger, eds, `Advances in {Neural} {Information} {Processing}
+  {Systems}', Vol.~24, Curran Associates, Inc., pp.~2546--2554.
+\newline\harvardurl{https://proceedings.neurips.cc/paper/2011/file/86e8f7ab32cfd12577bc2619bc635690-Paper.pdf}
+
 \harvarditem[Bezanson et~al.]{Bezanson, Edelman, Karpinski \harvardand\
   Shah}{2017}{bezanson2017julia}
 Bezanson, J., Edelman, A., Karpinski, S. \harvardand\ Shah, V.~B.
@@ -85,12 +94,6 @@ Curry, H.~B.  \harvardyearleft 1944\harvardyearright , `The method of steepest
 Drees, M.  \harvardyearleft 2009\harvardyearright , {Implementierung} und
   {Analyse} von tiefen {Architekturen} in {R}, Master's thesis, Fachhochschule
   Dortmund, Germany.
-
-\harvarditem{{Facebook, Inc}}{n.d.}{pytorch}
-{Facebook, Inc}  \harvardyearleft n.d.\harvardyearright , `{PyTorch}, tensors
-  and dynamic neural networks in {Python} with strong {GPU} acceleration',
-  \url{http://pytorch.org/}.
-\newblock Accessed: 2018-01-30.
 
 \harvarditem{Faraway}{2002}{faraway_regression}
 Faraway, J.~J.  \harvardyearleft 2002\harvardyearright , {\em Practical
@@ -195,6 +198,19 @@ McCoy, B.~M. \harvardand\ Wu, T.~T.  \harvardyearleft 2014\harvardyearright ,
   {JSON}) serialization'.
 \newline\harvardurl{http://bsonspec.org/}
 
+\harvarditem[Paszke et~al.]{Paszke, Gross, Massa, Lerer, Bradbury, Chanan,
+  Killeen, Lin, Gimelshein, Antiga, Desmaison, Kopf, Yang, DeVito, Raison,
+  Tejani, Chilamkurthy, Steiner, Fang, Bai \harvardand\
+  Chintala}{2019}{pytorch}
+Paszke, A., Gross, S., Massa, F., Lerer, A., Bradbury, J., Chanan, G., Killeen,
+  T., Lin, Z., Gimelshein, N., Antiga, L., Desmaison, A., Kopf, A., Yang, E.,
+  DeVito, Z., Raison, M., Tejani, A., Chilamkurthy, S., Steiner, B., Fang, L.,
+  Bai, J. \harvardand\ Chintala, S.  \harvardyearleft 2019\harvardyearright ,
+  Pytorch: An imperative style, high-performance deep learning library, {\em
+  in} H.~Wallach, H.~Larochelle, A.~Beygelzimer, F.~d\textquotesingle
+  Alch\'{e}-Buc, E.~Fox \harvardand\ R.~Garnett, eds, `Advances in Neural
+  Information Processing Systems 32', Curran Associates, Inc., pp.~8024--8035.
+
 \harvarditem[Pedregosa et~al.]{Pedregosa, Varoquaux, Gramfort, Michel, Thirion,
   Grisel, Blondel, Prettenhofer, Weiss, Dubourg, Vanderplas, Passos,
   Cournapeau, Brucher, Perrot \harvardand\ Duchesnay}{2011}{scikit-learn}
@@ -282,6 +298,11 @@ Theis, L., Oord, A. v.~d. \harvardand\ Bethge, M.  \harvardyearleft
   arXiv:1511.01844 [cs, stat]} .
 \newblock arXiv: 1511.01844.
 \newline\harvardurl{http://arxiv.org/abs/1511.01844}
+
+\harvarditem{Xianyi \harvardand\ Kroeker}{2020}{openblas}
+Xianyi, Z. \harvardand\ Kroeker, M.  \harvardyearleft 2020\harvardyearright ,
+  `{OpenBLAS} : {An} optimized {BLAS} library'.
+\newline\harvardurl{http://www.openblas.net/}
 
 \harvarditem{Yuret}{2016}{knetjl}
 Yuret, D.  \harvardyearleft 2016\harvardyearright , `\apkg{Knet} - koç
