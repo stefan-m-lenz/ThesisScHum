@@ -157,9 +157,9 @@ Hinton, G.~E. \harvardand\ Salakhutdinov, R.~R.  \harvardyearleft
 \newline\harvardurl{http://science.sciencemag.org/content/313/5786/504}
 
 \harvarditem{Innes}{2018}{flux}
-Innes, M.  \harvardyearleft 2018\harvardyearright , `\pkg{Flux}: {Elegant}
-  machine learning with \proglang{Julia}.', {\em Journal of Open Source
-  Software} {\bf 3}(25),~602.
+Innes, M.  \harvardyearleft 2018\harvardyearright , `Flux: {Elegant} machine
+  learning with \proglang{Julia}.', {\em Journal of Open Source Software} {\bf
+  3}(25),~602.
 \newline\harvardurl{https://joss.theoj.org/papers/10.21105/joss.00602.pdf}
 
 \harvarditem{{ISO/IEC JTC 1/SC 22}}{1996}{ebnf}
@@ -229,8 +229,7 @@ Ranzato, M., Boureau, Y.-L., Chopra, S. \harvardand\ LeCun, Y.
 
 \harvarditem{{Regents of the University of California}}{1999}{bsd3}
 {Regents of the University of California}  \harvardyearleft
-  1999\harvardyearright , `The 3-{Clause} {BSD} {License} {\textbar} {Open}
-  {Source} {Initiative}'.
+  1999\harvardyearright , `The 3-{Clause} {BSD} {License}'.
 \newline\harvardurl{https://opensource.org/licenses/BSD-3-Clause}
 
 \harvarditem[Rumbaugh et~al.]{Rumbaugh, Jacobson \harvardand\ Booch}{1999}{uml}
@@ -307,17 +306,17 @@ Theis, L., Oord, A. v.~d. \harvardand\ Bethge, M.  \harvardyearleft
 
 \harvarditem{Xianyi \harvardand\ Kroeker}{2020}{openblas}
 Xianyi, Z. \harvardand\ Kroeker, M.  \harvardyearleft 2020\harvardyearright ,
-  `{OpenBLAS} : {An} optimized {BLAS} library'.
+  `{OpenBLAS}: {An} optimized {BLAS} library'.
 \newline\harvardurl{http://www.openblas.net/}
 
 \harvarditem{Yuret}{2016}{knetjl}
-Yuret, D.  \harvardyearleft 2016\harvardyearright , `\apkg{Knet} - koç
-  university deep learning framework for {Julia}'.
+Yuret, D.  \harvardyearleft 2016\harvardyearright , `{Knet} - {Koç}
+  {University} deep learning framework for {Julia}'.
 \newline\harvardurl{https://github.com/denizyuret/Knet.jl}
 
 \harvarditem{Zhang}{2018}{mochajl}
-Zhang, C.  \harvardyearleft 2018\harvardyearright , `\apkg{Mocha.jl} - deep
-  learning framework for {Julia}'.
+Zhang, C.  \harvardyearleft 2018\harvardyearright , `{Mocha.jl} - deep learning
+  framework for {Julia}'.
 \newline\harvardurl{https://github.com/pluskid/Mocha.jl}
 
 \end{thebibliography}
