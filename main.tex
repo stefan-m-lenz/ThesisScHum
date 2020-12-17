@@ -40,7 +40,7 @@
 \newcommand{\apkg}[1]{\emph{#1}}
 \newcommand{\proglang}[1]{#1} % egal, kommt in kopierten referenzen vor
 
-\newcommand{\rightpageref}[1]{\hfill see p. \pageref{#1}}
+\newcommand{\rightpageref}[1]{\hfill $\rightsquigarrow$ p. \pageref{#1}}
 \interfootnotelinepenalty=10000
 
 \DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
@@ -958,13 +958,13 @@ In our implementation multimodal deep Boltzmann machines, corresponding to the t
 \begin{table}
 \begin{tabularx}{\textwidth}{X}
    \hline
-   \inlinecode{fitrbm(x;...)} \rightpageref{bms_fitrbm}  \\
+   \inlinecode{fitrbm(x;...)} \rightpageref{bms_fitrbm} \\
    Fits a restricted Boltzmann machine model for a given data set \inlinecode{x} and additional model hyperparameters \\
-   \inlinecode{fitdbm(x; ...)} \\
+   \inlinecode{fitdbm(x; ...)} \rightpageref{bms_fitdbm} \\
    Fits a (multimodal) deep Boltzmann machine model for a given data set \inlinecode{x} and model hyperparameters \\
-   \inlinecode{meanfield(dbm, x)} \\
+   \inlinecode{meanfield(dbm, x)} \rightpageref{bms_meanfield}\\
    Calculates the mean-field activations of the \inlinecode{dbm}'s hidden nodes given the activations of the visible nodes \inlinecode{x}. \\
-   \inlinecode{stackrbms(x;...)} \\
+   \inlinecode{stackrbms(x;...)} \rightpageref{bms_stackrbms}\\
    Pre-trains a stack of RBMs on a given data set \inlinecode{x}. It can either be used for pre-training of a DBM or to train a deep belief network. \\
    \hline
 \end{tabularx}
@@ -975,23 +975,23 @@ In our implementation multimodal deep Boltzmann machines, corresponding to the t
 \begin{table}
    \begin{tabularx}{\textwidth}{X}
    \hline
-   \inlinecode{logpartitionfunction(bm; ... )} \\
+   \inlinecode{logpartitionfunction(bm; ... )} \rightpageref{bms_logpartitionfunction}\\
    Estimates log of the partition function of the Boltzmann machine \inlinecode{bm} using AIS. Additional hyperparameters for AIS may be provided. \\
    \makecell[tl]{
       \inlinecode{loglikelihood(rbm, x)} \\
       \inlinecode{loglikelihood(rbm, x, logz)}
-   } \\
+   } \rightpageref{bms_loglikelihood} \\
    Calculates the log-likelihood of data \inlinecode{x} in the restricted Boltzmann machine model \inlinecode{rbm}. The log of the partition function can be provided as parameter \inlinecode{logz} or is estimated using AIS. \\
    \makecell[tl]{
       \inlinecode{loglikelihood(dbm, x; ...)} \\
       \inlinecode{loglikelihood(dbm, x, logz; ...)}
-   } \\
+   } \rightpageref{bms_loglikelihood} \\
    Estimates the log-likelihood of a (multimodal) deep Boltzmann machine using AIS for each sample. Additional hyperparameters for AIS may be provided. \\
-   \inlinecode{logproblowerbound(dbm, x; ...)} \\
+   \inlinecode{logproblowerbound(dbm, x; ...)} \rightpageref{bms_logproblowerbound} \\
    Estimates the stochastic lower bound of the log-likelihood that is optimized by the training algorithm with mean-field optimization. \\
-   \inlinecode{exactloglikelihood(bm, x)} \\
+   \inlinecode{exactloglikelihood(bm, x)} \rightpageref{bms_exactloglikelihood} \\
    Calculates the log-likelihood of a deep Boltzmann machine. \\
-   \inlinecode{exactlogpartitionfunction(bm, x)} \\
+   \inlinecode{exactlogpartitionfunction(bm, x)} \rightpageref{bms_exactlogpartitionfunction} \\
    Calculates the log of the partition function for a restricted Boltzmann machine. \\
    \hline
 \end{tabularx}

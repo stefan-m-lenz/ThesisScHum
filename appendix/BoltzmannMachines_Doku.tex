@@ -1,4 +1,4 @@
-\subsection*{AbstractOptimizer}
+\subsection*{AbstractOptimizer} \phantomsection \label{bms_AbstractOptimizer}
 The \texttt{AbstractOptimizer} interface allows to specify optimization procedures. It consists of three methods:
 
 \begin{itemize}
@@ -13,17 +13,17 @@ The \texttt{AbstractOptimizer} interface allows to specify optimization procedur
 \end{itemize}
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{AbstractRBM}
+\subsection*{AbstractRBM} \phantomsection \label{bms_AbstractRBM}
 Abstract supertype for all RBMs 
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{AbstractTrainLayer}
+\subsection*{AbstractTrainLayer} \phantomsection \label{bms_AbstractTrainLayer}
 Abstract supertype for layerwise training specification. May be specifications for a normal RBM layer (see \texttt{TrainLayer}) or multiple combined specifications for a partitioned layer (see \texttt{TrainPartitionedLayer}).
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{BernoulliGaussianRBM}
+\subsection*{BernoulliGaussianRBM} \phantomsection \label{bms_BernoulliGaussianRBM}
 \begin{verbatim}
 BernoulliGaussianRBM(weights, visbias, hidbias)
 \end{verbatim}
@@ -31,7 +31,7 @@ Encapsulates the parameters of an RBM with Bernoulli distributed visible nodes a
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{BernoulliRBM}
+\subsection*{BernoulliRBM} \phantomsection \label{bms_BernoulliRBM}
 \begin{verbatim}
 BernoulliRBM(weights, visbias, hidbias)
 \end{verbatim}
@@ -49,7 +49,7 @@ Encapsulates the parameters of an RBM with Bernoulli distributed nodes.
 \end{itemize}
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{Binomial2BernoulliRBM}
+\subsection*{Binomial2BernoulliRBM} \phantomsection \label{bms_Binomial2BernoulliRBM}
 \begin{verbatim}
 Binomial2BernoulliRBM(weights, visbias, hidbias)
 \end{verbatim}
@@ -57,12 +57,12 @@ Encapsulates the parameters of an RBM with 0/1/2-valued, Binomial (n=2) distribu
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{DataDict}
+\subsection*{DataDict} \phantomsection \label{bms_DataDict}
 A dictionary containing names of data sets as keys and the data sets (matrices with samples in rows) as values.
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{GaussianBernoulliRBM}
+\subsection*{GaussianBernoulliRBM} \phantomsection \label{bms_GaussianBernoulliRBM}
 \begin{verbatim}
 GaussianBernoulliRBM(weights, visbias, hidbias, sd)
 \end{verbatim}
@@ -70,7 +70,7 @@ Encapsulates the parameters of an RBM with Gaussian distributed visible nodes an
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{GaussianBernoulliRBM2}
+\subsection*{GaussianBernoulliRBM2} \phantomsection \label{bms_GaussianBernoulliRBM2}
 \begin{verbatim}
 GaussianBernoulliRBM2(weights, visbias, hidbias, sd)
 \end{verbatim}
@@ -78,27 +78,27 @@ Encapsulates the parameters of an RBM with Gaussian distributed visible nodes an
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{LoglikelihoodOptimizer}
+\subsection*{LoglikelihoodOptimizer} \phantomsection \label{bms_LoglikelihoodOptimizer}
 Implements the \texttt{AbstractOptimizer} interface for optimizing the loglikelihood with stochastic gradient descent.
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{Monitor}
+\subsection*{Monitor} \phantomsection \label{bms_Monitor}
 A vector for collecting \texttt{MonitoringItem}s during training.
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{MonitoringItem}
+\subsection*{MonitoringItem} \phantomsection \label{bms_MonitoringItem}
 Encapsulates the value of an evaluation calculated in one training epoch. If the evaluation depends on a dataset, the dataset's name can be specified also.
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{Particles}
+\subsection*{Particles} \phantomsection \label{bms_Particles}
 \texttt{Particles} are an array of matrices. The i'th matrix contains in each row the vector of states of the nodes of the i'th layer of an RBM or a DBM. The set of rows with the same index define an activation state in a Boltzmann Machine. Therefore, the size of the i'th matrix is (number of samples/particles, number of nodes in layer i).
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{PartitionedRBM}
+\subsection*{PartitionedRBM} \phantomsection \label{bms_PartitionedRBM}
 \begin{verbatim}
 PartitionedRBM(rbms)
 \end{verbatim}
@@ -106,7 +106,7 @@ Encapsulates several (parallel) AbstractRBMs that form one partitioned RBM. The 
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{TrainLayer}
+\subsection*{TrainLayer} \phantomsection \label{bms_TrainLayer}
 Specify parameters for training one RBM-layer in a DBM.
 
 \paragraph*{Optional keyword arguments:}
@@ -122,12 +122,12 @@ Specify parameters for training one RBM-layer in a DBM.
 \end{itemize}
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{TrainPartitionedLayer}
+\subsection*{TrainPartitionedLayer} \phantomsection \label{bms_TrainPartitionedLayer}
 Encapsulates a vector of \texttt{TrainLayer} objects for training a partitioned layer.
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{aislogimpweights}
+\subsection*{aislogimpweights} \phantomsection \label{bms_aislogimpweights}
 \begin{verbatim}
 aislogimpweights(rbm; ...)
 \end{verbatim}
@@ -161,7 +161,7 @@ Implements algorithm 4 in [Salakhutdinov+Hinton, 2012]. For DBMs with Bernoulli-
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{aisprecision}
+\subsection*{aisprecision} \phantomsection \label{bms_aisprecision}
 \begin{verbatim}
 aisprecision(logr, aissd, sdrange)
 \end{verbatim}
@@ -172,12 +172,12 @@ aisprecision(logimpweights, sdrange)
 \end{verbatim}
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{aisstandarddeviation}
+\subsection*{aisstandarddeviation} \phantomsection \label{bms_aisstandarddeviation}
 Computes the standard deviation of the AIS estimator (not logarithmised) (eq 4.10 in [Salakhutdinov+Hinton, 2012]) given the logarithmised importance weights.
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{barsandstripes}
+\subsection*{barsandstripes} \phantomsection \label{bms_barsandstripes}
 \begin{verbatim}
 barsandstripes(nsamples, nvariables)
 \end{verbatim}
@@ -187,7 +187,7 @@ Example from: MacKay, D. (2003). Information Theory, Inference, and Learning Alg
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{computegradient!}
+\subsection*{computegradient!} \phantomsection \label{bms_computegradient!}
 \begin{verbatim}
 computegradient!(optimizer, v, vmodel, h, hmodel, rbm)
 \end{verbatim}
@@ -197,7 +197,7 @@ For RBMs (excluding PartitionedRBMs), this means saving the gradient in a RBM of
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{crossvalidation}
+\subsection*{crossvalidation} \phantomsection \label{bms_crossvalidation}
 \begin{verbatim}
 crossvalidation(x, monitoredfit; ...)
 \end{verbatim}
@@ -230,7 +230,7 @@ If additionaly a vector of parameters \texttt{pars} is given, \texttt{monitoredf
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{empiricalloglikelihood}
+\subsection*{empiricalloglikelihood} \phantomsection \label{bms_empiricalloglikelihood}
 \begin{verbatim}
 empiricalloglikelihood(x, xgen)
 empiricalloglikelihood(bm, x, nparticles)
@@ -240,7 +240,7 @@ Computes the mean empirical loglikelihood for the data set \texttt{x}. The proba
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{energy}
+\subsection*{energy} \phantomsection \label{bms_energy}
 \begin{verbatim}
 energy(rbm, v, h)
 \end{verbatim}
@@ -248,7 +248,7 @@ Computes the energy of the configuration of the visible nodes \texttt{v} and the
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{exactloglikelihood}
+\subsection*{exactloglikelihood} \phantomsection \label{bms_exactloglikelihood}
 \begin{verbatim}
 exactloglikelihood(rbm, x)
 \end{verbatim}
@@ -262,7 +262,7 @@ Computes the mean log-likelihood for the given dataset \texttt{x} and the DBM \t
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{exactlogpartitionfunction}
+\subsection*{exactlogpartitionfunction} \phantomsection \label{bms_exactlogpartitionfunction}
 \begin{verbatim}
 exactlogpartitionfunction(rbm)
 \end{verbatim}
@@ -290,7 +290,7 @@ Calculates the log of the partition function of the MultimodalDBM \texttt{mdbm} 
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{fitdbm}
+\subsection*{fitdbm} \phantomsection \label{bms_fitdbm}
 \begin{verbatim}
 fitdbm(x; ...)
 \end{verbatim}
@@ -387,7 +387,7 @@ See also: \texttt{monitored\_fitrbm} for a convenient monitoring of the training
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{freeenergy}
+\subsection*{freeenergy} \phantomsection \label{bms_freeenergy}
 \begin{verbatim}
 freeenergy(rbm, x)
 \end{verbatim}
@@ -400,7 +400,7 @@ Computes the free energy of the sample \texttt{v} (a vector) for the \texttt{rbm
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{gibbssample!}
+\subsection*{gibbssample!} \phantomsection \label{bms_gibbssample!}
 \begin{verbatim}
 gibbssample!(particles, bm, nsteps)
 \end{verbatim}
@@ -408,7 +408,7 @@ Performs Gibbs sampling on the \texttt{particles} in the Boltzmann machine model
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{gibbssamplecond!}
+\subsection*{gibbssamplecond!} \phantomsection \label{bms_gibbssamplecond!}
 \begin{verbatim}
 gibbssamplecond!(particles, bm, cond, nsteps)
 \end{verbatim}
@@ -420,7 +420,7 @@ See also: \texttt{Particles}, \texttt{initparticles}
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{hiddeninput}
+\subsection*{hiddeninput} \phantomsection \label{bms_hiddeninput}
 \begin{verbatim}
 hiddeninput(rbm, v)
 \end{verbatim}
@@ -428,7 +428,7 @@ Computes the total input of the hidden units in the AbstractRBM \texttt{rbm}, gi
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{hiddeninput!}
+\subsection*{hiddeninput!} \phantomsection \label{bms_hiddeninput!}
 \begin{verbatim}
 hiddeninput!(h, rbm, v)
 \end{verbatim}
@@ -436,7 +436,7 @@ Like \texttt{hiddeninput}, but stores the returned result in \texttt{h}.
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{hiddenpotential}
+\subsection*{hiddenpotential} \phantomsection \label{bms_hiddenpotential}
 \begin{verbatim}
 hiddenpotential(rbm, v)
 hiddenpotential(rbm, v, factor)
@@ -447,7 +447,7 @@ The total input can be scaled with the \texttt{factor}. This is needed when pret
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{hiddenpotential!}
+\subsection*{hiddenpotential!} \phantomsection \label{bms_hiddenpotential!}
 \begin{verbatim}
 hiddenpotential!(hh, rbm, vv)
 hiddenpotential!(hh, rbm, vv, factor)
@@ -456,7 +456,7 @@ Like \texttt{hiddenpotential}, but stores the returned result in \texttt{hh}.
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{initialized}
+\subsection*{initialized} \phantomsection \label{bms_initialized}
 \begin{verbatim}
 initialized(optimizer, rbm)
 \end{verbatim}
@@ -464,7 +464,7 @@ Returns an \texttt{AbstractOptimizer} similar to the given \texttt{optimizer} th
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{initparticles}
+\subsection*{initparticles} \phantomsection \label{bms_initparticles}
 \begin{verbatim}
 initparticles(bm, nparticles; biased = false)
 \end{verbatim}
@@ -476,7 +476,7 @@ Gaussian nodes are sampled from a normal distribution if \texttt{biased == false
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{initrbm}
+\subsection*{initrbm} \phantomsection \label{bms_initrbm}
 \begin{verbatim}
 initrbm(x, nhidden)
 initrbm(x, nhidden, rbmtype)
@@ -485,7 +485,7 @@ Creates a RBM with \texttt{nhidden} hidden units and initalizes its weights for 
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{intensities}
+\subsection*{intensities} \phantomsection \label{bms_intensities}
 \begin{verbatim}
 intensities(x)
 intensities(x, q1)
@@ -495,7 +495,7 @@ Performs a linear and monotonous transformation on the data set \texttt{x} to fi
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{intensities\_decode}
+\subsection*{intensities\_decode} \phantomsection \label{bms_intensities_decode}
 \begin{verbatim}
 intensities_decode(x, its)
 \end{verbatim}
@@ -513,7 +513,7 @@ intensities_decode(xgen, its)
 \end{verbatim}
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{intensities\_encode}
+\subsection*{intensities\_encode} \phantomsection \label{bms_intensities_encode}
 \begin{verbatim}
 intensities_encode(x)
 intensities_encode(x, q1)
@@ -529,7 +529,7 @@ See also \texttt{intensities\_decode} for the reverse transformation.
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{joindbms}
+\subsection*{joindbms} \phantomsection \label{bms_joindbms}
 \begin{verbatim}
 joindbms(dbms)
 joindbms(dbms, visibleindexes)
@@ -540,7 +540,7 @@ If the vector \texttt{visibleindexes} is specified, it is supposed to contain in
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{joinrbms}
+\subsection*{joinrbms} \phantomsection \label{bms_joinrbms}
 \begin{verbatim}
 joinrbms(rbms)
 joinrbms(rbms, visibleindexes)
@@ -549,7 +549,7 @@ Joins the given vector of \texttt{rbms} of the same type to form one RBM of this
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{loglikelihood}
+\subsection*{loglikelihood} \phantomsection \label{bms_loglikelihood}
 \begin{verbatim}
 loglikelihood(rbm, x)
 loglikelihood(rbm, x, logz)
@@ -563,7 +563,7 @@ Estimates the mean log-likelihood of the DBM on the data set \texttt{x} with Ann
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{logpartitionfunction}
+\subsection*{logpartitionfunction} \phantomsection \label{bms_logpartitionfunction}
 \begin{verbatim}
 logpartitionfunction(bm; ...)
 logpartitionfunction(bm, logr)
@@ -576,7 +576,7 @@ If the log of \texttt{r} is not given as argument \texttt{logr}, Annealed Import
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{logpartitionfunctionzeroweights}
+\subsection*{logpartitionfunctionzeroweights} \phantomsection \label{bms_logpartitionfunctionzeroweights}
 \begin{verbatim}
 logpartitionfunctionzeroweights(bm)
 \end{verbatim}
@@ -584,7 +584,7 @@ Returns the value of the log of the partition function of the Boltzmann Machine 
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{logproblowerbound}
+\subsection*{logproblowerbound} \phantomsection \label{bms_logproblowerbound}
 \begin{verbatim}
 logproblowerbound(dbm, x; ...)
 logproblowerbound(dbm, x, logimpweights; ...)
@@ -599,7 +599,7 @@ Estimates the mean of the variational lower bound for the log probability of the
 \end{itemize}
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{meanfield}
+\subsection*{meanfield} \phantomsection \label{bms_meanfield}
 \begin{verbatim}
 meanfield(dbm, x)
 meanfield(dbm, x, eps)
@@ -608,7 +608,7 @@ Computes the mean-field approximation for the data set \texttt{x} and returns a 
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{monitored\_fitdbm}
+\subsection*{monitored\_fitdbm} \phantomsection \label{bms_monitored_fitdbm}
 \begin{verbatim}
 monitored_fitdbm(x; ...)
 \end{verbatim}
@@ -666,7 +666,7 @@ plotevaluation(monitors[3]) # view monitoring fine-tuning
 \end{verbatim}
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{monitored\_fitrbm}
+\subsection*{monitored\_fitrbm} \phantomsection \label{bms_monitored_fitrbm}
 \begin{verbatim}
 monitored_fitrbm(x; ...)
 \end{verbatim}
@@ -713,7 +713,7 @@ plotevaluation(monitor, monitorexactloglikelihood)
 \end{verbatim}
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{monitored\_stackrbms}
+\subsection*{monitored\_stackrbms} \phantomsection \label{bms_monitored_stackrbms}
 \begin{verbatim}
 monitored_stackrbms(x; ...)
 \end{verbatim}
@@ -760,7 +760,7 @@ plotevaluation(monitors[2]) # view monitoring of second RBM
 \end{verbatim}
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{monitored\_traindbm!}
+\subsection*{monitored\_traindbm!} \phantomsection \label{bms_monitored_traindbm!}
 \begin{verbatim}
 monitored_traindbm!(dbm, x; ...)
 \end{verbatim}
@@ -807,7 +807,7 @@ plotevaluation(monitor)
 \end{verbatim}
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{monitorexactloglikelihood!}
+\subsection*{monitorexactloglikelihood!} \phantomsection \label{bms_monitorexactloglikelihood!}
 \begin{verbatim}
 monitorexactloglikelihood!(monitor, bm, epoch, datadict)
 \end{verbatim}
@@ -815,7 +815,7 @@ Computes the mean exact log-likelihood in the Boltzmann Machine model \texttt{bm
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{monitorfreeenergy!}
+\subsection*{monitorfreeenergy!} \phantomsection \label{bms_monitorfreeenergy!}
 \begin{verbatim}
 monitorfreeenergy!(monitor, rbm, epoch, datadict)
 \end{verbatim}
@@ -823,7 +823,7 @@ Computes the free energy for the \texttt{datadict}'s data sets in the RBM model 
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{monitorloglikelihood!}
+\subsection*{monitorloglikelihood!} \phantomsection \label{bms_monitorloglikelihood!}
 \begin{verbatim}
 monitorloglikelihood!(monitor, rbm, epoch, datadict)
 \end{verbatim}
@@ -837,7 +837,7 @@ See also: \texttt{loglikelihood}.
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{monitorlogproblowerbound!}
+\subsection*{monitorlogproblowerbound!} \phantomsection \label{bms_monitorlogproblowerbound!}
 \begin{verbatim}
 monitorlogproblowerbound!(monitor, dbm, epoch, datadict)
 \end{verbatim}
@@ -851,7 +851,7 @@ See also: \texttt{logproblowerbound}.
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{monitorreconstructionerror!}
+\subsection*{monitorreconstructionerror!} \phantomsection \label{bms_monitorreconstructionerror!}
 \begin{verbatim}
 monitorreconstructionerror!(monitor, rbm, epoch, datadict)
 \end{verbatim}
@@ -859,7 +859,7 @@ Computes the reconstruction error for the data sets in the \texttt{datadict} and
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{monitorweightsnorm!}
+\subsection*{monitorweightsnorm!} \phantomsection \label{bms_monitorweightsnorm!}
 \begin{verbatim}
 monitorweightsnorm!(monitor, rbm, epoch)
 \end{verbatim}
@@ -867,7 +867,7 @@ Computes the L2-norm of the weights matrix and the bias vectors of the \texttt{r
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{oneornone\_decode}
+\subsection*{oneornone\_decode} \phantomsection \label{bms_oneornone_decode}
 \begin{verbatim}
 oneornone_decode(x, categories)
 \end{verbatim}
@@ -877,7 +877,7 @@ For more, see \texttt{oneornone\_encode}.
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{oneornone\_encode}
+\subsection*{oneornone\_encode} \phantomsection \label{bms_oneornone_encode}
 \begin{verbatim}
 oneornone_encode(x, categories)
 \end{verbatim}
@@ -896,7 +896,7 @@ See also \texttt{oneornone\_decode} for the reverse transformation.
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{propagateforward}
+\subsection*{propagateforward} \phantomsection \label{bms_propagateforward}
 \begin{verbatim}
 propagateforward(rbm, datadict, factor)
 \end{verbatim}
@@ -904,7 +904,7 @@ Returns a new \texttt{DataDict} containing the same labels as the given \texttt{
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{reconstructionerror}
+\subsection*{reconstructionerror} \phantomsection \label{bms_reconstructionerror}
 \begin{verbatim}
 reconstructionerror(rbm, x)
 \end{verbatim}
@@ -912,7 +912,7 @@ Computes the mean reconstruction error of the RBM on the dataset \texttt{x}.
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{samplehidden}
+\subsection*{samplehidden} \phantomsection \label{bms_samplehidden}
 \begin{verbatim}
 samplehidden(rbm, v)
 samplehidden(rbm, v, factor)
@@ -921,7 +921,7 @@ Returns activations of the hidden nodes in the AbstractRBM \texttt{rbm}, sampled
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{samplehidden!}
+\subsection*{samplehidden!} \phantomsection \label{bms_samplehidden!}
 \begin{verbatim}
 samplehidden!(h, rbm, v)
 samplehidden!(h, rbm, v, factor)
@@ -930,7 +930,7 @@ Like \texttt{samplehidden}, but stores the returned result in \texttt{h}.
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{sampleparticles}
+\subsection*{sampleparticles} \phantomsection \label{bms_sampleparticles}
 \begin{verbatim}
 sampleparticles(bm, nparticles, burnin)
 \end{verbatim}
@@ -938,7 +938,7 @@ Samples in the Boltzmann Machine model \texttt{bm} by running \texttt{nparticles
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{samples}
+\subsection*{samples} \phantomsection \label{bms_samples}
 \begin{verbatim}
 samples(bm, nsamples; ...)
 \end{verbatim}
@@ -957,7 +957,7 @@ Generates \texttt{nsamples} samples from a Boltzmann machine model \texttt{bm} b
 \end{itemize}
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{samplevisible}
+\subsection*{samplevisible} \phantomsection \label{bms_samplevisible}
 \begin{verbatim}
 samplevisible(rbm, h)
 samplevisible(rbm, h, factor)
@@ -966,7 +966,7 @@ Returns activations of the visible nodes in the AbstractRBM \texttt{rbm}, sample
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{samplevisible!}
+\subsection*{samplevisible!} \phantomsection \label{bms_samplevisible!}
 \begin{verbatim}
 samplevisible!(v, rbm, h)
 samplevisible!(v, rbm, h, factor)
@@ -975,7 +975,7 @@ Like \texttt{samplevisible}, but stores the returned result in \texttt{v}.
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{splitdata}
+\subsection*{splitdata} \phantomsection \label{bms_splitdata}
 \begin{verbatim}
 splitdata(x, ratio)
 \end{verbatim}
@@ -987,7 +987,7 @@ trainingdata, testdata = splitdata(data, 0.1) # Use 10 % as test data
 \end{verbatim}
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{stackrbms}
+\subsection*{stackrbms} \phantomsection \label{bms_stackrbms}
 \begin{verbatim}
 stackrbms(x; ...)
 \end{verbatim}
@@ -1026,7 +1026,7 @@ See also: \texttt{monitored\_stackrbms} for a more convenient monitoring.
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{traindbm!}
+\subsection*{traindbm!} \phantomsection \label{bms_traindbm!}
 \begin{verbatim}
 traindbm!(dbm, x; ...)
 \end{verbatim}
@@ -1053,7 +1053,7 @@ Trains the given \texttt{dbm} for one epoch.
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{trainrbm!}
+\subsection*{trainrbm!} \phantomsection \label{bms_trainrbm!}
 \begin{verbatim}
 trainrbm!(rbm, x)
 \end{verbatim}
@@ -1069,7 +1069,7 @@ Trains the given \texttt{rbm} for one epoch using the data set \texttt{x}. (See 
 \end{itemize}
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{updateparameters!}
+\subsection*{updateparameters!} \phantomsection \label{bms_updateparameters!}
 \begin{verbatim}
 updateparameters!(rbm, optimizer)
 \end{verbatim}
@@ -1077,7 +1077,7 @@ Updates the RBM \texttt{rbm} by walking a step in the direction of the gradient 
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{visibleinput}
+\subsection*{visibleinput} \phantomsection \label{bms_visibleinput}
 \begin{verbatim}
 visibleinput(rbm, h)
 \end{verbatim}
@@ -1085,7 +1085,7 @@ Returns activations of the visible nodes in the AbstractXBernoulliRBM \texttt{rb
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{visibleinput!}
+\subsection*{visibleinput!} \phantomsection \label{bms_visibleinput!}
 \begin{verbatim}
 visibleinput!(v, rbm, h)
 \end{verbatim}
@@ -1093,7 +1093,7 @@ Like \texttt{visibleinput} but stores the returned result in \texttt{v}.
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{visiblepotential}
+\subsection*{visiblepotential} \phantomsection \label{bms_visiblepotential}
 \begin{verbatim}
 visiblepotential(rbm, h)
 visiblepotential(rbm, h, factor)
@@ -1110,7 +1110,7 @@ For GaussianBernoulliRBMs, the potential of the visible nodes is the vector of m
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
-\subsection*{visiblepotential!}
+\subsection*{visiblepotential!} \phantomsection \label{bms_visiblepotential!}
 \begin{verbatim}
 visiblepotential!(v, rbm, h)
 \end{verbatim}

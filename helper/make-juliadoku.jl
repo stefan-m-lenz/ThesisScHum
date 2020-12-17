@@ -7,7 +7,7 @@ begin
       x = Main.eval(Meta.parse("@doc "* String(name)))
       if !startswith(string(x), "No documentation found") &&
             x != Main.eval(Meta.parse("@doc Array"))
-         println(io, "\\subsection*{$latexname}")
+         println(io, "\\subsection*{$latexname} \\phantomsection \\label{bms_$name}")
          show(context, "text/latex", x)
          println(io, "\\noindent\\rule{\\textwidth}{1pt}")
          print(io, "%======================================================\n")
@@ -17,7 +17,7 @@ begin
 
    output = replace(output, r"\\section" => "\\paragraph*")
    output = replace(output, r"\\href\{@ref\}\{([^}]+)\}" => s"\1")
-   open("C:/Users/lenz/Desktop/Workspace/ThesisScHum/appendix/BoltzmannMachines_Doku.tex", "w") do io
+   open(pwd() * "/appendix/BoltzmannMachines_Doku.tex", "w") do io
       write(io, output)
    end
 end
