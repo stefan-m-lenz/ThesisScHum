@@ -828,6 +828,7 @@ Language & Julia & Python & Julia & Python & Python & R \\
 Registered package & Yes & No & Yes & No & Yes & Yes \\ 
 License & MIT & MIT & MIT & MIT & 3-BSD & GPL-3 \\ 
 Bernoulli RBM & Yes & Yes & Yes  & Yes & Yes & Yes \\
+Categorical input & Yes & No & No & No & No & No \\
 Gaussian RBM (Hinton) & Yes & Yes & No & Yes & No & No \\
 Gaussian RBM (Cho) & Yes & No & No & No & No & No \\
 DBN training & Yes & Yes & Yes & Yes & No & Yes \\
@@ -870,6 +871,8 @@ The implementations of Gaussian RBMs in \apkg{deepbelief} and \apkg{yell/boltzma
 Only the \apkg{BoltzmannMachines} implements this, using the gradients described in \ref{rbmgradients}.
 However, it is very hard to learn the correct value of $\sigma$ in practical applications anyway \citep{hinton_practical_2012}, so this more of theoretical and experimental interest.
 
+The \apkg{BoltzmannMachines} package is the only known software which allows to model categorical input variables in restricted or deep Boltzmann machines.
+
 Another unique feature of the \apkg{BoltzmannMachines} package is the possibility to calculate the exact likelihood for RBM and DBM models.
 Although the calculation is computationally not feasible for bigger models, which are used in most practical use cases, this is a fast way to evaluate toy models.
 This feature is also be used to validate the AIS implementation by testing its results against the exact calculated value in smaller models in the test suite of the \apkg{BoltzmannMachines} package.
@@ -905,10 +908,6 @@ This way the computations can be performed on the CPU as well as on the GPU.
 The high parallelization in GPUs can bring far greater performance while at the same time it requires a high sophistication of the code to fully exploit the advantages of GPUs and port the algorithms to their SIMD (single instruction multiple data) architecture.
 In order to work with the abstraction, users must adapt this new programming style, and, e.g., define the algorithms via computational graphs.
 
-For a scientific use, having the flexibility to change the algorithms is often more important than their execution speed because in many cases it can be better to save human time than to save computation time. 
-Coming from this perspective, we used plain Julia code because we wanted to have an easy access to the code to be able to tailor the algorithms to our needs and experiment with modifications.
-With respect also to the biomedical data sets of rather small sample sizes, the speed of Julia and its for gradual optimization was sufficient.
-
 Julia also offers the possibility to use parallelization via parallel processes very easily, This works also across different computers in a compute cluster without requiring the developer to change the code to adapt to a setting with involving multiple computers.
 Processes from the same or different computers can be added to a worker pool via the function \inlinecode{addprocs} and the inter-process communication is handled by Julia across the machines.
 This is particulary useful for optimizing hyperparameters.
@@ -924,6 +923,9 @@ Most neural networks used for classification as well as GANs and VAEs are traine
 The gradients for training RBMs and DBMs (see \ref{rbmgradients} and \ref{dbmtraining}), however, rely on the Gibbs sampling and mean-field algorithm.
 Thus it becomes less straightforward to implement code in such a framework and there is less benefit in doing so.
  
+For a scientific use, having the flexibility to change the algorithms is often more important than their execution speed because in many cases it can be better to save human time than to save computation time. 
+Coming from this perspective, we used plain Julia code because we wanted to have an easy access to the code to be able to tailor the algorithms to our needs and experiment with modifications.
+With respect also to the biomedical data sets of rather small sample sizes, sufficient speed could be achieved via gradual optimization of the Julia code.
 
 
 
