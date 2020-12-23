@@ -635,6 +635,12 @@ Figure \ref{fig:bmsoverview} shows different possible architectures for multimod
 Multimodal DBMs can be considered a generalization of DBMs.
 They have been invented to make it possible to combine different input data types in a single model.
 
+The training procedure of multimodal DBMs can be generalized as follows:
+For the pre-training of a multimodal DBM, the different layers are trained by stacking RBMs in the same way as for pre-training a DBM.
+The only differences are that the RBMs at the lowest layer may have different input distributions, and that RBMs in higher layers may be partitioned, i.e., some connections are always zero.
+For the fine-tuning, the gradients in the different layers are calculated in the same way as the gradients in the respective RBM types, using the mean-field approximations and the fantasy particles of the DBM fine-tuning algorithm as activations of the respective visible and hidden nodes.
+Gibbs sampling can also be performed in the same way, using the conditional probabilities in the RBMs.
+
 
 
 \subsubsection{A new approach for modeling categorical data}\label{methodsoftmax0}
@@ -719,21 +725,21 @@ p(v_k = 1 \mid h) &= \frac{p(v_k = 1, h)}{p(h)} \\
   %&= \frac{\exp \left( (Wh)_k + a_k \right) \sum_{v_{i \notin C_k}} \exp \left(-E(v_{i \in C_k} = 0, v_{i \notin C_k}, h) \right)}{\sum_{u_{i\notin C_k)}
 \end{align*}
 
-\subsubsection{Generalizing training and evaluation of multimodal DBMs}
+\subsubsection{Generalizing annealed importance sampling for multimodal DBMs} \label{unnormalizedprobsrbm}
 
-The training procedure of multimodal DBMs can be generalized as follows:
-For the pre-training of a multimodal DBM, the different layers are trained by stacking RBMs in the same way as for pre-training a DBM.
-The only differences are that the RBMs at the lowest layer may have different input distributions, and that RBMs in higher layers may be partitioned, i.e., some connections are always zero.
-For the fine-tuning, the gradients in the different layers are calculated in the same way as the gradients in the respective RBM types, using the mean-field approximations and the fantasy particles of the DBM fine-tuning algorithm as activations of the respective visible and hidden nodes.
-Gibbs sampling can also be performed in the same way, using the conditional probabilities in the RBMs.
+To generalize the evaluation of the lower bound of the likelihood in multimodal DBMs, the AIS algorithm for estimating the partition function via AIS can be generalized.
+This can be done by ``summing out" or ``integrating out" the different types of visible nodes (see figure \ref{aissummingout} C).
+In section \ref{methodAIS}, AIS for binary DBMs is described.
+In formula (\ref{eqn:aisunnormalizedprob}) the binary visible layer is summed out by using the formula 
+\[
+p^*(h) = e^{b^T h} \prod_j (1+ \exp((a + W h)_j))
+\]
 
-The evaluation via AIS can also be generalized, using the unnormalized probabilities for the different RBMs at the input layer (see \ref{unnormalizedprobsrbm}) to ``sum out" or ``integrate out" the different types of visible nodes (see figure \ref{aissummingout} C).
+for the unnormalized probability of the hidden units in the RBM at the input layer.
+Due to the symmetry of hidden and visible nodes in a RBM with only Bernoulli distributed nodes, this formula for $p^*(h)$ can be derived analogously to the free energy $F(v) = - \log p^*(v)$. 
+To get a formula like formula (\ref{eqn:aisunnormalizedprob}) for a multimodal DBM, the formulas for the unnormalized probabilities $p^*(h)$ of the different RBMs at the input layer of the multimodal DBM need to be derived.
+To change the type of the input layer, these formulas can then be used in place of the first line in formula (\ref{eqn:aisunnormalizedprob}).
 
-\paragraph{Annealed importance sampling for multimodal DBMs}
-
-\paragraph{Derivation of unnormalized probability for different types of restricted Boltzmann machines}\label{unnormalizedprobsrbm}
-
-Due to the symmetry of hidden and visible nodes in a RBM with only {\bf Bernoulli distributed nodes}, $p^*(h)$ can be derived analogously to the free energy $F(v) = - \log p^*(v)$ in this case.
 
 Since I have not found formulas for the unnormalized probability of the hidden nodes in RBMs with Gaussian visible nodes in the literature, I derive it here in detail.
 The derivations for $p^*(h)$ for RBMs with Gaussian visible nodes use the fact that the integral over the density function of a normal distribution $\mathcal{N}(\mu, \sigma^2)$ is equal to one:
@@ -933,7 +939,7 @@ With respect also to the biomedical data sets of rather small sample sizes, suff
 
 In our implementation multimodal deep Boltzmann machines, corresponding to the type \inlinecode{MultimodalDBM}, are constructed using restricted Boltzmann machines as building blocks (see figure \ref{mdbmimplasstack}). For each of the models of Boltzmann machines, it is possible to generate samples by using Gibbs sampling. For efficiently evaluating very small models, the likelihood and the partition function can be calculated exactly. This is also useful to test AIS by comparing the values estimated in small models to the exact ones.
 
-% TODO bei Diagramm Softmax0 einbauen
+
 \begin{landscape}
 \begin{figure}
    \centering
