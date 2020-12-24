@@ -620,7 +620,7 @@ So often there are other statistics used for checking the training progress.
 The free energy cannot be used for comparing different models because it does not include the normalization by $Z$.
 It can, however, be used to compare how well the same model fits different data sets.
 One application for this is monitoring the overfitting by comparing the training data set and a test data set \citep{hinton_practical_2012}.
-
+\label{reconstructionerror}
 Another popular statistics, which behaves similar to the likelihood in RBMs in most cases, is the {\em reconstruction error} \citep{hinton_practical_2012}.
 For defining this, one needs at first to define the term {\em reconstruction} in an RBM.
 The reconstruction \citep{hinton_practical_2012} for a sample $\widetilde{v}$ is calculated by using the conditional probabilities as deterministic ``activation potential".
@@ -734,7 +734,6 @@ In formula (\ref{eqn:aisunnormalizedprob}) the binary visible layer is summed ou
 \[
 p^*(h) = e^{b^T h} \prod_j (1+ \exp((a + W h)_j))
 \]
-
 for the unnormalized probability of the hidden units in the RBM at the input layer.
 Due to the symmetry of hidden and visible nodes in a RBM with only Bernoulli distributed nodes, this formula for $p^*(h)$ can be derived analogously to the free energy $F(v) = - \log p^*(v)$. 
 To get a formula like formula (\ref{eqn:aisunnormalizedprob}) for a multimodal DBM, the formulas for the unnormalized probabilities $p^*(h)$ of the different RBMs at the input layer of the multimodal DBM need to be derived.
@@ -939,6 +938,9 @@ With respect also to the biomedical data sets of rather small sample sizes, suff
 
 In our implementation multimodal deep Boltzmann machines, corresponding to the type \inlinecode{MultimodalDBM}, are constructed using restricted Boltzmann machines as building blocks (see figure \ref{mdbmimplasstack}). For each of the models of Boltzmann machines, it is possible to generate samples by using Gibbs sampling. For efficiently evaluating very small models, the likelihood and the partition function can be calculated exactly. This is also useful to test AIS by comparing the values estimated in small models to the exact ones.
 
+%TODO hiddenpotential: deterministic value, here expected value see \ref{reconstructionerror}
+% The expected value is used for contrastive divergence.
+
 
 \begin{landscape}
 \begin{figure}
@@ -1015,13 +1017,12 @@ import Pkg
 Pkg.add("BoltzmannMachines")
 \end{lstlisting}
 
-\subsubsection{Training algorithm and choices of hyperparameters}
 
 The hyperparameters for layerwise pre-training can be defined for the whole network or for each layer separately. TODO Trainlayer, AbstractTrainLayer.
 
-\subsubsection{Implementation of annealed importance sampling}
+%\subsubsection{Implementation of annealed importance sampling}
 
-TODO cross validation
+%TODO cross validation
 
 
 
@@ -1152,19 +1153,26 @@ TODO discuss GPU
 
 \clearpage
 \onehalfspacing
-\section{Publications}
+\section[Publications and declaration of own contributions]{Publications and declaration of \\ own contributions}
 Parts of this work have been published in the following articles:
 
+Boltzmann arxiv
 
-Basis for this was the work on the package BoltzmannMachines (see Appendix \ref{declcontr})
+JuliaConnectoR
 
-\section{Declaration of own contributions}\label{declcontr}
+dsBoltzmannMachines
 
 The contributions to the published packages and corresponding publications are as follows:
 
-\begin{itemize}
-\item 
-\end{itemize}
+TODO
+
+The package \apkg{BoltzmannMachines} has furthermore been used for the following articles:
+
+Martin
+
+Moritz Bioinformatics x2
+
+
 
 \setlength{\emergencystretch}{3em}
 
