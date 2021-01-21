@@ -968,13 +968,15 @@ For each of the models of Boltzmann machines, it is possible to generate samples
 The training is handled separately for DBMs and RBMs via the functions \inlinecode{fitdbm} and \inlinecode{fitrbm}, which can be used for fitting an RBM or DBM model, respectively. 
 These functions get as input a data set and all hyperparameters for training the model and return the model as output.
 
-A DBM can be fine-tuned (see \ref{dbmtraining}) with the function \inlinecode{traindbm!}.
-The training algorithm is based on the mean-field approximation, which is calculated via the \inlinecode{meanfield} function.
+Pre-training and fine-tuning of a DBM can either be done in one step via \inlinecode{fitdbm}, or in two separate steps.
+Pre-training of DBMs or training of DBNs (see \ref{dbns}), can be performed via \inlinecode{stackrbms}.
+DBMs (see \ref{dbmtraining}) can be then be fine-tuned with the function \inlinecode{traindbm!}.
+The fine-tuning algorithm is based on the mean-field approximation, which is calculated via the \inlinecode{meanfield} function.
 The \inlinecode{traindbm!} function operates on a (pre-trained) DBM and modifies its weights.
 The reason why the function name ends with an exclamation mark is that this is a Julia convention for functions that mutate their arguments.
 The lower bound of the likelihood, which is the optimization objective of the DBM training algorithm, can be calculated via \inlinecode{logproblowerbound}.
 
-(Multimodal) DBMs are modeled as arrays (i.e. one-dimensional vectors) of RBMs.
+(Multimodal) DBMs are modeled as arrays (i.e.\ one-dimensional vectors) of RBMs.
 In the UML diagram this composition of DBMs from vectors of RBMs is indicated by the UML composition relationship, which is depicted as line with filled diamond at the end.
 Using RBMs as building blocks allows a very flexible composition of DBMs.
 Figure \ref{mdbmimplasstack} shows how RBMs and \inlinecode{PartitionedRBM}s can be  arranged  and stacked to form \inlinecode{MultimodalDBM}s or \inlinecode{PartitionedBernoulliDBM}s.
@@ -995,12 +997,6 @@ For example, summing out of nodes can be done more flexibly and effectively in D
 
 
 Different types of RBMs modeled as Julia composite types. 
-
-
-
-
-
-
 
 %TODO hiddenpotential: deterministic value, here expected value see \ref{reconstructionerror}
 % The expected value is used for contrastive divergence.
