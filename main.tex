@@ -22,7 +22,7 @@
 \usepackage{setspace}
 \usepackage{lscape}
 \usepackage[a4paper,%bindingoffset=0.2in,
-            left=2.8cm,right=2.8cm,top=2.1cm,bottom=2.5cm]{geometry}
+            left=2.5cm,right=2.5cm,top=2.1cm,bottom=2.5cm]{geometry}
 \usepackage{helvet}
 \usepackage{pdfpages}
 \renewcommand{\familydefault}{\sfdefault}
@@ -936,18 +936,49 @@ With respect also to the biomedical data sets of rather small sample sizes, suff
 
 \subsubsection{Modeling}
 
-In our implementation multimodal deep Boltzmann machines, corresponding to the type \inlinecode{MultimodalDBM}, are constructed using restricted Boltzmann machines as building blocks (see figure \ref{mdbmimplasstack}). For each of the models of Boltzmann machines, it is possible to generate samples by using Gibbs sampling. For efficiently evaluating very small models, the likelihood and the partition function can be calculated exactly. This is also useful to test AIS by comparing the values estimated in small models to the exact ones.
+In the following, we take a closer look how the \apkg{BoltzmannMachines} Julia package handles the different algorithms and all their different variants.
+An overview over the type relations can be found in figure \ref{umlclassdiagram}.
+The diagram show the relations of the types in the \apkg{BoltzmannMachines} Julia package as a UML class diagram \citep{uml}.
+Although the Julia language does not have the concept of classes and visibility, the diagram is suited well to show the connections of the types with the most important associated functions, even if only a subset of the expressiveness of UML is needed.
+Instead of using classical object oriented inheritance that Java or C++ offer, inheritance relationships can be implemented in Julia using {\em multiple dispatch} of the functions.
+Multiple dispatch is one of the main design features of Julia.
+It is the ability to specialize functions for all combinations of input arguments \citep{zappa_nardelli_julia_2018}.
+This is similar to function overloading in classical object oriented programming, such as in Java \citep{arnold2005java} or C++ \citep{cppstandard}, but it offers a cleaner approach.
+The approach of Julia allows more flexibility and is more transparent, as the dispatching in Julia happens dynamically at run-time.
+So always the actual run-time type of objects is used to determine the method instead of the compile-time type.
+
+
+
+DBMs are modeled as arrays (i.e. one-dimensional vectors) of RBMs.
+This design a very flexible composition of DBMs.
+Different types of RBMs modeled as Julia composite types. 
+
+
+(Multimodal) deep Boltzmann machines are constructed using restricted Boltzmann machines as building blocks.
+Multimodal DBMs correspond to the type \inlinecode{MultimodalDBM}.
+This is a vector of RBMs or  \inlinecode{PartitionedRBMs} can be used to combine different RBMs, which may have different types, to build stacks of partitioned RBMs that form (see figure \ref{mdbmimplasstack}) TODO.
+
+
+  For each of the models of Boltzmann machines, it is possible to generate samples by using Gibbs sampling. For efficiently evaluating very small models, the likelihood and the partition function can be calculated exactly. This is also useful to test AIS by comparing the values estimated in small models to the exact ones.
+
+
+
+
 
 %TODO hiddenpotential: deterministic value, here expected value see \ref{reconstructionerror}
 % The expected value is used for contrastive divergence.
+% scaling for dbm pre-training
+As recommended by \citep{hinton_practical_2012} (section 3.2 there), the probabilities are used for the visible states in the last step of sampling in the model distribution.
 
+\inlinecode{fitrbm} and \inlinecode{fitdbm} for fitting a complete RBM or DBM model, respectively. These functions get as input a data set and all hyperparameters for fitting the model.
 
 \begin{landscape}
 \begin{figure}
    \centering
-   \includegraphics[scale=0.41,trim={4cm 4cm 3cm 2.4cm},clip]{images/BoltzmannMachinesDiagram.pdf}
-   \caption{UML class diagram \citep{uml} of the type hierarchy for the Boltzmann machines in our Julia implementation. Although the Julia language does not have the concept of classes and visibility, the diagram is suited well to show the connections of the types with the most important associated functions.
-   For more details on these functions, see tables \ref{juliaFunTableTrain} and \ref{juliaFunTableEval}.}
+   \includegraphics[scale=0.5,trim={4cm 4cm 3cm 2.4cm},clip]{images/BoltzmannMachinesDiagram.pdf}
+   \caption{Overview of the type relationships and functions in the \apkg{Boltzmann machines} Julia package as a UML class diagram 
+%   For more details on these functions, see also tables \ref{juliaFunTableTrain} and \ref{juliaFunTableEval}.
+   }
    \label{umlclassdiagram}
 \end{figure}
 \end{landscape}

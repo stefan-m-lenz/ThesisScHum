@@ -21,6 +21,12 @@ Ackley, D.~H., Hinton, G.~E. \harvardand\ Sejnowski, T.~J.  \harvardyearleft
   Cognitive science} {\bf 9}(1),~147--169.
 \newblock Publisher: Elsevier.
 
+\harvarditem[Arnold et~al.]{Arnold, Gosling \harvardand\
+  Holmes}{2005}{arnold2005java}
+Arnold, K., Gosling, J. \harvardand\ Holmes, D.  \harvardyearleft
+  2005\harvardyearright , {\em The Java programming language}, Addison Wesley
+  Professional.
+
 \harvarditem{Bengio}{2012}{bengio2012practical}
 Bengio, Y.  \harvardyearleft 2012\harvardyearright , Practical recommendations
   for gradient-based training of deep architectures, {\em in} `Neural networks:
@@ -161,6 +167,11 @@ Innes, M.  \harvardyearleft 2018\harvardyearright , `Flux: {Elegant} machine
   learning with \proglang{Julia}.', {\em Journal of Open Source Software} {\bf
   3}(25),~602.
 \newline\harvardurl{https://joss.theoj.org/papers/10.21105/joss.00602.pdf}
+
+\harvarditem{{ISO/IEC}}{1998}{cppstandard}
+{ISO/IEC}  \harvardyearleft 1998\harvardyearright , {\em {ISO International
+  Standard ISO/IEC 14882:1998}: {Programming} language --- {C++}},
+  International Organization for Standardization (ISO), Geneva, Switzerland.
 
 \harvarditem{{ISO/IEC JTC 1/SC 22}}{1996}{ebnf}
 {ISO/IEC JTC 1/SC 22}  \harvardyearleft 1996\harvardyearright , `Information
@@ -313,6 +324,13 @@ Xianyi, Z. \harvardand\ Kroeker, M.  \harvardyearleft 2020\harvardyearright ,
 Yuret, D.  \harvardyearleft 2016\harvardyearright , `{Knet} - {Koç}
   {University} deep learning framework for {Julia}'.
 \newline\harvardurl{https://github.com/denizyuret/Knet.jl}
+
+\harvarditem[Zappa~Nardelli et~al.]{Zappa~Nardelli, Belyakova, Pelenitsyn,
+  Chung, Bezanson \harvardand\ Vitek}{2018}{zappa_nardelli_julia_2018}
+Zappa~Nardelli, F., Belyakova, J., Pelenitsyn, A., Chung, B., Bezanson, J.
+  \harvardand\ Vitek, J.  \harvardyearleft 2018\harvardyearright , `Julia
+  subtyping: a rational reconstruction', {\em Proceedings of the ACM on
+  Programming Languages} {\bf 2}(OOPSLA),~113:1--113:27.
 
 \harvarditem{Zhang}{2018}{mochajl}
 Zhang, C.  \harvardyearleft 2018\harvardyearright , `{Mocha.jl} - deep learning
