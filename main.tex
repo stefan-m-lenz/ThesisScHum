@@ -967,17 +967,14 @@ For each of the models of Boltzmann machines, it is possible to generate samples
 
 The training is handled separately for DBMs and RBMs via the functions \inlinecode{fitrbm} and \inlinecode{fitdbm}, which can be used for fitting an RBM or DBM model, respectively. 
 These functions get as input a data set and all hyperparameters for training the model and return the trained model.
+
 the function \inlinecode{traindbm!} performs the 
 The lower bound of the likelihood, which is the optimization objective of the DBM training algorithm, can be calculated via \inlinecode{logproblowerbound}.
 
 (Multimodal) DBMs are modeled as arrays (i.e. one-dimensional vectors) of RBMs.
-This design a very flexible composition of DBMs.
-In the diagram this is indicated by the composition relationship (line with filled diamond).
-An optimization of the algorithms for DBMs that contain only Bernoulli distributed nodes, such as the \inlinecode{BasicDBM} or the \inlinecode{PartitionedBernoulliDBM} is possible by specializing methods for these types.
-For example, summing out of nodes can be done more flexibly and effectively in DBMs with only Bernoulli distributed nodes (see figure \ref{aissummingout}).
-(Multimodal) deep Boltzmann machines are constructed using restricted Boltzmann machines as building blocks.
-Multimodal DBMs correspond to the type \inlinecode{MultimodalDBM}.
-This is a vector of RBMs or  \inlinecode{PartitionedRBMs} can be used to combine different RBMs, which may have different types, to build stacks of partitioned RBMs that form (see figure \ref{mdbmimplasstack}).
+In the UML diagram this composition of DBMs from vectors of RBMs is indicated by the UML composition relationship (line with filled diamond at the end).
+Using RBMs as building blocks allows a very flexible composition of DBMs.
+Figure \ref{mdbmimplasstack} shows how RBMs and \inlinecode{PartitionedRBM}s can be  arranged  and stacked to form \inlinecode{MultimodalDBM}s or \inlinecode{PartitionedBernoulliDBM}s.
 
 \begin{figure}[h]
    \centering
@@ -990,6 +987,8 @@ This is a vector of RBMs or  \inlinecode{PartitionedRBMs} can be used to combine
 \label{mdbmimplasstack}
 \end{figure}
 
+An optimization of the algorithms for DBMs that contain only Bernoulli distributed nodes, such as the \inlinecode{BasicDBM} or the \inlinecode{PartitionedBernoulliDBM} is possible by specializing methods for these types.
+For example, summing out of nodes can be done more flexibly and effectively in DBMs with only Bernoulli distributed nodes (see figure \ref{aissummingout}).
 
 Different types of RBMs modeled as Julia composite types. 
 
@@ -1002,7 +1001,8 @@ Different types of RBMs modeled as Julia composite types.
 %TODO hiddenpotential: deterministic value, here expected value see \ref{reconstructionerror}
 % The expected value is used for contrastive divergence.
 % scaling for dbm pre-training
-As recommended by \citep{hinton_practical_2012} (section 3.2 there), the probabilities are used for the visible states in the last step of sampling in the model distribution.
+
+TODO visiblepotential: As recommended by \citep{hinton_practical_2012} (section 3.2 there), the probabilities are used for the visible states in the last step of sampling in the model distribution.
 
 
 
@@ -1012,7 +1012,7 @@ As recommended by \citep{hinton_practical_2012} (section 3.2 there), the probabi
 
 
 \rowcolors{1}{gray!25}{white} % alternating row colors in tables
-\begin{table}
+\begin{table}[h]
 \begin{tabularx}{\textwidth}{X}
    \hline
    \inlinecode{fitrbm(x;...)} \rightpageref{bms_fitrbm} \\
@@ -1029,7 +1029,7 @@ As recommended by \citep{hinton_practical_2012} (section 3.2 there), the probabi
 \end{table}
 
 \rowcolors{1}{gray!25}{white}
-\begin{table}
+\begin{table}[h]
    \begin{tabularx}{\textwidth}{X}
    \hline
    \inlinecode{logpartitionfunction(bm; ... )} \rightpageref{bms_logpartitionfunction}\\
