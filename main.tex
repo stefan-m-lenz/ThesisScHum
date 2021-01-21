@@ -805,7 +805,7 @@ Result: officially registered Julia package. Only package covering the DBM train
 It is also the only known published implementation of AIS on DBMs with a flexible choice of the architecture, including different types of visible nodes.
 Evaluation Convenient monitoring.
 
-\subsubsection{Comparison with existing implementations}
+\subsubsection{Feature overview and comparison with existing implementations}\label{BMfeatures}
 
 At the time of the decision whether to start a new implementation, several software implementations for RBMs and DBNs already existed.
 Yet, there was no user-friendly software solution for training and evaluating DBMs.
@@ -952,7 +952,7 @@ So always the actual run-time type of objects is used to determine the method in
 \begin{landscape}
 \begin{figure}
    \centering
-   \includegraphics[scale=0.5,trim={5.3cm 4cm 6.8cm 3.4cm},clip,angle=-90]{images/BoltzmannMachinesDiagram.pdf}
+   \includegraphics[scale=0.5,trim={5.2cm 4cm 6.8cm 3.4cm},clip,angle=-90]{images/BoltzmannMachinesDiagram.pdf}
    \caption{Overview of the type relationships and functions in the \apkg{Boltzmann machines} Julia package as a UML class diagram 
 %   For more details on these functions, see also tables \ref{juliaFunTableTrain} and \ref{juliaFunTableEval}.
    }
@@ -963,52 +963,14 @@ So always the actual run-time type of objects is used to determine the method in
 
 All types of Boltzmann machines in the package have the common abstract supertype \inlinecode{AbstractBM}.
 The functions that are available for all different subtypes can be seen in \ref{umlclassdiagram} in the box below the type name.
-For each of the models of Boltzmann machines, it is possible to generate samples by using Gibbs sampling. For efficiently evaluating very small models, the likelihood and the partition function can be calculated exactly. This is also useful to test AIS by comparing the values estimated in small models to the exact ones.
+For each of the models of Boltzmann machines, it is possible to generate samples by using Gibbs sampling via the \inlinecode{gibbssample!} function.
+Conditional sampling is conveniently possible via the function \inlinecode{gibbssamplecond!} (see p.\ \pageref{bms_gibbssample!}).
+Functions for evaluating the likelihood are also available for all implemented Boltzmann models.
+For efficiently evaluating very small models, the likelihood and the partition function can be calculated exactly. This is also used for testing AIS by comparing the values estimated in small models to the exact ones.
 
 The training is handled separately for DBMs and RBMs via the functions \inlinecode{fitdbm} and \inlinecode{fitrbm}, which can be used for fitting an RBM or DBM model, respectively. 
 These functions get as input a data set and all hyperparameters for training the model and return the model as output.
-
-Pre-training and fine-tuning of a DBM can either be done in one step via \inlinecode{fitdbm}, or in two separate steps.
-Pre-training of DBMs or training of DBNs (see \ref{dbns}), can be performed via \inlinecode{stackrbms}.
-DBMs (see \ref{dbmtraining}) can be then be fine-tuned with the function \inlinecode{traindbm!}.
-The fine-tuning algorithm is based on the mean-field approximation, which is calculated via the \inlinecode{meanfield} function.
-The \inlinecode{traindbm!} function operates on a (pre-trained) DBM and modifies its weights.
-The reason why the function name ends with an exclamation mark is that this is a Julia convention for functions that mutate their arguments.
-The lower bound of the likelihood, which is the optimization objective of the DBM training algorithm, can be calculated via \inlinecode{logproblowerbound}.
-
-(Multimodal) DBMs are modeled as arrays (i.e.\ one-dimensional vectors) of RBMs.
-In the UML diagram this composition of DBMs from vectors of RBMs is indicated by the UML composition relationship, which is depicted as line with filled diamond at the end.
-Using RBMs as building blocks allows a very flexible composition of DBMs.
-Figure \ref{mdbmimplasstack} shows how RBMs and \inlinecode{PartitionedRBM}s can be  arranged  and stacked to form \inlinecode{MultimodalDBM}s or \inlinecode{PartitionedBernoulliDBM}s.
-An optimization of the algorithms for DBMs that contain only Bernoulli distributed nodes, such as the \inlinecode{BasicDBM} or the \inlinecode{PartitionedBernoulliDBM} is possible by specializing methods for these types.
-For example, summing out of nodes can be done more flexibly and effectively in DBMs with only Bernoulli distributed nodes (see figure \ref{aissummingout}).
-
-\begin{figure}[h]
-   \centering
-   \includegraphics[scale=3.]{images/MDBMImpl.eps}
-   \caption{Multimodal deep Boltzmann machines are modeled as a stack of restricted Boltzmann machines. On the left hand side an example model is depicted as a graph and on the right hand side the corresponding modelling in the Julia package is shown.
-   The first/lowest and the second layer are modelled as a \inlinecode{PartitionedRBM}s (white boxes with grey borders), each containing a vector holding two \inlinecode{BernoulliRBM}s (grey filled boxes).
-   The third/highest layer is simply a \inlinecode{BernoulliRBM}.
-   All three \inlinecode{AbstractRBMs} in a vector form the \inlinecode{MultimodalDBM}.
-   The arrows indicate the ordering of the vectors.}
-\label{mdbmimplasstack}
-\end{figure}
-
-
-
-Different types of RBMs modeled as Julia composite types. 
-
-%TODO hiddenpotential: deterministic value, here expected value see \ref{reconstructionerror}
-% The expected value is used for contrastive divergence.
-% scaling for dbm pre-training
-
-TODO visiblepotential: As recommended by \citep{hinton_practical_2012} (section 3.2 there), the probabilities are used for the visible states in the last step of sampling in the model distribution.
-
-
-
-
-
-
+Table \ref{juliaFunTableTrain} gives an overview of all functions that can be used for training RBMs and DBMs.
 
 
 \rowcolors{1}{gray!25}{white} % alternating row colors in tables
@@ -1017,16 +979,28 @@ TODO visiblepotential: As recommended by \citep{hinton_practical_2012} (section 
    \hline
    \inlinecode{fitrbm(x;...)} \rightpageref{bms_fitrbm} \\
    Fits a restricted Boltzmann machine model for a given data set \inlinecode{x} and additional model hyperparameters \\
-   \inlinecode{fitdbm(x; ...)} \rightpageref{bms_fitdbm} \\
-   Fits a (multimodal) deep Boltzmann machine model for a given data set \inlinecode{x} and model hyperparameters \\
-   \inlinecode{meanfield(dbm, x)} \rightpageref{bms_meanfield}\\
-   Calculates the mean-field activations of the \inlinecode{dbm}'s hidden nodes given the activations of the visible nodes \inlinecode{x}. \\
    \inlinecode{stackrbms(x;...)} \rightpageref{bms_stackrbms}\\
    Pre-trains a stack of RBMs on a given data set \inlinecode{x}. It can either be used for pre-training of a DBM or to train a deep belief network. \\
+   \inlinecode{traindbm!(dbm, x; ...)} \rightpageref{bms_traindbm!} \\
+   Fine-tunes a DBM on the data set \inlinecode{x} using the mean-field approximation procedure \\
+     \inlinecode{fitdbm(x; ...)} \rightpageref{bms_fitdbm} \\
+   Fits a (multimodal) deep Boltzmann machine model for a given data set \inlinecode{x} and model hyperparameters \\
    \hline
 \end{tabularx}
-\caption{Functions in the Julia package for training}\label{juliaFunTableTrain}
+\caption{Functions in the Julia package for training RBMs and DBMs. All these functions return the trained model. The number of training epochs can be specified via the named argument \inlinecode{epochs}. There are many more hyperparameters which can be specified. For a more detailed description of the arguments, see the page references to the package documentation, which can be found in the appendix.}\label{juliaFunTableTrain}
 \end{table}
+
+Pre-training and fine-tuning of a DBM can either be done in one step via \inlinecode{fitdbm}, or in two separate steps.
+Pre-training of DBMs or training of DBNs (see \ref{dbns}), can be performed via \inlinecode{stackrbms}.
+DBMs (see \ref{dbmtraining}) can be then be fine-tuned with the function \inlinecode{traindbm!}.
+The fine-tuning algorithm is based on the mean-field approximation, which is calculated via the \inlinecode{meanfield} function.
+The \inlinecode{traindbm!} function operates on a (pre-trained) DBM and modifies its weights.
+The reason why the function name ends with an exclamation mark is that this is a Julia convention for functions that mutate their arguments.
+
+The lower bound of the likelihood, which is the optimization objective of the DBM training algorithm, can be calculated via \inlinecode{logproblowerbound}.
+This function is available for (multimodal) DBMs in addition to the ones listed for \code{AbstractBM}s.
+An overview of the functions for evaluating the likelihood in RBMs and DBMs is given in table \ref{juliaFunTableEval}.
+
 
 \rowcolors{1}{gray!25}{white}
 \begin{table}[h]
@@ -1044,7 +1018,10 @@ TODO visiblepotential: As recommended by \citep{hinton_practical_2012} (section 
       \inlinecode{loglikelihood(dbm, x, logz; ...)}
    } \rightpageref{bms_loglikelihood} \\
    Estimates the log-likelihood of a (multimodal) deep Boltzmann machine using AIS for each sample. Additional hyperparameters for AIS may be provided. \\
-   \inlinecode{logproblowerbound(dbm, x; ...)} \rightpageref{bms_logproblowerbound} \\
+   \makecell[tl]{ 
+   	\inlinecode{logproblowerbound(dbm, x; ...)} \\
+   	   	\inlinecode{logproblowerbound(dbm, x, logz; ...)} \\
+   	} \rightpageref{bms_logproblowerbound} \\
    Estimates the stochastic lower bound of the log-likelihood that is optimized by the training algorithm with mean-field optimization. \\
    \inlinecode{exactloglikelihood(bm, x)} \rightpageref{bms_exactloglikelihood} \\
    Calculates the log-likelihood of a deep Boltzmann machine. \\
@@ -1052,9 +1029,48 @@ TODO visiblepotential: As recommended by \citep{hinton_practical_2012} (section 
    Calculates the log of the partition function for a restricted Boltzmann machine. \\
    \hline
 \end{tabularx}
-\caption{Functions in the Julia package for evaluating the likelihood of trained models. The exact calculations of the partition function and the likelihood are only feasible for very small models. For the complexity of the corresponding algorithms, see \ref{methodExactloglik}.}
+\caption{Functions in the Julia package for evaluating the likelihood of RBMs and DBMs. The partition function is estimated via AIS unless a value for the parameter \inlinecode{logz} is provided. This can also be calculated exactly but the this is only feasible for very small models. (For the algorithmic complexity of the corresponding algorithms, see \ref{methodExactloglik}.) }
 \label{juliaFunTableEval}
 \end{table}
+
+
+(Multimodal) DBMs are modeled as arrays (i.e.\ one-dimensional vectors) of RBMs.
+In the UML diagram this composition of DBMs from vectors of RBMs is indicated by the UML composition relationship, which is depicted as line with filled diamond at the end.
+Using RBMs as building blocks allows a very flexible composition of DBMs.
+Figure \ref{mdbmimplasstack} shows how RBMs and \inlinecode{PartitionedRBM}s can be  arranged  and stacked to form \inlinecode{MultimodalDBM}s or \inlinecode{PartitionedBernoulliDBM}s.
+An optimization of the algorithms for DBMs that contain only Bernoulli distributed nodes such as the \inlinecode{BasicDBM} or the \inlinecode{PartitionedBernoulliDBM} is possible by specializing methods for these types.
+For example, summing out nodes can be done more flexibly and effectively in DBMs with only Bernoulli distributed nodes (see figure \ref{aissummingout}).
+
+\begin{figure}[h]
+   \centering
+   \includegraphics[scale=3.]{images/MDBMImpl.eps}
+   \caption{Multimodal deep Boltzmann machines are modeled as a stack of restricted Boltzmann machines. On the left hand side an example model is depicted as a graph and on the right hand side the corresponding modelling in the Julia package is shown.
+   The first/lowest and the second layer are modelled as a \inlinecode{PartitionedRBM}s (white boxes with grey borders), each containing a vector holding two \inlinecode{BernoulliRBM}s (grey filled boxes).
+   The third/highest layer is simply a \inlinecode{BernoulliRBM}.
+   All three \inlinecode{AbstractRBMs} in a vector form the \inlinecode{MultimodalDBM}.
+   The arrows indicate the ordering of the vectors.}
+\label{mdbmimplasstack}
+\end{figure}
+
+Different types of RBMs are modeled as Julia composite types, which encapsulate the model parameters.
+The abstract type for RBMs is \inlinecode{AbstractRBM}.
+The methods listed there are implemented for all subtypes of RBMs in the package.
+The RBMs described in \ref{rbmtraining} are subtypes of \inlinecode{AbstractXBernoulliRBM}, which is a supertype for all RBMs with Bernoulli distributed hidden nodes.
+This abstraction is useful for exploiting the commonalities between RBMs and is used to reduce code duplication.
+
+The function \inlinecode{samplehidden} and \inlinecode{samplevisible} are used for Gibbs sampling to sample from $p(h|v)$ and $p(v|h)$ (see \ref{gibbssamplingrbm}).
+The functions \inlinecode{hiddenpotential} and \inlinecode{visiblepotential} calculate the deterministic activation potential $\EX p(h|v)$ and $\EX p(v|h)$, which is used for RBM training and DBN training (see \ref{dbns}).
+As recommended by \cite{hinton_practical_2012} the activation potential is used for the last update of the hidden units in Gibbs sampling (see section 3.1 there), and the probabilities are also used for the visible states in the last step of sampling in the model distribution (section 3.2 there).
+Calculating the \inlinecode{visiblepotential} is also needed for sampling in DBNs as shown in figure \ref{fig:dbn}, where the activation from the top layer is passed down to the visible layer in a deterministic way.
+For each of these functions for sampling and calculating the activation potential, there is also a function that is suffixed with an exclamation mark.
+These variants are mostly used in the implementation, as they allow to reuse allocated space, which makes the implementation much faster.
+
+The \inlinecode{BernoulliGaussianRBM} is an RBM with Bernoulli distributed visible nodes and Gaussian hidden nodes.
+This type was inspired by \cite{hinton_reducing_2006}, who use such an RBM layer with Gaussian hidden nodes in the top layer of a DBN for creating a better visualization of the dimensionality reduction.
+
+The \inlinecode{PartitionedRBM} is used as a brace around RBMs in a layer such that a partitioned layer of RBMs can be thought of and used like any \inlinecode{AbstractRBM} in the implementations of other algorithms.
+
+
 
 \subsubsection{Usage of the \apkg{BoltzmannMachines} Julia package}
 The \apkg{BoltzmannMachines} package has been registered in the official Julia package repository. It can be installed via:
@@ -1080,6 +1096,15 @@ The hyperparameters for layerwise pre-training can be defined for the whole netw
 \clearpage
 \section{Connecting R and Julia with the JuliaConnectoR}
 
+\subsection{Feature overview and comparison to existing solutions}
+TODO feature matrix aus JuliaConnectoR-Paper
+
+\subsection{Using \apkg{BoltzmannMachines} in R via the \apkg{JuliaConnector}}
+As mentioned in section \ref{BMfeatures}, there is currently no R package that implements deep Boltzmann machines.
+But via the \apkg{JuliaConnectoR}, all features of the \apkg{BoltzmannMachines} package become conveniently usable in R.
+This can be demonstrated by some examples, which show how easy it becomes to translate Julia code for training and evaluating deep and restricted Boltzmann machines to R code that calls the \apkg{BoltzmannMachines} Julia package via the \apkg{JuliaConnectoR} behind the scenes.
+
+\subsection{Implementation details}
 \begin{table}
 \begin{tabular}{lcl}
 \hiderowcolors
@@ -1092,14 +1117,14 @@ TODO EBNF syntax \citep{ebnf} für die Grammatik erklären
 
 The grammar is inspired by BSON \citep{bsonspec}.
 
-TODO Rest aus JuliaConnectoR-Paper hier einarbeiten
-
 
 %* A string is preceded by the number of bytes to UTF-8-encode the string.
 %* The sequence of unnamed/positional elements in a list is preceded by
 %  the number of (named) elements that follow.
 %* Standard output (after '0x50') or standard error output (after '0x5e')
 %  is preceded by the number of bytes that are sent.
+
+
 
 \FloatBarrier
 \section{Distributed deep learning with DataSHIELD}
