@@ -29,6 +29,7 @@
 \usepackage{titlesec}
 \usepackage{rotating}
 \setcounter{secnumdepth}{4}
+\usepackage{afterpage}
 
 \titleformat{\paragraph}
 {\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
@@ -940,17 +941,29 @@ In the following, we take a closer look how the \apkg{BoltzmannMachines} Julia p
 An overview over the type relations can be found in figure \ref{umlclassdiagram}.
 The diagram show the relations of the types in the \apkg{BoltzmannMachines} Julia package as a UML class diagram \citep{uml}.
 Although the Julia language does not have the concept of classes and visibility, the diagram is suited well to show the connections of the types with the most important associated functions, even if only a subset of the expressiveness of UML is needed.
-Instead of using classical object oriented inheritance that Java or C++ offer, inheritance relationships can be implemented in Julia using {\em multiple dispatch} of the functions.
+Instead of using classical object oriented inheritance that Java or C++ offer, inheritance relationships (triangle-shaped arrows in the UML diagram) with can be implemented in Julia using {\em multiple dispatch} of the functions.
 Multiple dispatch is one of the main design features of Julia.
 It is the ability to specialize functions for all combinations of input arguments \citep{zappa_nardelli_julia_2018}.
 This is similar to function overloading in classical object oriented programming, such as in Java \citep{arnold2005java} or C++ \citep{cppstandard}, but it offers a cleaner approach.
 The approach of Julia allows more flexibility and is more transparent, as the dispatching in Julia happens dynamically at run-time.
 So always the actual run-time type of objects is used to determine the method instead of the compile-time type.
 
-
-
-DBMs are modeled as arrays (i.e. one-dimensional vectors) of RBMs.
+\afterpage{%
+\begin{landscape}
+\begin{figure}
+   \centering
+   \includegraphics[scale=0.5,trim={5.3cm 4cm 6.8cm 3.4cm},clip,angle=-90]{images/BoltzmannMachinesDiagram.pdf}
+   \caption{Overview of the type relationships and functions in the \apkg{Boltzmann machines} Julia package as a UML class diagram 
+%   For more details on these functions, see also tables \ref{juliaFunTableTrain} and \ref{juliaFunTableEval}.
+   }
+   \label{umlclassdiagram}
+\end{figure}
+\end{landscape}
+}
+Figure \ref{umlclassdiagram} shows that (multimodal) DBMs are modeled as arrays (i.e. one-dimensional vectors) of RBMs.
 This design a very flexible composition of DBMs.
+In the diagram this is indicated by the composition relationship (line with filled diamond).
+An optimization of the algorithms for DBMs that contain only Bernoulli distributed nodes, such as the standard DBM.
 Different types of RBMs modeled as Julia composite types. 
 
 
@@ -959,7 +972,9 @@ Multimodal DBMs correspond to the type \inlinecode{MultimodalDBM}.
 This is a vector of RBMs or  \inlinecode{PartitionedRBMs} can be used to combine different RBMs, which may have different types, to build stacks of partitioned RBMs that form (see figure \ref{mdbmimplasstack}) TODO.
 
 
-  For each of the models of Boltzmann machines, it is possible to generate samples by using Gibbs sampling. For efficiently evaluating very small models, the likelihood and the partition function can be calculated exactly. This is also useful to test AIS by comparing the values estimated in small models to the exact ones.
+All types of Boltzmann machines have the common abstract supertype \inlinecode{AbstractBM}.
+The functions that are available for all different subtypes can be seen in \ref{umlclassdiagram} in the 
+For each of the models of Boltzmann machines, it is possible to generate samples by using Gibbs sampling. For efficiently evaluating very small models, the likelihood and the partition function can be calculated exactly. This is also useful to test AIS by comparing the values estimated in small models to the exact ones.
 
 
 
@@ -972,16 +987,7 @@ As recommended by \citep{hinton_practical_2012} (section 3.2 there), the probabi
 
 \inlinecode{fitrbm} and \inlinecode{fitdbm} for fitting a complete RBM or DBM model, respectively. These functions get as input a data set and all hyperparameters for fitting the model.
 
-\begin{landscape}
-\begin{figure}
-   \centering
-   \includegraphics[scale=0.5,trim={4cm 4cm 3cm 2.4cm},clip]{images/BoltzmannMachinesDiagram.pdf}
-   \caption{Overview of the type relationships and functions in the \apkg{Boltzmann machines} Julia package as a UML class diagram 
-%   For more details on these functions, see also tables \ref{juliaFunTableTrain} and \ref{juliaFunTableEval}.
-   }
-   \label{umlclassdiagram}
-\end{figure}
-\end{landscape}
+
 
 \begin{figure}[h]
    \centering
