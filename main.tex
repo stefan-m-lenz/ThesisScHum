@@ -805,7 +805,7 @@ Result: officially registered Julia package. Only package covering the DBM train
 It is also the only known published implementation of AIS on DBMs with a flexible choice of the architecture, including different types of visible nodes.
 Evaluation Convenient monitoring.
 
-\subsubsection{Existing implementations}
+\subsubsection{Comparison with existing implementations}
 
 At the time of the decision whether to start a new implementation, several software implementations for RBMs and DBNs already existed.
 Yet, there was no user-friendly software solution for training and evaluating DBMs.
@@ -891,9 +891,9 @@ This allows a very free use of the code, also for commercial purposes.
 The \apkg{darch} package uses the GPL-3 license \citep{gplv3}, which enforces that the code of derived software must also be provided as open source.
 
 
-%TODO Tensorflow.jl
+
 \subsubsection{Choice of implementation technology}
-%TODO TensorFlow, Flux, Pytorch etc. warum nicht diese verwenden
+
 Starting from the original MATLAB implementation of \cite{hinton_reducing_2006}, the first attempt for experimenting with the algorithms was to use MATLAB.
 The resulting MATLAB implementation was very slow, however, and the possibilities for making MATLAB code run faster are limited.
 At some point, if the performance needs to be increased further,  it becomes necessary to switch to C for time-critical portions of the code and call the C code using the MATLAB C interface.
@@ -965,16 +965,21 @@ All types of Boltzmann machines in the package have the common abstract supertyp
 The functions that are available for all different subtypes can be seen in \ref{umlclassdiagram} in the box below the type name.
 For each of the models of Boltzmann machines, it is possible to generate samples by using Gibbs sampling. For efficiently evaluating very small models, the likelihood and the partition function can be calculated exactly. This is also useful to test AIS by comparing the values estimated in small models to the exact ones.
 
-The training is handled separately for DBMs and RBMs via the functions \inlinecode{fitrbm} and \inlinecode{fitdbm}, which can be used for fitting an RBM or DBM model, respectively. 
-These functions get as input a data set and all hyperparameters for training the model and return the trained model.
+The training is handled separately for DBMs and RBMs via the functions \inlinecode{fitdbm} and \inlinecode{fitrbm}, which can be used for fitting an RBM or DBM model, respectively. 
+These functions get as input a data set and all hyperparameters for training the model and return the model as output.
 
-the function \inlinecode{traindbm!} performs the 
+A DBM can be fine-tuned (see \ref{dbmtraining}) with the function \inlinecode{traindbm!}.
+The training algorithm is based on the mean-field approximation, which is calculated via the \inlinecode{meanfield} function.
+The \inlinecode{traindbm!} function operates on a (pre-trained) DBM and modifies its weights.
+The reason why the function name ends with an exclamation mark is that this is a Julia convention for functions that mutate their arguments.
 The lower bound of the likelihood, which is the optimization objective of the DBM training algorithm, can be calculated via \inlinecode{logproblowerbound}.
 
 (Multimodal) DBMs are modeled as arrays (i.e. one-dimensional vectors) of RBMs.
-In the UML diagram this composition of DBMs from vectors of RBMs is indicated by the UML composition relationship (line with filled diamond at the end).
+In the UML diagram this composition of DBMs from vectors of RBMs is indicated by the UML composition relationship, which is depicted as line with filled diamond at the end.
 Using RBMs as building blocks allows a very flexible composition of DBMs.
 Figure \ref{mdbmimplasstack} shows how RBMs and \inlinecode{PartitionedRBM}s can be  arranged  and stacked to form \inlinecode{MultimodalDBM}s or \inlinecode{PartitionedBernoulliDBM}s.
+An optimization of the algorithms for DBMs that contain only Bernoulli distributed nodes, such as the \inlinecode{BasicDBM} or the \inlinecode{PartitionedBernoulliDBM} is possible by specializing methods for these types.
+For example, summing out of nodes can be done more flexibly and effectively in DBMs with only Bernoulli distributed nodes (see figure \ref{aissummingout}).
 
 \begin{figure}[h]
    \centering
@@ -987,8 +992,7 @@ Figure \ref{mdbmimplasstack} shows how RBMs and \inlinecode{PartitionedRBM}s can
 \label{mdbmimplasstack}
 \end{figure}
 
-An optimization of the algorithms for DBMs that contain only Bernoulli distributed nodes, such as the \inlinecode{BasicDBM} or the \inlinecode{PartitionedBernoulliDBM} is possible by specializing methods for these types.
-For example, summing out of nodes can be done more flexibly and effectively in DBMs with only Bernoulli distributed nodes (see figure \ref{aissummingout}).
+
 
 Different types of RBMs modeled as Julia composite types. 
 
@@ -1219,7 +1223,12 @@ Martin
 
 Moritz Bioinformatics x2
 
-
+Parts of this work have been presented in the following conferences
+GMDS 2018
+GMDS 2019
+JuliaCon 2018
+JuliaCon 2020
+eRum 2020
 
 \setlength{\emergencystretch}{3em}
 
