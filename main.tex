@@ -941,7 +941,7 @@ In the following, we take a closer look how the \apkg{BoltzmannMachines} Julia p
 An overview over the type relations can be found in figure \ref{umlclassdiagram}.
 The diagram show the relations of the types in the \apkg{BoltzmannMachines} Julia package as a UML class diagram \citep{uml}.
 Although the Julia language does not have the concept of classes and visibility, the diagram is suited well to show the connections of the types with the most important associated functions, even if only a subset of the expressiveness of UML is needed.
-Instead of using classical object oriented inheritance that Java or C++ offer, inheritance relationships (triangle-shaped arrows in the UML diagram) with can be implemented in Julia using {\em multiple dispatch} of the functions.
+Instead of using classical object oriented inheritance such as in Java or C++, inheritance relationships (triangle-shaped arrows in the UML diagram) can be implemented in Julia using {\em multiple dispatch} of the functions.
 Multiple dispatch is one of the main design features of Julia.
 It is the ability to specialize functions for all combinations of input arguments \citep{zappa_nardelli_julia_2018}.
 This is similar to function overloading in classical object oriented programming, such as in Java \citep{arnold2005java} or C++ \citep{cppstandard}, but it offers a cleaner approach.
@@ -960,34 +960,24 @@ So always the actual run-time type of objects is used to determine the method in
 \end{figure}
 \end{landscape}
 }
-Figure \ref{umlclassdiagram} shows that (multimodal) DBMs are modeled as arrays (i.e. one-dimensional vectors) of RBMs.
-This design a very flexible composition of DBMs.
-In the diagram this is indicated by the composition relationship (line with filled diamond).
-An optimization of the algorithms for DBMs that contain only Bernoulli distributed nodes, such as the standard DBM.
-Different types of RBMs modeled as Julia composite types. 
 
-
-(Multimodal) deep Boltzmann machines are constructed using restricted Boltzmann machines as building blocks.
-Multimodal DBMs correspond to the type \inlinecode{MultimodalDBM}.
-This is a vector of RBMs or  \inlinecode{PartitionedRBMs} can be used to combine different RBMs, which may have different types, to build stacks of partitioned RBMs that form (see figure \ref{mdbmimplasstack}) TODO.
-
-
-All types of Boltzmann machines have the common abstract supertype \inlinecode{AbstractBM}.
-The functions that are available for all different subtypes can be seen in \ref{umlclassdiagram} in the 
+All types of Boltzmann machines in the package have the common abstract supertype \inlinecode{AbstractBM}.
+The functions that are available for all different subtypes can be seen in \ref{umlclassdiagram} in the box below the type name.
 For each of the models of Boltzmann machines, it is possible to generate samples by using Gibbs sampling. For efficiently evaluating very small models, the likelihood and the partition function can be calculated exactly. This is also useful to test AIS by comparing the values estimated in small models to the exact ones.
 
+The training is handled separately for DBMs and RBMs via the functions \inlinecode{fitrbm} and \inlinecode{fitdbm}, which can be used for fitting an RBM or DBM model, respectively. 
+These functions get as input a data set and all hyperparameters for training the model and return the trained model.
+the function \inlinecode{traindbm!} performs the 
+The lower bound of the likelihood, which is the optimization objective of the DBM training algorithm, can be calculated via \inlinecode{logproblowerbound}.
 
-
-
-
-%TODO hiddenpotential: deterministic value, here expected value see \ref{reconstructionerror}
-% The expected value is used for contrastive divergence.
-% scaling for dbm pre-training
-As recommended by \citep{hinton_practical_2012} (section 3.2 there), the probabilities are used for the visible states in the last step of sampling in the model distribution.
-
-\inlinecode{fitrbm} and \inlinecode{fitdbm} for fitting a complete RBM or DBM model, respectively. These functions get as input a data set and all hyperparameters for fitting the model.
-
-
+(Multimodal) DBMs are modeled as arrays (i.e. one-dimensional vectors) of RBMs.
+This design a very flexible composition of DBMs.
+In the diagram this is indicated by the composition relationship (line with filled diamond).
+An optimization of the algorithms for DBMs that contain only Bernoulli distributed nodes, such as the \inlinecode{BasicDBM} or the \inlinecode{PartitionedBernoulliDBM} is possible by specializing methods for these types.
+For example, summing out of nodes can be done more flexibly and effectively in DBMs with only Bernoulli distributed nodes (see figure \ref{aissummingout}).
+(Multimodal) deep Boltzmann machines are constructed using restricted Boltzmann machines as building blocks.
+Multimodal DBMs correspond to the type \inlinecode{MultimodalDBM}.
+This is a vector of RBMs or  \inlinecode{PartitionedRBMs} can be used to combine different RBMs, which may have different types, to build stacks of partitioned RBMs that form (see figure \ref{mdbmimplasstack}).
 
 \begin{figure}[h]
    \centering
@@ -999,6 +989,26 @@ As recommended by \citep{hinton_practical_2012} (section 3.2 there), the probabi
    The arrows indicate the ordering of the vectors.}
 \label{mdbmimplasstack}
 \end{figure}
+
+
+Different types of RBMs modeled as Julia composite types. 
+
+
+
+
+
+
+
+%TODO hiddenpotential: deterministic value, here expected value see \ref{reconstructionerror}
+% The expected value is used for contrastive divergence.
+% scaling for dbm pre-training
+As recommended by \citep{hinton_practical_2012} (section 3.2 there), the probabilities are used for the visible states in the last step of sampling in the model distribution.
+
+
+
+
+
+
 
 
 \rowcolors{1}{gray!25}{white} % alternating row colors in tables
