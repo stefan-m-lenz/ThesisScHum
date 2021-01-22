@@ -134,7 +134,7 @@ With this ability, Boltzmann machines can be employed as ``generative models".
 The following parts of this section give an overview of the mathematical definitions surrounding Boltzmann machines that will be necessary to understand how Boltzmann machines can be trained and used.
 This also includes the definition of some terminology that is commonly used in the literature about Boltzmann machines.
 
-\subsubsection{Basic properties of Boltzmann machines}\label{basicbmproperties}
+\subsubsection{Definition of Boltzmann machines}\label{basicbmproperties}
 
 A Boltzmann machine model with parameters $\Theta$ defines a probability distribution $p(x)$ for a random variable $x = (v, h)$ in a probability space $\Omega$ via the energy function $E(v, h; \Theta)$:
 \begin{equation}
@@ -178,7 +178,7 @@ For an intuitive overview of the architectures of the different types that are c
  \end{figure}
 
 
-\subsubsection{Types of restricted Boltzmann machines}\label{rbmtypes}
+\subsubsection{Basic properties of restricted Boltzmann machines}\label{rbmtypes}
 
 \emph{Restricted Boltzmann machines} \citep{smolensky1986foundations}, or RBMs,  consist of two layers, a visible layer $v$, which receives the input data, and a hidden layer $h$, which encodes latent features of the data. For a graphical depiction, see figure \ref{fig:bmsoverview}B.
 The nodes inside the same layer are not connected to each other, and therefore, the network has the form of a bipartite graph.
@@ -221,8 +221,8 @@ F(v) = - a^T v - \sum_{j=1}^{n_H} \log \left (1 + e^{(W^T v + b)_j}\right).
 The trick for deriving the formula of the free energy is to ``analytically sum out" the hidden units \citep{sala2012anefficient}.
 The master thesis of \cite{krizhevsky2009tinyimagesthesis} is a very good resource for looking up the complete derivations of these formulas. This holds not only for the theory of RBMs with Bernoulli distributed nodes but also in particular for RBMs with Gaussian distributed visible nodes, which are presented next.
 
-\paragraph{Gaussian distributed visible nodes for continuous data}\label{gaussianrbm}
-One way of modeling continuous values for $v$ are restricted Boltzmann machines with Gaussian distribution of the visible variables and Bernoulli distributed hidden variables. The energy of the model is defined as
+\paragraph{Gaussian distributed visible nodes}\label{gaussianrbm}
+One approach for modeling continuous values for $v$ are restricted Boltzmann machines with Gaussian distribution of the visible variables and Bernoulli distributed hidden variables. The energy of the model is defined as
 \begin{equation}
    E(v,h) = \sum_{i=1}^{n_V}\frac{(v_i - a_i)^2}{2\sigma_i^2} - b^T h - \sum_{i=1}^{n_V} \frac{(Wh)_i}{\sigma_i}
    \label{eqn:energyformulagbrbm}
@@ -795,7 +795,7 @@ p^*(h) &= \sum_v e^{-E(v,h)} \\
 \end{align*}
 Here $C$ denotes the set of all index sets of the dummy variables, where each index set belongs to a categorical variable.
 
-\subsection{Implementation}
+\subsection{Implementation of the \apkg{BoltzmannMachines} Julia package}
 TODO Einleitung zur Implementation: kurz features abreißen.
 A first product of this work on deep and restricted Boltzmann machines algorithms is a software implementation that aims at  ....
 Algorithms described previously 
@@ -935,13 +935,13 @@ With respect also to the biomedical data sets of rather small sample sizes, suff
 
 
 
-\subsubsection{Modeling}
+\subsubsection{Package interface}
 
-In the following, we take a closer look how the \apkg{BoltzmannMachines} Julia package handles the different algorithms and all their different variants.
+In the following, we take a closer look at how the \apkg{BoltzmannMachines} Julia package handles the different algorithms and all their different variants.
 An overview over the type relations can be found in figure \ref{umlclassdiagram}.
 The diagram show the relations of the types in the \apkg{BoltzmannMachines} Julia package as a UML class diagram \citep{uml}.
 Although the Julia language does not have the concept of classes and visibility, the diagram is suited well to show the connections of the types with the most important associated functions, even if only a subset of the expressiveness of UML is needed.
-Instead of using classical object oriented inheritance such as in Java or C++, inheritance relationships (triangle-shaped arrows in the UML diagram) can be implemented in Julia using {\em multiple dispatch} of the functions.
+Instead of using classical object oriented inheritance such as in Java or C++, inheritance relationships (triangle-shaped arrows in the UML diagram) can be implemented in Julia using {\em multiple dispatch} of functions.
 Multiple dispatch is one of the main design features of Julia.
 It is the ability to specialize functions for all combinations of input arguments \citep{zappa_nardelli_julia_2018}.
 This is similar to function overloading in classical object oriented programming, such as in Java \citep{arnold2005java} or C++ \citep{cppstandard}, but it offers a cleaner approach.
@@ -962,7 +962,7 @@ So always the actual run-time type of objects is used to determine the method in
 }
 
 All types of Boltzmann machines in the package have the common abstract supertype \inlinecode{AbstractBM}.
-The functions that are available for all different subtypes can be seen in \ref{umlclassdiagram} in the box below the type name.
+The functions that are available for all different subtypes can be seen in figure \ref{umlclassdiagram} in the boxes below the type names.
 For each of the models of Boltzmann machines, it is possible to generate samples by using Gibbs sampling via the \inlinecode{gibbssample!} function.
 Conditional sampling is conveniently possible via the function \inlinecode{gibbssamplecond!} (see p.\ \pageref{bms_gibbssample!}).
 Functions for evaluating the likelihood are also available for all implemented Boltzmann models.
@@ -1029,7 +1029,7 @@ An overview of the functions for evaluating the likelihood in RBMs and DBMs is g
    Calculates the log of the partition function for a restricted Boltzmann machine. \\
    \hline
 \end{tabularx}
-\caption{Functions in the Julia package for evaluating the likelihood of RBMs and DBMs. The partition function is estimated via AIS unless a value for the parameter \inlinecode{logz} is provided. This can also be calculated exactly but the this is only feasible for very small models. (For the algorithmic complexity of the corresponding algorithms, see \ref{methodExactloglik}.) }
+\caption{Functions in the Julia package for evaluating the likelihood of RBMs and DBMs. The partition function is estimated via AIS unless a value for the parameter \inlinecode{logz} is provided. This can also be calculated exactly but this is only feasible for very small models. (For the algorithmic complexity of the corresponding algorithms, see \ref{methodExactloglik}.) }
 \label{juliaFunTableEval}
 \end{table}
 
@@ -1038,6 +1038,7 @@ An overview of the functions for evaluating the likelihood in RBMs and DBMs is g
 In the UML diagram this composition of DBMs from vectors of RBMs is indicated by the UML composition relationship, which is depicted as line with filled diamond at the end.
 Using RBMs as building blocks allows a very flexible composition of DBMs.
 Figure \ref{mdbmimplasstack} shows how RBMs and \inlinecode{PartitionedRBM}s can be  arranged  and stacked to form \inlinecode{MultimodalDBM}s or \inlinecode{PartitionedBernoulliDBM}s.
+
 An optimization of the algorithms for DBMs that contain only Bernoulli distributed nodes such as the \inlinecode{BasicDBM} or the \inlinecode{PartitionedBernoulliDBM} is possible by specializing methods for these types.
 For example, summing out nodes can be done more flexibly and effectively in DBMs with only Bernoulli distributed nodes (see figure \ref{aissummingout}).
 
@@ -1055,8 +1056,8 @@ For example, summing out nodes can be done more flexibly and effectively in DBMs
 Different types of RBMs are modeled as Julia composite types, which encapsulate the model parameters.
 The abstract type for RBMs is \inlinecode{AbstractRBM}.
 The methods listed there are implemented for all subtypes of RBMs in the package.
-The function \inlinecode{samplehidden} and \inlinecode{samplevisible} are used for Gibbs sampling to sample from $p(h|v)$ and $p(v|h)$ (see \ref{gibbssamplingrbm}).
-The functions \inlinecode{hiddenpotential} and \inlinecode{visiblepotential} calculate the deterministic activation potential $\EX p(h|v)$ and $\EX p(v|h)$, which is used for RBM training and DBN training (see \ref{dbns}).
+The function \inlinecode{samplehidden} and \inlinecode{samplevisible} are used for Gibbs sampling to sample from $p(h|v)$ and $p(v|h)$, respectively (see \ref{gibbssamplingrbm}).
+The functions \inlinecode{hiddenpotential} and \inlinecode{visiblepotential} calculate the deterministic activation potential $\EX_v p(h|v)$ and $\EX_h p(v|h)$, which is used for RBM training and DBN training (see \ref{dbns}).
 As recommended by \cite{hinton_practical_2012} the activation potential is used for the last update of the hidden units in Gibbs sampling (see section 3.1 there), and the probabilities are also used for the visible states in the last step of sampling in the model distribution (section 3.2 there).
 Calculating the \inlinecode{visiblepotential} is also needed for sampling in DBNs as shown in figure \ref{fig:dbn}, where the activation from the top layer is passed down to the visible layer in a deterministic way.
 For each of these functions for sampling and calculating the activation potential, there is also a function that is suffixed with an exclamation mark.
@@ -1064,12 +1065,11 @@ These variants are mostly used in the implementation, as they allow to reuse all
 
 The free energy of visible states $v$ in an RBM can be calculated via  \inlinecode{freeenergy(rbm, v)}.
 This is used for calculating the likelihood, as described in equation (\ref{eqn:pRBMfreeenergy}) if a value for the partition function is given.
-The free energy can also be used to compare the model fit of one RBM on different data sets, e.g., to monitor overfitting by comparing the free energy in training and test data.
+The free energy can also be used to compare the model fit of one RBM on different data sets, e.g., to monitor the overfitting by comparing the free energy in training and test data.
 The \inlinecode{reconstructionerror} in RBMs (see \ref{reconstructionerror}) is also useful for monitoring, especially as a fast way to monitor the pre-training of DBMs.
 
-The RBMs described in \ref{rbmtraining} are subtypes of \inlinecode{AbstractXBernoulliRBM}, which is a supertype for all RBMs with Bernoulli distributed hidden nodes.
-This abstraction is useful for exploiting the commonalities between RBMs and is used to reduce code duplication.
-The subtypes of \inlinecode{AbstractXBernoulliRBM} shown in figure \ref{umlclassdiagram} correspond to the types of RBMs that are detailed in \ref{rbmtypes} and \ref{methodsoftmax0}.
+The different RBMs described in \ref{rbmtypes} and \ref{methodsoftmax0} are implemented as subtypes of \inlinecode{AbstractXBernoulliRBM}.
+This abstraction is useful for exploiting the commonalities between RBMs with Bernoulli distributed hidden nodes, and thereby reducing code duplication.
 
 The \inlinecode{BernoulliGaussianRBM} is an RBM with Bernoulli distributed visible nodes and Gaussian hidden nodes.
 This type was inspired by \cite{hinton_reducing_2006}, who use such an RBM layer with Gaussian hidden nodes in the top layer of a DBN for creating a better visualization of the dimensionality reduction.
@@ -1078,7 +1078,7 @@ The \inlinecode{PartitionedRBM} is used as a brace around RBMs in a layer such t
 
 
 
-\subsubsection{Usage of the \apkg{BoltzmannMachines} Julia package}
+\subsubsection{Usage examples}
 The \apkg{BoltzmannMachines} package has been registered in the official Julia package repository. It can be installed via:
 
 \begin{lstlisting}
@@ -1198,6 +1198,8 @@ In cases where certain combinations might be quite rare, the learned correlation
 
 \subsection{Directions in privacy-perserving deep learning}
 TODO diskutieren: privacy-accounting in DBMs and other approaches
+
+\subsection{Modeling continously valued data}
 
 \subsection{Ideas for future work}
 TODO idee modelle kombinieren, dbms verbessern missing values, softmax evaluieren
