@@ -795,7 +795,7 @@ p^*(h) &= \sum_v e^{-E(v,h)} \\
 \end{align*}
 Here $C$ denotes the set of all index sets of the dummy variables, where each index set belongs to a categorical variable.
 
-\subsection{Implementation of the \apkg{BoltzmannMachines} Julia package}
+\subsection{The \apkg{BoltzmannMachines} Julia package}
 TODO Einleitung zur Implementation: kurz features abreißen.
 A first product of this work on deep and restricted Boltzmann machines algorithms is a software implementation that aims at  ....
 Algorithms described previously 
@@ -1100,7 +1100,7 @@ The hyperparameters for layerwise pre-training can be defined for the whole netw
 
 \FloatBarrier
 \clearpage
-\section{Connecting R and Julia with the JuliaConnectoR}
+\section{Connecting R and Julia with the \apkg{JuliaConnectoR}}
 
 \subsection{Feature overview and comparison to existing solutions}
 TODO feature matrix aus JuliaConnectoR-Paper
@@ -1133,23 +1133,40 @@ The grammar is inspired by BSON \citep{bsonspec}.
 
 
 \FloatBarrier
-\section{Distributed deep learning with DataSHIELD}
+\section{Deep generative models in DataSHIELD}
+
+
+
+\subsection{Theory}
+
+\subsubsection{Privacy concepts}
+TODO $\epsilon$ differential privacy, aggregated data, membership privacy, k-anonymity, l-diversity
+
+\subsubsection{The DataSHIELD framework}
+
+TODO Allgemeines zu DataSHIELD
 
 \subsubsection{Different generative approaches}
 TODO VAE, GAN, MICE, Verweis Goncalves
 
 \subsubsection{Performance measures}
+Performance measures
 TODO correlation, ORs, clustering approaches, visual inspection of samples
 
+\subsubsection{Disclosure metrics}
+Overfitting, membership attack
 
-\subsection{Distributed privacy-preserving analyses}
-TODO motivation
+\subsection{An experiment for comparing different distributed generative approaches }
 
-\subsubsection{Privacy concepts and disclosure metrics}
-TODO $\epsilon$ differential privacy, aggregated data, overfitting
 
-\subsubsection{The DataSHIELD framework}
-TODO Allgemeines zu DataSHIELD
+\subsubsection{Experimental setup}
+
+
+\subsubsection{Results}
+
+\subsection{The \apkg{dsBoltzmannMachines} DataSHIELD package}
+
+
 
 %TODO Bild PCA Plot
 % TODO Workflow with monitored training
