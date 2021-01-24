@@ -1079,15 +1079,90 @@ The \inlinecode{PartitionedRBM} is used as a brace around RBMs in a layer such t
 
 
 \subsubsection{Usage examples}
-The \apkg{BoltzmannMachines} package has been registered in the official Julia package repository. It can be installed via:
+The \apkg{BoltzmannMachines} package has been registered in the official Julia package repository. It can be installed via the following Julia code:
 
 \begin{lstlisting}
 import Pkg
 Pkg.add("BoltzmannMachines")
 \end{lstlisting}
 
+The functions in the package expect the input as a matrix that contains the samples in the rows and the variables in the columns.
+For the following examples, we assume that \inlinecode{x} is such a matrix of type \inlinecode{Array\{Float64,2\}} containing values of 0.0 and 1.0 with \inlinecode{nsamples} rows and \inlinecode{nvariables} columns.
+
+\begin{lstlisting}
+nsamples, nvariables = size(x)
+\end{lstlisting}
+
+After loading the package via a \inlinecode{using} statement, training an RBM or a a DBM is as simple as calling \inlinecode{fitrbm} or \inlinecode{fitdbm}, respectively.
+
+\begin{lstlisting}
+using BoltzmannMachines
+rbm = fitrbm(x)
+dbm = fitdbm(x)
+\end{lstlisting}
+
+But as hyperparameter tuning is very important, and the choice of the hyper parameters highly depends on the data set, using the default parameters will most likely not get an optimal result.
+The most important hyperparameters for RBMs and DBMs are the number of hidden nodes, the number of epochs and the learning rate.
+
+\begin{lstlisting}
+rbm = fitrbm(x; nhidden = 50, epochs = 200, 
+                learningrate = 0.001)
+dbm = fitdbm(x; nhiddens = [50, 20], epochs = 200, 
+                learningrate = 0.001)
+\end{lstlisting}
+
+
+
 
 The hyperparameters for layerwise pre-training can be defined for the whole network or for each layer separately. TODO Trainlayer, AbstractTrainLayer.
+
+
+TODO normal sampling
+
+
+Conditional sampling, here e. g. with the first and third variable being set 1.0, and the second variable set to 0.0, can be done via:
+
+\begin{lstlisting}
+samples(dbm, 500; conditions = [1 => 1.0; 2 => 0.0; 3 => 1.0])
+\end{lstlisting}
+
+TODO monitoring
+
+The function \inlinecode{splitdata} (see p. \pageref{bms_splitdata}), can be used to conveniently split the data set into a training and a test data.
+Here we use 80\%  of the original data set \inlinecode{x} as training data and 20\% as test data.
+
+\begin{lstlisting}
+xtrain, xtest = splitdata(x, 0.2)
+\end{lstlisting}
+
+
+An overview of the most important functions that can be used for monitoring can be found in table \ref{monfun}.
+
+\rowcolors{1}{gray!25}{white}
+\begin{table}[h]
+   \begin{tabularx}{\textwidth}{X}
+   \hline
+   \inlinecode{monitorreconstructionerror!(monitor, rbm, epoch, datadict)} \rightpageref{bms_monitorreconstructionerror!}\\
+     Monitors the reconstruction error in an RBM \\
+     \inlinecode{monitorfreeenergy!(monitor, rbm, epoch, datadict)} \rightpageref{bms_monitorfreeenergy!}\\ 
+Monitors the free energy in an RBM \\
+
+     \inlinecode{monitorloglikelihood!(monitor, rbm, epoch, datadict; ...)} \rightpageref{bms_monitorloglikelihood!}\\ 
+Monitors the (estimated) log-likelihood in an RBM \\
+        \inlinecode{monitorexactloglikelihood!(monitor, bm, epoch, datadict)} \rightpageref{bms_monitorexactloglikelihood!}\\ 
+Monitors the exact log-likelihood in an RBM or DBM \\
+     \inlinecode{monitorlogproblowerbound!(monitor, dbm, epoch, datadict; ...)} \rightpageref{bms_monitorlogproblowerbound!}\\
+  Monitors the (estimated) variational lower bound of the log likelihood in a DBM \\
+   \hline
+\end{tabularx}
+\caption{Monitoring functions in the \apkg{BoltzmannMachines} Julia package. TODO args,  AIS params}
+\label{monfun}
+\end{table}
+
+
+
+
+
 
 %\subsubsection{Implementation of annealed importance sampling}
 
