@@ -41,7 +41,7 @@
 \newcommand{\apkg}[1]{\emph{#1}}
 \newcommand{\proglang}[1]{#1} % egal, kommt in kopierten referenzen vor
 
-\newcommand{\rightpageref}[1]{\hfill $\rightsquigarrow$ p. \pageref{#1}}
+\newcommand{\rightpageref}[1]{\hfill $\rightsquigarrow$ p.\ \pageref{#1}}
 \interfootnotelinepenalty=10000
 
 \DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
@@ -540,11 +540,13 @@ In case of a deep Boltzmann machine, it is possible to sum out each second layer
 
 For annealed importance sampling we need a sequence of intermediate distributions
 $p_0, \dots p_K$ with
-$p_0 = p_A$ and $p_K = p_B$. The ratio $\frac{Z_B}{Z_A}$ is then estimated by the mean of a number of so called importance weights that are determined as
+$p_0 = p_A$ and $p_K = p_B$. The ratio $\frac{Z_B}{Z_A}$ is then estimated by the mean of a number of so called {\em importance weights} that are determined as
 \[
-   \prod_{k=1}^K \frac{p^*_k(x_k)}{p^*_{k-1}(x_{k})}.
+   \prod_{k=1}^K \frac{p^*_k(x^{(k)})}{p^*_{k-1}(x^{(k)})}.
 \]
-The $x_k$ are produced by iteratively performing Gibbs sampling. Starting with $x_0$ sampled from $p_0$, one obtains $x_k$ by sampling a Gibbs chain that is initialized with $x_{k-1}$ in an intermediate model with distribution $p_k$. An appropriate choice for the intermediate models are Boltzmann machines with the energy functions $E_k$ chosen such that
+Each of the importance weights is an estimator for $\frac{Z_B}{Z_A}$.
+To get an estimation of this fraction with less variance, the mean all the importance weights is used to estimate  $\frac{Z_B}{Z_A}$.
+The $x^{(k)}$ are produced by iteratively performing Gibbs sampling. Starting with $x_0$ sampled from $p_0$, one obtains $x^{(k)}$ by sampling a Gibbs chain that is initialized with $x^{(k-1)}$ in an intermediate model with distribution $p_k$. An appropriate choice for the intermediate models are Boltzmann machines with the energy functions $E_k$ chosen such that
 \[
    E_k(x) = (1 - \beta_k) E_A(x) + \beta_k E_B(x)
 \]
@@ -555,8 +557,8 @@ and therefore
 The factors $\beta_k$ with $0 = \beta_0 < \beta_1 < ... < \beta_K = 1$ are called temperatures \citep{salakhutdinov2008learning}.
 The choice of the temperatures, the number of importance weights and also the number of Gibbs sampling steps for the transition are hyperparameters for the AIS algorithm.
 
-With AIS, it is possible to get a direct estimate of $Z$ by annealing from the full model with distribution $p_A$ to a null model with all weights being zero, for $p_B$.
-The partition function $Z_B$ of the null model can be calculated directly, and therefore $Z_A$ can be computed from the AIS estimator of $\frac{Z_B}{Z_A}$. This approach is shown in figure \ref{figTwotypesais}A.
+With AIS it is possible to get a direct estimate of the partition function $Z_A$ of a model $A$ by annealing from the model $A$ to a null model with all weights being zero as model $B$.
+$Z_A$ can be computed from the estimation of $\frac{Z_B}{Z_A}$ because the partition function $Z_B$ of the null model can be calculated exactly. This approach is shown in figure \ref{figTwotypesais}A.
 
 It is also possible to compare the likelihood of two models instead of calculating it directly.
 For this, only the ratio $\frac{Z_B}{Z_A}$ between two full models needs to be estimated.
@@ -596,6 +598,8 @@ Here the visible layer $v$ and the second hidden layer $h^{(2)}$ have been summe
 
 %Note that the model for Gibbs sampling, used as the Markov transition operator, can differ from the model that is used to evaluate the unnormalized probability $p_k^*(h)$ as long as the probability distribution $p_k(h)$ of the hidden nodes is the same.
 %This trick can be used to fit AIS for GBRBMs in the same schema as RBMs with Bernoulli distributed nodes.
+
+
 It can be noted that the term in the first line of formula \ref{eqn:aisunnormalizedprob} is equal to the unnormalized probability of the hidden nodes in a RBM with Bernoulli distributed nodes.
 This procedure can be generalized for AIS on multimodal DBMs. 
 If we have the unnormalized probability $p^*(h)$ for each type of RBM that receives the data input, it becomes possible to calculate the unnormalized probability of sampled hidden values in a multimodal DBM in the same way as for a standard DBM with only Bernoulli distributed nodes.
@@ -953,7 +957,7 @@ So always the actual run-time type of objects is used to determine the method in
 \begin{figure}
    \centering
    \includegraphics[scale=0.5,trim={5.2cm 4cm 6.8cm 3.4cm},clip,angle=-90]{images/BoltzmannMachinesDiagram.pdf}
-   \caption{Overview of the type relationships and functions in the \apkg{Boltzmann machines} Julia package as a UML class diagram 
+   \caption{Overview of the type relationships together with the most important functions in the \apkg{Boltzmann machines} Julia package as a UML class diagram 
 %   For more details on these functions, see also tables \ref{juliaFunTableTrain} and \ref{juliaFunTableEval}.
    }
    \label{umlclassdiagram}
@@ -963,8 +967,8 @@ So always the actual run-time type of objects is used to determine the method in
 
 All types of Boltzmann machines in the package have the common abstract supertype \inlinecode{AbstractBM}.
 The functions that are available for all different subtypes can be seen in figure \ref{umlclassdiagram} in the boxes below the type names.
-For each of the models of Boltzmann machines, it is possible to generate samples by using Gibbs sampling via the \inlinecode{gibbssample!} function.
-Conditional sampling is conveniently possible via the function \inlinecode{gibbssamplecond!} (see p.\ \pageref{bms_gibbssample!}).
+For each of the models of Boltzmann machines, it is possible to generate samples by using Gibbs sampling via the \inlinecode{samples} function.
+Conditional sampling is conveniently possible via this function (see p.\ \pageref{bms_samples}).
 Functions for evaluating the likelihood are also available for all implemented Boltzmann models.
 For efficiently evaluating very small models, the likelihood and the partition function can be calculated exactly. This is also used for testing AIS by comparing the values estimated in small models to the exact ones.
 
@@ -1023,13 +1027,20 @@ An overview of the functions for evaluating the likelihood in RBMs and DBMs is g
    	   	\inlinecode{logproblowerbound(dbm, x, logz; ...)} \\
    	} \rightpageref{bms_logproblowerbound} \\
    Estimates the stochastic lower bound of the log-likelihood that is optimized by the training algorithm with mean-field optimization. \\
-   \inlinecode{exactloglikelihood(bm, x)} \rightpageref{bms_exactloglikelihood} \\
+    \makecell[tl]{ 
+    \inlinecode{aislogimpweights(rbm; ...)} \\
+   \inlinecode{aislogimpweights(dbm; ...)}
+   } \rightpageref{bms_aislogimpweights} \\
+   Calculates (logarithmized) AIS importance weights for annealing from the given model to a null model as shown in \ref{figTwotypesais} A and B. Implicitly called by the functions above. \\
+     \inlinecode{aislogimpweights(rbm1, rbm2; ...)}  \rightpageref{bms_aislogimpweights} \\
+    Calculates AIS importance weights for annealing from one RBM model to another as shown in \ref{figTwotypesais} C \\
+       \inlinecode{exactloglikelihood(bm, x)} \rightpageref{bms_exactloglikelihood} \\
    Calculates the log-likelihood of a deep Boltzmann machine. \\
    \inlinecode{exactlogpartitionfunction(bm, x)} \rightpageref{bms_exactlogpartitionfunction} \\
-   Calculates the log of the partition function for a restricted Boltzmann machine. \\
+   Calculates the log of the partition function for a restricted Boltzmann machine \\
    \hline
 \end{tabularx}
-\caption{Functions in the Julia package for evaluating the likelihood of RBMs and DBMs. The partition function is estimated via AIS unless a value for the parameter \inlinecode{logz} is provided. This can also be calculated exactly but this is only feasible for very small models. (For the algorithmic complexity of the corresponding algorithms, see \ref{methodExactloglik}.) }
+\caption{Functions in the Julia package for evaluating the likelihood of RBMs and DBMs. The partition function is estimated via AIS unless a value for the parameter \inlinecode{logz} is provided. The partition function cal can also be calculated exactly but this is only feasible for very small models. (For the algorithmic complexity of the corresponding algorithms, see \ref{methodExactloglik}.) }
 \label{juliaFunTableEval}
 \end{table}
 
