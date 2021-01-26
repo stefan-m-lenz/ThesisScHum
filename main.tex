@@ -1050,7 +1050,7 @@ In the UML diagram this composition of DBMs from vectors of RBMs is indicated by
 Using RBMs as building blocks allows a very flexible composition of DBMs.
 Figure \ref{mdbmimplasstack} shows how RBMs and \inlinecode{PartitionedRBM}s can be  arranged  and stacked to form \inlinecode{MultimodalDBM}s or \inlinecode{PartitionedBernoulliDBM}s.
 
-An optimization of the algorithms for DBMs that contain only Bernoulli distributed nodes such as the \inlinecode{BasicDBM} or the \inlinecode{PartitionedBernoulliDBM} is possible by specializing methods for these types.
+An optimization of the algorithms for DBMs that contain only Bernoulli distributed nodes such as the \inlinecode{BasicDBM} or the \inlinecode{PartitionedBernoulliDBM} is possible by implementing specialized methods for these types.
 For example, summing out nodes can be done more flexibly and effectively in DBMs with only Bernoulli distributed nodes (see figure \ref{aissummingout}).
 
 \begin{figure}[h]
@@ -1122,11 +1122,33 @@ dbm = fitdbm(x; nhiddens = [50, 20], epochs = 200,
                 learningrate = 0.001)
 \end{lstlisting}
 
+The learning rate and the number of epochs can also be specified for pre-training separately (see detailed description of the arguments of \inlinecode{fitdbm} on p.\ \pageref{bms_fitdbm}).
+Furthermore, the hyperparameters for pre-training the RBM layers in a DBM can be specified individually for each layer.
+For this purpose, the hyperparameters for each RBM can be defined in an array of designated objects of type \inlinecode{AbstractTrainLayer}.
+Analogously to how RBMs are arranged as building blocks in DBMs (see figure  \ref{mdbmimplasstack}), these hyperparameter definition objects can be arranged in vectors and passed to \inlinecode{fitrbm} or \inlinecode{stackrbms}.
+Objects of type \inlinecode{TrainLayer} are then translated to RBMs and objects of type \inlinecode{TrainPartitionedLayer} to partitioned RBMs.
+Assuming here that \inlinecode{x} has only 6 variables, the code in \ref{lst:partdbm} results in a model shown in figure \ref{fig:smallpartitioneddbm}.
 
+\begin{lstlisting}[caption={Fitting a partitioned DBM},label={lst:partdbm}]
+fitdbm(x; pretraining = [
+      TrainPartitionedLayer([
+         TrainLayer(nvisible = 3, nhidden = 3), 
+         TrainLayer(nhidden = 3)]),
+      TrainLayer(nhidden = 4),
+      TrainLayer(nhidden = 2)])
+\end{lstlisting}
 
+\begin{figure}[h!]
+   \centering
+   \includegraphics[scale=3.]{images/SmallPartitionedDBM.pdf}
+   \caption{DBM architecture resulting from code in listing \ref{lst:partdbm}}
+\label{fig:smallpartitioneddbm}
+\end{figure}
 
-The hyperparameters for layerwise pre-training can be defined for the whole network or for each layer separately. TODO Trainlayer, AbstractTrainLayer.
+Monitoring the training of layers individually is also possible via this mechanism.
+ (see \. for a 
 
+The optimization procedure is also customizable. 
 
 TODO normal sampling
 
