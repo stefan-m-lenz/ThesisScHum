@@ -77,6 +77,7 @@
 \tableofcontents
 \newpage
 \onehalfspacing
+\setlength{\emergencystretch}{3em}
 
 \section*{Abstract}
 TODO
@@ -109,6 +110,11 @@ This results in relatively few samples compared to the number of dimensions in d
 %Here we want to broaden the scope a little bit and present an extensible approach for creating deep Boltzmann architectures with different types of visible units and flexible partitioned hidden layers. Training of such architectures ....
 %Those architectures are not only useful for putting data of different types in one model but also in cases where a natural partitioning of the data can be derived from domain knowledge. With partitioning one can greatly reduce the number of parameters in the model. This allows training models on data sets where the sample size would otherwise be too small to fit a full model.
 
+TODO aus motivation von Bioinf App not fail
+
+TODO DBMs multimodal , e. g. clinical, gene expression, and single nucleotide polymorphism (SNP) data
+
+TODO sample conditionally and access hidden nodes
 
 \clearpage
 \section{Deep Boltzmann machines}
@@ -971,7 +977,7 @@ So always the actual run-time type of objects is used to determine the method in
 All types of Boltzmann machines in the package have the common abstract supertype \inlinecode{AbstractBM}.
 The functions that are available for all different subtypes can be seen in figure \ref{umlclassdiagram} in the boxes below the type names.
 For each of the models of Boltzmann machines, it is possible to generate samples by using Gibbs sampling via the \inlinecode{samples} function.
-Conditional sampling is conveniently possible via this function (see p.\ \pageref{bms_samples}).
+Conditional sampling is conveniently possible via this function (see \ref{usagesampling} and p.\ \pageref{bms_samples}).
 Functions for evaluating the likelihood are also available for all implemented Boltzmann models.
 For efficiently evaluating very small models, the likelihood and the partition function can be calculated exactly. This is also used for testing AIS by comparing the values estimated in small models to the exact ones.
 
@@ -1036,7 +1042,8 @@ An overview of the functions for evaluating the likelihood in RBMs and DBMs is g
    } \rightpageref{bms_aislogimpweights} \\
    Calculates (logarithmized) AIS importance weights for annealing from the given model to a null model as shown in \ref{figTwotypesais} A and B. Implicitly called by the functions above. \\
      \inlinecode{aislogimpweights(rbm1, rbm2; ...)}  \rightpageref{bms_aislogimpweights} \\
-    Calculates AIS importance weights for annealing from one RBM model to another as shown in \ref{figTwotypesais} C \\
+    Calculates AIS importance weights for annealing from one RBM model to another as shown in \ref{figTwotypesais} C.
+    This can be used for comparing the likelihood of two RBM models directly.\\
        \inlinecode{exactloglikelihood(bm, x)} \rightpageref{bms_exactloglikelihood} \\
    Calculates the log-likelihood of a deep Boltzmann machine. \\
    \inlinecode{exactlogpartitionfunction(bm, x)} \rightpageref{bms_exactlogpartitionfunction} \\
@@ -1107,6 +1114,8 @@ For the following examples, we assume that \inlinecode{x} is such a matrix of ty
 nsamples, nvariables = size(x)
 \end{lstlisting}
 
+\paragraph{Training}
+
 After loading the package via a \inlinecode{using} statement, training an RBM or a a DBM is as simple as calling \inlinecode{fitrbm} or \inlinecode{fitdbm}, respectively.
 
 \begin{lstlisting}
@@ -1130,7 +1139,15 @@ Furthermore, the hyperparameters for pre-training the RBM layers in a DBM can be
 For this purpose, the hyperparameters for each RBM can be defined in an array of designated objects of type \inlinecode{AbstractTrainLayer}.
 Analogously to how RBMs are arranged as building blocks in DBMs (see figure  \ref{mdbmimplasstack}), these hyperparameter definition objects can be arranged in vectors and passed to \inlinecode{fitrbm} or \inlinecode{stackrbms}.
 Objects of type \inlinecode{TrainLayer} are then translated to RBMs and objects of type \inlinecode{TrainPartitionedLayer} to partitioned RBMs.
-Assuming here that \inlinecode{x} has only 6 variables, the code in \ref{lst:partdbm} results in a model shown in figure \ref{fig:smallpartitioneddbm}.
+For illustrating this, let us assume here that \inlinecode{x} has only 6 variables.
+Then the code in \ref{lst:partdbm} results in a model shown in figure \ref{fig:smallpartitioneddbm}.
+
+\begin{figure}[h]
+   \centering
+   \includegraphics[scale=3.]{images/SmallPartitionedDBM.pdf}
+   \caption{DBM architecture resulting from code in listing \ref{lst:partdbm}}
+\label{fig:smallpartitioneddbm}
+\end{figure}
 
 \begin{lstlisting}[caption={Fitting a partitioned DBM},label={lst:partdbm}]
 fitdbm(x; pretraining = [
@@ -1141,26 +1158,44 @@ fitdbm(x; pretraining = [
       TrainLayer(nhidden = 2)])
 \end{lstlisting}
 
-\begin{figure}[h!]
-   \centering
-   \includegraphics[scale=3.]{images/SmallPartitionedDBM.pdf}
-   \caption{DBM architecture resulting from code in listing \ref{lst:partdbm}}
-\label{fig:smallpartitioneddbm}
-\end{figure}
 
- 
-
-The optimization procedure is also customizable. 
-
-TODO normal sampling
+TODO The optimization procedure is also customizable. 
 
 
-Conditional sampling, here e. g. with the first and third variable being set 1.0, and the second variable set to 0.0, can be done via:
+\paragraph{Different types of visible nodes}
+
+\begin{lstlisting}
+categories = [fill(2, 4); fill(3, 4)];
+dbm = fitdbm(x;
+      pretraining = [
+         TrainLayer(nhidden = 7, categories = categories,
+               rbmtype = Softmax0BernoulliRBM);
+         TrainLayer(nhidden = 6)
+      ])
+\end{lstlisting}
+
+\paragraph{Generating synthetic data}\label{usagesampling}
+Synthetic data can be generated with the \inlinecode{samples} function, which expects the Boltzmann machine model and the number of samples as arguments.
+The function works for RBMs as well as for DBMs.
+
+\begin{lstlisting}
+ngensamples = 500
+samples(dbm, ngensamples)
+\end{lstlisting}
+
+Sampling is performed with the Gibbs sampling algorithm.
+For each of the generated samples, randomly initialized, independent Gibbs chains are run.
+A hyperparameter for Gibbs sampling is the number of burn-in steps, which can be specified via the \inlinecode{burnin} parameter (see p.\ \pageref{bms_samples}).
+
+Conditional sampling, here e.g., with the first and third variable being set 1.0, and the second variable set to 0.0, can be also be done with this function:
 
 \begin{lstlisting}
 samples(dbm, 500; conditions = [1 => 1.0; 2 => 0.0; 3 => 1.0])
 \end{lstlisting}
 
+For re-using allocated space, there is also the functions \inlinecode{gibbssample!} for running Gibbs sampling on pre-allocated matrices of samples, and, analogously, there is \inlinecode{gibbssamplecond!} for conditional sampling (see p.\ \pageref{bms_gibbssample!}).
+
+\paragraph{Evaluating and monitoring}
 TODO monitoring
 
 The function \inlinecode{splitdata} (see p. \pageref{bms_splitdata}), can be used to conveniently split the data set into a training and a test data.
@@ -1195,9 +1230,11 @@ Monitors the exact log-likelihood in an RBM or DBM \\
 \label{monfun}
 \end{table}
 
+Plotting via BoltzmannMachinePlots
+
+\paragraph{Dimension reduction}
 
 
-%\subsubsection{Implementation of annealed importance sampling}
 
 
 
