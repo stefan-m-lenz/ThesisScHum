@@ -112,7 +112,7 @@ This results in relatively few samples compared to the number of dimensions in d
 
 \clearpage
 \section{Deep Boltzmann machines}
-\subsection{Theory}
+\subsection{Theory}\label{bmtheory}
 
 Boltzmann machines \citep{ackley_boltzmann_1985} are a special kind of neural networks.
 They have been derived from models in statistical physics.
@@ -800,14 +800,17 @@ p^*(h) &= \sum_v e^{-E(v,h)} \\
 Here $C$ denotes the set of all index sets of the dummy variables, where each index set belongs to a categorical variable.
 
 \subsection{The \apkg{BoltzmannMachines} Julia package}
-TODO Einleitung zur Implementation: kurz features abreißen.
-A first product of this work on deep and restricted Boltzmann machines algorithms is a software implementation that aims at  ....
-Algorithms described previously 
-The Julia package \apkg{BoltzmannMachines} was designed to 
-This implementationwhich has been published as open source software on GitHub.
-Result: officially registered Julia package. Only package covering the DBM training.
-It is also the only known published implementation of AIS on DBMs with a flexible choice of the architecture, including different types of visible nodes.
-Evaluation Convenient monitoring.
+For being able to experiment with the algorithms for training and evaluating deep Boltzmann machines, an accessible and easily customizable implementation was needed.
+The Julia package \apkg{BoltzmannMachines}, which is one of the main contributions of this thesis, serves this purpose.
+The package offers a thorough and well-tested implementation of the algorithms described in \ref{bmtheory}, with several unique features that are not covered by other published software.
+It is the only known software that allows a flexible and easy composition of partitioned and multimodal DBMs, including different types of visible nodes, and an extensible design that make the integration of different types of RBMs possible.
+It is also the only known published implementation of AIS on DBMs that works with diverse architectures of DBMs.
+Much emphasis is also put on evaluating RBMs and DBMs and allowing an inspection of the learning process.
+For this purpose, there are many possibilities for a convenient and flexible monitoring of different criteria integrated in the functionality of the package.
+
+The package is registered in the official package repository of the Julia language and published as open source software on GitHub.
+A detailed documentation of the functions and data types can be found in appendix \ref{BMDoku}.
+
 
 \subsubsection{Feature overview and comparison with existing implementations}\label{BMfeatures}
 
@@ -1145,8 +1148,7 @@ fitdbm(x; pretraining = [
 \label{fig:smallpartitioneddbm}
 \end{figure}
 
-Monitoring the training of layers individually is also possible via this mechanism.
- (see \. for a 
+ 
 
 The optimization procedure is also customizable. 
 
@@ -1171,6 +1173,8 @@ xtrain, xtest = splitdata(x, 0.2)
 
 An overview of the most important functions that can be used for monitoring can be found in table \ref{monfun}.
 
+Monitoring the pre-training of layers individually is also possible via the \inlinecode{TrainLayer} mechanism.
+
 \rowcolors{1}{gray!25}{white}
 \begin{table}[h]
    \begin{tabularx}{\textwidth}{X}
@@ -1179,7 +1183,6 @@ An overview of the most important functions that can be used for monitoring can 
      Monitors the reconstruction error in an RBM \\
      \inlinecode{monitorfreeenergy!(monitor, rbm, epoch, datadict)} \rightpageref{bms_monitorfreeenergy!}\\ 
 Monitors the free energy in an RBM \\
-
      \inlinecode{monitorloglikelihood!(monitor, rbm, epoch, datadict; ...)} \rightpageref{bms_monitorloglikelihood!}\\ 
 Monitors the (estimated) log-likelihood in an RBM \\
         \inlinecode{monitorexactloglikelihood!(monitor, bm, epoch, datadict)} \rightpageref{bms_monitorexactloglikelihood!}\\ 
@@ -1194,15 +1197,7 @@ Monitors the exact log-likelihood in an RBM or DBM \\
 
 
 
-
-
-
 %\subsubsection{Implementation of annealed importance sampling}
-
-%TODO cross validation
-
-
-
 
 
 
@@ -1389,6 +1384,7 @@ eRum 2020
 
 \clearpage
 \section[Documentation of Julia package \apkg{BoltzmannMachines}]{Documentation of Julia package \\ \apkg{BoltzmannMachines}}
+\label{BMDoku}
 
 This appendix lists the documentation for all exported and documented items of the \apkg{BoltzmannMachines} Julia package, as of version 1.2.0. The code of the package and more documentation can be found on the GitHub repository \url{https://github.com/stefan-m-lenz/BoltzmannMachines.jl}.
 
