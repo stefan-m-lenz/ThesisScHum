@@ -178,6 +178,20 @@ Innes, M.  \harvardyearleft 2018\harvardyearright , `Flux: {Elegant} machine
   technology - {Syntactic} metalanguage - {Extended} {BNF}', {\em ISO/IEC
   International Standard 14977:1996} .
 
+\harvarditem[Jones et~al.]{Jones, Arthur, Nagy, Gowda, Godisemo, Holy,
+  Mattriks, Noack, Sengupta, Darakananda, Leblanc, Dunning, Fischer, Chudzicki,
+  Piibeleht, Yu, Breloff, Kleinschmidt, Mellnik, Verzani, inkyu, Innes,
+  Huchette, Bauman, Hyatt, Forsyth, Borje, Saba, Coalson \harvardand\
+  Pelenitsyn}{2018}{gadfly}
+Jones, D.~C., Arthur, B., Nagy, T., Gowda, S., Godisemo, Holy, T., Mattriks,
+  Noack, A., Sengupta, A., Darakananda, D., Leblanc, S., Dunning, I., Fischer,
+  K., Chudzicki, D., Piibeleht, M., Yu, Y., Breloff, T., Kleinschmidt, D.,
+  Mellnik, A., Verzani, J., inkyu, Innes, M.~J., Huchette, J., Bauman, M.,
+  Hyatt, K., Forsyth, J., Borje, G., Saba, E., Coalson, C. \harvardand\
+  Pelenitsyn, A.  \harvardyearleft 2018\harvardyearright ,
+  `{GiovineItalia}/{Gadfly.jl}: Crafty statistical graphics for julia'.
+\newline\harvardurl{https://doi.org/10.5281/zenodo.1924781}
+
 \harvarditem{Krizhevsky}{2009}{krizhevsky2009tinyimagesthesis}
 Krizhevsky, A.  \harvardyearleft 2009\harvardyearright , Learning multiple
   layers of features from tiny images, Master's thesis, University of Toronto,

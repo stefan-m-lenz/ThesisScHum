@@ -1164,6 +1164,8 @@ TODO The optimization procedure is also customizable.
 
 \paragraph{Different types of visible nodes}
 
+TODO
+
 \begin{lstlisting}
 categories = [fill(2, 4); fill(3, 4)];
 dbm = fitdbm(x;
@@ -1196,19 +1198,57 @@ samples(dbm, 500; conditions = [1 => 1.0; 2 => 0.0; 3 => 1.0])
 For re-using allocated space, there is also the functions \inlinecode{gibbssample!} for running Gibbs sampling on pre-allocated matrices of samples, and, analogously, there is \inlinecode{gibbssamplecond!} for conditional sampling (see p.\ \pageref{bms_gibbssample!}).
 
 \paragraph{Evaluating and monitoring}
-TODO monitoring
 
-The function \inlinecode{splitdata} (see p. \pageref{bms_splitdata}), can be used to conveniently split the data set into a training and a test data.
+Evaluating a model is usually done using another data set than the training data set.
+
+TODO Evaluating vs monitoring
+
+The function \inlinecode{splitdata} (see p. \pageref{bms_splitdata}), can be used to conveniently split the data set into, e.g., a training and a test data set.
 Here we use 80\%  of the original data set \inlinecode{x} as training data and 20\% as test data.
 
 \begin{lstlisting}
 xtrain, xtest = splitdata(x, 0.2)
 \end{lstlisting}
 
+Monitoring the training progress can be done via passing monitoring functions and data for monitoring data as arguments to the training functions.
+
+The advantage of this approach is that is very simple to pass any kind of user defined function, e.g., for printing information about the training progress.
+\begin{lstlisting}
+fitrbm(x; epochs = 20, 
+       monitoring = (rbm, epoch) -> println(epoch))
+\end{lstlisting}
+
+The \inlinecode{fitdbm} function allows to monitor the pre-training as well as the fine-tuning.
+Monitoring the pre-training of layers individually is possible via the \inlinecode{TrainLayer} mechanism.
+
+\begin{lstlisting}[caption={Monitoring pre-training and fine-tuning},label={lst:monfitdbm}]
+bla
+\end{lstlisting}
+
+The collected values can be plotted via the accompanying plotting package \apkg{Boltzmann\-Machines\-Plots}, which is also registered in the Julia package repository.
+The plotting functionality has been separated in a separate package because plotting is not available in the base installation of Julia and the available plotting packages are heavy dependencies that take a lot of space and time to install.
+Also, as the plotting packages in Julia are not as mature a. 
+The plotting is performed by Gadfly \citep{gadfly}, one of the Julia plotting packages with the most stable stable API, which has already reached version 1.0.
+The plotting package can be installed and imported in the same way as the main package:
+
+\begin{lstlisting}
+import Pkg
+Pkg.add("BoltzmannMachinesPlots")
+using BoltzmannMachinesPlots
+\end{lstlisting}
+
+The \inlinecode{plotevaluation} function, which is defined there, takes care of plotting the information of a \inlinecode{Monitor} object.
+For examples of such monitoring plots, see figure \ref{fig:monitoring_bmplots}.
+\begin{lstlisting}
+plotevaluation(monitor)
+\end{lstlisting}
 
 An overview of the most important functions that can be used for monitoring can be found in table \ref{monfun}.
-
-Monitoring the pre-training of layers individually is also possible via the \inlinecode{TrainLayer} mechanism.
+For each of the training functions in table \ref{juliaFunTableTrain}, there is a function prefixed with ``\inlinecode{monitoring\_}", which allows to write the monitoring with functions in table \ref{monfun}, or functions with the same signature, in a more compact way.
+With this, the same result as in listing \ref{lst:monfitdbm} can be achieved with fewer lines of code.
+\begin{lstlisting}
+bla
+\end{lstlisting}
 
 \rowcolors{1}{gray!25}{white}
 \begin{table}[h]
@@ -1230,6 +1270,7 @@ Monitors the exact log-likelihood in an RBM or DBM \\
 \label{monfun}
 \end{table}
 
+
 \begin{figure}[h]
    \centering
    \includegraphics[scale=.59]{images/bmplots_curves.pdf}
@@ -1237,7 +1278,6 @@ Monitors the exact log-likelihood in an RBM or DBM \\
 \label{fig:monitoring_bmplots}
 \end{figure}
 
-Plotting via BoltzmannMachinePlots
 
 \paragraph{Dimension reduction}
 
