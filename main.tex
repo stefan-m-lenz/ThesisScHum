@@ -1150,7 +1150,7 @@ Then the code in \ref{lst:partdbm} results in a model shown in figure \ref{fig:s
 \end{figure}
 
 \begin{lstlisting}[caption={Fitting a partitioned DBM},label={lst:partdbm}]
-fitdbm(x; pretraining = [
+dbm = fitdbm(x; pretraining = [
       TrainPartitionedLayer([
          TrainLayer(nvisible = 3, nhidden = 3), 
          TrainLayer(nhidden = 3)]),
@@ -1199,10 +1199,17 @@ For re-using allocated space, there is also the functions \inlinecode{gibbssampl
 
 \paragraph{Evaluating and monitoring}
 
-Evaluating a model is usually done using another data set than the training data set.
+Monitoring is the evaluation of a model during the training time.
+This can be used for hyperparameter tuning.
+If the resulting learning curve \dots
+\begin{itemize}
+\item \dots is unstable or not going in the right direction, the learning rate needs to be reduced.
+\item \dots is smooth but too flat, the learning rate can be increased.
+\item \dots has not reached a plateau/valley at the end of training, the number of epochs can be increased. 
+\item \dots is getting better on the training data set, but not on a test data set, overfitting is happening.
+\end{itemize}
 
-TODO Evaluating vs monitoring
-
+Evaluating a model is usually done using also other data sets than the training data set to detect overfitting.
 The function \inlinecode{splitdata} (see p. \pageref{bms_splitdata}), can be used to conveniently split the data set into, e.g., a training and a test data set.
 Here we use 80\%  of the original data set \inlinecode{x} as training data and 20\% as test data.
 
@@ -1219,36 +1226,24 @@ fitrbm(x; epochs = 20,
 \end{lstlisting}
 
 The \inlinecode{fitdbm} function allows to monitor the pre-training as well as the fine-tuning.
-Monitoring the pre-training of layers individually is possible via the \inlinecode{TrainLayer} mechanism.
+An overview of the most important pre-defined functions that can be used for monitoring can be found in table \ref{monfun}.
+For each of the training functions in table \ref{juliaFunTableTrain}, there is also a function prefixed with ``\inlinecode{monitoring\_}", which allows to write the monitoring with functions in table \ref{monfun} in a compact way.
+This works also for other user-defined functions that accept the same input arguments as the pre-defined monitoring functions.
 
-\begin{lstlisting}[caption={Monitoring pre-training and fine-tuning},label={lst:monfitdbm}]
-bla
+\begin{lstlisting}[caption={Monitoring pre-training and fine-tuning}, label={lst:monfitdbm}]
+datadict = DataDict("Training data" => xtrain,
+                        "Test data" => xtest);
+monitors, dbm = monitored_fitdbm(x; nhiddens = [6,2],
+      epochs = 20, learningrate = 0.05,
+      monitoringpretraining = monitorreconstructionerror!,
+      monitoring = monitorlogproblowerbound!,
+      monitoringdata = datadict);
 \end{lstlisting}
 
-The collected values can be plotted via the accompanying plotting package \apkg{Boltzmann\-Machines\-Plots}, which is also registered in the Julia package repository.
-The plotting functionality has been separated in a separate package because plotting is not available in the base installation of Julia and the available plotting packages are heavy dependencies that take a lot of space and time to install.
-Also, as the plotting packages in Julia are not as mature a. 
-The plotting is performed by Gadfly \citep{gadfly}, one of the Julia plotting packages with the most stable stable API, which has already reached version 1.0.
-The plotting package can be installed and imported in the same way as the main package:
-
-\begin{lstlisting}
-import Pkg
-Pkg.add("BoltzmannMachinesPlots")
-using BoltzmannMachinesPlots
-\end{lstlisting}
-
-The \inlinecode{plotevaluation} function, which is defined there, takes care of plotting the information of a \inlinecode{Monitor} object.
-For examples of such monitoring plots, see figure \ref{fig:monitoring_bmplots}.
-\begin{lstlisting}
-plotevaluation(monitor)
-\end{lstlisting}
-
-An overview of the most important functions that can be used for monitoring can be found in table \ref{monfun}.
-For each of the training functions in table \ref{juliaFunTableTrain}, there is a function prefixed with ``\inlinecode{monitoring\_}", which allows to write the monitoring with functions in table \ref{monfun}, or functions with the same signature, in a more compact way.
-With this, the same result as in listing \ref{lst:monfitdbm} can be achieved with fewer lines of code.
-\begin{lstlisting}
-bla
-\end{lstlisting}
+In listing \ref{lst:monfitdbm}, the different data sets that are to be used in monitoring are at first collected in a \inlinecode{DataDict} object and passed to the training function via the  \inlinecode{monitoringdata} argument.
+For monitoring the pre-training of higher layers, the input data in the \inlinecode{datadict} is propagated upwards by using the induced deterministic activation potential in the same way as it is done with the data for training the higher layers.
+The monitoring functions are expected to write their results in the \inlinecode{Monitor} objects (see p.\ \pageref{bms_Monitor}) that are received as first argument of the monitoring functions.
+These \inlinecode{Monitor} objects are collected and returned in form of a vector as the first result of the monitored training function.
 
 \rowcolors{1}{gray!25}{white}
 \begin{table}[h]
@@ -1269,6 +1264,25 @@ Monitors the exact log-likelihood in an RBM or DBM \\
 \caption{Monitoring functions in the \apkg{BoltzmannMachines} Julia package. TODO args,  AIS params}
 \label{monfun}
 \end{table}
+
+The collected values can be plotted via the accompanying plotting package \apkg{Boltzmann\-Machines\-Plots}, which is also registered in the Julia package repository.
+The plotting functionality has been separated in a separate package because plotting is not available in the base installation of Julia.
+By making the dependency to a plotting package optional, plotting functionality must only be installed if it is needed.
+The plotting is performed with Gadfly \citep{gadfly}, one of the Julia plotting packages with the most stable stable API, which has already reached version 1.0.
+The plotting package can be installed and imported in the same way as the main package:
+
+\begin{lstlisting}
+import Pkg
+Pkg.add("BoltzmannMachinesPlots")
+using BoltzmannMachinesPlots
+\end{lstlisting}
+
+The \inlinecode{plotevaluation} function, which is defined there, takes care of plotting the information of a \inlinecode{Monitor} object.
+For examples of such monitoring plots, see figure \ref{fig:monitoring_bmplots}.
+\begin{lstlisting}
+plotevaluation(monitors[1]) # pre-training of first RBM layer
+plotevaluation(monitors[3]) # fine-tuning
+\end{lstlisting}
 
 
 \begin{figure}[h]
