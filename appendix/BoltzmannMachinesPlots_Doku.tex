@@ -1,0 +1,33 @@
+\subsection*{BoltzmannMachinesPlots} \phantomsection \label{bmplots_BoltzmannMachinesPlots}
+Contains all plotting functions for displaying information collected in module \texttt{BoltzmannMachines}. Most important function is \texttt{plotevaluation}.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{plotevaluation} \phantomsection \label{bmplots_plotevaluation}
+\begin{verbatim}
+plotevaluation(monitor; ...)
+plotevaluation(monitor, evaluationkey; ...)
+\end{verbatim}
+Plots a curve that shows the values of the evaluation contained in the \texttt{monitor} and specified by the \texttt{evaluationkey} over the course of the training epochs. If no evaluationkey is specified, the evaluation type of the first monitor element is used.
+
+Optional keyword argument \texttt{sdrange}: For evaluations with keys \texttt{BoltzmannMachines.monitorloglikelihood} and \texttt{BoltzmannMachines.monitorlogproblowerbound}, there is additional information about the standard deviation of the estimator. With the parameter \texttt{sdrange}, it is possible to display this information as a ribbon around the curve. The ribbon indicates the area around the curve that contains the values that deviate at maximum \texttt{sdrange} times the standard deviation from the estimator. Default value for \texttt{sdrange} is 2.0.
+
+\noindent\rule{\textwidth}{1pt}
+%======================================================
+\subsection*{scatterhidden} \phantomsection \label{bmplots_scatterhidden}
+\begin{verbatim}
+scatterhidden(bm, x; ...)
+scatterhidden(h; ...)
+\end{verbatim}
+Creates a scatter plot of the logarithmized activation potential of hidden nodes, similar to a PCA plot. The activation is either induced by the dataset \texttt{x} in the Boltzmann machine \texttt{bm} or it is directly specified as matrix \texttt{h}.
+
+\paragraph*{Optional keyword arguments:}
+\begin{itemize}
+\item \texttt{hiddennodes}: Tuple of integers, default \texttt{(1,2)}, selecting the first two nodes of the (last) hidden layer.
+
+
+\item \texttt{labels}: a vector containing string labels for each of the data points
+
+\end{itemize}
+\noindent\rule{\textwidth}{1pt}
+%======================================================
