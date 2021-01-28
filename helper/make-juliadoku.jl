@@ -1,6 +1,7 @@
 function writelatexdocu(pkg, labelprefix, outputfile)
    io = IOBuffer()
    context = IOContext(io)
+   lastname = names(pkg)[end]
    for name in names(pkg)
       latexname = replace(String(name), "_" => "\\_")
       x = Main.eval(Meta.parse("@doc "* String(name)))
@@ -8,8 +9,10 @@ function writelatexdocu(pkg, labelprefix, outputfile)
             x != Main.eval(Meta.parse("@doc Array"))
          println(io, "\\subsection*{$latexname} \\phantomsection \\label{$(labelprefix)_$(name)}")
          show(context, "text/latex", x)
+         if name != lastname
          println(io, "\\noindent\\rule{\\textwidth}{1pt}")
-         print(io, "%======================================================\n")
+            print(io, "%======================================================\n")
+         end
       end
    end
    output = String(take!(io))
