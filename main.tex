@@ -1066,8 +1066,8 @@ For example, summing out nodes can be done more flexibly and effectively in DBMs
 \begin{figure}[h]
    \centering
    \includegraphics[scale=3.]{images/MDBMImpl.eps}
-   \caption{Multimodal deep Boltzmann machines are modeled as a stack of restricted Boltzmann machines. On the left hand side an example model is depicted as a graph and on the right hand side the corresponding modelling in the Julia package is shown.
-   The first/lowest and the second layer are modelled as a \inlinecode{PartitionedRBM}s (white boxes with grey borders), each containing a vector holding two \inlinecode{BernoulliRBM}s (grey filled boxes).
+   \caption{Multimodal deep Boltzmann machines are modeled as a stack of restricted Boltzmann machines. On the left hand side, an example model is depicted as a graph and on the right hand side the corresponding modeling in the Julia package is shown.
+   The first/lowest and the second layer are modeled as a \inlinecode{PartitionedRBM}s (white boxes with grey borders), each containing a vector holding two \inlinecode{BernoulliRBM}s (grey filled boxes).
    The third/highest layer is simply a \inlinecode{BernoulliRBM}.
    All three \inlinecode{AbstractRBMs} in a vector form the \inlinecode{MultimodalDBM}.
    The arrows indicate the ordering of the vectors.}
@@ -1082,7 +1082,7 @@ The functions \inlinecode{hiddenpotential} and \inlinecode{visiblepotential} cal
 As recommended by \cite{hinton_practical_2012} the activation potential is used for the last update of the hidden units in Gibbs sampling (see section 3.1 there), and the probabilities are also used for the visible states in the last step of sampling in the model distribution (section 3.2 there).
 Calculating the \inlinecode{visiblepotential} is also needed for sampling in DBNs as shown in figure \ref{fig:dbn}, where the activation from the top layer is passed down to the visible layer in a deterministic way.
 For each of these functions for sampling and calculating the activation potential, there is also a function that is suffixed with an exclamation mark.
-These variants are mostly used in the implementation, as they allow to reuse allocated space, which makes the implementation much faster.
+These variants are mostly used in the implementation as they allow to reuse allocated space, which makes the implementation much faster.
 
 The free energy of visible states $v$ in an RBM can be calculated via  \inlinecode{freeenergy(rbm, v)}.
 This is used for calculating the likelihood, as described in equation (\ref{eqn:pRBMfreeenergy}) if a value for the partition function is given.
@@ -1140,7 +1140,7 @@ For this purpose, the hyperparameters for each RBM can be defined in an array of
 Analogously to how RBMs are arranged as building blocks in DBMs (see figure  \ref{mdbmimplasstack}), these hyperparameter definition objects can be arranged in vectors and passed to \inlinecode{fitrbm} or \inlinecode{stackrbms}.
 Objects of type \inlinecode{TrainLayer} are then translated to RBMs and objects of type \inlinecode{TrainPartitionedLayer} to partitioned RBMs.
 For illustrating this, let us assume here that \inlinecode{x} has only 6 variables.
-Then the code in \ref{lst:partdbm} results in a model shown in figure \ref{fig:smallpartitioneddbm}.
+Then the code in listing \ref{lst:partdbm} results in a model shown in figure \ref{fig:smallpartitioneddbm}.
 
 \begin{figure}[h]
    \centering
@@ -1158,10 +1158,11 @@ dbm = fitdbm(x; pretraining = [
       TrainLayer(nhidden = 2)])
 \end{lstlisting}
 
+\paragraph{Customizing the optimization}
 
 The calculation of the gradients is abstracted from Gibbs sampling and mean-field approximation.
 The default is the optimization via the gradients described in \ref{rbmtraining} and \ref{dbmtraining}, which are calculated from the input of the contrastive divergence, Gibbs sampling and mean-field algorithms.
-The gradients calculated from this input can be customized (e.g., for adding a regularization term) by creating a new subtype of \inlinecode{AbstractOptimizer} (see p.\ \pageref{bms_AbstractOptimizer}) and passing it to the training function or specifying it in a \inlinecode{TrainLayer} object via the \inlinecode{optimizer} argument.
+The gradients calculated from this input can be customized, e.g., for adding a regularization term, by creating a new subtype of \inlinecode{AbstractOptimizer} (see p.\ \pageref{bms_AbstractOptimizer}) and passing it to the training function or specifying it in a \inlinecode{TrainLayer} object via the \inlinecode{optimizer} argument.
 
 
 \paragraph{Different types of visible nodes}
@@ -1215,7 +1216,7 @@ If the resulting learning curve \dots
 \item \dots is unstable or not going in the right direction, the learning rate needs to be reduced.
 \item \dots is smooth but too flat, the learning rate can be increased.
 \item \dots has not reached a plateau/valley at the end of training, the number of epochs can be increased. 
-\item \dots is getting better on the training data set, but not on a test data set, overfitting is happening.
+\item \dots is getting better on the training data set but not on a test data set, overfitting is happening.
 \end{itemize}
 
 Evaluating a model is usually done using also other data sets than the training data set to detect overfitting.
@@ -1249,8 +1250,9 @@ monitors, dbm = monitored_fitdbm(x; nhiddens = [6,2],
       monitoringdata = datadict);
 \end{lstlisting}
 
-In listing \ref{lst:monfitdbm}, the different data sets that are to be used in monitoring are at first collected in a \inlinecode{DataDict} object and passed to the training function via the  \inlinecode{monitoringdata} argument.
+In listing \ref{lst:monfitdbm}, the different data sets that are to be used in monitoring are at first collected in a \inlinecode{DataDict} object and then passed to the training function via the  \inlinecode{monitoringdata} argument.
 For monitoring the pre-training of higher layers, the input data in the \inlinecode{datadict} is propagated upwards by using the induced deterministic activation potential in the same way as it is done with the data for training the higher layers.
+
 The monitoring functions are expected to write their results in the \inlinecode{Monitor} objects (see p.\ \pageref{bms_Monitor}) that are received as first argument of the monitoring functions.
 These \inlinecode{Monitor} objects are collected and returned in form of a vector as the first result of the monitored training function.
 
