@@ -16,9 +16,10 @@ function writelatexdocu(pkg, labelprefix, outputfile)
       end
    end
    output = String(take!(io))
-
+   output = replace(output, r"\\texttt\{([^}]+)([!.])([^}]+)\}" => s"\\texttt{\1\2\\allowbreak \3}")
    output = replace(output, r"\\section" => "\\paragraph*")
    output = replace(output, r"\\href\{@ref\}\{([^}]+)\}" => s"\1")
+   output = replace(output, "}/" => "}\\slash ")
    open(pwd() * "/appendix/$outputfile", "w") do io
       write(io, output)
    end

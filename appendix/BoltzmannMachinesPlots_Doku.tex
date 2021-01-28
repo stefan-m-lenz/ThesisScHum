@@ -10,7 +10,7 @@ plotevaluation(monitor, evaluationkey; ...)
 \end{verbatim}
 Plots a curve that shows the values of the evaluation contained in the \texttt{monitor} and specified by the \texttt{evaluationkey} over the course of the training epochs. If no evaluationkey is specified, the evaluation type of the first monitor element is used.
 
-Optional keyword argument \texttt{sdrange}: For evaluations with keys \texttt{BoltzmannMachines.monitorloglikelihood} and \texttt{BoltzmannMachines.monitorlogproblowerbound}, there is additional information about the standard deviation of the estimator. With the parameter \texttt{sdrange}, it is possible to display this information as a ribbon around the curve. The ribbon indicates the area around the curve that contains the values that deviate at maximum \texttt{sdrange} times the standard deviation from the estimator. Default value for \texttt{sdrange} is 2.0.
+Optional keyword argument \texttt{sdrange}: For evaluations with keys \texttt{BoltzmannMachines.\allowbreak monitorloglikelihood} and \texttt{BoltzmannMachines.\allowbreak monitorlogproblowerbound}, there is additional information about the standard deviation of the estimator. With the parameter \texttt{sdrange}, it is possible to display this information as a ribbon around the curve. The ribbon indicates the area around the curve that contains the values that deviate at maximum \texttt{sdrange} times the standard deviation from the estimator. Default value for \texttt{sdrange} is 2.0.
 
 \noindent\rule{\textwidth}{1pt}
 %======================================================
