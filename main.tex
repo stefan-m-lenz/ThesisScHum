@@ -1159,16 +1159,25 @@ dbm = fitdbm(x; pretraining = [
 \end{lstlisting}
 
 
-TODO The optimization procedure is also customizable. 
+The calculation of the gradients is abstracted from Gibbs sampling and mean-field approximation.
+The default is the optimization via the gradients described in \ref{rbmtraining} and \ref{dbmtraining}, which are calculated from the input of the contrastive divergence, Gibbs sampling and mean-field algorithms.
+The gradients calculated from this input can be customized (e.g., for adding a regularization term) by creating a new subtype of \inlinecode{AbstractOptimizer} (see p.\ \pageref{bms_AbstractOptimizer}) and passing it to the training function or specifying it in a \inlinecode{TrainLayer} object via the \inlinecode{optimizer} argument.
 
 
 \paragraph{Different types of visible nodes}
 
-TODO
+For training RBMs or DBMs types with other types of visible nodes, such as those for data with variables that have more than two categories, the type of the RBM can be specified as argument \inlinecode{rbmtype} for \inlinecode{fitrbm} function or in the \inlinecode{TrainLayer} object for training an RBM.
+Additional parameters, such as the specification of the number of categories for each categorical variable, can also be defined there.
+
+Let us assume that \inlinecode{xcat} contains eight categorical variables with values of 0.0 and 1.0 in the first four variables and values 0.0, 1.0, and 2.0 in the second four variables.
+The encoding in dummy variables as described in \ref{methodsoftmax0} can then be done with the \inlinecode{oneornone\_encode} function (see p.\ \pageref{bms_oneornone_encode}).
+The resulting binary matrix can then be used as input to the training function.
+The following code exemplifies this by training a DBM with two hidden layers on the categorical data in \inlinecode{xcat}:
 
 \begin{lstlisting}
 categories = [fill(2, 4); fill(3, 4)];
-dbm = fitdbm(x;
+x01 = oneornone_encode(xcat, categories)
+dbm = fitdbm(x01;
       pretraining = [
          TrainLayer(nhidden = 7, categories = categories,
                rbmtype = Softmax0BernoulliRBM);
@@ -1269,7 +1278,7 @@ The collected values can be plotted via the accompanying plotting package \apkg{
 The plotting functionality has been separated in a separate package because plotting is not available in the base installation of Julia.
 By making the dependency to a plotting package optional, plotting functionality must only be installed if it is needed.
 The plotting is performed with Gadfly \citep{gadfly}, one of the Julia plotting packages with the most stable stable API, which has already reached version 1.0.
-The plotting package can be installed and imported in the same way as the main package:
+\apkg{BoltzmannMachinesPlots} can be installed and imported in the same way as the main package:
 
 \begin{lstlisting}
 import Pkg
@@ -1277,7 +1286,7 @@ Pkg.add("BoltzmannMachinesPlots")
 using BoltzmannMachinesPlots
 \end{lstlisting}
 
-The \inlinecode{plotevaluation} function, which is defined there, takes care of plotting the information of a \inlinecode{Monitor} object.
+The \inlinecode{plotevaluation} function (see p.\ \pageref{bmplots_plotevaluation}), which is defined there, takes care of plotting the information of a \inlinecode{Monitor} object.
 For examples of such monitoring plots, see figure \ref{fig:monitoring_bmplots}.
 \begin{lstlisting}
 plotevaluation(monitors[1]) # pre-training of first RBM layer
