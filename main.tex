@@ -1270,7 +1270,7 @@ Monitors the exact log-likelihood in an RBM or DBM \\
   Monitors the (estimated) variational lower bound of the log likelihood in a DBM \\
    \hline
 \end{tabularx}
-\caption{Monitoring functions in the \apkg{BoltzmannMachines} Julia package. TODO args,  AIS params}
+\caption{Monitoring functions in the \apkg{BoltzmannMachines} Julia package}
 \label{monfun}
 \end{table}
 
@@ -1304,7 +1304,14 @@ plotevaluation(monitors[3]) # fine-tuning
 
 \paragraph{Dimension reduction}
 
-
+In addition to their capabilities as generative models, DBMs can also be used for dimension reduction.
+The hidden layers of a DBM correspond to an increased abstraction of the input data,
+with nodes in higher layers encoding more abstract patterns than the nodes in the layers below. 
+Intuitively, this dimension reduction can be thought of as looking at the ideas that the network has about its input.
+If in the top hidden layer only two nodes are used for encoding the information, the activation patterns resulting from the input can be visualized as point in the 2D plane.
+For this, each input sample is used to induce activation in the network, resulting in one 2D point that is defined by the activation of the nodes in the top layer.
+The \inlinecode{scatterhidden} function (see p.\ \pageref{bmplots_scatterhidden}) does this in a convenient way.
+It creates a scatter plot of the logit-transformed mean-field activation in the top hidden layer of a DBM, given the input data and the DBM.
 
 
 
