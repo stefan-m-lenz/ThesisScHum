@@ -1393,6 +1393,38 @@ Overfitting, membership attack
 
 \subsubsection{Results}
 
+\begin{table}[h!]
+\centering
+\begin{tabular}{l|cccc}
+& 1 site & 2 sites & 5 sites & 20 sites \\[0.5ex]
+\hline
+\\\\[-4\medskipamount]
+DBM & \makecell{0.98 \\ (0.82 - 1.21)} & \makecell{1.00 \\ (0.78 - 1.19)} & \makecell{1.03 \\ (0.74 - 1.65)} & \makecell{1.42 \\ (0.89 - 3.85)} \\
+GAN & \makecell{2.17 \\ (1.86 - 3.36)} & \makecell{3.28 \\ (2.12 - 6.33)} & \makecell{3.82 \\ (2.41 - 6.41)} & \makecell{4.00 \\ (2.41 - 6.88)} \\
+IM & \makecell{3.96 \\ (2.33 - 6.95)} & \makecell{3.95 \\ (2.32 - 6.95)} & \makecell{3.97 \\ (2.32 - 6.95)} & \makecell{3.90 \\ (2.30 - 6.84)} \\
+MICE & \makecell{3.72 \\ (2.87 - 6.04)} & \makecell{3.41 \\ (2.76 - 5.13)} & \makecell{3.05 \\ (2.47 - 4.61)} & \makecell{2.84 \\ (1.93 - 4.22)} \\
+VAE & \makecell{1.05 \\ (0.72 - 1.85)} & \makecell{1.02 \\ (0.68 - 1.72)} & \makecell{0.90 \\ (0.61 - 1.50)} & \makecell{0.89 \\ (0.53 - 1.53)} \\
+\end{tabular}
+\caption{RMSE of log odds ratios $d(x_{gen},x_{val})$: Median (5\% quantile - 95\% quantile)}
+\label{tab:distgenresults_rmse}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{l|cccc}
+& 1 site & 2 sites & 5 sites & 20 sites \\[0.5ex]
+\hline
+\\\\[-4\medskipamount]
+DBM & \makecell{0.11 \\ (-0.016 - 0.24)} & \makecell{-0.14 \\ (-0.44 - 0.27)} & \makecell{-0.15 \\ (-0.39 - 0.24)} & \makecell{0.38 \\ (0.11 - 0.69)} \\[2ex]
+GAN & \makecell{0.068 \\ (0.013 - 0.17)} & \makecell{0.12 \\ (0.018 - 0.31)} & \makecell{0.22 \\ (0.15 - 0.34)} & \makecell{0.43 \\ (0.29 - 0.55)} \\[2ex]
+IM & \makecell{0.055 \\ (-0.0045 - 0.099)} & \makecell{0.12 \\ (0.058 - 0.18)} & \makecell{0.22 \\ (0.15 - 0.31)} & \makecell{0.45 \\ (0.30 - 0.63)} \\[2ex]
+MICE & \makecell{0.031 \\ (0.0022 - 0.08)} & \makecell{0.10 \\ (0.0048 - 0.32)} & \makecell{0.18 \\ (-0.019 - 0.45)} & \makecell{0.45 \\ (0.09 - 0.85)} \\[2ex]
+VAE & \makecell{0.19 \\ (0.057 - 0.32)} & \makecell{0.27 \\ (0.062 - 0.45)} & \makecell{0.29 \\ (0.064 - 0.56)} & \makecell{0.48 \\ (-0.20 - 0.82)} \\[2ex]
+\end{tabular}
+\caption{Proportion of overfitting: Median (5\% quantile - 95\% quantile)}\label{tab:distgenresults_overfitting}
+\end{table}
+
+
 \begin{figure}[h]
    \centering
    \includegraphics[scale=1]{images/hclust.pdf}
