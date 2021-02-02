@@ -1382,9 +1382,20 @@ In practice, however, it makes sense to provide an analysis client on a central 
 Researchers who are to conduct analyses can get access to this server and find a computation environment that is ready to use.
 This has the additional advantage that the firewalls of the analysis servers can be configured to accept only requests from the IP of the central analysis server, which adds an extra layer of security \citep{gruendner}.
 
-The local servers are Opal server \citep{opal}.
+The servers of the DataSHIELD infrastructure that run at the different sites and hold the data are called {\em Opal} servers \citep{opal}.
+The Opal servers manage the data and the access to it.
+The data is stored in tabular form and the rights to view or analyze data can be set on the level of tables.
+All R functions that are allowed to be executed locally must be registered in the Opal server.
+An incoming request is only executed if the function that is called via the request is in the set of allowed functions and if the user is authorized to access the data in Opal.
 
-The \apkg{dsBase} package includes already many  basic statistical methods, ranging from the calculation of simple mean values to the calculation of generalized linear models (GLMs) \citep{wolfson_datashield}.
+The \apkg{dsBase} package, which bundles the basic functionality of DataSHIELD, can be installed in the Opal server for enabling many basic statistical methods.
+The methods available in the package range from the calculation of simple mean values to the calculation of generalized linear models (GLMs) \citep{wolfson_datashield}.
+The methods are implemented in a way that the result from calculating a statistic across a distributed cohort is the same as if the data were pooled.
+This works via reformulating the algorithms in a way that it suffices to calculate the result in the analysis client from aggregated statistics instead of the individual-level data.
+For each function on the client side there are functions on the server-side that return the required aggregated statistics, which are calculated from the local data set.
+Their implementation is publicly accessible\footnote{https://github.com/datashield/dsBase} and peer-reviewed to minimize disclosure risk.
+
+TODO reformulating alogirthms not always possible. therefore synthetic data
 
 
 
