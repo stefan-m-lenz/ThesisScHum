@@ -54,6 +54,15 @@ Blei, D.~M., Kucukelbir, A. \harvardand\ McAuliffe, J.~D.  \harvardyearleft
   112}(518),~859--877.
 \newblock Publisher: Taylor \& Francis.
 
+\harvarditem[Bonofiglio et~al.]{Bonofiglio, Schumacher \harvardand\
+  Binder}{2020}{bonofiglio2020}
+Bonofiglio, F., Schumacher, M. \harvardand\ Binder, H.  \harvardyearleft
+  2020\harvardyearright , `Recovery of original individual person data ({IPD})
+  inferences from empirical {IPD} summaries only: {Applications} to distributed
+  computing under disclosure constraints', {\em Statistics in Medicine} {\bf
+  39}(8),~1183--1198.
+\newline\harvardurl{https://onlinelibrary.wiley.com/doi/abs/10.1002/sim.8470}
+
 \harvarditem[Bottou et~al.]{Bottou, Curtis \harvardand\
   Nocedal}{2018}{bottou_optimization_2018}
 Bottou, L., Curtis, F.~E. \harvardand\ Nocedal, J.  \harvardyearleft
