@@ -61,6 +61,16 @@ Bottou, L., Curtis, F.~E. \harvardand\ Nocedal, J.  \harvardyearleft
   learning', {\em Siam Review} {\bf 60}(2),~223--311.
 \newblock Publisher: SIAM.
 
+\harvarditem[Budin-Ljøsne et~al.]{Budin-Ljøsne, Burton, Isaeva, Gaye, Turner,
+  Murtagh, Wallace, Ferretti \harvardand\
+  Harris}{2015}{budin-ljosne_datashield}
+Budin-Ljøsne, I., Burton, P., Isaeva, J., Gaye, A., Turner, A., Murtagh,
+  M.~J., Wallace, S., Ferretti, V. \harvardand\ Harris, J.~R.  \harvardyearleft
+  2015\harvardyearright , `{DataSHIELD}: {An} {Ethically} {Robust} {Solution}
+  to {Multiple}-{Site} {Individual}-{Level} {Data} {Analysis}', {\em Public
+  Health Genomics} {\bf 18}(2),~87--96.
+\newline\harvardurl{https://www.karger.com/Article/FullText/368959}
+
 \harvarditem{Carreira-Perpinan \harvardand\
   Hinton}{2005}{perpinan_contrastive_2005}
 Carreira-Perpinan, M.~A. \harvardand\ Hinton, G.~E.  \harvardyearleft
@@ -95,6 +105,14 @@ Curry, H.~B.  \harvardyearleft 1944\harvardyearright , `The method of steepest
   Mathematics} {\bf 2}(3),~258--261.
 \newline\harvardurl{https://www.ams.org/qam/1944-02-03/S0033-569X-1944-10667-3/}
 
+\harvarditem[Doiron et~al.]{Doiron, Marcon, Fortier, Burton \harvardand\
+  Ferretti}{2017}{opal}
+Doiron, D., Marcon, Y., Fortier, I., Burton, P. \harvardand\ Ferretti, V.
+  \harvardyearleft 2017\harvardyearright , `Software {Application} {Profile}:
+  {Opal} and {Mica}: open-source software solutions for epidemiological data
+  management, harmonization and dissemination', {\em International Journal of
+  Epidemiology} {\bf 46}(5),~1372--1378.
+
 \harvarditem{Drees}{2009}{darch}
 Drees, M.  \harvardyearleft 2009\harvardyearright , {Implementierung} und
   {Analyse} von tiefen {Architekturen} in {R}, Master's thesis, Fachhochschule
@@ -105,6 +123,28 @@ Faraway, J.~J.  \harvardyearleft 2002\harvardyearright , {\em Practical
   regression and {ANOVA} using {R}}, University of Michigan.
 \newblock Available from
   \url{https://cran.r-project.org/doc/contrib/Faraway-PRA.pdf}.
+
+\harvarditem[Gaye et~al.]{Gaye, Marcon, Isaeva, LaFlamme, Turner, Jones,
+  Minion, Boyd, Newby, Nuotio, Wilson, Butters, Murtagh, Demir, Doiron,
+  Giepmans, Wallace, Budin-Ljøsne, Schmidt, Boffetta, Boniol, Bota, Carter,
+  deKlerk, Dibben, Francis, Hiekkalinna, Hveem, Kvaløy, Millar, Perry, Peters,
+  Phillips, Popham, Raab, Reischl, Sheehan, Waldenberger, Perola, Heuvel,
+  Macleod, Knoppers, Stolk, Fortier, Harris, Woffenbuttel, Murtagh, Ferretti
+  \harvardand\ Burton}{2014}{gaye_datashield}
+Gaye, A., Marcon, Y., Isaeva, J., LaFlamme, P., Turner, A., Jones, E.~M.,
+  Minion, J., Boyd, A.~W., Newby, C.~J., Nuotio, M.-L., Wilson, R., Butters,
+  O., Murtagh, B., Demir, I., Doiron, D., Giepmans, L., Wallace, S.~E.,
+  Budin-Ljøsne, I., Schmidt, C.~O., Boffetta, P., Boniol, M., Bota, M.,
+  Carter, K.~W., deKlerk, N., Dibben, C., Francis, R.~W., Hiekkalinna, T.,
+  Hveem, K., Kvaløy, K., Millar, S., Perry, I.~J., Peters, A., Phillips,
+  C.~M., Popham, F., Raab, G., Reischl, E., Sheehan, N., Waldenberger, M.,
+  Perola, M., Heuvel, E. v.~d., Macleod, J., Knoppers, B.~M., Stolk, R.~P.,
+  Fortier, I., Harris, J.~R., Woffenbuttel, B.~H., Murtagh, M.~J., Ferretti, V.
+  \harvardand\ Burton, P.~R.  \harvardyearleft 2014\harvardyearright ,
+  `{DataSHIELD}: taking the analysis to the data, not the data to the
+  analysis', {\em International Journal of Epidemiology} {\bf
+  43}(6),~1929--1944.
+\newline\harvardurl{http://ije.oxfordjournals.org/content/43/6/1929}
 
 \harvarditem{Geman \harvardand\ Geman}{1984}{gibbssamplingorig}
 Geman, S. \harvardand\ Geman, D.  \harvardyearleft 1984\harvardyearright ,
@@ -122,6 +162,14 @@ Geman, S. \harvardand\ Geman, D.  \harvardyearleft 1984\harvardyearright ,
   Courville}{2016}{goodfellow_deep_2016}
 Goodfellow, I., Bengio, Y. \harvardand\ Courville, A.  \harvardyearleft
   2016\harvardyearright , {\em Deep {Learning}}, MIT Press.
+
+\harvarditem[Gruendner et~al.]{Gruendner, Prokosch, Schindler, Lenz
+  \harvardand\ Binder}{2019}{gruendner}
+Gruendner, J., Prokosch, H.-U., Schindler, S., Lenz, S. \harvardand\ Binder, H.
+   \harvardyearleft 2019\harvardyearright , `A {Queue}-{Poll} {Extension} and
+  {DataSHIELD}: {Standardised}, {Monitored}, {Indirect} and {Secure} {Access}
+  to {Sensitive} {Data}.', {\em Studies in health technology and informatics}
+  {\bf 258},~115--119.
 
 \harvarditem[Harris et~al.]{Harris, Millman, van~der Walt, Gommers, Virtanen,
   Cournapeau, Wieser, Taylor, Berg, Smith, Kern, Picus, Hoyer, van Kerkwijk,
@@ -189,7 +237,7 @@ Jones, D.~C., Arthur, B., Nagy, T., Gowda, S., Godisemo, Holy, T., Mattriks,
   Mellnik, A., Verzani, J., inkyu, Innes, M.~J., Huchette, J., Bauman, M.,
   Hyatt, K., Forsyth, J., Borje, G., Saba, E., Coalson, C. \harvardand\
   Pelenitsyn, A.  \harvardyearleft 2018\harvardyearright ,
-  `{GiovineItalia}/{Gadfly.jl}: Crafty statistical graphics for julia'.
+  `{GiovineItalia}/{Gadfly.jl}: Crafty statistical graphics for {Julia}'.
 \newline\harvardurl{https://doi.org/10.5281/zenodo.1924781}
 
 \harvarditem{Krizhevsky}{2009}{krizhevsky2009tinyimagesthesis}
@@ -328,6 +376,17 @@ Theis, L., Oord, A. v.~d. \harvardand\ Bethge, M.  \harvardyearleft
   arXiv:1511.01844 [cs, stat]} .
 \newblock arXiv: 1511.01844.
 \newline\harvardurl{http://arxiv.org/abs/1511.01844}
+
+\harvarditem[Wolfson et~al.]{Wolfson, Wallace, Masca, Rowe, Sheehan, Ferretti,
+  LaFlamme, Tobin, Macleod, Little, Fortier, Knoppers \harvardand\
+  Burton}{2010}{wolfson_datashield}
+Wolfson, M., Wallace, S.~E., Masca, N., Rowe, G., Sheehan, N.~A., Ferretti, V.,
+  LaFlamme, P., Tobin, M.~D., Macleod, J., Little, J., Fortier, I., Knoppers,
+  B.~M. \harvardand\ Burton, P.~R.  \harvardyearleft 2010\harvardyearright ,
+  `{DataSHIELD}: resolving a conflict in contemporary bioscience—performing a
+  pooled analysis of individual-level data without sharing the data', {\em
+  International Journal of Epidemiology} {\bf 39}(5),~1372--1382.
+\newline\harvardurl{http://ije.oxfordjournals.org/content/39/5/1372}
 
 \harvarditem{Xianyi \harvardand\ Kroeker}{2020}{openblas}
 Xianyi, Z. \harvardand\ Kroeker, M.  \harvardyearleft 2020\harvardyearright ,
