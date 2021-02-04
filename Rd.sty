@@ -211,7 +211,7 @@
 %% If we simply do
 %%   \DeclareRobustCommand\code{\bgroup\@noligs\@vobeyspaces\Rd@code}
 %% then e.g.
-%%   \code{\LinkA{attr<-}{attr<.Rdash.}} 
+%%   \code{\LinkA{attr<-}{attr<.Rdash.}}
 %% will give an undefined control sequence `\< error when hyperref is
 %% used (so that \LinkA uses \hyperlink).
 %% Hence, use a noligs list without < and > for now, and use the same
@@ -301,7 +301,7 @@
 \g@addto@macro\verbatim@font\@noligs
 
 \ifthenelse{\boolean{Rd@use@hyper}}{%
-  \RequirePackage{color}    
+  \RequirePackage{color}
   \def\myaddcontentsline#1#2#3{%
     \addtocontents{#1}{\protect\contentsline{#2}{#3}{\thepage}{page.\thepage}}}
   \RequirePackage{hyperref}
@@ -402,6 +402,8 @@
   \markboth{#1}{#1}
   \noindent
   \nopagebreak
+  \phantomsection     % fuer labels
+  \label{rdokitem_#3} % labels fuer pagerefs
   \begin{center}
   \ifthenelse{\boolean{Rd@use@hyper}}%
     {\def\@currentHref{page.\thepage}
@@ -420,6 +422,7 @@
     \hrule
   \end{center}
   \nopagebreak}
+
 \DeclareTextCommandDefault{\Rpercent}{\%{}}
 %% for use with the output of encoded_text_to_latex
 \ProvideTextCommandDefault{\textdegree}{\ensuremath{{^\circ}}}

@@ -42,6 +42,7 @@
 \newcommand{\proglang}[1]{#1} % egal, kommt in kopierten referenzen vor
 
 \newcommand{\rightpageref}[1]{\hfill $\rightsquigarrow$ p.\ \pageref{#1}}
+\newcommand{\rightpagerefs}[2]{\hfill $\rightsquigarrow$ pp.\ \pageref{#1}, \pageref{#2}}
 \interfootnotelinepenalty=10000
 
 \DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
@@ -1527,7 +1528,44 @@ VAE & \makecell{0.19 \\ (0.057 - 0.32)} & \makecell{0.27 \\ (0.062 - 0.45)} & \m
 
 \subsection{The \apkg{dsBoltzmannMachines} DataSHIELD package}
 
+
 The \apkg{dsBoltzmannMachines} package is the first package that allows generating synthetic data in DataSHIELD and enables a workflow as depicted in figure \ref{fig:syntheticdataprinciple}.
+
+\rowcolors{1}{gray!25}{white}
+\begin{table}[h]
+\caption{Overview of the functions in the \apkg{dsBoltzmannMachinesClient} package}
+\label{tab:dsBoltzmannFuns}
+   \begin{tabularx}{\textwidth}{X}
+   \hline
+\inlinecode{ds.monitored\_fitrbm} \rightpageref{rdokitem_ds.monitored.Rul.fitrbm} \\
+Monitored training of an RBM model \\
+\inlinecode{ds.monitored\_stackrbms} \rightpageref{rdokitem_ds.monitored.Rul.stackrbms} \\
+Monitored training of a stack of RBMs. Can be used for pre-training a DBM or for training a DBN \\
+\inlinecode{ds.monitored\_fitdbm} \rightpageref{rdokitem_ds.monitored.Rul.fitdbm} \\
+Monitored training of a DBM, including pre-training and fine-tuning \\
+\inlinecode{ds.setJuliaSeed} \rightpageref{rdokitem_ds.setJuliaSeed} \\
+Set a seed for the random number generator \\
+\inlinecode{ds.dbm.samples} / \inlinecode{ds.rbm.samples} \rightpagerefs{rdokitem_ds.dbm.samples}{rdokitem_ds.rbm.samples} \\
+Generate samples from a DBM/RBM. 
+This also allows conditional sampling.\\
+\inlinecode{ds.bm.defineLayer} \rightpageref{rdokitem_ds.bm.defineLayer} \\
+Define training parameters individually for a RBM layer in a DBM or DBN \\
+\inlinecode{ds.bm.definePartitionedLayer} \rightpageref{rdokitem_ds.bm.definePartitionedLayer} \\
+Define a partitioned layer using other layers as parts \\
+\inlinecode{ds.dbm.top2LatentDims} \rightpageref{rdokitem_ds.dbm.top2LatentDims} \\
+Get a two-dimensional representation of latent features \\
+\inlinecode{ds.rbm.loglikelihood} \rightpageref{rdokitem_ds.rbm.loglikelihood} \\
+Estimates the partition function of an RBM with AIS and then calculates the log-likelihood \\
+\inlinecode{ds.dbm.loglikelihood} \rightpageref{rdokitem_ds.dbm.loglikelihood} \\
+Performs a separate AIS run for each of the samples to estimate the log-likelihood of a DBM \\
+\inlinecode{ds.dbm.logproblowerbound} \rightpageref{rdokitem_ds.dbm.logproblowerbound} \\
+Estimates the variational lower bound of the likelihood of a DBM with AIS \\
+\inlinecode{ds.rbm.exactloglikelihood} /
+\inlinecode{ds.dbm.exactloglikelihood} \rightpagerefs{rdokitem_ds.dbm.exactloglikelihood}{rdokitem_ds.rbm.exactloglikelihood} \\
+Calculates the log-likelihood for a RBM/DBM (exponential complexity)\\
+\hline
+\end{tabularx}
+\end{table}
 
 %TODO code aus Paper
 
