@@ -307,6 +307,14 @@ Nowok, B., Raab, G.~M. \harvardand\ Dibben, C.  \harvardyearleft
   in {R}', {\em Journal of Statistical Software} {\bf 74}(1),~1--26.
 \newline\harvardurl{https://www.jstatsoft.org/index.php/jss/article/view/v074i11}
 
+\harvarditem[Nußberger et~al.]{Nußberger, Boesel, Lenz, Binder \harvardand\
+  Hess}{2020}{nussberger_synthetic_2020}
+Nußberger, J., Boesel, F., Lenz, S., Binder, H. \harvardand\ Hess, M.
+  \harvardyearleft 2020\harvardyearright , `Synthetic observations from deep
+  generative models and binary omics data with limited sample size', {\em
+  Briefings in Bioinformatics} .
+\newline\harvardurl{https://academic.oup.com/bib/advance-article/doi/10.1093/bib/bbaa226/5917048}
+
 \harvarditem[Paszke et~al.]{Paszke, Gross, Massa, Lerer, Bradbury, Chanan,
   Killeen, Lin, Gimelshein, Antiga, Desmaison, Kopf, Yang, DeVito, Raison,
   Tejani, Chilamkurthy, Steiner, Fang, Bai \harvardand\

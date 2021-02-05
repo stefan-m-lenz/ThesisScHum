@@ -1425,13 +1425,23 @@ For this purpose, generated images and the closest input images are displayed ne
 In such a case, a numeric score for measuring the quality is not necessary because the usefulness of the model becomes apparent.
 In case of patient records or genetic variant data, assessing the quality of synthetic data is not so simple because the human eye and brain is not equipped in the same way to judge whether patient records or genetic variant data are proper samples of the input distribution and at the same time not too close to original samples.
 
-One possibility to achieve something similar, however, is to use a clustering approach \citep{hclust}.
+One possibility for allowing a visual inspection of generated data, however, is to use a clustering approach \citep{hclust}.
 With similar records grouped together, the clustered data can be plotted and emerging patterns can be inspected visually.
 The similarity of patterns between original and synthetic data can be compared by putting clustered views of these data sets next to each other. TODO Referenzen, Moritz fragen.
 
-\cite{goncalves} 
-Performance measures
-TODO correlation, ORs
+Still, measuring the performance with a numeric measure has the advantage that different models can be evaluated automatically and that the assessment is less subjective than with the visual inspection of samples.
+There are many different measures, which can be used to evaluate the performance of generative models and which also have been applied to medical data sets \citep{goncalves}.
+
+For the experiments here, the differences of pairwise log odds ratios is utilized as as performance metric \citep{nussberger_synthetic_2020}.
+This metric measures the quality of modeling the bivariate associations between all combinations of variables.
+It is calculated using a validation data set $x_{val}$ and a generated data set $x_{gen}$.
+For each of the two data sets, the pairwise odds ratios are calculated for all pairs of variables in the respective data set.
+These values are logarithmized and collected in matrices.
+(If zeros occur in cells of the cross tables for calculating the odds ratios, a value of 0.5 is used for these cells instead to avoid getting infinite values.)
+Due to the symmetry of the matrices, only the lower half is used to calculate the Euclidean distance between the two matrices.
+The resulting value for the Euclidean distance of the lower half of the matrices is defined as the distance measure $d(x_{gen}, x_{val})$ for the pairwise log odds ratios, which shall be used here to compare different generative approaches.
+
+
 
 \subsubsection{Measuring disclosure}\label{measuringdisclosure}
 Overfitting, membership attack
