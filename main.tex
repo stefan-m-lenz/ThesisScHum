@@ -30,6 +30,8 @@
 \usepackage{rotating}
 \setcounter{secnumdepth}{4}
 \usepackage{afterpage}
+\usepackage{caption} 
+\captionsetup[table]{skip=5pt}
 
 \titleformat{\paragraph}
 {\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
@@ -833,6 +835,7 @@ Table \ref{tab:FeatureOverviewBoltzmann} summarizes the informations about the e
 
 \begin{table}[h!]
 \centering
+\caption{\label{tab:FeatureOverviewBoltzmann} Comparison of features and basic charateristics of different software implementations of restricted and deep Boltzmann machines.}
 \begin{tabular}{p{4.4cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.25cm} p{1.25cm}}
 \hline \\ [3.9ex]\\
  & \begin{rotate}{25}\apkg{BoltzmannMachines} \end{rotate} & 
@@ -858,7 +861,6 @@ AIS for RBMs & Yes & Yes & No & Yes & No & No \\
 AIS for DBMs & Yes & No & No & Yes & No & No \\
 \hline
 \end{tabular}
-\caption{\label{tab:FeatureOverviewBoltzmann} Comparison of features and basic charateristics of different software implementations of restricted and deep Boltzmann machines.}
 \end{table}
 
 The \apkg{deepbelief} package \citep{deepbelief_github} provides an object-oriented implementation of RBMs and DBNs in Python, and employs the linear algebra library \apkg{NumPy} \citep{numpy} for the matrix operations.
@@ -988,6 +990,7 @@ Table \ref{juliaFunTableTrain} gives an overview of all functions that can be us
 
 \rowcolors{1}{gray!25}{white} % alternating row colors in tables
 \begin{table}[h]
+\caption{Functions in the Julia package for training RBMs and DBMs. All these functions return the trained model. The number of training epochs can be specified via the named argument \inlinecode{epochs}. There are many more hyperparameters which can be specified. For a more detailed description of the arguments, see the page references to the package documentation, which can be found in the appendix.}\label{juliaFunTableTrain}
 \begin{tabularx}{\textwidth}{X}
    \hline
    \inlinecode{fitrbm(x;...)} \rightpageref{bms_fitrbm} \\
@@ -1000,7 +1003,6 @@ Table \ref{juliaFunTableTrain} gives an overview of all functions that can be us
    Fits a (multimodal) deep Boltzmann machine model for a given data set \inlinecode{x} and model hyperparameters \\
    \hline
 \end{tabularx}
-\caption{Functions in the Julia package for training RBMs and DBMs. All these functions return the trained model. The number of training epochs can be specified via the named argument \inlinecode{epochs}. There are many more hyperparameters which can be specified. For a more detailed description of the arguments, see the page references to the package documentation, which can be found in the appendix.}\label{juliaFunTableTrain}
 \end{table}
 
 Pre-training and fine-tuning of a DBM can either be done in one step via \inlinecode{fitdbm}, or in two separate steps.
@@ -1017,6 +1019,8 @@ An overview of the functions for evaluating the likelihood in RBMs and DBMs is g
 
 \rowcolors{1}{gray!25}{white}
 \begin{table}[h]
+\caption{Functions in the Julia package for evaluating the likelihood of RBMs and DBMs. The partition function is estimated via AIS unless a value for the parameter \inlinecode{logz} is provided. The partition function cal can also be calculated exactly but this is only feasible for very small models. (For the algorithmic complexity of the corresponding algorithms, see \ref{methodExactloglik}.) }
+\label{juliaFunTableEval}
    \begin{tabularx}{\textwidth}{X}
    \hline
    \inlinecode{logpartitionfunction(bm; ... )} \rightpageref{bms_logpartitionfunction}\\
@@ -1050,8 +1054,6 @@ An overview of the functions for evaluating the likelihood in RBMs and DBMs is g
    Calculates the log of the partition function for a restricted Boltzmann machine \\
    \hline
 \end{tabularx}
-\caption{Functions in the Julia package for evaluating the likelihood of RBMs and DBMs. The partition function is estimated via AIS unless a value for the parameter \inlinecode{logz} is provided. The partition function cal can also be calculated exactly but this is only feasible for very small models. (For the algorithmic complexity of the corresponding algorithms, see \ref{methodExactloglik}.) }
-\label{juliaFunTableEval}
 \end{table}
 
 
@@ -1257,7 +1259,10 @@ The monitoring functions are expected to write their results in the \inlinecode{
 These \inlinecode{Monitor} objects are collected and returned in form of a vector as the first result of the monitored training function.
 
 \rowcolors{1}{gray!25}{white}
+
 \begin{table}[h]
+\caption{Monitoring functions in the \apkg{BoltzmannMachines} Julia package}
+\label{monfun}
    \begin{tabularx}{\textwidth}{X}
    \hline
    \inlinecode{monitorreconstructionerror!(monitor, rbm, epoch, datadict)} \rightpageref{bms_monitorreconstructionerror!}\\
@@ -1272,8 +1277,6 @@ Monitors the exact log-likelihood in an RBM or DBM \\
   Monitors the (estimated) variational lower bound of the log likelihood in a DBM \\
    \hline
 \end{tabularx}
-\caption{Monitoring functions in the \apkg{BoltzmannMachines} Julia package}
-\label{monfun}
 \end{table}
 
 The collected values can be plotted via the accompanying plotting package \apkg{Boltzmann\-Machines\-Plots}, which is also registered in the Julia package repository.
@@ -1401,7 +1404,7 @@ Their implementation is publicly accessible\footnote{https://github.com/datashie
 To implement an algorithm in DataSHIELD, it needs to be reformulated to rely solely on aggregate statistics.
 This is not possible for all algorithms.
 It may also be very complicated to achieve or it may be that this work simply has not been done yet.
-Using synthetic data can be an alternative in these cases \citep{bonofiglio2020}.
+Using synthetic data can be an alternative in these cases \citep{bonofiglio2020, manriquevallier_bayesian_2018, synthpop, quick_generating_2018}.
 A workflow of how synthetic data can be used in a distributed setting is depicted in figure \ref{fig:syntheticdataprinciple}.
 
 \begin{figure}[h]
@@ -1414,11 +1417,23 @@ A workflow of how synthetic data can be used in a distributed setting is depicte
 Synthetic data can be generated with generative models.
 TODO VAE, GAN, MICE, Verweis Goncalves
 
-\subsubsection{Performance measures}
-Performance measures
-TODO correlation, ORs, clustering approaches, visual inspection of samples
+\subsubsection{Measuring performance}\label{measuringperformance}
+For comparing the generative performance of different generative models, measures for the quality of the generated data are needed.
+For imaging data, visual inspection of samples is often used  to demonstrate the quality of the model.
+A model that has been trained on images of human faces and that generates diverse faces which are not too close to the original input faces can be regarded as a good model.
+For this purpose, generated images and the closest input images are displayed next to each other \citep{theis_note_2015}.
+In such a case, a numeric score for measuring the quality is not necessary because the usefulness of the model becomes apparent.
+In case of patient records or genetic variant data, assessing the quality of synthetic data is not so simple because the human eye and brain is not equipped in the same way to judge whether patient records or genetic variant data are proper samples of the input distribution and at the same time not too close to original samples.
 
-\subsubsection{Disclosure metrics}
+One possibility to achieve something similar, however, is to use a clustering approach \citep{hclust}.
+With similar records grouped together, the clustered data can be plotted and emerging patterns can be inspected visually.
+The similarity of patterns between original and synthetic data can be compared by putting clustered views of these data sets next to each other. TODO Referenzen, Moritz fragen.
+
+\cite{goncalves} 
+Performance measures
+TODO correlation, ORs
+
+\subsubsection{Measuring disclosure}\label{measuringdisclosure}
 Overfitting, membership attack
 
 %TODO working with synthetic data principle
@@ -1463,11 +1478,19 @@ Figure \ref{fig:distclustersnps}: DBM with 2 hidden layers with 50 and 10 hidden
 
 \subsubsection{Experimental setup}
 
+The models with the best performance are chosen.
+To ensure a fair comparison, the pick of the best model for each approach uses the same performance measure that is used for comparing the different approaches.
+In GANs it is the only option to use a metric on the generated data because they do not have a single performance criterion like the lower bound of the likelihood as discriminator and generator in a GAN are optimized independently.
+Here we use the log odds ratios as described in \ref{measuringperformance} for comparing the models and for picking the model with the best performance for each approach.
+
 \subsubsection{Results}
 
 \begin{table}[h!]
 \centering
+\caption{RMSE of log odds ratios $d(x_{gen},x_{val})$: Median (5\% quantile - 95\% quantile)}
+\label{tab:distgenresults_rmse}
 \begin{tabular}{l|cccc}
+\\\\[-4\medskipamount]
 & 1 site & 2 sites & 5 sites & 20 sites \\[0.5ex]
 \hline
 \\\\[-4\medskipamount]
@@ -1477,13 +1500,13 @@ IM & \makecell{3.96 \\ (2.33 - 6.95)} & \makecell{3.95 \\ (2.32 - 6.95)} & \make
 MICE & \makecell{3.72 \\ (2.87 - 6.04)} & \makecell{3.41 \\ (2.76 - 5.13)} & \makecell{3.05 \\ (2.47 - 4.61)} & \makecell{2.84 \\ (1.93 - 4.22)} \\[2ex]
 VAE & \makecell{1.05 \\ (0.72 - 1.85)} & \makecell{1.02 \\ (0.68 - 1.72)} & \makecell{0.90 \\ (0.61 - 1.50)} & \makecell{0.89 \\ (0.53 - 1.53)} \\[2ex]
 \end{tabular}
-\caption{RMSE of log odds ratios $d(x_{gen},x_{val})$: Median (5\% quantile - 95\% quantile)}
-\label{tab:distgenresults_rmse}
 \end{table}
 
 \begin{table}[h!]
 \centering
+\caption{Proportion of overfitting: Median (5\% quantile - 95\% quantile)}\label{tab:distgenresults_overfitting}
 \begin{tabular}{l|cccc}
+\\\\[-4\medskipamount]
 & 1 site & 2 sites & 5 sites & 20 sites \\[0.5ex]
 \hline
 \\\\[-4\medskipamount]
@@ -1493,7 +1516,6 @@ IM & \makecell{0.055 \\ (-0.0045 - 0.099)} & \makecell{0.12 \\ (0.058 - 0.18)} &
 MICE & \makecell{0.031 \\ (0.0022 - 0.08)} & \makecell{0.10 \\ (0.0048 - 0.32)} & \makecell{0.18 \\ (-0.019 - 0.45)} & \makecell{0.45 \\ (0.09 - 0.85)} \\[2ex]
 VAE & \makecell{0.19 \\ (0.057 - 0.32)} & \makecell{0.27 \\ (0.062 - 0.45)} & \makecell{0.29 \\ (0.064 - 0.56)} & \makecell{0.48 \\ (-0.20 - 0.82)} \\[2ex]
 \end{tabular}
-\caption{Proportion of overfitting: Median (5\% quantile - 95\% quantile)}\label{tab:distgenresults_overfitting}
 \end{table}
 
  

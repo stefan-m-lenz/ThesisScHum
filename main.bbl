@@ -167,6 +167,14 @@ Geman, S. \harvardand\ Geman, D.  \harvardyearleft 1984\harvardyearright ,
 {\em GNU General Public License}  \harvardyearleft 2007\harvardyearright .
 \newline\harvardurl{http://www.gnu.org/licenses/gpl.html}
 
+\harvarditem[Goncalves et~al.]{Goncalves, Ray, Soper, Stevens, Coyle
+  \harvardand\ Sales}{2020}{goncalves}
+Goncalves, A., Ray, P., Soper, B., Stevens, J., Coyle, L. \harvardand\ Sales,
+  A.~P.  \harvardyearleft 2020\harvardyearright , `Generation and evaluation of
+  synthetic patient data', {\em BMC Medical Research Methodology} {\bf
+  20},~1--40.
+\newblock Publisher: Springer.
+
 \harvarditem[Goodfellow et~al.]{Goodfellow, Bengio \harvardand\
   Courville}{2016}{goodfellow_deep_2016}
 Goodfellow, I., Bengio, Y. \harvardand\ Courville, A.  \harvardyearleft
@@ -265,6 +273,15 @@ Malmaud, J. \harvardand\ White, L.  \harvardyearleft 2018\harvardyearright ,
   {\em Journal of Open Source Software} {\bf 3}(31),~1002.
 \newline\harvardurl{https://joss.theoj.org/papers/10.21105/joss.01002}
 
+\harvarditem{Manrique‐Vallier \harvardand\
+  Hu}{2018}{manriquevallier_bayesian_2018}
+Manrique‐Vallier, D. \harvardand\ Hu, J.  \harvardyearleft
+  2018\harvardyearright , `Bayesian non-parametric generation of fully
+  synthetic multivariate categorical data in the presence of structural zeros',
+  {\em Journal of the Royal Statistical Society: Series A (Statistics in
+  Society)} {\bf 181}(3),~635--647.
+\newline\harvardurl{https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/rssa.12352}
+
 \harvarditem{{Massachusetts Institute of Technology}}{n.d.}{mitlicense}
 {Massachusetts Institute of Technology}  \harvardyearleft n.d.\harvardyearright
   , `{MIT} license'.
@@ -278,6 +295,17 @@ McCoy, B.~M. \harvardand\ Wu, T.~T.  \harvardyearleft 2014\harvardyearright ,
 {MongoDB, Inc.}  \harvardyearleft 2009\harvardyearright , `{BSON} ({Binary}
   {JSON}) serialization'.
 \newline\harvardurl{http://bsonspec.org/}
+
+\harvarditem{Murtagh \harvardand\ Contreras}{2012}{hclust}
+Murtagh, F. \harvardand\ Contreras, P.  \harvardyearleft 2012\harvardyearright
+  , `Algorithms for hierarchical clustering: an overview', {\em Wiley
+  Interdiscip. Rev. Data Min. Knowl. Discov.} {\bf 2},~86--97.
+
+\harvarditem[Nowok et~al.]{Nowok, Raab \harvardand\ Dibben}{2016}{synthpop}
+Nowok, B., Raab, G.~M. \harvardand\ Dibben, C.  \harvardyearleft
+  2016\harvardyearright , `synthpop: {Bespoke} {Creation} of {Synthetic} {Data}
+  in {R}', {\em Journal of Statistical Software} {\bf 74}(1),~1--26.
+\newline\harvardurl{https://www.jstatsoft.org/index.php/jss/article/view/v074i11}
 
 \harvarditem[Paszke et~al.]{Paszke, Gross, Massa, Lerer, Bradbury, Chanan,
   Killeen, Lin, Gimelshein, Antiga, Desmaison, Kopf, Yang, DeVito, Raison,
@@ -301,6 +329,15 @@ Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel,
   E.  \harvardyearleft 2011\harvardyearright , `Scikit-learn: Machine learning
   in {P}ython', {\em Journal of Machine Learning Research} {\bf
   12},~2825--2830.
+
+\harvarditem[Quick et~al.]{Quick, Holan \harvardand\
+  Wikle}{2018}{quick_generating_2018}
+Quick, H., Holan, S.~H. \harvardand\ Wikle, C.~K.  \harvardyearleft
+  2018\harvardyearright , `Generating partially synthetic geocoded public use
+  data with decreased disclosure risk by using differential smoothing', {\em
+  Journal of the Royal Statistical Society: Series A (Statistics in Society)}
+  {\bf 181}(3),~649--661.
+\newline\harvardurl{https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/rssa.12360}
 
 \harvarditem[Ranzato et~al.]{Ranzato, Boureau, Chopra \harvardand\
   LeCun}{2007}{ranzato_ebm}
