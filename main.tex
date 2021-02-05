@@ -992,7 +992,7 @@ Table \ref{juliaFunTableTrain} gives an overview of all functions that can be us
 \begin{table}[h]
 \caption{Functions in the Julia package for training RBMs and DBMs. All these functions return the trained model. The number of training epochs can be specified via the named argument \inlinecode{epochs}. There are many more hyperparameters which can be specified. For a more detailed description of the arguments, see the page references to the package documentation, which can be found in the appendix.}\label{juliaFunTableTrain}
 \begin{tabularx}{\textwidth}{X}
-   \hline
+ \Xhline{1pt}
    \inlinecode{fitrbm(x;...)} \rightpageref{bms_fitrbm} \\
    Fits a restricted Boltzmann machine model for a given data set \inlinecode{x} and additional model hyperparameters \\
    \inlinecode{stackrbms(x;...)} \rightpageref{bms_stackrbms}\\
@@ -1001,7 +1001,7 @@ Table \ref{juliaFunTableTrain} gives an overview of all functions that can be us
    Fine-tunes a DBM on the data set \inlinecode{x} using the mean-field approximation procedure \\
      \inlinecode{fitdbm(x; ...)} \rightpageref{bms_fitdbm} \\
    Fits a (multimodal) deep Boltzmann machine model for a given data set \inlinecode{x} and model hyperparameters \\
-   \hline
+ \Xhline{1pt}
 \end{tabularx}
 \end{table}
 
@@ -1022,7 +1022,7 @@ An overview of the functions for evaluating the likelihood in RBMs and DBMs is g
 \caption{Functions in the Julia package for evaluating the likelihood of RBMs and DBMs. The partition function is estimated via AIS unless a value for the parameter \inlinecode{logz} is provided. The partition function cal can also be calculated exactly but this is only feasible for very small models. (For the algorithmic complexity of the corresponding algorithms, see \ref{methodExactloglik}.) }
 \label{juliaFunTableEval}
    \begin{tabularx}{\textwidth}{X}
-   \hline
+ \Xhline{1pt}
    \inlinecode{logpartitionfunction(bm; ... )} \rightpageref{bms_logpartitionfunction}\\
    Estimates log of the partition function of the Boltzmann machine \inlinecode{bm} using AIS. Additional hyperparameters for AIS may be provided. \\
    \makecell[tl]{
@@ -1052,7 +1052,7 @@ An overview of the functions for evaluating the likelihood in RBMs and DBMs is g
    Calculates the log-likelihood of a deep Boltzmann machine. \\
    \inlinecode{exactlogpartitionfunction(bm, x)} \rightpageref{bms_exactlogpartitionfunction} \\
    Calculates the log of the partition function for a restricted Boltzmann machine \\
-   \hline
+ \Xhline{1pt}
 \end{tabularx}
 \end{table}
 
@@ -1264,7 +1264,7 @@ These \inlinecode{Monitor} objects are collected and returned in form of a vecto
 \caption{Monitoring functions in the \apkg{BoltzmannMachines} Julia package}
 \label{monfun}
    \begin{tabularx}{\textwidth}{X}
-   \hline
+ \Xhline{1pt}
    \inlinecode{monitorreconstructionerror!(monitor, rbm, epoch, datadict)} \rightpageref{bms_monitorreconstructionerror!}\\
      Monitors the reconstruction error in an RBM \\
      \inlinecode{monitorfreeenergy!(monitor, rbm, epoch, datadict)} \rightpageref{bms_monitorfreeenergy!}\\ 
@@ -1275,7 +1275,7 @@ Monitors the (estimated) log-likelihood in an RBM \\
 Monitors the exact log-likelihood in an RBM or DBM \\
      \inlinecode{monitorlogproblowerbound!(monitor, dbm, epoch, datadict; ...)} \rightpageref{bms_monitorlogproblowerbound!}\\
   Monitors the (estimated) variational lower bound of the log likelihood in a DBM \\
-   \hline
+   \Xhline{1pt}
 \end{tabularx}
 \end{table}
 
@@ -1442,8 +1442,10 @@ Due to the symmetry of the matrices, only the lower half is used to calculate th
 The resulting value for the Euclidean distance of the lower half of the matrices is defined as the distance measure $d(x_{gen}, x_{val})$ for the pairwise log odds ratios, which shall be used here to compare different generative approaches.
 
 
-
 \subsubsection{Measuring disclosure}\label{measuringdisclosure}
+If synthetic data is generated from real patient data, it is particularly important to evaluate not only the quality of the synthetic data for conducting analyses but also to assess the risk of leaking private information that may result from releasing the synthetic data.
+
+
 Overfitting, membership attack
 
 %TODO working with synthetic data principle
@@ -1568,7 +1570,7 @@ The \apkg{dsBoltzmannMachines} package is the first package that allows generati
 \caption{Overview of the functions in the \apkg{dsBoltzmannMachinesClient} package}
 \label{tab:dsBoltzmannFuns}
    \begin{tabularx}{\textwidth}{X}
-   \hline
+   \Xhline{1pt}
 \inlinecode{ds.monitored\_fitrbm} \rightpageref{rdokitem_ds.monitored.Rul.fitrbm} \\
 Monitored training of an RBM model \\
 \inlinecode{ds.monitored\_stackrbms} \rightpageref{rdokitem_ds.monitored.Rul.stackrbms} \\
@@ -1595,7 +1597,7 @@ Estimates the variational lower bound of the likelihood of a DBM with AIS \\
 \inlinecode{ds.rbm.exactloglikelihood} /
 \inlinecode{ds.dbm.exactloglikelihood} \rightpagerefs{rdokitem_ds.dbm.exactloglikelihood}{rdokitem_ds.rbm.exactloglikelihood} \\
 Calculates the log-likelihood for a RBM/DBM (exponential complexity)\\
-\hline
+   \Xhline{1pt}
 \end{tabularx}
 \end{table}
 
