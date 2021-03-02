@@ -114,6 +114,14 @@ Curry, H.~B.  \harvardyearleft 1944\harvardyearright , `The method of steepest
   Mathematics} {\bf 2}(3),~258--261.
 \newline\harvardurl{https://www.ams.org/qam/1944-02-03/S0033-569X-1944-10667-3/}
 
+\harvarditem{Dinur \harvardand\ Nissim}{2003}{dinur_revealing_2003}
+Dinur, I. \harvardand\ Nissim, K.  \harvardyearleft 2003\harvardyearright ,
+  Revealing information while preserving privacy, {\em in} `Proceedings of the
+  twenty-second {ACM} {SIGMOD}-{SIGACT}-{SIGART} symposium on {Principles} of
+  database systems', {PODS} '03, Association for Computing Machinery, New York,
+  NY, USA, pp.~202--210.
+\newline\harvardurl{https://doi.org/10.1145/773153.773173}
+
 \harvarditem[Doiron et~al.]{Doiron, Marcon, Fortier, Burton \harvardand\
   Ferretti}{2017}{opal}
 Doiron, D., Marcon, Y., Fortier, I., Burton, P. \harvardand\ Ferretti, V.
@@ -126,6 +134,16 @@ Doiron, D., Marcon, Y., Fortier, I., Burton, P. \harvardand\ Ferretti, V.
 Drees, M.  \harvardyearleft 2009\harvardyearright , {Implementierung} und
   {Analyse} von tiefen {Architekturen} in {R}, Master's thesis, Fachhochschule
   Dortmund, Germany.
+
+\harvarditem[Eisen et~al.]{Eisen, Spellman, Brown \harvardand\
+  Botstein}{1998}{eisen_cluster_1998}
+Eisen, M.~B., Spellman, P.~T., Brown, P.~O. \harvardand\ Botstein, D.
+  \harvardyearleft 1998\harvardyearright , `Cluster analysis and display of
+  genome-wide expression patterns', {\em Proceedings of the National Academy of
+  Sciences} {\bf 95}(25),~14863--14868.
+\newblock Publisher: National Academy of Sciences, Section: Biological
+  Sciences.
+\newline\harvardurl{https://www.pnas.org/content/95/25/14863}
 
 \harvarditem{Faraway}{2002}{faraway_regression}
 Faraway, J.~J.  \harvardyearleft 2002\harvardyearright , {\em Practical
@@ -257,6 +275,14 @@ Jones, D.~C., Arthur, B., Nagy, T., Gowda, S., Godisemo, Holy, T., Mattriks,
   `{GiovineItalia}/{Gadfly.jl}: Crafty statistical graphics for {Julia}'.
 \newline\harvardurl{https://doi.org/10.5281/zenodo.1924781}
 
+\harvarditem{Kifer \harvardand\ Machanavajjhala}{2011}{kifer_no_2011}
+Kifer, D. \harvardand\ Machanavajjhala, A.  \harvardyearleft
+  2011\harvardyearright , No free lunch in data privacy, {\em in} `Proceedings
+  of the 2011 {ACM} {SIGMOD} {International} {Conference} on {Management} of
+  data', {SIGMOD} '11, Association for Computing Machinery, New York, NY, USA,
+  pp.~193--204.
+\newline\harvardurl{https://doi.org/10.1145/1989323.1989345}
+
 \harvarditem{Krizhevsky}{2009}{krizhevsky2009tinyimagesthesis}
 Krizhevsky, A.  \harvardyearleft 2009\harvardyearright , Learning multiple
   layers of features from tiny images, Master's thesis, University of Toronto,
@@ -266,6 +292,15 @@ Krizhevsky, A.  \harvardyearleft 2009\harvardyearright , Learning multiple
 Krizhevsky, A. \harvardand\ Hinton, G.  \harvardyearleft 2009\harvardyearright
   , `Learning multiple layers of features from tiny images', {\em Technical
   report, University of Toronto} .
+
+\harvarditem[Li et~al.]{Li, Qardaji, Su, Wu \harvardand\
+  Yang}{2013}{li_membership_2013}
+Li, N., Qardaji, W., Su, D., Wu, Y. \harvardand\ Yang, W.  \harvardyearleft
+  2013\harvardyearright , Membership privacy: a unifying framework for privacy
+  definitions, {\em in} `Proceedings of the 2013 {ACM} {SIGSAC} conference on
+  {Computer} \& communications security', {CCS} '13, Association for Computing
+  Machinery, New York, NY, USA, pp.~889--900.
+\newline\harvardurl{https://doi.org/10.1145/2508859.2516686}
 
 \harvarditem{Malmaud \harvardand\ White}{2018}{tensorflowjl}
 Malmaud, J. \harvardand\ White, L.  \harvardyearleft 2018\harvardyearright ,
@@ -402,6 +437,13 @@ Smolensky, P.  \harvardyearleft 1986\harvardyearright , `Foundations of harmony
 Srivastava, N. \harvardand\ Salakhutdinov, R.~R.  \harvardyearleft
   2012\harvardyearright , Multimodal learning with deep {Boltzmann} machines,
   {\em in} `Advances in neural information processing systems', pp.~2222--2230.
+
+\harvarditem{Sweeney}{2012}{sweeney_k_anonymity_2012}
+Sweeney, L.  \harvardyearleft 2012\harvardyearright , `{k}-anonymity: A model
+  for protecting privacy', {\em International Journal of Uncertainty, Fuzziness
+  and Knowledge-Based Systems} .
+\newblock Publisher: World Scientific Publishing Company.
+\newline\harvardurl{https://www.worldscientific.com/doi/epdf/10.1142/S0218488502001648}
 
 \harvarditem{{The Theano Development Team}}{2016}{theano}
 {The Theano Development Team}  \harvardyearleft 2016\harvardyearright ,
