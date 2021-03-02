@@ -1,11 +1,21 @@
 \begin{thebibliography}{xx}
 
-\harvarditem[Abadi et~al.]{Abadi, Barham, Chen, Chen, Davis, Dean, Devin,
-  Ghemawat, Irving, Isard et~al.}{2016}{abadi2016tensorflow}
+\harvarditem{Abadi, Barham, Chen, Chen, Davis, Dean, Devin, Ghemawat, Irving,
+  Isard et~al.}{2016}{abadi2016tensorflow}
 Abadi, M., Barham, P., Chen, J., Chen, Z., Davis, A., Dean, J., Devin, M.,
   Ghemawat, S., Irving, G., Isard, M. et~al.  \harvardyearleft
   2016\harvardyearright , {TensorFlow}: A system for large-scale machine
   learning., {\em in} `OSDI', Vol.~16, pp.~265--283.
+
+\harvarditem{Abadi, Chu, Goodfellow, McMahan, Mironov, Talwar \harvardand\
+  Zhang}{2016}{abadi_deep_2016}
+Abadi, M., Chu, A., Goodfellow, I., McMahan, H.~B., Mironov, I., Talwar, K.
+  \harvardand\ Zhang, L.  \harvardyearleft 2016\harvardyearright , `Deep
+  {Learning} with {Differential} {Privacy}', {\em Proceedings of the 2016 ACM
+  SIGSAC Conference on Computer and Communications Security - CCS'16}
+  pp.~308--318.
+\newblock arXiv: 1607.00133.
+\newline\harvardurl{http://arxiv.org/abs/1607.00133}
 
 \harvarditem[Abadi et~al.]{Abadi, Isard \harvardand\ Murray}{2017}{tensorflow}
 Abadi, M., Isard, M. \harvardand\ Murray, D.~G.  \harvardyearleft
@@ -293,6 +303,13 @@ Krizhevsky, A. \harvardand\ Hinton, G.  \harvardyearleft 2009\harvardyearright
   , `Learning multiple layers of features from tiny images', {\em Technical
   report, University of Toronto} .
 
+\harvarditem[Li et~al.]{Li, Li \harvardand\
+  Venkatasubramanian}{2007}{li_t-closeness:_2007}
+Li, N., Li, T. \harvardand\ Venkatasubramanian, S.  \harvardyearleft
+  2007\harvardyearright , t-{Closeness}: {Privacy} {Beyond} k-{Anonymity} and
+  l-{Diversity}, {\em in} `2007 {IEEE} 23rd {International} {Conference} on
+  {Data} {Engineering}', pp.~106--115.
+
 \harvarditem[Li et~al.]{Li, Qardaji, Su, Wu \harvardand\
   Yang}{2013}{li_membership_2013}
 Li, N., Qardaji, W., Su, D., Wu, Y. \harvardand\ Yang, W.  \harvardyearleft
@@ -301,6 +318,14 @@ Li, N., Qardaji, W., Su, D., Wu, Y. \harvardand\ Yang, W.  \harvardyearleft
   {Computer} \& communications security', {CCS} '13, Association for Computing
   Machinery, New York, NY, USA, pp.~889--900.
 \newline\harvardurl{https://doi.org/10.1145/2508859.2516686}
+
+\harvarditem[Machanavajjhala et~al.]{Machanavajjhala, Kifer, Gehrke
+  \harvardand\ Venkitasubramaniam}{2007}{machanavajjhala_l-diversity_2007}
+Machanavajjhala, A., Kifer, D., Gehrke, J. \harvardand\ Venkitasubramaniam, M.
+  \harvardyearleft 2007\harvardyearright , `\textit{{L}}-diversity: {Privacy}
+  beyond \textit{k}-anonymity', {\em ACM Transactions on Knowledge Discovery
+  from Data} {\bf 1}(1),~3--es.
+\newline\harvardurl{https://doi.org/10.1145/1217299.1217302}
 
 \harvarditem{Malmaud \harvardand\ White}{2018}{tensorflowjl}
 Malmaud, J. \harvardand\ White, L.  \harvardyearleft 2018\harvardyearright ,
