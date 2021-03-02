@@ -125,7 +125,7 @@ TODO DataSHIELD \citep{gaye_datashield,budin-ljosne_datashield}
 
 \clearpage
 \section{Deep Boltzmann machines}
-\subsection{Theory}\label{bmtheory}
+\subsection{Theoretical background}\label{bmtheory}
 
 Boltzmann machines \citep{ackley_boltzmann_1985} are a special kind of neural networks.
 They have been derived from models in statistical physics.
@@ -655,6 +655,7 @@ For the fine-tuning, the gradients in the different layers are calculated in the
 Gibbs sampling can also be performed in the same way, using the conditional probabilities in the RBMs.
 
 
+\subsection{Theoretical developments}\label{bmaddtheory}
 
 \subsubsection{A new approach for modeling categorical data}\label{methodsoftmax0}
 %TODO auch beschreiben, dass man bernoulli und categoriale variablen in einem haben kann
@@ -810,7 +811,7 @@ Here $C$ denotes the set of all index sets of the dummy variables, where each in
 \subsection{The \apkg{BoltzmannMachines} Julia package}
 For being able to experiment with the algorithms for training and evaluating deep Boltzmann machines, an accessible and easily customizable implementation was needed.
 The Julia package \apkg{BoltzmannMachines}, which is one of the main contributions of this thesis, serves this purpose.
-The package offers a thorough and well-tested implementation of the algorithms described in \ref{bmtheory}, with several unique features that are not covered by other published software.
+The package offers a thorough and well-tested implementation of the algorithms described in \ref{bmtheory} and \ref{bmaddtheory}, with several unique features that are not covered by other published software.
 It is the only known software that allows a flexible and easy composition of partitioned and multimodal DBMs, including different types of visible nodes, and an extensible design that make the integration of different types of RBMs possible.
 It is also the only known published implementation of AIS on DBMs that works with diverse architectures of DBMs.
 Much emphasis is also put on evaluating RBMs and DBMs and allowing an inspection of the learning process.
