@@ -145,6 +145,12 @@ Drees, M.  \harvardyearleft 2009\harvardyearright , {Implementierung} und
   {Analyse} von tiefen {Architekturen} in {R}, Master's thesis, Fachhochschule
   Dortmund, Germany.
 
+\harvarditem{Dwork}{2008}{dwork_differential_2008}
+Dwork, C.  \harvardyearleft 2008\harvardyearright , Differential {Privacy}: {A}
+  {Survey} of {Results}, {\em in} M.~Agrawal, D.~Du, Z.~Duan \harvardand\
+  A.~Li, eds, `Theory and {Applications} of {Models} of {Computation}', Lecture
+  {Notes} in {Computer} {Science}, Springer, Berlin, Heidelberg, pp.~1--19.
+
 \harvarditem[Eisen et~al.]{Eisen, Spellman, Brown \harvardand\
   Botstein}{1998}{eisen_cluster_1998}
 Eisen, M.~B., Spellman, P.~T., Brown, P.~O. \harvardand\ Botstein, D.
