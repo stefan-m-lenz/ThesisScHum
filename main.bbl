@@ -214,6 +214,16 @@ Goncalves, A., Ray, P., Soper, B., Stevens, J., Coyle, L. \harvardand\ Sales,
 Goodfellow, I., Bengio, Y. \harvardand\ Courville, A.  \harvardyearleft
   2016\harvardyearright , {\em Deep {Learning}}, MIT Press.
 
+\harvarditem[Goodfellow et~al.]{Goodfellow, Pouget-Abadie, Mirza, Xu,
+  Warde-Farley, Ozair, Courville \harvardand\
+  Bengio}{2014}{goodfellow_generative_2014}
+Goodfellow, I., Pouget-Abadie, J., Mirza, M., Xu, B., Warde-Farley, D., Ozair,
+  S., Courville, A. \harvardand\ Bengio, Y.  \harvardyearleft
+  2014\harvardyearright , Generative {Adversarial} {Nets}, {\em in}
+  Z.~Ghahramani, M.~Welling, C.~Cortes, N.~D. Lawrence \harvardand\ K.~Q.
+  Weinberger, eds, `Advances in {Neural} {Information} {Processing} {Systems}
+  27', Curran Associates, Inc., pp.~2672--2680.
+
 \harvarditem[Gruendner et~al.]{Gruendner, Prokosch, Schindler, Lenz
   \harvardand\ Binder}{2019}{gruendner}
 Gruendner, J., Prokosch, H.-U., Schindler, S., Lenz, S. \harvardand\ Binder, H.
@@ -299,6 +309,12 @@ Kifer, D. \harvardand\ Machanavajjhala, A.  \harvardyearleft
   pp.~193--204.
 \newline\harvardurl{https://doi.org/10.1145/1989323.1989345}
 
+\harvarditem{Kingma \harvardand\ Welling}{2014}{Kingma2013}
+Kingma, D.~P. \harvardand\ Welling, M.  \harvardyearleft 2014\harvardyearright
+  , Auto-encoding variational bayes, {\em in} Y.~Bengio \harvardand\ Y.~LeCun,
+  eds, `2nd International Conference on Learning Representations ({ICLR}),
+  Conference Track Proceedings'.
+
 \harvarditem{Krizhevsky}{2009}{krizhevsky2009tinyimagesthesis}
 Krizhevsky, A.  \harvardyearleft 2009\harvardyearright , Learning multiple
   layers of features from tiny images, Master's thesis, University of Toronto,
@@ -308,6 +324,12 @@ Krizhevsky, A.  \harvardyearleft 2009\harvardyearright , Learning multiple
 Krizhevsky, A. \harvardand\ Hinton, G.  \harvardyearleft 2009\harvardyearright
   , `Learning multiple layers of features from tiny images', {\em Technical
   report, University of Toronto} .
+
+\harvarditem{Lenz \harvardand\ Binder}{2020}{dsdbm}
+Lenz, S. \harvardand\ Binder, H.  \harvardyearleft 2020\harvardyearright ,
+  `Deep generative models in {DataSHIELD}', {\em arXiv:2003.07775 [cs, stat]} .
+\newblock arXiv: 2003.07775.
+\newline\harvardurl{http://arxiv.org/abs/2003.07775}
 
 \harvarditem[Li et~al.]{Li, Li \harvardand\
   Venkatasubramanian}{2007}{li_t-closeness:_2007}

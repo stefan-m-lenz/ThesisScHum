@@ -1449,7 +1449,26 @@ A workflow of how synthetic data can be used in a distributed setting is depicte
  \end{figure}
  
 Synthetic data can be generated with generative models.
-TODO VAE, GAN, MICE, Verweis Goncalves
+TODO VAE \citep{Kingma2013}, GAN \citep{goodfellow_generative_2014}
+
+ MICE \citep{goncalves}
+ 
+The algorithm for fitting a MICE model consists of the following steps \citep{goncalves, dsdbm}:
+\begin{enumerate}
+\item Define a random order of the variables. This may be different from their original ordering. The variables in this order are denoted as $v_1, \dots, v_n$. 
+\item Estimate the empirical distribution $\hat{p}_1$ of $v_1$. For a binary variable, this means calculating the mean value $\hat{\mu}_1$.
+\item
+\end{enumerate}
+
+From the MICE model $(\hat{\mu}_1, R_2, \dots, R_n)$, new samples $\tilde{v}_1, \dots , \tilde{v}_n$ can be generated:
+
+In the case of Bernoulli of  case, this means that the mean value $\hat{\mu}_1$ of each variable $v_i$ to used to sample $\tilde{v}_1$ from a Bernoulli distribution with  $p(\tilde{v}_1 = 1) = \hat{\mu}_1$.
+
+As simplest model we use the method of independent marginals (IM) like \cite{goncalves}.
+For IM, the empirical distribution of each variable is calculated separately.
+Each variable is then sampled independently from the other variables according to its empirical marginal distribution.
+For Bernoulli distributed variables, this means to sample using their estimated marginal means, as described above in the algorithm of the MICE method, where this is used for sampling the first variable.
+With this, the IM method provides a baseline comparison as it does not aim at modeling the correlation structure at all.
 
 \subsubsection{Measuring performance}\label{measuringperformance}
 For comparing the generative performance of different generative models, measures for the quality of the generated data are needed.
