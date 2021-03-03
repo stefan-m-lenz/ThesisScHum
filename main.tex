@@ -1453,22 +1453,29 @@ TODO VAE \citep{Kingma2013}, GAN \citep{goodfellow_generative_2014}
 
  MICE \citep{goncalves}
  
-The algorithm for fitting a MICE model consists of the following steps \citep{goncalves, dsdbm}:
+The algorithm for fitting a MICE model on binary data consists of the following steps \citep{goncalves, dsdbm}:
 \begin{enumerate}
 \item Define a random order of the variables. This may be different from their original ordering. The variables in this order are denoted as $v_1, \dots, v_n$. 
-\item Estimate the empirical distribution $\hat{p}_1$ of $v_1$. For a binary variable, this means calculating the mean value $\hat{\mu}_1$.
-\item
+\item Estimate the empirical distribution $\hat{p}_1$ of $v_1$. For a binary variable, this means calculating the mean value $\hat{\mu}_1$ of $v_1$.
+\item Fit logistic regression models $R_2, \dots, R_n$, with model $R_i$ predicting $v_i$ from  $v_1, \dots, v_{i-1}$. If adding variable $v_{i-1}$ leads to collinearity when estimating $R_i$, then $v_{i-1}$ is not used as independent variable in $R_{i}, \dots, R_n$. Furthermore, if $v_i$ is simply constant, then $R_i$ will predict this constant value without using other variables.
 \end{enumerate}
 
-From the MICE model $(\hat{\mu}_1, R_2, \dots, R_n)$, new samples $\tilde{v}_1, \dots , \tilde{v}_n$ can be generated:
+From the MICE model $(\hat{p}_1, R_2, \dots, R_n)$, new samples $\tilde{v}_1, \dots , \tilde{v}_n$ can be generated as follows:
 
-In the case of Bernoulli of  case, this means that the mean value $\hat{\mu}_1$ of each variable $v_i$ to used to sample $\tilde{v}_1$ from a Bernoulli distribution with  $p(\tilde{v}_1 = 1) = \hat{\mu}_1$.
+\begin{enumerate}
+\item Sample $\tilde{v}_1$ from $\hat{p}_1$.
+In the case of a Bernoulli distributed variable, this means to sample $\tilde{v}_1$ from a Bernoulli distribution with $p(\tilde{v}_1 = 1) = \hat{\mu}_1$.
+\item For  $i \in 2, \dots, n$: Sample $\tilde{v}_i$ using the prediction of the regression model $R_i$ from the previously sampled values, with $p(\tilde{v}_i = 1) = R_i(\tilde{v}_2, \dots, \tilde{v}_n)$.
+\end{enumerate}
 
-As simplest model we use the method of independent marginals (IM) like \cite{goncalves}.
+By predicting variables from another, the MICE model aims to capture some of the association between the variables.
+
+As simplest approach we use the method of {\em independent marginals} (IM) like \cite{goncalves}.
+This approach does not aim at modeling the association of the variables and treats them independently.
 For IM, the empirical distribution of each variable is calculated separately.
 Each variable is then sampled independently from the other variables according to its empirical marginal distribution.
-For Bernoulli distributed variables, this means to sample using their estimated marginal means, as described above in the algorithm of the MICE method, where this is used for sampling the first variable.
-With this, the IM method provides a baseline comparison as it does not aim at modeling the correlation structure at all.
+For Bernoulli distributed variables, this means to sample them using their estimated marginal means, as described above in the algorithm of the MICE method, where this is only used for sampling the first variable.
+With this, the IM method provides a baseline comparison.
 
 \subsubsection{Measuring performance}\label{measuringperformance}
 For comparing the generative performance of different generative models, measures for the quality of the generated data are needed.
@@ -1538,7 +1545,7 @@ A hierarchical clustering view of the data is shown in figure \ref{fig:distclust
    \label{fig:distclustersnps}
  \end{figure}
  
-Figure \ref{fig:distclustersnps}: DBM with 2 hidden layers with 50 and 10 hidden nodes. Learningrate of 0.001 for pre-training and 0.1 for fine+tuning and 30 epochs for both pre-training and fine-tuning.
+Figure \ref{fig:distclustersnps}: DBM with 2 hidden layers with 50 and 10 hidden nodes. Learningrate of 0.001 for pre-training and 0.1 for fine-tuning and 30 epochs for both pre-training and fine-tuning.
  
 \subsection{An experiment for comparing different distributed generative approaches on real genetic variant data}
 
