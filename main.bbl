@@ -37,6 +37,14 @@ Arnold, K., Gosling, J. \harvardand\ Holmes, D.  \harvardyearleft
   2005\harvardyearright , {\em The Java programming language}, Addison Wesley
   Professional.
 
+\harvarditem[Azur et~al.]{Azur, Stuart, Frangakis \harvardand\
+  Leaf}{2011}{mice}
+Azur, M.~J., Stuart, E.~A., Frangakis, C. \harvardand\ Leaf, P.~J.
+  \harvardyearleft 2011\harvardyearright , `Multiple imputation by chained
+  equations: what is it and how does it work?', {\em International Journal of
+  Methods in Psychiatric Research} {\bf 20}(1),~40--49.
+\newline\harvardurl{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3074241/}
+
 \harvarditem{Bengio}{2012}{bengio2012practical}
 Bengio, Y.  \harvardyearleft 2012\harvardyearright , Practical recommendations
   for gradient-based training of deep architectures, {\em in} `Neural networks:

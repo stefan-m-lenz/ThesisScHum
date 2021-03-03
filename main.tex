@@ -1448,12 +1448,13 @@ A workflow of how synthetic data can be used in a distributed setting is depicte
    \label{fig:syntheticdataprinciple}
  \end{figure}
  
-Synthetic data can be generated with generative models.
-TODO VAE \citep{Kingma2013}, GAN \citep{goodfellow_generative_2014}
 
- MICE \citep{goncalves}
+Synthetic data can be generated with generative models.
+TODO VAE \citep{Kingma2013}, GAN \citep{goodfellow_generative_2014} 
  
-The algorithm for fitting a MICE model on binary data consists of the following steps \citep{goncalves, dsdbm}:
+{\em Multiple imputation by chained equations} (MICE) is a technique that is primarily used for imputing missing values in data sets \citep{mice}.
+The algorithm can also be used as a generative approach because generating new data can be considered to be equivalent to imputing whole samples.
+The algorithm for fitting a MICE model as a generative model on binary data consists of the following steps \citep{goncalves, dsdbm}:
 \begin{enumerate}
 \item Define a random order of the variables. This may be different from their original ordering. The variables in this order are denoted as $v_1, \dots, v_n$. 
 \item Estimate the empirical distribution $\hat{p}_1$ of $v_1$. For a binary variable, this means calculating the mean value $\hat{\mu}_1$ of $v_1$.
