@@ -260,6 +260,14 @@ Hastie, T., Tibshirani, R. \harvardand\ Friedman, J.  \harvardyearleft
   2009\harvardyearright , {\em The elements of statistical learning: data
   mining, inference, and prediction}, Springer series in statistics, 2 edn.
 
+\harvarditem[Hayes et~al.]{Hayes, Melis, Danezis \harvardand\
+  Cristofaro}{2019}{hayes_logan_2019}
+Hayes, J., Melis, L., Danezis, G. \harvardand\ Cristofaro, E.~D.
+  \harvardyearleft 2019\harvardyearright , `{LOGAN}: {Membership} {Inference}
+  {Attacks} {Against} {Generative} {Models}', {\em Proceedings on Privacy
+  Enhancing Technologies} {\bf 2019}(1),~133--152.
+\newline\harvardurl{https://content.sciendo.com/view/journals/popets/2019/1/article-p133.xml}
+
 \harvarditem{Hinton}{2002}{cdorig}
 Hinton, G.~E.  \harvardyearleft 2002\harvardyearright , `Training products of
   experts by minimizing {Contrastive} {Divergence}', {\em Neural Computation}
@@ -533,6 +541,15 @@ Theis, L., Oord, A. v.~d. \harvardand\ Bethge, M.  \harvardyearleft
   arXiv:1511.01844 [cs, stat]} .
 \newblock arXiv: 1511.01844.
 \newline\harvardurl{http://arxiv.org/abs/1511.01844}
+
+\harvarditem[Webster et~al.]{Webster, Rabin, Simon \harvardand\
+  Jurie}{2019}{webster_detecting_2019}
+Webster, R., Rabin, J., Simon, L. \harvardand\ Jurie, F.  \harvardyearleft
+  2019\harvardyearright , Detecting {Overfitting} of {Deep} {Generative}
+  {Networks} via {Latent} {Recovery}, {\em in} `2019 {IEEE}/{CVF} {Conference}
+  on {Computer} {Vision} and {Pattern} {Recognition} ({CVPR})',
+  pp.~11265--11274.
+\newblock ISSN: 2575-7075.
 
 \harvarditem[Wolfson et~al.]{Wolfson, Wallace, Masca, Rowe, Sheehan, Ferretti,
   LaFlamme, Tobin, Macleod, Little, Fortier, Knoppers \harvardand\
