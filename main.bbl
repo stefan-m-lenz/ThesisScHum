@@ -126,6 +126,14 @@ Cho, K., Ilin, A. \harvardand\ Raiko, T.  \harvardyearleft
   {Boltzmann} machines', {\em Artificial Neural Networks and Machine
   Learning--ICANN 2011} pp.~10--17.
 
+\harvarditem[Choi et~al.]{Choi, Biswal, Malin, Duke, Stewart \harvardand\
+  Sun}{2017}{choi_generating_2017}
+Choi, E., Biswal, S., Malin, B., Duke, J., Stewart, W.~F. \harvardand\ Sun, J.
+  \harvardyearleft 2017\harvardyearright , Generating {Multi}-label {Discrete}
+  {Patient} {Records} using {Generative} {Adversarial} {Networks}, {\em in}
+  `Proceedings of {Machine} {Learning} for {Healthcare} 2017', Northeastern
+  University, Boston, Massachusetts, p.~21.
+
 \harvarditem{Curry}{1944}{gradientdescent}
 Curry, H.~B.  \harvardyearleft 1944\harvardyearright , `The method of steepest
   descent for non-linear minimization problems', {\em Quarterly of Applied
