@@ -1558,20 +1558,31 @@ To have a value as 0.5 as outcome if the synthetic data is not informative for t
 
 \subsection{An experiment with simulated genetic variant data}
  
+The experiment investigates whether the approach of generating data in a distributed manner across different sites, as depicted in figure \ref{fig:syntheticdataprinciple} is feasible using DBMs.
+In particular interesting is how the number of participating sites and the numbers of samples at each sites influence the quality of the synthetic data.
 
-Genetic variant data
-SNP
-goal whether to recover clusters using hierarchical clustering.
+The experiment is based on simulated genetic variant data with patterns that are clearly visible in a binary heatmap with a hierarchical clustering \citep{hclust} of the  samples.
+With these clearly visible patterns it is possible to evaluate the synthetic samples visually by judging whether the original patterns can be recovered in the synthetic data.
+
 
 \subsubsection{Experimental setup}
+
+ single simulated data set, which is then distributed equally across sites.
+
 
 \begin{figure}[h]
    \centering
    \includegraphics[scale=0.7]{images/experimentalsetup.pdf}
-   \caption{TODO. Experimental setup}
+   \caption{Sketch of the experimental setup.
+    \circlenum{1} The original data is split onto the different sites. To keep it simple, there are only two sites depicted here. 
+    \circlenum{1} Generative models are trained at the different sites using their share of the data. 
+    These models generate synthetic data, which is combined into a single synthetic data set. 
+    \circlenum{4} The original and the combined synthetic data set are compared.}
    \label{fig:experimentalsetup}
  \end{figure}
 
+The simulated data set is inspired by genetic variant data, more specifically, single nucleotide polymorphisms (SNPs).
+In SNP data each variable stands for a defined location on a chromosome and the values indicate whether the sample deviates from a defined reference genome at this location.
 There are 50 binary variables in the simulated data set.
 The 500 samples in the data set are split into ``cases" and ``controls" in a ratio of 1:1.
 In all 50 variables, the ``control" samples consist of independently sampled binary values, which are set to 1 with a probability of 0.1.
@@ -1579,7 +1590,7 @@ The ``cases" differ from this in 5 groups of 5 SNP variables.
 In the variables 1-5, 10-15, \dots, 40-45, the values are all 1 for the ``cases".
 In all other variables, the ``cases" follow the same distribution as the ``controls".
 A hierarchical clustering view of the data is shown in figure \ref{fig:distclustersnps}, panel A.
-
+TODO meaning of patterns
 
 \subsubsection{Results}
  \begin{figure}[h]
