@@ -1567,7 +1567,8 @@ With these clearly visible patterns it is possible to evaluate the synthetic sam
 
 \subsubsection{Experimental setup}
 
- single simulated data set, which is then distributed equally across sites.
+In the experiment a single simulated data set is distributed equally across different sites.
+Figure \ref{fig:experimentalsetup} shows the different steps of the experiment.
 
 
 \begin{figure}[h]
@@ -1576,30 +1577,34 @@ With these clearly visible patterns it is possible to evaluate the synthetic sam
    \caption{Sketch of the experimental setup.
     \circlenum{1} The original data is split onto the different sites. To keep it simple, there are only two sites depicted here. 
     \circlenum{1} Generative models are trained at the different sites using their share of the data. 
-    These models generate synthetic data, which is combined into a single synthetic data set. 
+    These models generate synthetic data, which is combined into a single synthetic data set. (The generated data sets are of the same size as the respective training sets.)
     \circlenum{4} The original and the combined synthetic data set are compared.}
    \label{fig:experimentalsetup}
  \end{figure}
-
+ 
 The simulated data set is inspired by genetic variant data, more specifically, single nucleotide polymorphisms (SNPs).
-In SNP data each variable stands for a defined location on a chromosome and the values indicate whether the sample deviates from a defined reference genome at this location.
+In SNP data, each variable stands for a defined location on a chromosome and the values indicate whether the sample deviates from a defined reference genome at this location.
 There are 50 binary variables in the simulated data set.
 The 500 samples in the data set are split into ``cases" and ``controls" in a ratio of 1:1.
 In all 50 variables, the ``control" samples consist of independently sampled binary values, which are set to 1 with a probability of 0.1.
 The ``cases" differ from this in 5 groups of 5 SNP variables.
 In the variables 1-5, 10-15, \dots, 40-45, the values are all 1 for the ``cases".
 In all other variables, the ``cases" follow the same distribution as the ``controls".
+As a motivation behind the properties of the simulation data set, one can consider the following:
+If a group like the groups of 5 SNP variables is present in patients with a certain condition (``cases"), this could indicate that these mutations must occur together to deactivate a certain pathway, thereby leading to the condition.
+
 A hierarchical clustering view of the data is shown in figure \ref{fig:distclustersnps}, panel A.
-TODO meaning of patterns
+The patterns of co-occuring SNPs are visible as black blocks there.
 
 \subsubsection{Results}
  \begin{figure}[h]
    \centering
    \includegraphics[scale=1]{images/hclust.pdf}
-   \caption{TODO. }
+   \caption{Original data and different synthetic data sets, hierarchically clustered in the rows/samples. The black blocks result from the groups of five 1s as samples with the same pattern are clustered together. The different vertical positions of the blocks result from the noise outside of the pattern, which randomly influences the clustering.}
    \label{fig:distclustersnps}
  \end{figure}
- 
+%TODO numbers of sites/panels
+
 Figure \ref{fig:distclustersnps}: DBM with 2 hidden layers with 50 and 10 hidden nodes. Learningrate of 0.001 for pre-training and 0.1 for fine-tuning and 30 epochs for both pre-training and fine-tuning.
  
 \subsection{An experiment for comparing different distributed generative approaches on real genetic variant data}
