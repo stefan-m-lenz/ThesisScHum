@@ -60,7 +60,7 @@
       using,while},
    sensitive=true,
    alsoother={$},
-   morecomment=[l]\#,
+   morecomment=[l]{\#},
    morestring=[s]{"}{"},
    morestring=[m]{'}{'},
 }[keywords,comments,strings]
@@ -69,7 +69,7 @@
     language         = Julia,
     basicstyle       = \ttfamily,
     keywordstyle     = \bfseries,
-    commentstyle = \itshape,
+    %commentstyle = \itshape,% funzt nicht
     showstringspaces = false,
     frame = single
 }
@@ -1433,7 +1433,7 @@ Their implementation is publicly accessible\footnote{https://github.com/datashie
 Similar to the approach of $k$-anonymity (see \ref{privacyconcepts}), there is a configurable threshold for a minimal number of patients that are required to calculate and share aggregate statistics.
 This threshold can be defined separately at each of the participating sites in the Opal server.
 
-\subsubsection{Synthetic data in DataSHIELD}
+\subsubsection{Synthetic data in DataSHIELD}\label{syntheticdata_ds}
 
 To implement an algorithm in DataSHIELD, it needs to be reformulated to rely solely on aggregate statistics.
 This is not possible for all algorithms.
@@ -1588,23 +1588,43 @@ There are 50 binary variables in the simulated data set.
 The 500 samples in the data set are split into ``cases" and ``controls" in a ratio of 1:1.
 In all 50 variables, the ``control" samples consist of independently sampled binary values, which are set to 1 with a probability of 0.1.
 The ``cases" differ from this in 5 groups of 5 SNP variables.
-There are 5 disjoint groups among the cases, which have all values set to 1 in either the variables 1-5, or 10-15, or 20-25, or 30-35, or 40-45.
+There are 5 disjoint subgroups among the cases, which have all values set to 1 in either the variables 1-5, or 10-15, or 20-25, or 30-35, or 40-45.
 In all other variables, the ``cases" follow the same distribution as the ``controls".
 As a motivation behind the properties of the simulation data set, one can consider the following:
 If a group like the groups of 5 SNP variables is present in patients with a certain condition (``cases"), this could indicate that these mutations must occur together to deactivate certain genetic pathways, thereby leading to the condition.
 
-A hierarchical clustering view of the data is shown in figure \ref{fig:distclustersnps}, panel A.
-The patterns of co-occuring SNPs are visible as black blocks there.
 
 \subsubsection{Results}
+
+A hierarchical clustering view of the data is shown in figure \ref{fig:distclustersnps}, panel A.
+The most obvious structures there are the black blocks.
+These result from the five subgroups in the ``cases'' as the hierarchical clustering algorithms manages to group those samples together.
+In the original data, these black blocks are very solid as all samples in each subgroup are assigned to one cluster.
+
+It has to be noted that the vertical position of the black blocks is irrelevant because also the noise outside of the patterns influences the clustering of the samples and thus determines the vertical positions of the blocks.
+The horizontal position of the blocks, however, is determined by the positions of the 5 co-occuring SNP variables and these are the same across all panels.
+
+Different synthetic data sets are depicted in panels B, C and D.
+From panel B, where synthetic data from a single DBM is shown, one can see that using synthetic data instead of the original data leads to some bias, as the black blocks are not as dense as in the original data, which means that there is some additional noise in the generated synthetic data.
+Nevertheless, it is clearly visible in the synthetic data that there is a strong correlation between the specific variables in subgroups of samples.
+This shows that a DBM is able to learn such patterns.
+When the data is split between different sites/DBMs as shown in figure \ref{fig:experimentalsetup}, the blocks become less clear and the noise increases.
+Panel D shows an extreme case, where there are 20 sites with only 25 samples per site.
+Still, blocks in the respective variables are visible.
+But the noise outside of the blocks is captured less well, and artifacts from noise increase as the model has fewer samples to learn from.
+
  \begin{figure}[h]
    \centering
    \includegraphics[scale=1]{images/hclust.pdf}
-   \caption{Original data and different synthetic data sets, hierarchically clustered in the rows/samples. The black blocks result from the groups of five 1s as samples with the same pattern are clustered together. The different vertical positions of the blocks result from the noise outside of the pattern, which randomly influences the clustering. A: original data set. B: synthetic data from a DBM trained on the original data set. C and D: synthetic data from the distributed experiment with 2 and 20 sites, respectively.}
+   \caption{Original data and different synthetic data sets, hierarchically clustered in the rows/samples. The columns are the different SNPs/variables. Black rectangles indicate values of 1, white rectangles values of zero. The black blocks result from the groups of five 1s, as samples with the same pattern are clustered together. The different vertical positions of the blocks result from the noise outside of the pattern, which randomly influences the clustering. A: original data set. B: synthetic data from a DBM trained on the original data set. C and D: synthetic data from the distributed experiment with 2 and 20 sites, respectively.}
    \label{fig:distclustersnps}
  \end{figure}
 
-Figure \ref{fig:distclustersnps}: DBM with 2 hidden layers with 50 and 10 hidden nodes. Learningrate of 0.001 for pre-training and 0.1 for fine-tuning and 30 epochs for both pre-training and fine-tuning.
+As architecture of the DBMs, two hidden layers with 50 and 10 hidden nodes were chosen. 
+A learning rate of 0.001 was used for pre-training and a initial learning rate of 0.1 was used for fine-tuning.
+Both pre-training and fine-tuning use 30 training epochs.
+ 
+Summed up, the results of the experiment indicate that using DBMs on distributed data for generating synthetic data (see figure \ref{fig:syntheticdataprinciple} in \ref{syntheticdata_ds}) can be a suitable approach for analyzing higher-level patterns in data.
  
 \FloatBarrier
 \subsection{An experiment for comparing different distributed generative approaches on real genetic variant data}
