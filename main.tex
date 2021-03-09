@@ -1588,10 +1588,10 @@ There are 50 binary variables in the simulated data set.
 The 500 samples in the data set are split into ``cases" and ``controls" in a ratio of 1:1.
 In all 50 variables, the ``control" samples consist of independently sampled binary values, which are set to 1 with a probability of 0.1.
 The ``cases" differ from this in 5 groups of 5 SNP variables.
-In the variables 1-5, 10-15, \dots, 40-45, the values are all 1 for the ``cases".
+There are 5 disjoint groups among the cases, which have all values set to 1 in either the variables 1-5, or 10-15, or 20-25, or 30-35, or 40-45.
 In all other variables, the ``cases" follow the same distribution as the ``controls".
 As a motivation behind the properties of the simulation data set, one can consider the following:
-If a group like the groups of 5 SNP variables is present in patients with a certain condition (``cases"), this could indicate that these mutations must occur together to deactivate a certain pathway, thereby leading to the condition.
+If a group like the groups of 5 SNP variables is present in patients with a certain condition (``cases"), this could indicate that these mutations must occur together to deactivate certain genetic pathways, thereby leading to the condition.
 
 A hierarchical clustering view of the data is shown in figure \ref{fig:distclustersnps}, panel A.
 The patterns of co-occuring SNPs are visible as black blocks there.
@@ -1600,7 +1600,7 @@ The patterns of co-occuring SNPs are visible as black blocks there.
  \begin{figure}[h]
    \centering
    \includegraphics[scale=1]{images/hclust.pdf}
-   \caption{Original data and different synthetic data sets, hierarchically clustered in the rows/samples. The black blocks result from the groups of five 1s as samples with the same pattern are clustered together. The different vertical positions of the blocks result from the noise outside of the pattern, which randomly influences the clustering. A: original data set. B: synthetic data from a DBM trained on the original data set. C, D: synthetic data from the distributed experiment with 2 and 20 sites, respectively.}
+   \caption{Original data and different synthetic data sets, hierarchically clustered in the rows/samples. The black blocks result from the groups of five 1s as samples with the same pattern are clustered together. The different vertical positions of the blocks result from the noise outside of the pattern, which randomly influences the clustering. A: original data set. B: synthetic data from a DBM trained on the original data set. C and D: synthetic data from the distributed experiment with 2 and 20 sites, respectively.}
    \label{fig:distclustersnps}
  \end{figure}
 
