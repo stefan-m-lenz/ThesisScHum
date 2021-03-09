@@ -1556,7 +1556,7 @@ Based on the chosen distance, different values for precision and sensitivity res
 Since a best value for the distance threshold cannot be determined, different distances are used, and multiple outcomes are reported.
 To have a value as 0.5 as outcome if the synthetic data is not informative for the attacker, the size of the test data set is chosen to be equal to the size of the training data set.
 
-\subsection{An experiment with simulated genetic variant data}
+\subsection{An experiment with simulated genetic variant data}\label{simuexp}
  
 The experiment investigates whether the approach of generating data in a distributed manner across different sites, as depicted in figure \ref{fig:syntheticdataprinciple} is feasible using DBMs.
 In particular interesting is how the number of participating sites and the numbers of samples at each sites influence the quality of the synthetic data.
@@ -1629,9 +1629,24 @@ Summed up, the results of the experiment indicate that using DBMs on distributed
 \FloatBarrier
 \subsection{An experiment for comparing different distributed generative approaches on real genetic variant data}
 
+After the experiment with simulated data, the question remains how well the findings generalize on real genetic data.
+Therefore, the next experiment evaluates DBMs and other generative approaches in a setting similar to the one in section \ref{simuexp} using real genetic variant data that is distributed among a number of virtual sites.
 
 \subsubsection{Experimental setup}
 
+TODO 
+ Data from 1000 genomes project
+ 5008 chromosomes, 2504 individuals
+ 30 randomly selected locations on chromosome -> 30 data sets
+ 
+ Training data similar to simulated data: 500 samples
+ Test data 100 samples
+ Validation data: 1000 samples
+ data split equally across sites
+ hyperparameter optimization RMSE of log odds
+ training epochs ( up to 2000) and initialization of model parameters (15 different random seeds)
+ 
+ 
 The models with the best performance are chosen.
 To ensure a fair comparison, the pick of the best model for each approach uses the same performance measure that is used for comparing the different approaches.
 In GANs it is the only option to use a metric on the generated data because they do not have a single performance criterion like the lower bound of the likelihood as discriminator and generator in a GAN are optimized independently.
