@@ -1448,7 +1448,7 @@ A workflow of how synthetic data can be used in a distributed setting is depicte
    \label{fig:syntheticdataprinciple}
  \end{figure}
 
-\subsubsection{Different generative approaches}
+\subsubsection{Different generative approaches}\label{diffgenmodels}
 
 For creating the synthetic data, any generative approach can be used.
 In addition to DBMs, which are the main focus of this work, other approaches, in particular other types of neural networks, shall be considered as well.
@@ -1502,7 +1502,7 @@ The similarity of patterns between original and synthetic data can be compared b
 Still, measuring the performance with a numeric measure has the advantage that different models can be evaluated automatically and that the assessment is less subjective than with the visual inspection of samples.
 There are many different measures, which can be used to evaluate the performance of generative models and which also have been applied to medical data sets \citep{goncalves}.
 
-For the experiments here, the differences of pairwise log odds ratios is utilized as as performance metric \citep{nussberger_synthetic_2020}.
+For the experiments here, the rooted mean squared error (RMSE) between the pairwise log odds ratios is utilized as as performance metric \citep{nussberger_synthetic_2020}.
 This metric measures the quality of modeling the bivariate associations between all combinations of variables.
 It is calculated using a validation data set $x_{val}$ and a generated data set $x_{gen}$.
 For each of the two data sets, the pairwise odds ratios are calculated for all pairs of variables in the respective data set.
@@ -1520,7 +1520,7 @@ Applying differential privacy like \cite{abadi_deep_2016} would require to chang
 Additionally, changing the learning procedure may affect different learning algorithms in a different way, which could make it difficult to compare the models fairly.
 Instead, two simpler approaches are used here to assess the disclosure risk.
 
-\paragraph{The proportion of overfitting as disclosure metric}
+\paragraph{The proportion of overfitting as disclosure metric}\label{proportionoverfitting}
 
 At first, the overfitting of the model is inspected.
 Overfitting happens if the models learns the peculiarities of the training data rather than generalizable patterns.
@@ -1540,7 +1540,7 @@ With this, the {\em proportion of overfitting} is defined here as
 
 This proportion grows if the similarity  between the generated data and the training data increases relative to the similarity between the validation data and the generated data.
 
-\paragraph{Simulating a membership attack}
+\paragraph{Simulating a membership attack}\label{membershipattack}
 A a second method for measuring disclosure, a membership attack \citep{choi_generating_2017, goncalves} is simulated. 
 The attacker has as information a set of synthetic data and a set of ``real'' samples, which are referred to as ``test'' samples for this experiment.
 The attacker then guesses whether one of the test samples is in the training set that has been used to fit the model that generated the synthetic data set or not.
@@ -1565,7 +1565,7 @@ The experiment is based on simulated genetic variant data with patterns that are
 With these clearly visible patterns it is possible to evaluate the synthetic samples visually by judging whether the original patterns can be recovered in the synthetic data.
 
 
-\subsubsection{Experimental setup}
+\subsubsection{Experimental setup}\label{simuexpsetup}
 
 In the experiment a single simulated data set is distributed equally across different sites.
 Figure \ref{fig:experimentalsetup} shows the different steps of the experiment.
@@ -1631,6 +1631,7 @@ Summed up, the results of the experiment indicate that using DBMs on distributed
 
 After the experiment with simulated data, the question remains how well the findings generalize on real genetic data.
 Therefore, the next experiment evaluates DBMs and other generative approaches in a setting similar to the one in section \ref{simuexp} using real genetic variant data that is distributed among a number of virtual sites.
+The complete code for reproducing this experiment can be found on GitHub\footnote{\url{https://github.com/stefan-m-lenz/dist-gen-comp/}}.
 
 \subsubsection{Experimental setup}
 
@@ -1641,24 +1642,38 @@ For each variant there is information about the genetic haplotype, that is, the 
 In the data there are in total 5008 chromosomes, which are used as independent samples for the purpose of learning structure in genetic data.
 Each of these samples is a vector of binary SNP variables.
 Each variable stands for a defined location on a chromosome, with a value of 1 indicating that the sample has a defined deviation from the reference genome in this place.
+
 From the complete genetic information, 30 loci on chromosome 6 spanning 50 SNP variables are randomly selected.
 As the variance in some SNPs across samples is very low, only SNPs with a minor allele frequency below 0.2 were considered.
 This prevents that the structure in the data sets becomes too simple by excluding variables that are expected to be mostly constant in subsets of samples.
-These 30 locations spanning 50 variables form 30 different data sets, which are used in the evaluation.
+These 30 genomic locations spanning 50 variables form 30 different data sets, which are used in the evaluation.
 For each of these 30 different data sets, a training data set, a test data set, and a validation data set is selected.
 From the 5008 samples, 500 samples are used in the training data sets, 100 in the test data sets, and 1000 in the validation data sets.
- 
- 
- data split equally across sites
- hyperparameter optimization RMSE of log odds
- training epochs ( up to 2000) and initialization of model parameters (15 different random seeds)
- 
- 
-The models with the best performance are chosen.
-To ensure a fair comparison, the pick of the best model for each approach uses the same performance measure that is used for comparing the different approaches.
-In GANs it is the only option to use a metric on the generated data because they do not have a single performance criterion like the lower bound of the likelihood as discriminator and generator in a GAN are optimized independently.
-Here we use the log odds ratios as described in \ref{measuringperformance} for comparing the models and for picking the model with the best performance for each approach.
 
+To evaluate different generative approaches in a distributed setting, 
+the setup of the experiment is very similar to the one with the simulated data shown in section \ref{simuexp}.
+In the same way as described in \ref{simuexpsetup} and shown in figure \ref{fig:experimentalsetup},
+the training data is distributed among different sites, and then different models are trained at the sites on their share of the data.
+Further, the models at the different sites generate synthetic data, which are then compiled into a joint synthetic data set.
+The joint synthetic data sets are finally used for the evaluation.
+
+As generative approaches, DBMs, VAEs, GANs, MICE and IM are considered (see \ref{diffgenmodels}).
+The network architecture of DBMs, VAEs, and GANs is chosen to be similar.
+For DBMs, VAEs, and GANs, the number of training epochs and the random initialization of the model parameters are subject to hyperparameter optimization.
+The best models are found via a grid search, which includes up to 2000 training epochs and 15 different seeds for the random number generator.
+For MICE, also 15 different orderings of the variables are explored.
+
+To have fair comparison between the approaches, the same performance metric must be used for picking the best model per approach as for the overall comparison.
+For this purpose, only a measure that applies to the synthetic data can be used, as the different approaches have different optimization criteria.
+GANs, in particular, do not even have a single optimization criterion because the discriminator and generator networks are trained independently.
+Therefore, a measure of the quality of the synthetic data is needed for comparing the models as well as for picking the model with the best performance for each approach.
+Here, the rooted mean squared error (RMSE) of the log odds ratios is employed as performance measure (see \ref{measuringperformance}).
+
+For the models with the best performance, the disclosure risk of the generated data is also assessed.
+This is done via the proportions of overfitting (see \ref{proportionoverfitting}) and simulated membership attacks (see \ref{membershipattack}).
+The test data sets for the simulated membership attacks comprise 500 samples from the respective validation data sets.
+ 
+\FloatBarrier
 \subsubsection{Results}
 
 \begin{table}[h]
