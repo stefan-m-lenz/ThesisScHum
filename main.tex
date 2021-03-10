@@ -1634,14 +1634,21 @@ Therefore, the next experiment evaluates DBMs and other generative approaches in
 
 \subsubsection{Experimental setup}
 
-TODO 
- Data from 1000 genomes project
- 5008 chromosomes, 2504 individuals
- 30 randomly selected locations on chromosome -> 30 data sets
+The real data for the experiment is taken from the 1000 genomes project \citep{1000genomes}.
+More specifically, a subset of the 1000 genomes data is used, which is available online from a web page \citep{impute_1000_genomes} of the IMPUTE2 software \citep{impute2}.
+This data set contains genetic variant data (SNP data) of 2504 humans.
+For each variant there is information about the genetic haplotype, that is, the information about the genetic variation is given on the level of the chromosomes.
+In the data there are in total 5008 chromosomes, which are used as independent samples for the purpose of learning structure in genetic data.
+Each of these samples is a vector of binary SNP variables.
+Each variable stands for a defined location on a chromosome, with a value of 1 indicating that the sample has a defined deviation from the reference genome in this place.
+From the complete genetic information, 30 loci on chromosome 6 spanning 50 SNP variables are randomly selected.
+As the variance in some SNPs across samples is very low, only SNPs with a minor allele frequency below 0.2 were considered.
+This prevents that the structure in the data sets becomes too simple by excluding variables that are expected to be mostly constant in subsets of samples.
+These 30 locations spanning 50 variables form 30 different data sets, which are used in the evaluation.
+For each of these 30 different data sets, a training data set, a test data set, and a validation data set is selected.
+From the 5008 samples, 500 samples are used in the training data sets, 100 in the test data sets, and 1000 in the validation data sets.
  
- Training data similar to simulated data: 500 samples
- Test data 100 samples
- Validation data: 1000 samples
+ 
  data split equally across sites
  hyperparameter optimization RMSE of log odds
  training epochs ( up to 2000) and initialization of model parameters (15 different random seeds)

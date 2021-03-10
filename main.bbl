@@ -295,6 +295,20 @@ Hinton, G.~E. \harvardand\ Salakhutdinov, R.~R.  \harvardyearleft
   networks', {\em Science} {\bf 313}(5786),~504--507.
 \newline\harvardurl{http://science.sciencemag.org/content/313/5786/504}
 
+\harvarditem{Howie \harvardand\ Marchini}{2015}{impute_1000_genomes}
+Howie, B. \harvardand\ Marchini, J.  \harvardyearleft 2015\harvardyearright ,
+  `1,000 {Genomes} haplotypes - {Phase} 3 integrated variant set release in
+  {NCBI} build 37 (hg19) coordinates'.
+\newline\harvardurl{https://mathgen.stats.ox.ac.uk/impute/1000GP\_Phase3.html}
+
+\harvarditem[Howie et~al.]{Howie, Donnelly \harvardand\
+  Marchini}{2009}{impute2}
+Howie, B.~N., Donnelly, P. \harvardand\ Marchini, J.  \harvardyearleft
+  2009\harvardyearright , `A flexible and accurate genotype imputation method
+  for the next generation of genome-wide association studies', {\em PLoS Genet}
+  {\bf 5}(6),~e1000529.
+\newblock Publisher: Public Library of Science.
+
 \harvarditem{Innes}{2018}{flux}
 Innes, M.  \harvardyearleft 2018\harvardyearright , `Flux: {Elegant} machine
   learning with \proglang{Julia}.', {\em Journal of Open Source Software} {\bf
@@ -521,6 +535,12 @@ Sweeney, L.  \harvardyearleft 2012\harvardyearright , `{k}-anonymity: A model
   and Knowledge-Based Systems} .
 \newblock Publisher: World Scientific Publishing Company.
 \newline\harvardurl{https://www.worldscientific.com/doi/epdf/10.1142/S0218488502001648}
+
+\harvarditem{{The 1000 Genomes Project Consortium}}{2012}{1000genomes}
+{The 1000 Genomes Project Consortium}  \harvardyearleft 2012\harvardyearright ,
+  `An integrated map of genetic variation from 1,092 human genomes', {\em
+  Nature} {\bf 491}(7422),~56--65.
+\newline\harvardurl{http://dx.doi.org/10.1038/nature11632}
 
 \harvarditem{{The Theano Development Team}}{2016}{theano}
 {The Theano Development Team}  \harvardyearleft 2016\harvardyearright ,
