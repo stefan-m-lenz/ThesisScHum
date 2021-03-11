@@ -45,6 +45,19 @@ Azur, M.~J., Stuart, E.~A., Frangakis, C. \harvardand\ Leaf, P.~J.
   Methods in Psychiatric Research} {\bf 20}(1),~40--49.
 \newline\harvardurl{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3074241/}
 
+\harvarditem[Bates et~al.]{Bates, Kornblith, Noack, Bouchet-Valat, Borregaard,
+  Arslan, White, Kleinschmidt, Lynch, Dunning, Mogensen, Lendle, Aluthge,
+  pdeffebach, Calderón, Born, Setzler, DuBois, Quinn, Bastide, Anthony~Blaom,
+  König, Caine, Lin, Ngo, Adenbaum, TagBot \harvardand\ Hein}{2021}{juliaglm}
+Bates, D., Kornblith, S., Noack, A., Bouchet-Valat, M., Borregaard, M.~K.,
+  Arslan, A., White, J.~M., Kleinschmidt, D., Lynch, G., Dunning, I., Mogensen,
+  P.~K., Lendle, S., Aluthge, D., pdeffebach, Calderón, J. B.~S., Born, B.,
+  Setzler, B., DuBois, C., Quinn, J., Bastide, P., Anthony~Blaom, P., König,
+  B., Caine, C., Lin, D., Ngo, H.~Q., Adenbaum, J., TagBot, J. \harvardand\
+  Hein, L.  \harvardyearleft 2021\harvardyearright , `Julia package
+  \apkg{GLM}'.
+\newline\harvardurl{https://zenodo.org/record/4556866}
+
 \harvarditem{Bengio}{2012}{bengio2012practical}
 Bengio, Y.  \harvardyearleft 2012\harvardyearright , Practical recommendations
   for gradient-based training of deep architectures, {\em in} `Neural networks:
