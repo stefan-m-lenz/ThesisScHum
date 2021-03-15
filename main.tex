@@ -1392,7 +1392,9 @@ The grammar is inspired by BSON \citep{bsonspec}.
 \section{Deep generative models in DataSHIELD}
 
 TODO intro
-
+simulated data, real genetic variant data.
+interesting for genetic data because genetic data is very sensitive
+DataSHIELD \citep{budin-ljosne_datashield} is a software solution for distributed privacy-preserving analyses.
 
 \subsection{Theory}
 
@@ -1635,7 +1637,7 @@ The most obvious structures there are the black blocks.
 These result from the five subgroups in the ``cases'' as the hierarchical clustering algorithms manages to group those samples together.
 In the original data, these black blocks are very solid as all samples in each subgroup are assigned to one cluster.
 
- \begin{figure}[h]
+ \begin{figure}[!hb]
    \centering
    \includegraphics[scale=1]{images/hclust.pdf}
    \caption{Original data and different synthetic data sets, hierarchically clustered in the rows/samples. The columns are the different SNPs/variables. Black rectangles indicate values of 1, white rectangles values of zero. The black blocks result from the groups of five 1s, as samples with the same pattern are clustered together. The different vertical positions of the blocks result from the noise outside of the pattern, which randomly influences the clustering. A: original data set. B: synthetic data from a DBM trained on the original data set. C and D: synthetic data from the distributed experiment with 2 and 20 sites, respectively.}
@@ -1761,6 +1763,11 @@ The first approach for measuring the disclosure risk is by evaluating the propor
 The results for this evaluation can be found in figure \ref{fig:distgenresults_overfitting} and table \ref{tab:distgenresults_overfitting}.
 There, the same models as shown in figure \ref{fig:rmseodds} are evaluated with respect to disclosure.
 
+It can be seen that DBMs exhibit less overfitting than VAEs and GANs here.
+In the scenarios with two and five sites, they even overfit less than all the other approaches.
+In the extreme scenario with 20 sites with 25 samples, the overfitting is similarly pronounced in all approaches.
+With a decreased number of samples, the variance of the overfitting increases. This can simply be explained by the fact that if fewer samples are in the data set, they may not always represent the overall structure well.
+
 \begin{figure}[h]
    \centering
    \includegraphics[scale=0.7]{images/overfitting.pdf}
@@ -1785,7 +1792,8 @@ VAE & \makecell{0.19 \\ (0.057 - 0.32)} & \makecell{0.27 \\ (0.062 - 0.45)} & \m
 \end{tabular}
 \end{table}
 
-
+For the same models as used for assessing the overfitting, the disclosure risk is appraised via simulated membership attacks as described in \ref{membershipattack}.
+The precision and sensitivity of the membership attacks are shown in figures \ref{fig:membershipprecision} and \ref{fig:membershipsensitivity}.
  
     \begin{figure}[h]
    \centering
@@ -1804,7 +1812,7 @@ VAE & \makecell{0.19 \\ (0.057 - 0.32)} & \makecell{0.27 \\ (0.062 - 0.45)} & \m
       \label{fig:membershipsensitivity}
  \end{figure}
  
-Running experiment took 25 hours on a cluster of three computers with 8, 12, and 28 cores with clock speeds of about 3 GHz and at least than 8 GB RAM per core.  
+Running the complete experiment took 25 hours on a cluster of three computers with 8, 12, and 28 cores with clock speeds of about 3 GHz and at least than 8 GB RAM per core.  
  
  
 \FloatBarrier
@@ -1902,6 +1910,8 @@ A result from such a simulation could be used for a sample size calculation when
 In cases where certain combinations might be quite rare, the learned correlations between all the variables can help in estimating the frequencies of the combinations of specific characteristics.
 
 TODO Nußberger
+
+TODO Rolle der hyperparameter
 
 \subsection{Directions in privacy-perserving deep learning}
 TODO diskutieren: privacy-accounting in DBMs and other approaches
