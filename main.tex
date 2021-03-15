@@ -1687,7 +1687,7 @@ From the complete genetic information, 30 loci on chromosome 6, spanning 50 SNP 
 As the variance in some SNPs across samples is very low, only SNPs with a minor allele frequency below 0.2 were considered.
 This prevents that the structure in the data sets becomes too simple by excluding variables that are expected to be mostly constant in subsets of samples.
 The 30 genomic locations spanning 50 variables form 30 different data sets, which are used in the evaluation.
-For each of these 30 different data sets, a training data set, a test data set, and a validation data set is selected.
+For each of these 30 different data sets, a training data set $x_{train}$, a test data set $x_{test}$, and a validation data set $x_{val}$ is selected.
 From the 5008 samples, 500 samples are used in the training data sets, 100 in the test data sets, and 1000 in the validation data sets.
 
 To evaluate different generative approaches in a distributed setting, 
@@ -1716,9 +1716,13 @@ The test data sets for the simulated membership attacks comprise 500 samples fro
 \FloatBarrier
 \subsubsection{Results}
 
-$d(x_{gen},x_{val})$
+The results of the comparison with respect to the performance are shown in figure \ref{fig:rmseodds} and table \ref{tab:distgenresults_rmse}. 
+There, the distance $d(x_{gen},x_{val})$, which has been defined in \ref{measuringperformance}, is used as performance metric.
+This distance measures how well the bivariate associations between all combinations of variables in the original data are preserved in the synthetic data.
+The effect of the sample size and the number of participating sites can be seen by comparing the results for using the whole data set (``One site''), and splitting the data on 2, 5, and 20 sites.
+By splitting the data, the number of samples per site decreases from 500 to 250, 100, and 25, respectively.
 
-\begin{figure}[h]
+\begin{figure}[ht]
    \centering
    \includegraphics[scale=0.7]{images/rmseodds.pdf}
    \caption{Comparing the generative performance of DBMs, GANs, VAEs, IM, and MICE via the RMSE of log odds ratios. There is one data point for each data set in the box plots. (See \ref{realexpsetup} for the description of the data sets.)
@@ -1726,7 +1730,7 @@ $d(x_{gen},x_{val})$
    \label{fig:rmseodds}
 \end{figure}
 
-\begin{table}[h]
+\begin{table}[ht]
 \centering
 \caption{Quantiles of the RMSE of log odds ratios. This table summarizes the values depicted in figure \ref{fig:rmseodds} in the form  {\em Median} ({\em 5\% quantile} - {\em 95\% quantile}).}
 \label{tab:distgenresults_rmse}
@@ -1742,6 +1746,20 @@ MICE & \makecell{3.72 \\ (2.87 - 6.04)} & \makecell{3.41 \\ (2.76 - 5.13)} & \ma
 VAE & \makecell{1.05 \\ (0.72 - 1.85)} & \makecell{1.02 \\ (0.68 - 1.72)} & \makecell{0.90 \\ (0.61 - 1.50)} & \makecell{0.89 \\ (0.53 - 1.53)} \\[2ex]
 \end{tabular}
 \end{table}
+
+The median performance of DBMs and VAEs is very close, especially in the settings with one and two sites.
+The other approaches perform clearly worse in all scenarios.
+As IM does not aim at modeling the bivariate associations, and MICE is not clearly better than IM, it can be concluded that MICE also mostly fails to capture the overall structure of the bivariate assiciations.
+In the setting with one site and 500 samples, the GAN is at least somewhat better than the simpler approaches, IM and MICE.
+The limited sample size seems to be especially impacting GANs negatively, as the performance becomes equally bad to IM and MICE in the other settings with split data.
+
+In the settings with 5 and 20 sites, the variance in the performance of DBMs gets higher.
+The variance of the performance the of VAEs stays very constant across all the scenarios.
+But with lower sample size, the question of the disclosure risk becomes also more critical, as the danger of copying data increases.
+Therefore, this needs also to be taken into account when comparing the models.
+The first approach for measuring the disclosure risk is by evaluating the proportion of overfitting as defined in \ref{proportionoverfitting}.
+The results for this evaluation can be found in figure \ref{fig:distgenresults_overfitting} and table \ref{tab:distgenresults_overfitting}.
+There, the same models as shown in figure \ref{fig:rmseodds} are evaluated with respect to disclosure.
 
 \begin{figure}[h]
    \centering
@@ -1773,6 +1791,7 @@ VAE & \makecell{0.19 \\ (0.057 - 0.32)} & \makecell{0.27 \\ (0.062 - 0.45)} & \m
    \centering
    \includegraphics[scale=0.7]{images/membership_precision.pdf}
    \caption{Membership attack: Precision}
+   \label{fig:membershipprecision}
  \end{figure}
  
  %TODO Tabelle aus Paper
@@ -1782,6 +1801,7 @@ VAE & \makecell{0.19 \\ (0.057 - 0.32)} & \makecell{0.27 \\ (0.062 - 0.45)} & \m
    \centering
    \includegraphics[scale=0.7]{images/membership_sensitivity.pdf}
    \caption{Membership attack: Sensitivity}
+      \label{fig:membershipsensitivity}
  \end{figure}
  
 Running experiment took 25 hours on a cluster of three computers with 8, 12, and 28 cores with clock speeds of about 3 GHz and at least than 8 GB RAM per core.  
@@ -1880,6 +1900,8 @@ An example for using conditional sampling in a setting with biomedical data coul
 A result from such a simulation could be used for a sample size calculation when planning a study involving the specific disease pattern and other combinations of characteristics.
 %TODO martin paper zitieren?
 In cases where certain combinations might be quite rare, the learned correlations between all the variables can help in estimating the frequencies of the combinations of specific characteristics.
+
+TODO Nußberger
 
 \subsection{Directions in privacy-perserving deep learning}
 TODO diskutieren: privacy-accounting in DBMs and other approaches
