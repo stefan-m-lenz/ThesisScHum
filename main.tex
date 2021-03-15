@@ -1,4 +1,4 @@
-\title{Distributed deep learning on biomedical data with Boltzmann machines}
+\title{Deep learning on biomedical data with Boltzmann machines}
 \author{Stefan Lenz}
 \date{\today}
 
@@ -1673,7 +1673,7 @@ The complete code for reproducing this experiment can be found on GitHub\footnot
 There, the Julia package \apkg{BoltzmannMachines} provides the DBM implementation.
 VAEs and GANs are trained via the \apkg{Flux} Julia package in the same way as done by \cite{nussberger_synthetic_2020}. MICE also is implemented directly in Julia, using the Julia package \apkg{GLM} \citep{juliaglm} for logistic regression.
 
-\subsubsection{Experimental setup}
+\subsubsection{Experimental setup}\label{realexpsetup}
 
 The real data for the experiment is taken from the 1000 genomes project \citep{1000genomes}.
 More specifically, a subset of the 1000 genomes data is used, which is available online from a web page \citep{impute_1000_genomes} of the IMPUTE2 software \citep{impute2}.
@@ -1683,10 +1683,10 @@ In the data there are in total 5008 chromosomes, which are used as independent s
 Each of these samples is a vector of binary SNP variables.
 Each variable stands for a defined location on a chromosome, with a value of 1 indicating that the sample has a defined deviation from the reference genome in this place.
 
-From the complete genetic information, 30 loci on chromosome 6 spanning 50 SNP variables are randomly selected.
+From the complete genetic information, 30 loci on chromosome 6, spanning 50 SNP variables, are randomly selected.
 As the variance in some SNPs across samples is very low, only SNPs with a minor allele frequency below 0.2 were considered.
 This prevents that the structure in the data sets becomes too simple by excluding variables that are expected to be mostly constant in subsets of samples.
-These 30 genomic locations spanning 50 variables form 30 different data sets, which are used in the evaluation.
+The 30 genomic locations spanning 50 variables form 30 different data sets, which are used in the evaluation.
 For each of these 30 different data sets, a training data set, a test data set, and a validation data set is selected.
 From the 5008 samples, 500 samples are used in the training data sets, 100 in the test data sets, and 1000 in the validation data sets.
 
@@ -1716,9 +1716,19 @@ The test data sets for the simulated membership attacks comprise 500 samples fro
 \FloatBarrier
 \subsubsection{Results}
 
+$d(x_{gen},x_{val})$
+
+\begin{figure}[h]
+   \centering
+   \includegraphics[scale=0.7]{images/rmseodds.pdf}
+   \caption{Comparing the generative performance of DBMs, GANs, VAEs, IM, and MICE via the RMSE of log odds ratios. There is one data point for each data set in the box plots. (See \ref{realexpsetup} for the description of the data sets.)
+   Separate for the different approaches, the data points in the plot show the performance of the best models with respect to the RMSE of log odds ratios.}
+   \label{fig:rmseodds}
+\end{figure}
+
 \begin{table}[h]
 \centering
-\caption{RMSE of log odds ratios $d(x_{gen},x_{val})$: Median (5\% quantile - 95\% quantile)}
+\caption{Quantiles of the RMSE of log odds ratios. This table summarizes the values depicted in figure \ref{fig:rmseodds} in the form  {\em Median} ({\em 5\% quantile} - {\em 95\% quantile}).}
 \label{tab:distgenresults_rmse}
 \begin{tabular}{l|cccc}
 \\\\[-4\medskipamount]
@@ -1733,9 +1743,17 @@ VAE & \makecell{1.05 \\ (0.72 - 1.85)} & \makecell{1.02 \\ (0.68 - 1.72)} & \mak
 \end{tabular}
 \end{table}
 
+\begin{figure}[h]
+   \centering
+   \includegraphics[scale=0.7]{images/overfitting.pdf}
+   \caption{Comparing the proportion of overfitting in DBMs, GANs, VAEs, IM, and MICE via the RMSE of log odds ratios in several settings of distributed data.
+   The data points shown stand for the same data sets and models as in figure \ref{fig:rmseodds}.}
+   \label{fig:distgenresults_overfitting}
+\end{figure}
+
 \begin{table}[h]
 \centering
-\caption{Proportion of overfitting: Median (5\% quantile - 95\% quantile)}\label{tab:distgenresults_overfitting}
+\caption{Quantiles of the proportion of overfitting. This table summarizes the values depicted in figure \ref{fig:distgenresults_overfitting} in the form  {\em Median} ({\em 5\% quantile} - {\em 95\% quantile}).}\label{tab:distgenresults_overfitting}.
 \begin{tabular}{l|cccc}
 \\\\[-4\medskipamount]
 & 1 site & 2 sites & 5 sites & 20 sites \\[0.5ex]
@@ -1749,20 +1767,8 @@ VAE & \makecell{0.19 \\ (0.057 - 0.32)} & \makecell{0.27 \\ (0.062 - 0.45)} & \m
 \end{tabular}
 \end{table}
 
- 
 
- \begin{figure}[h]
-   \centering
-   \includegraphics[scale=0.7]{images/rmseodds.pdf}
-   \caption{RMSE Odds}
- \end{figure}
  
-  \begin{figure}[h]
-   \centering
-   \includegraphics[scale=0.7]{images/overfitting.pdf}
-   \caption{Overfitting}
- \end{figure}
-
     \begin{figure}[h]
    \centering
    \includegraphics[scale=0.7]{images/membership_precision.pdf}
@@ -1777,6 +1783,9 @@ VAE & \makecell{0.19 \\ (0.057 - 0.32)} & \makecell{0.27 \\ (0.062 - 0.45)} & \m
    \includegraphics[scale=0.7]{images/membership_sensitivity.pdf}
    \caption{Membership attack: Sensitivity}
  \end{figure}
+ 
+Running experiment took 25 hours on a cluster of three computers with 8, 12, and 28 cores with clock speeds of about 3 GHz and at least than 8 GB RAM per core.  
+ 
  
 \FloatBarrier
 \subsection{The \apkg{dsBoltzmannMachines} DataSHIELD package}
