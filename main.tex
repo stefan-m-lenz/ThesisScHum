@@ -85,41 +85,36 @@
 \setlength{\emergencystretch}{3em}
 
 \section*{Abstract}
-TODO
-%We present the Julia package \apkg{BoltzmannMachines} that provides a friendly interface to algorithms for training and evaluating Boltzmann machines.
-%The ability of Boltzmann machines to deal with rather small sample sizes makes them especially interesting for analyzing medical data sets. But since these data sets can be very heterogeneous compared to the widely used image data, the choice of hyperparameters for training is especially challenging.
+
+%But since these data sets can be very heterogeneous compared to the widely used image data, the choice of hyperparameters for training is especially challenging.
 %Therefore the package puts a strong focus on monitoring and evaluating the learning process.
 %Primary evaluation criterion is the likelihood of the model, which can be estimated using annealed importance sampling (AIS). We present our approach for adapting the AIS algorithm on multimodal deep Boltzmann machines in detail in the article.
 %Additionally to likelihood estimation, this package offers convenience methods to monitor a number of other statistics and it allows to easily extend the monitoring of the training.
 
-DBM make available.
-Several unique features.
-Multimodal. Different data types. partitioned.
-monitoring because all data sets different. hyperparameter selection important.
-Based on Julia because fast and allows experimenting easily.
-DBM because of their performance on data of small sample size.
-In distributed analyses
+Deep Boltzmann machines (DBMs) are considered as a promising approach for deep learning on data of small sample size, which is common in biomedical data sets.
+To make DBMs available for experimentation, an easily extensible implementation of DBMs was created in form \apkg{BoltzmannMachines} Julia package, which has been registered in the official Julia package repository.
+The implementation offers several unique features, in particular for evaluation and monitoring of the training of DBMs.
+This is especially important for biomedical data sets, where finding good hyperparameters is hard due to the diversity of the data.
 
-Concept synthetic data distributed. genetic data. biomedical. privacy data protection.
-Investigate the performance and the risk of disclosure of DBMs. 
-For this, we compare DBMs with other popular generative approaches, namely generative adversarial networks (GANs) and variational autoencoders (VAEs).
+In addition to the small sample size, data protection constraints may impose an additional challenge for analyzing biomedical data, in particular, if the data is distributed across different sites.
+One approach for conducting privacy-preserving analyses in such a setting is to generate synthetic data, which captures the important structure of the original data of the individuals and, at the same time, can be used with less data protection constraints as the original data.
+For this, we compare DBMs with other popular generative approaches, namely generative adversarial networks (GANs) and variational autoencoders (VAEs) with respect to generative performance and disclosure risk.
 In addition to these neural network approaches, simpler methods such as multiple imputation by chained equations (MICE) and independent marginals (IM) are also considered as references.
 The experiments show the feasibility of DBMs as a generative approach in distributed settings, even with small sample sizes at different sites.
 VAEs showed also a comparable performance to DBMs in this setting, while the other approaches performed considerably worse.
-TODO Disclosure
 
 Finally, a ready-to-use implementation for DBMs as distributed approach is presented.
-This software is built in form of R packages that integrate into the DataSHIELD infrastructure for conducting privacy-preserving analyses on distributed cohorts.
+This software is built in form of R packages that integrate into the DataSHIELD infrastructure, which provides a framework for conducting privacy-preserving analyses on distributed cohorts.
 Since DataSHIELD is based on the R programming language, and there is no DBM implementation in R, a language interface was necessary to bring the functionality of the \apkg{BoltzmannMachines} package to R.
 There are two existing packages, \apkg{JuliaCall} and \apkg{XRJulia} that also make it possible to connect R with Julia, but they did not offer all necessary features.
-Therefore, a new solution was created, which provides an a convenient interactive handling and at the same time puts a special focus on the stability that is needed for a production environment.
-The \apkg{JuliaConnectoR} R package resulted as the product, which is officially registered in the Comprehensive R Archive Network (CRAN).
-One of the unique features of the \apkg{JuliaConnectoR} is the ability to import arbitrary Julia packages in R such that functions and objects can be used and accessed directly in R.
-As this approach does not rely on any specifics of DBMs or of the \apkg{BoltzmannMachines} package, this proves also on the technical side that it is possible to make advanced deep learning algorithms available for distributed privacy-preserving analyses in DataSHIELD.
+Therefore, a new solution was created, which provides convenient interactive handling and, at the same time, puts a special focus on the stability that is needed for a production environment.
+The resulting \apkg{JuliaConnectoR} R package has been officially registered in the Comprehensive R Archive Network (CRAN).
+More generally, this approach of wrapping external deep learning functionality proves also on the technical side that advanced deep learning algorithms can be used for distributed privacy-preserving analyses in DataSHIELD.
 
 
 \clearpage
 \section{Introduction}
+
 TODO privacy motivation for using generative models for synthetic data
 
 TODO several approaches, e.g. synthpop. deep learning models as generative models capture more complicated structure
@@ -131,6 +126,13 @@ TODO deep learning popular with images, most popular use cases deal with large s
 TODO DBMs especially interesting for biomedical data because small sample size
 
 TODO GAN VAE
+
+
+Since biomedical data sets can be very diverse, default values for hyperparameters may often not be the best choice.
+Therefore, the ability to determine good hyperparameters is especially important there.
+
+Based on Julia because fast and allows experimenting easily.
+
 
 Saving parameters can aid in training models also with fewer data points as the performance of more complex models may deteriorate if the sample size is too small \citep{chan_classifier_1999}.
 The problem of small sample sizes is particularly prevalent when dealing with genetic variant data 
