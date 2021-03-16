@@ -1724,7 +1724,7 @@ This distance measures how well the bivariate associations between all combinati
 The effect of the sample size and the number of participating sites can be seen by comparing the results for using the whole data set (``One site''), and splitting the data on 2, 5, and 20 sites.
 By splitting the data, the number of samples per site decreases from 500 to 250, 100, and 25, respectively.
 
-\begin{figure}[ht]
+\begin{figure}[t]
    \centering
    \includegraphics[scale=0.7]{images/rmseodds.pdf}
    \caption{Comparing the generative performance of DBMs, GANs, VAEs, IM, and MICE via the RMSE of log odds ratios. There is one data point for each data set in the box plots. (See \ref{realexpsetup} for the description of the data sets.)
@@ -1793,24 +1793,15 @@ VAE & \makecell{0.19 \\ (0.057 - 0.32)} & \makecell{0.27 \\ (0.062 - 0.45)} & \m
 \end{table}
 
 For the same models as used for assessing the overfitting, the disclosure risk is appraised via simulated membership attacks as described in \ref{membershipattack}.
-The precision and sensitivity of the membership attacks are shown in figures \ref{fig:membershipprecision} and \ref{fig:membershipsensitivity}.
+The precision and sensitivity of the membership attacks are shown in figure \ref{fig:membershipattack}.
  
-    \begin{figure}[h]
-   \centering
-   \includegraphics[scale=0.7]{images/membership_precision.pdf}
-   \caption{Membership attack: Precision}
-   \label{fig:membershipprecision}
- \end{figure}
- 
- %TODO Tabelle aus Paper
 
- 
-   \begin{figure}[h]
-   \centering
-   \includegraphics[scale=0.7]{images/membership_sensitivity.pdf}
-   \caption{Membership attack: Sensitivity}
-      \label{fig:membershipsensitivity}
- \end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.7]{images/membership_combined.pdf}
+\caption{Precision and sensitivity of simulated membership attacks.  The data points shown stand for the same data sets and models as in figures \ref{fig:rmseodds} and \ref{fig:distgenresults_overfitting}.}
+\label{fig:membershipattack}
+\end{figure} 
  
 Running the complete experiment took 25 hours on a cluster of three computers with 8, 12, and 28 cores with clock speeds of about 3 GHz and at least than 8 GB RAM per core.  
  
