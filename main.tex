@@ -1724,31 +1724,6 @@ This distance measures how well the bivariate associations between all combinati
 The effect of the sample size and the number of participating sites can be seen by comparing the results for using the whole data set (``One site''), and splitting the data on 2, 5, and 20 sites.
 By splitting the data, the number of samples per site decreases from 500 to 250, 100, and 25, respectively.
 
-\begin{figure}[t]
-   \centering
-   \includegraphics[scale=0.7]{images/rmseodds.pdf}
-   \caption{Comparing the generative performance of DBMs, GANs, VAEs, IM, and MICE via the RMSE of log odds ratios. There is one data point for each data set in the box plots. (See \ref{realexpsetup} for the description of the data sets.)
-   Separate for the different approaches, the data points in the plot show the performance of the best models with respect to the RMSE of log odds ratios.}
-   \label{fig:rmseodds}
-\end{figure}
-
-\begin{table}[ht]
-\centering
-\caption{Quantiles of the RMSE of log odds ratios. This table summarizes the values depicted in figure \ref{fig:rmseodds} in the form  {\em Median} ({\em 5\% quantile} - {\em 95\% quantile}).}
-\label{tab:distgenresults_rmse}
-\begin{tabular}{l|cccc}
-\\\\[-4\medskipamount]
-& 1 site & 2 sites & 5 sites & 20 sites \\[0.5ex]
-\hline
-\\\\[-4\medskipamount]
-DBM & \makecell{0.98 \\ (0.82 - 1.21)} & \makecell{1.00 \\ (0.78 - 1.19)} & \makecell{1.03 \\ (0.74 - 1.65)} & \makecell{1.42 \\ (0.89 - 3.85)} \\[2ex]
-GAN & \makecell{2.17 \\ (1.86 - 3.36)} & \makecell{3.28 \\ (2.12 - 6.33)} & \makecell{3.82 \\ (2.41 - 6.41)} & \makecell{4.00 \\ (2.41 - 6.88)} \\[2ex]
-IM & \makecell{3.96 \\ (2.33 - 6.95)} & \makecell{3.95 \\ (2.32 - 6.95)} & \makecell{3.97 \\ (2.32 - 6.95)} & \makecell{3.90 \\ (2.30 - 6.84)} \\[2ex]
-MICE & \makecell{3.72 \\ (2.87 - 6.04)} & \makecell{3.41 \\ (2.76 - 5.13)} & \makecell{3.05 \\ (2.47 - 4.61)} & \makecell{2.84 \\ (1.93 - 4.22)} \\[2ex]
-VAE & \makecell{1.05 \\ (0.72 - 1.85)} & \makecell{1.02 \\ (0.68 - 1.72)} & \makecell{0.90 \\ (0.61 - 1.50)} & \makecell{0.89 \\ (0.53 - 1.53)} \\[2ex]
-\end{tabular}
-\end{table}
-
 The median performance of DBMs and VAEs is very close, especially in the settings with one and two sites.
 The other approaches perform clearly worse in all scenarios.
 As IM does not aim at modeling the bivariate associations, and MICE is not clearly better than IM, it can be concluded that MICE also mostly fails to capture the overall structure of the bivariate assiciations.
@@ -1768,17 +1743,50 @@ In the scenarios with two and five sites, they even overfit less than all the ot
 In the extreme scenario with 20 sites with 25 samples, the overfitting is similarly pronounced in all approaches.
 With a decreased number of samples, the variance of the overfitting increases. This can simply be explained by the fact that if fewer samples are in the data set, they may not always represent the overall structure well.
 
-\begin{figure}[h]
+For the same models as used for assessing the overfitting, the disclosure risk is appraised via simulated membership attacks as described in \ref{membershipattack}.
+The precision and sensitivity of the membership attacks are shown in figure \ref{fig:membershipattack}.
+
+TODO text
+
+Running the complete experiment took 25 hours on a cluster of three computers with 8, 12, and 28 cores with clock speeds of about 3 GHz and at least than 8 GB RAM per core.  
+
+\noindent\begin{minipage}{\linewidth}
    \centering
+   \captionsetup{type=figure}
+   \includegraphics[scale=0.7]{images/rmseodds.pdf}
+   \captionof{figure}{Comparing the generative performance of DBMs, GANs, VAEs, IM, and MICE via the RMSE of log odds ratios. There is one data point for each data set in the box plots. (See \ref{realexpsetup} for the description of the data sets.)
+   Separate for the different approaches, the data points in the plot show the performance of the best models with respect to the RMSE of log odds ratios.}
+   \label{fig:rmseodds}
+
+
+\captionsetup{type=table}
+\captionof{table}{Quantiles of the RMSE of log odds ratios as depicted in  \ref{fig:rmseodds} in the form {\em Median} ({\em 5\% quantile} - {\em 95\% quantile}).}
+\label{tab:distgenresults_rmse}
+\begin{tabular}{l|cccc}
+\\\\[-4\medskipamount]
+& 1 site & 2 sites & 5 sites & 20 sites \\[0.5ex]
+\hline
+\\\\[-4\medskipamount]
+DBM & \makecell{0.98 \\ (0.82 - 1.21)} & \makecell{1.00 \\ (0.78 - 1.19)} & \makecell{1.03 \\ (0.74 - 1.65)} & \makecell{1.42 \\ (0.89 - 3.85)} \\[2ex]
+GAN & \makecell{2.17 \\ (1.86 - 3.36)} & \makecell{3.28 \\ (2.12 - 6.33)} & \makecell{3.82 \\ (2.41 - 6.41)} & \makecell{4.00 \\ (2.41 - 6.88)} \\[2ex]
+IM & \makecell{3.96 \\ (2.33 - 6.95)} & \makecell{3.95 \\ (2.32 - 6.95)} & \makecell{3.97 \\ (2.32 - 6.95)} & \makecell{3.90 \\ (2.30 - 6.84)} \\[2ex]
+MICE & \makecell{3.72 \\ (2.87 - 6.04)} & \makecell{3.41 \\ (2.76 - 5.13)} & \makecell{3.05 \\ (2.47 - 4.61)} & \makecell{2.84 \\ (1.93 - 4.22)} \\[2ex]
+VAE & \makecell{1.05 \\ (0.72 - 1.85)} & \makecell{1.02 \\ (0.68 - 1.72)} & \makecell{0.90 \\ (0.61 - 1.50)} & \makecell{0.89 \\ (0.53 - 1.53)} \\[2ex]
+\end{tabular}
+\end{minipage} 
+
+\noindent\begin{minipage}{\linewidth}
+   \centering
+   \captionsetup{type=figure}
    \includegraphics[scale=0.7]{images/overfitting.pdf}
-   \caption{Comparing the proportion of overfitting in DBMs, GANs, VAEs, IM, and MICE via the RMSE of log odds ratios in several settings of distributed data.
+   \captionof{figure}{Comparing the proportion of overfitting in DBMs, GANs, VAEs, IM, and MICE via the RMSE of log odds ratios in several settings of distributed data.
    The data points shown stand for the same data sets and models as in figure \ref{fig:rmseodds}.}
    \label{fig:distgenresults_overfitting}
-\end{figure}
-
-\begin{table}[h]
-\centering
-\caption{Quantiles of the proportion of overfitting. This table summarizes the values depicted in figure \ref{fig:distgenresults_overfitting} in the form  {\em Median} ({\em 5\% quantile} - {\em 95\% quantile}).}\label{tab:distgenresults_overfitting}.
+   
+\hskip 5pt
+   
+\captionsetup{type=table}
+\caption{Quantiles of the proportion of overfitting as depicted in figure \ref{fig:distgenresults_overfitting}, summarized in the form  {\em Median} ({\em 5\% quantile} - {\em 95\% quantile}).}\label{tab:distgenresults_overfitting}.
 \begin{tabular}{l|cccc}
 \\\\[-4\medskipamount]
 & 1 site & 2 sites & 5 sites & 20 sites \\[0.5ex]
@@ -1790,11 +1798,8 @@ IM & \makecell{0.055 \\ (-0.0045 - 0.099)} & \makecell{0.12 \\ (0.058 - 0.18)} &
 MICE & \makecell{0.031 \\ (0.0022 - 0.08)} & \makecell{0.10 \\ (0.0048 - 0.32)} & \makecell{0.18 \\ (-0.019 - 0.45)} & \makecell{0.45 \\ (0.09 - 0.85)} \\[2ex]
 VAE & \makecell{0.19 \\ (0.057 - 0.32)} & \makecell{0.27 \\ (0.062 - 0.45)} & \makecell{0.29 \\ (0.064 - 0.56)} & \makecell{0.48 \\ (-0.20 - 0.82)} \\[2ex]
 \end{tabular}
-\end{table}
+\end{minipage}
 
-For the same models as used for assessing the overfitting, the disclosure risk is appraised via simulated membership attacks as described in \ref{membershipattack}.
-The precision and sensitivity of the membership attacks are shown in figure \ref{fig:membershipattack}.
- 
 
 \begin{figure}[h]
 \centering
@@ -1803,8 +1808,7 @@ The precision and sensitivity of the membership attacks are shown in figure \ref
 \label{fig:membershipattack}
 \end{figure} 
  
-Running the complete experiment took 25 hours on a cluster of three computers with 8, 12, and 28 cores with clock speeds of about 3 GHz and at least than 8 GB RAM per core.  
- 
+
  
 \FloatBarrier
 \subsection{The \apkg{dsBoltzmannMachines} DataSHIELD package}
