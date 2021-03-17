@@ -1663,7 +1663,7 @@ Both pre-training and fine-tuning use 30 training epochs.
 Summed up, the results of the experiment indicate that using DBMs on distributed data for generating synthetic data (see figure \ref{fig:syntheticdataprinciple} in \ref{syntheticdata_ds}) can be a suitable approach for analyzing higher-level patterns in data.
  
 \FloatBarrier
-\subsection{An experiment for comparing different distributed generative approaches on real genetic variant data}
+\subsection{An experiment for comparing different distributed generative approaches on real genetic variant data}\label{realexp}
 
 After the experiment with simulated data, the question remains how well the findings generalize on real genetic data.
 It is also interesting how DBMs compare to other generative models, in particular, in settings of small sample size.
@@ -1837,8 +1837,41 @@ VAE & \makecell{0.19 \\ (0.057 - 0.32)} & \makecell{0.27 \\ (0.062 - 0.45)} & \m
 \FloatBarrier
 \subsection{The \apkg{dsBoltzmannMachines} DataSHIELD package}
 
+The previous experiments in \ref{simuexp} and \ref{realexp} have investigated the feasibility of using synthetic data for analyses.
+In \ref{simuexp}, a hierarchical clustering was explored as joint analysis, and in  \ref{realexp}, the similarity of odds ratios in the synthetic inspected, which can be seen an indicator for how well the synthetic data can be used in analyses like logistic regression models.
 
-The \apkg{dsBoltzmannMachines} package is the first package that allows generating synthetic data in DataSHIELD and enables a workflow as depicted in figure \ref{fig:syntheticdataprinciple}.
+Now a practical implementation of working with synthetic data in a distributed setting is presented on the basis of DBMs in DataSHIELD.
+The resulting software is the first that allows generating synthetic data in DataSHIELD and enables the approach that is depicted in figure \ref{fig:syntheticdataprinciple}.
+In figure \ref{fig:examplaryworkflow}, the workflow using the software is sketched in more detail using a single site.
+
+\begin{figure}[h]
+   \centering
+   \includegraphics[scale=0.5]{images/dsBoltzmannWorkflow.pdf}
+   \caption{Exemplary workflow for using the \apkg{dsBoltzmannMachines} package.
+   \circlenum{1} The researcher calls a function for fitting a model, here a DBM, using a DataSHIELD analysis client with the client side of the software installed. 
+   \circlenum{2} The model is trained at the site using the server-side part of the software. During the training, the training can be monitored. 
+   \circlenum{3} This evaluation data can be returned to the researcher because it does not contain information about individuals. 
+   For finding good hyperparameters, these steps may be repeated several times.
+   \circlenum{4} If the researcher is satisfied with a model, he/she can request samples from a model. 
+   \circlenum{5} The requested synthetic data is then returned to the researcher.}
+   \label{fig:examplaryworkflow}
+ \end{figure}
+
+As indicated in figure \ref{fig:examplaryworkflow}, the software consists of a client-side part and a server-side part.
+These are implemented in two separate R packages, \apkg{dsBoltzmannMachinesClient}\footnote{\url{https://github.com/stefan-m-lenz/dsBoltzmannMachinesClient}} and \apkg{dsBoltzmannMachines}\footnote{\url{https://github.com/stefan-m-lenz/dsBoltzmannMachines}}.
+The dependencies of all the parts are shown in figure \ref{fig:dsBoltzmann_dependencies}.
+Plots from the monitoring data are produced by a separate package, \apkg{BoltzmannMachinesRPlots}\footnote{\url{https://github.com/stefan-m-lenz/BoltzmannMachinesRPlots}}.
+Separating this functionality has the advantage that this package can also be used directly with the \apkg{BoltzmannMachines} Julia package in R via the \apkg{JuliaConnectoR} without DataSHIELD (see TODO JuliaConnectoR-part).
+For the communication with the Opal server, the Opal R client package is used, which can access functions that have been installed in a remote Opal server.
+The functions on the server side are packaged in the \apkg{dsBoltzmannMachines} package.
+These wrap the functionality of the \apkg{BoltzmannMachines} Julia package via the \apkg{JuliaConnectoR}.
+
+\begin{figure}[h]
+   \centering
+   \includegraphics[scale=0.6]{images/dsBoltzmannMachinesOverview.pdf}
+   \caption{Overview of the dependencies between the developed packages}
+   \label{fig:dsBoltzmann_dependencies}
+ \end{figure}
 
 \rowcolors{1}{gray!25}{white}
 \begin{table}[h]
@@ -1876,15 +1909,11 @@ Calculates the log-likelihood for a RBM/DBM (exponential complexity)\\
 \end{tabularx}
 \end{table}
 
+
+
 %TODO code aus Paper
 
-%TODO zweiter Teil der Grafik mit distributed generative approach
 
-\begin{figure}[h]
-   \centering
-   \includegraphics[scale=0.5]{images/dsBoltzmannMachinesOverview.pdf}
-   \caption{Overview of dependencies between the developed packages}
- \end{figure}
  
  
 
@@ -1894,11 +1923,7 @@ Calculates the log-likelihood for a RBM/DBM (exponential complexity)\\
 %   \caption{Examples for learning curves produced by the package \apkg{BoltzmannMachinesPlots}. This shows learning curves for the training of a DBM with three layers. The plots showing the mean reconstruction error are the result of monitoring the greedy layerwise pre-training. The plot showing the lower bound of the log probability comes is the monitoring output of the fine-tuning of the DBM. There are two curves in each plot, one for the training data and one for the test data.}
 % \end{figure}
 
-\begin{figure}[h]
-   \centering
-   \includegraphics[scale=0.5]{images/dsBoltzmannWorkflow.pdf}
-   \caption{Exemplary workflow for using the \apkg{dsBoltzmannMachines} package}
- \end{figure}
+
  
  
  \begin{figure}[h]
