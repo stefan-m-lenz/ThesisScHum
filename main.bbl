@@ -592,6 +592,11 @@ Webster, R., Rabin, J., Simon, L. \harvardand\ Jurie, F.  \harvardyearleft
   pp.~11265--11274.
 \newblock ISSN: 2575-7075.
 
+\harvarditem{Wickham}{2016}{ggplot2}
+Wickham, H.  \harvardyearleft 2016\harvardyearright , {\em ggplot2: Elegant
+  Graphics for Data Analysis}, Springer-Verlag New York.
+\newline\harvardurl{https://ggplot2.tidyverse.org}
+
 \harvarditem[Wolfson et~al.]{Wolfson, Wallace, Masca, Rowe, Sheehan, Ferretti,
   LaFlamme, Tobin, Macleod, Little, Fortier, Knoppers \harvardand\
   Burton}{2010}{wolfson_datashield}

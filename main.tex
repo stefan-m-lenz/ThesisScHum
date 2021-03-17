@@ -1880,7 +1880,7 @@ In figure \ref{fig:examplaryworkflow}, the workflow using the software is sketch
 As indicated in figure \ref{fig:examplaryworkflow}, the software consists of a client-side part and a server-side part.
 These are implemented in two separate R packages, \apkg{dsBoltzmannMachinesClient}\footnote{\url{https://github.com/stefan-m-lenz/dsBoltzmannMachinesClient}} and \apkg{dsBoltzmannMachines}\footnote{\url{https://github.com/stefan-m-lenz/dsBoltzmannMachines}}.
 The dependencies of all the parts are shown in figure \ref{fig:dsBoltzmann_dependencies}.
-Plots from the monitoring data are produced by a separate package, \apkg{BoltzmannMachinesRPlots}\footnote{\url{https://github.com/stefan-m-lenz/BoltzmannMachinesRPlots}}.
+Plots from the monitoring data are produced by a separate package, \apkg{BoltzmannMachinesRPlots}\footnote{\url{https://github.com/stefan-m-lenz/BoltzmannMachinesRPlots}}, which utilizes the \apkg{ggplot2} \citep{ggplot2} package.
 Separating this functionality has the advantage that this package can also be used directly with the \apkg{BoltzmannMachines} Julia package in R via the \apkg{JuliaConnectoR} without DataSHIELD (see TODO JuliaConnectoR-part).
 For the communication with the Opal server, the Opal R client package is used, which can access functions that have been installed in a remote Opal server.
 The functions on the server side are packaged in the \apkg{dsBoltzmannMachines} package.
@@ -1893,8 +1893,18 @@ These wrap the functionality of the \apkg{BoltzmannMachines} Julia package via t
    \label{fig:dsBoltzmann_dependencies}
  \end{figure}   
  
- 
-\begin{lstlisting}[language=R,caption={Example code for remotely training a DBM and generating samples},label={lst:dsdbmexample},float]
+
+
+To perform the complete workflow as shown in figure \ref{fig:examplaryworkflow}, the following code can be executed in R.
+In a first step, the user has to load \apkg{dsBoltzmannMachinesClient} package and login to the remote Opal servers.
+As the \apkg{dsBoltzmannMachinesClient} package depends on the Opal R client, that is loaded implicitly as well.
+The login function can be used to obtain a DataSHIELD login object using the URL of the Opal server and the credentials of the user.
+After a successful login, the resulting login object is assigned to the variable \inlinecode{o} here.
+It is also possible to login to multiple Opal servers at once.
+In this case the login object contains the references to multiple servers.
+Calling functions via this login object sends the request to multiple servers at once and  combines the result into one returned object. 
+
+\begin{lstlisting}[language=R,float=h]
 library(dsBoltzmannMachinesClient)
 logindata <- data.frame(server = "server",
                         url = "https://datashield.example.com",
@@ -1902,12 +1912,21 @@ logindata <- data.frame(server = "server",
                         table = "MyTable")
 
 o <- datashield.login(logins = logindata, assign = TRUE)
+\end{lstlisting}
 
-ds.setJuliaSeed(o, 1) # for reproducibility
+The login needs to be passed to the functions of the \apkg{dsBoltzmannMachinesClient} package to access the remote servers.
+In a first step of the analysis, it is well advised to set a random seed to make the results of the stochastic algorithms reproducible.
+The seed needs to be set in Julia because the random number generator of Julia is independent from that of R.
 
+\begin{lstlisting}[language=R, float=h]
+ds.setJuliaSeed(o, 1)
+\end{lstlisting}
+
+\begin{lstlisting}[language=R, float]
 ds.splitdata(o, "D", 0.2, "D.Train", "D.Test")
+\end{lstlisting}
 
-# Training
+\begin{lstlisting}[language=R, float=h]
 result <- ds.monitored_fitdbm(o, data = "D.Train", 
                               nhiddens = c(50, 25, 15),
                               epochspretraining = 30,
@@ -1916,14 +1935,19 @@ result <- ds.monitored_fitdbm(o, data = "D.Train",
                               learningrate = 0.05,
                               monitoringdata = c("D.Train",
                                                  "D.Test"))
-plotMonitoring(result)
-
-# Generating data
-generated <- ds.dbm.samples(o)
-
-datashield.logout(o)
-
 \end{lstlisting}
+
+The \apkg{BoltzmannMachinesRPlots} package has implicitly been loaded as well. 
+With the exported function \inlinecode{plotmonitoring}, the learning curves can be  displayed.
+
+\begin{lstlisting}[language=R, float=h]
+plotMonitoring(result)
+\end{lstlisting}
+
+\begin{lstlisting}[language=R, float=h]
+generated <- ds.dbm.samples(o)
+\end{lstlisting}
+
 
 \rowcolors{1}{gray!25}{white}
 \begin{table}[h]
