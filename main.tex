@@ -1200,7 +1200,7 @@ Then the code in listing \ref{lst:partdbm} results in a model shown in figure \r
 \label{fig:smallpartitioneddbm}
 \end{figure}
 
-\begin{lstlisting}[language=Julia,caption={Fitting a partitioned DBM},label={lst:partdbm}]
+\begin{lstlisting}[language=Julia,caption={Fitting a partitioned DBM},label={lst:partdbm}, float=!h]
 dbm = fitdbm(x; pretraining = [
       TrainPartitionedLayer([
          TrainLayer(nvisible = 3, nhidden = 3),
@@ -1209,6 +1209,7 @@ dbm = fitdbm(x; pretraining = [
       TrainLayer(nhidden = 2)])
 \end{lstlisting}
 
+\FloatBarrier
 \paragraph{Customizing the optimization}
 
 The calculation of the gradients is abstracted from Gibbs sampling and mean-field approximation.
@@ -1258,7 +1259,7 @@ samples(dbm, 500; conditions = [1 => 1.0; 2 => 0.0; 3 => 1.0])
 
 For re-using allocated space, there is also the functions \inlinecode{gibbssample!} for running Gibbs sampling on pre-allocated matrices of samples, and, analogously, there is \inlinecode{gibbssamplecond!} for conditional sampling (see p.\ \pageref{bms_gibbssample!}).
 
-\paragraph{Evaluating and monitoring}
+\paragraph{Evaluating and monitoring}\label{monitoring}
 
 Monitoring is the evaluation of a model during the training time.
 This can be used for hyperparameter tuning.
@@ -1903,8 +1904,9 @@ After a successful login, the resulting login object is assigned to the variable
 It is also possible to login to multiple Opal servers at once.
 In this case the login object contains the references to multiple servers.
 Calling functions via this login object sends the request to multiple servers at once and  combines the result into one returned object. 
+With the argument \inlinecode{assign} set to \inlinecode{TRUE}, the specified table is loaded and available by default as data set ``\inlinecode{D}'' on the server side.
 
-\begin{lstlisting}[language=R,float=h]
+\begin{lstlisting}[language=R,float=!h]
 library(dsBoltzmannMachinesClient)
 logindata <- data.frame(server = "server",
                         url = "https://datashield.example.com",
@@ -1918,15 +1920,20 @@ The login needs to be passed to the functions of the \apkg{dsBoltzmannMachinesCl
 In a first step of the analysis, it is well advised to set a random seed to make the results of the stochastic algorithms reproducible.
 The seed needs to be set in Julia because the random number generator of Julia is independent from that of R.
 
-\begin{lstlisting}[language=R, float=h]
+\begin{lstlisting}[language=R, float=!h]
 ds.setJuliaSeed(o, 1)
 \end{lstlisting}
 
-\begin{lstlisting}[language=R, float]
+The data set ``\inlinecode{D}, which has been defined at the login above, can be split randomly into a training and a test data set.
+These are assigned to the new variables \inlinecode{D.Train} and \inlinecode{D.Test} on the server side via the following call to \inlinecode{ds.splitdata}.
+
+\begin{lstlisting}[language=R, float=!h]
 ds.splitdata(o, "D", 0.2, "D.Train", "D.Test")
 \end{lstlisting}
 
-\begin{lstlisting}[language=R, float=h]
+Via a call to \inlinecode{ds.monitored\_fitdbm}, a DBM can be fit on the training data.
+Using both the training and the test data to evaluate the 
+\begin{lstlisting}[language=R, float=!h]
 result <- ds.monitored_fitdbm(o, data = "D.Train", 
                               nhiddens = c(50, 25, 15),
                               epochspretraining = 30,
@@ -1937,20 +1944,65 @@ result <- ds.monitored_fitdbm(o, data = "D.Train",
                                                  "D.Test"))
 \end{lstlisting}
 
-The \apkg{BoltzmannMachinesRPlots} package has implicitly been loaded as well. 
-With the exported function \inlinecode{plotmonitoring}, the learning curves can be  displayed.
+The returned result contains by default only the monitoring information.
+The model is assigned to a variable at the server side, by default it is called ``\inlinecode{dbm}''.
+Subsequent functions for using the model will also assume this as a default.
+It is technically possible to return the trained model itself, as the \inlinecode{JuliaConnectoR} can translate Julia objects to R objects, and the communication with the Opal server allows to return arbitrary R objects.
+This is not allowed by default to increase the data protection but it can be enabled by setting the variable \inlinecode{dsBoltzmannMachines.shareModels} to ``\inlinecode{TRUE}'' in the Opal server.
 
-\begin{lstlisting}[language=R, float=h]
+The \apkg{BoltzmannMachinesRPlots} package has implicitly been loaded as well when loading the \inlinecode{dsBoltzmannMachinesClient} package. 
+With its \inlinecode{plotmonitoring} function, the learning curves can be displayed.
+The resulting curves look similar to the ones shown in figure \ref{fig:monitoring_bmplots}.
+
+\begin{lstlisting}[language=R, float=!h]
 plotMonitoring(result)
 \end{lstlisting}
 
-\begin{lstlisting}[language=R, float=h]
-generated <- ds.dbm.samples(o)
+It is also possible to spare the monitoring by passing an empty vector as \inlinecode{monitoringdata} argument.
+To get an impression of the time that the training requires, figure \ref{fig:dbmtrainingtimes} shows measurements taken with varying numbers of samples and variables.
+As can be seen there, the training time grows linearly with the number of samples if the hyperparameters are left unchanged.
+If the number of variables is increased and the number of hidden nodes is scaled in the same proportion, the execution time grows quadratically.
+These measurements shows empirically, what is expected theoretically, i.e., that the algorithm has the same time complexity as matrix multiplication.
+
+\begin{figure}[h]
+   \centering
+   \includegraphics[scale=.6]{images/trainingtimes.pdf}
+   \caption{Training times of DBMs using the dsBoltzmannMachines package. On the left, the DBMs are trained on data sets with 50 variables and a varying number of samples. The DBMs have two hidden layers with 50 and 10 nodes, respectively. On the right, the number of samples is fixed as 2500. The DBMs there are trained using data sets with varying numbers of variables. The hidden layers are scaled proportionally. In all cases the training consists of 30 epochs pre-training and 30 epochs fine-tuning and the monitoring is performed on the training data set and a test data set with 10 percent of the samples in the training data set.}
+   \label{fig:dbmtrainingtimes}
+ \end{figure}
+
+Training without monitoring is faster but may give less insights about the choice of the hyperparameters (see \ref{monitoring}) because no learning curves can be shown.
+Evaluating the training objective afterwards is still possible with the function \inlinecode{ds.dbm.logproblowerbound}.
+
+\begin{lstlisting}[language=R]
+ds.dbm.logproblowerbound(o, data = "D.Train")
+ds.dbm.logproblowerbound(o, data = "D.Test")
 \end{lstlisting}
 
 
+
+Most importantly, synthetic data can be generated by \inlinecode{ds.dbm.samples}. 
+
+\begin{lstlisting}[language=R, float=!h]
+generated <- ds.dbm.samples(o, nsamples = 1000)
+\end{lstlisting}
+
+It is also possible to perform a dimension reduction.
+An exemplary output can be seen in figure \ref{fig:dbmvspca}.
+\begin{lstlisting}[language=R, float=!h]
+ds.dbm.top2LatentDims(o, data = "D")
+\end{lstlisting}
+
+
+ \begin{figure}[h]
+   \centering
+   \includegraphics[scale=1]{images/dbmvspca.pdf}
+   \caption{TODO: PCA vs + DBM+ PCA}
+   \label{fig:dbmvspca}
+ \end{figure}
+
 \rowcolors{1}{gray!25}{white}
-\begin{table}[h]
+\begin{table}[!ht]
 \caption{Overview of the functions in the \apkg{dsBoltzmannMachinesClient} package}
 \label{tab:dsBoltzmannFuns}
    \begin{tabularx}{\textwidth}{X}
@@ -1987,12 +2039,6 @@ Calculates the log-likelihood for a RBM/DBM (exponential complexity)\\
 
 
 
-%TODO code aus Paper
-
-
-
-
-
 %\begin{figure}[h]
 %   \centering
 %   \includegraphics[scale=0.4,trim={0.1cm 0 0 0.1cm},clip]{images/dsBoltzmannLearningcurves.png}
@@ -2002,18 +2048,9 @@ Calculates the log-likelihood for a RBM/DBM (exponential complexity)\\
 
 
 
- \begin{figure}[h]
-   \centering
-   \includegraphics[scale=1]{images/dbmvspca.pdf}
-   \caption{TODO: PCA vs + DBM+ PCA}
- \end{figure}
 
-\begin{figure}[h]
-   \centering
-   \includegraphics[scale=.6]{images/trainingtimes.pdf}
-   \caption{Training times of DBMs using the dsBoltzmannMachines package. On the left, the DBMs are trained on data sets with 50 variables and a varying number of samples. The DBMs have two hidden layers with 50 and 10 nodes, respectively. On the right, the number of samples is fixed as 2500. The DBMs there are trained using data sets with varying numbers of variables. The hidden layers are scaled proportionally. In all cases the training consists of 30 epochs pre-training and 30 epochs fine-tuning and the monitoring is performed on the training data set and a test data set with 10 percent of the samples in the training data set.}
-   \label{fig:dbmtrainingtimes}
- \end{figure}
+
+
 
 \clearpage
 \FloatBarrier
