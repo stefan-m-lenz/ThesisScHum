@@ -1615,7 +1615,7 @@ To have a value as 0.5 as outcome if the synthetic data is not informative for t
 
 \subsection{An experiment with simulated genetic variant data}\label{simuexp}
 
-The experiment investigates whether the approach of generating data in a distributed manner across different sites, as depicted in figure \ref{fig:syntheticdataprinciple} is feasible using DBMs.
+The experiment investigates whether the approach of generating data in a distributed manner across different sites, as depicted in figure \ref{fig:syntheticdataprinciple}, is feasible using DBMs.
 In particular interesting is how the number of participating sites and the numbers of samples at each sites influence the quality of the synthetic data.
 
 The experiment is based on simulated genetic variant data with patterns that are clearly visible in a binary heatmap with a hierarchical clustering \citep{hclust} of the  samples.
@@ -1633,8 +1633,8 @@ Figure \ref{fig:experimentalsetup} shows the different steps of the experiment.
    \includegraphics[scale=0.7]{images/experimentalsetup.pdf}
    \caption{Sketch of the experimental setup.
     \circlenum{1} The original data is split onto the different sites. To keep it simple, there are only two sites depicted here.
-    \circlenum{1} Generative models are trained at the different sites using their share of the data.
-    These models generate synthetic data, which is combined into a single synthetic data set. (The generated data sets are of the same size as the respective training sets.)
+    \circlenum{2} Generative models are trained at the different sites using their share of the data.
+    \circlenum{3} These models generate synthetic data, which is combined into a single synthetic data set. (The generated data sets are of the same size as the respective training sets.)
     \circlenum{4} The original and the combined synthetic data set are compared.}
    \label{fig:experimentalsetup}
  \end{figure}
@@ -1726,11 +1726,11 @@ For DBMs, VAEs, and GANs, the number of training epochs and the random initializ
 The best models are found via a grid search, which includes up to 2000 training epochs and 15 different seeds for the random number generator.
 For MICE, also 15 different orderings of the variables are explored.
 
-To have fair comparison between the approaches, the same performance metric must be used for picking the best model per approach as for the overall comparison.
+To have a fair comparison between the approaches, the same performance metric must be used for picking the best model per approach as for the overall comparison.
 For this purpose, only a measure that applies to the synthetic data can be used, as the different approaches have different optimization criteria.
 GANs, in particular, do not even have a single optimization criterion because the discriminator and generator networks are trained independently.
 Therefore, a measure of the quality of the synthetic data is needed for comparing the models as well as for picking the model with the best performance for each approach.
-Here, the rooted mean squared error (RMSE) of the log odds ratios is employed as performance measure (see \ref{measuringperformance}).
+Here, the rooted mean squared error (RMSE) of the log odds ratios is employed as this performance measure (see \ref{measuringperformance}).
 
 For the models with the best performance, the disclosure risk of the generated data is also assessed.
 This is done via the proportions of overfitting (see \ref{proportionoverfitting}) and simulated membership attacks (see \ref{membershipattack}).
@@ -1739,7 +1739,7 @@ The test data sets for the simulated membership attacks comprise 500 samples fro
 \FloatBarrier
 \subsubsection{Results}
 
-The results of the comparison with respect to the performance are shown in figure \ref{fig:rmseodds} and table \ref{tab:distgenresults_rmse}.
+The results of the comparison with respect to the performance of the different approaches are shown in figure \ref{fig:rmseodds} and table \ref{tab:distgenresults_rmse}.
 There, the distance $d(x_{gen},x_{val})$, which has been defined in \ref{measuringperformance}, is used as performance metric.
 This distance measures how well the bivariate associations between all combinations of variables in the original data are preserved in the synthetic data.
 The effect of the sample size and the number of participating sites can be seen by comparing the results for using the whole data set (``One site''), and splitting the data on 2, 5, and 20 sites.
@@ -1754,7 +1754,7 @@ In the setting with one site and 500 samples, the GAN is at least somewhat bette
 The limited sample size seems to be especially impacting GANs negatively, as the performance becomes equally bad to IM and MICE in the other settings with split data.
 
 In the settings with 5 and 20 sites, the variance in the performance of DBMs gets higher.
-The variance of the performance the of VAEs stays very constant across all the scenarios.
+The variance of the performance of VAEs stays very constant across all the scenarios.
 But with lower sample size, the question of the disclosure risk becomes also more critical, as the danger of copying data increases.
 Therefore, this needs also to be taken into account when comparing the models.
 The first approach for measuring the disclosure risk is by evaluating the proportion of overfitting as defined in \ref{proportionoverfitting}.
@@ -1859,7 +1859,7 @@ VAE & \makecell{0.19 \\ (0.057 - 0.32)} & \makecell{0.27 \\ (0.062 - 0.45)} & \m
 \subsection{The \apkg{dsBoltzmannMachines} DataSHIELD package}
 
 The previous experiments in \ref{simuexp} and \ref{realexp} have investigated the feasibility of using synthetic data for joint analyses of distributed data.
-In \ref{simuexp}, a hierarchical clustering was explored as joint analysis.
+In \ref{simuexp}, a hierarchical clustering was explored as a joint analysis.
 The subsequent experiment in \ref{realexp} measures the similarity of odds ratios in the synthetic data, which can be interpreted as an indicator for how well the synthetic data can be used in analyses like logistic regression models.
 
 Now a practical implementation of working with synthetic data in a distributed setting is presented on the basis of DBMs in DataSHIELD.
@@ -1897,8 +1897,8 @@ These wrap the functionality of the \apkg{BoltzmannMachines} Julia package via t
  
 
 
-To perform the complete workflow as shown in figure \ref{fig:examplaryworkflow}, the following code can be executed in R.
-In a first step, the user has to load \apkg{dsBoltzmannMachinesClient} package and login to the remote Opal servers.
+In the following, the R code for performing the complete workflow as shown in figure \ref{fig:examplaryworkflow} is detailed.
+In a first step (see listing \ref{lst:dslogin}), the user has to load the \apkg{dsBoltzmannMachinesClient} package and login to the remote Opal servers.
 As the \apkg{dsBoltzmannMachinesClient} package depends on the Opal R client, that is loaded implicitly as well.
 The login function can be used to obtain a DataSHIELD login object using the URL of the Opal server and the credentials of the user.
 After a successful login, the resulting login object is assigned to the variable \inlinecode{o} here.
@@ -1907,7 +1907,7 @@ In this case the login object contains the references to multiple servers.
 Calling functions via this login object sends the request parallely to multiple servers and  combines the results into one returned object. 
 With the argument \inlinecode{assign} set to \inlinecode{TRUE}, the specified table is loaded and available by default as data set ``\inlinecode{D}'' on the server side.
 
-\begin{lstlisting}[language=R,float=!h]
+\begin{lstlisting}[language=R,float=!h,caption={Loading package and logging in to the remote servers},label={lst:dslogin}]
 library(dsBoltzmannMachinesClient)
 logindata <- data.frame(server = "server",
                         url = "https://datashield.example.com",
@@ -1925,7 +1925,7 @@ The seed needs to be set in Julia because the random number generator of Julia i
 ds.setJuliaSeed(o, 1)
 \end{lstlisting}
 
-The data set ``\inlinecode{D}, which has been defined at the login above, can be split randomly into a training and a test data set.
+The data set ``\inlinecode{D}'', which has been defined at the login above, can be split randomly into a training and a test data set.
 These are assigned to the new variables \inlinecode{D.Train} and \inlinecode{D.Test} on the server side via the following call to \inlinecode{ds.splitdata}.
 Here, 20\% of the data are used as test data.
 
@@ -1978,6 +1978,7 @@ These measurements show empirically what is expected theoretically, i.e., that t
 
 Training without monitoring is faster but may give less insights about the choice of the hyperparameters (see \ref{monitoring}) because no learning curves can be shown.
 Evaluating the training objective afterwards is still possible with the function \inlinecode{ds.dbm.logproblowerbound}.
+When using this function it must be considered that the estimation is performed with a stochastic approximation algorithm and the results are therefore expected to differ slightly in different calls.
 
 \begin{lstlisting}[language=R]
 ds.dbm.logproblowerbound(o, data = "D.Train")
@@ -2003,10 +2004,10 @@ The resulting plot provides a clearly better dimension reduction than PCA alone 
 The five subgroups of the cases and the control group (see also figure \ref{fig:distclustersnps}, panel A, for the hierarchical clustering view on the data set) form 6 distinct clusters there, which are not visible in the PCA.
 
 
- \begin{figure}[h]
+ \begin{figure}[!hb]
    \centering
    \includegraphics[scale=1]{images/dbmvspca.pdf}
-   \caption{Dimension reduction using DBMs and PCA. The data set used is the simulated data set from section \ref{simuexp}. Left: Principal component analysis (PCA) of the data. Right: Output from \inlinecode{ds.dbm.top2LatentDims}, which performs a PCA on the activation of the hidden nodes induced by the data.}
+   \caption{Dimension reduction using DBMs and PCA. The data set used is the simulated data set from section \ref{simuexp}. Left: Principal component analysis (PCA) of the data. Right: Output from \inlinecode{ds.dbm.top2LatentDims}, which performs a PCA on  activation of the hidden nodes that is induced by the data using the mean-field algorithm.}
    \label{fig:dbmvspca}
  \end{figure}
 
@@ -2016,7 +2017,7 @@ Table \ref{tab:dsBoltzmannFuns} provides a summary of the available functions.
 More detailed descriptions, including an explanation of the arguments, can be found in the documentation of the \apkg{dsBoltzmannMachinesClient} package, which is also reproduced in appendix \ref{dsbmsdoku}.
 
 \rowcolors{1}{gray!25}{white}
-\begin{table}[!ht]
+\begin{table}[!htb]
 \caption{Overview of the functions in the \apkg{dsBoltzmannMachinesClient} package}
 \label{tab:dsBoltzmannFuns}
    \begin{tabularx}{\textwidth}{X}
