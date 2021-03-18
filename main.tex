@@ -116,7 +116,7 @@ To make DBMs available for experimentation, an easily extensible implementation 
 The implementation offers several unique features, in particular for evaluation and monitoring of the training of DBMs.
 This is especially important for biomedical data sets, where finding good hyperparameters is hard due to the diversity of the data.
 
-In addition to the small sample size, data protection constraints may impose an additional challenge for analyzing biomedical data, in particular, if the data is distributed across different sites.
+In addition to small sample sizes, data protection constraints may impose an additional challenge for analyzing biomedical data, in particular, if the data is distributed across different sites.
 One approach for conducting privacy-preserving analyses in such a setting is to generate synthetic data, which captures the important structure of the original data of the individuals and, at the same time, can be used with less data protection constraints as the original data.
 For this, we compare DBMs with other popular generative approaches, namely generative adversarial networks (GANs) and variational autoencoders (VAEs) with respect to generative performance and disclosure risk.
 In addition to these neural network approaches, simpler methods such as multiple imputation by chained equations (MICE) and independent marginals (IM) are also considered as references.
@@ -1412,10 +1412,18 @@ The grammar is inspired by BSON \citep{bsonspec}.
 \FloatBarrier
 \section{Deep generative models in DataSHIELD}
 
-TODO intro
-simulated data, real genetic variant data.
-interesting for genetic data because genetic data is very sensitive
-DataSHIELD \citep{budin-ljosne_datashield} is a software solution for distributed privacy-preserving analyses.
+If data of individuals is distributed across different sites and data protection constraints prevent that the data leave the sites, joint analyses are not possible in a simple way. 
+A practical approach to this problems is taken by DataSHIELD \citep{budin-ljosne_datashield}, a software framework for privacy-preserving analyses of distributed biomedical data, which allows conducting several important types of statistical analyses on distributed data.
+The implementations of the algorithms are based on reformulating the underlying algorithms in a way that only aggregated data has to leave the sites.
+However, not all algorithms are suitable to be applied in such a way.
+For example, it is possible to train deep learning models on distributed data by transferring the models between the sites during the training.
+This approach can yield results without much  performance loss but it requires that the model parameters are exchanged between the sites very often \citep{chang_distributed}.
+Since the number of model parameters in neural networks may even exceed the amount of training data, and there are many small training steps that need to be performed, this approach leads to an extensive data flow between the sites.
+This in turn raises practical issues and also makes it hard to argue that no individual data leave the sites.
+An alternative approach to conduct analyses in such a scenario is to use synthetic data \citep{bonofiglio2020}.
+The goal of synthetic data is to create data that captures the underlying structure of the original data but is not linked to the individuals and can be used without or with less privacy restrictions than the original data.
+Here, both approaches are combined by introducing a software based on the DataSHIELD infrastructure that can generate synthetic data using DBMs.
+But at first, the feasibility of this approach is investigated, including a comparison of DBMs with two other neural network approaches, GANs and VAEs, and with multiple imputation as a simpler method.
 
 \subsection{Theory}
 
@@ -1863,8 +1871,9 @@ In \ref{simuexp}, a hierarchical clustering was explored as a joint analysis.
 The subsequent experiment in \ref{realexp} measures the similarity of odds ratios in the synthetic data, which can be interpreted as an indicator for how well the synthetic data can be used in analyses like logistic regression models.
 
 Now a practical implementation of working with synthetic data in a distributed setting is presented on the basis of DBMs in DataSHIELD.
-The resulting software is the first that allows generating synthetic data in DataSHIELD and enables the approach that is depicted in figure \ref{fig:syntheticdataprinciple}.
-In figure \ref{fig:examplaryworkflow}, the workflow using the software is sketched in more detail using a single site.
+The resulting software is the first that allows generating synthetic data in DataSHIELD using deep learning.
+The general principle for this has been sketched in figure \ref{fig:syntheticdataprinciple}.
+In figure \ref{fig:examplaryworkflow}, the workflow using the software is shown in more detail using a single site.
 
 \begin{figure}[h]
    \centering
