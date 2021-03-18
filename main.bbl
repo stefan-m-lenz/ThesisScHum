@@ -125,6 +125,15 @@ Chan, H.-P., Sahiner, B., Wagner, R.~F. \harvardand\ Petrick, N.
   performance of classical and neural network classifiers', {\em Medical
   Physics} {\bf 26}(12),~2654--2668.
 
+\harvarditem[Chang et~al.]{Chang, Balachandar, Lam, Yi, Brown, Beers, Rosen,
+  Rubin \harvardand\ Kalpathy-Cramer}{2018}{chang_distributed}
+Chang, K., Balachandar, N., Lam, C., Yi, D., Brown, J., Beers, A., Rosen, B.,
+  Rubin, D.~L. \harvardand\ Kalpathy-Cramer, J.  \harvardyearleft
+  2018\harvardyearright , `Distributed deep learning networks among
+  institutions for medical imaging', {\em Journal of the American Medical
+  Informatics Association} .
+\newline\harvardurl{https://academic.oup.com/jamia/advance-article/doi/10.1093/jamia/ocy017/4956468}
+
 \harvarditem[Chen et~al.]{Chen, Li, Li, Lin, Wang, Wang, Xiao, Xu, Zhang
   \harvardand\ Zhang}{2015}{mxnet}
 Chen, T., Li, M., Li, Y., Lin, M., Wang, N., Wang, M., Xiao, T., Xu, B., Zhang,
