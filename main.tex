@@ -1425,7 +1425,7 @@ The goal of synthetic data is to create data that captures the underlying struct
 Here, both approaches are combined by introducing a software based on the DataSHIELD infrastructure that can generate synthetic data using DBMs.
 But at first, the feasibility of this approach is investigated, including a comparison of DBMs with two other neural network approaches, GANs and VAEs, and with multiple imputation as a simpler method.
 
-\subsection{Theory}
+\subsection{Theoretical background}
 
 \subsubsection{Privacy concepts}\label{privacyconcepts}
 If synthetic data are generated from real patient data, it is particularly important to evaluate not only the quality of the synthetic data for conducting analyses but also to assess the risk of leaking private information that may result from releasing the synthetic data.
@@ -1585,10 +1585,26 @@ Applying differential privacy like \cite{abadi_deep_2016} would require to chang
 Additionally, changing the learning procedure may affect different learning algorithms in a different way, which could make it difficult to compare the models fairly.
 Therefore, two simpler approaches are used here to assess the disclosure risk instead.
 
-\paragraph{The proportion of overfitting as disclosure metric}\label{proportionoverfitting}
+\paragraph{Simulating a membership attack}\label{membershipattack}
+A a first method for measuring disclosure, a membership attack \citep{choi_generating_2017, goncalves} is simulated.
+The attacker has a set of synthetic data and a set of ``real'' samples , which are referred to as ``test'' samples for this experiment.
+The attacker then guesses whether one of the test samples is in the training set of the model that generated the synthetic data set or not.
+The precision and sensitivity of the guesses are reported as outcome of the experiment.
 
-At first, the overfitting of the model is inspected.
-Overfitting happens if the models learn the peculiarities of the training data rather than generalizable patterns.
+The guesses of the attacker are based on distances between samples.
+The attacker assumes that one of the test samples is in the training data set if the test sample is near a synthetic sample, i.e., if the distance with respect to some distance measure is lower than a pre-specified threshold.
+As distance measure between two samples, the absolute-value norm is used, which is equivalent to the Hamming distance for binary values.
+For each of the training samples, the attacker may identify the sample as training sample if there is a synthetic sample nearby (true positive), or the attacker may guess wrong if no synthetic sample is inside the pre-specified distance (false negative).
+Also, for each test sample, the attacker may guess correctly that it has not been used for training (true negative) or assume that it is in the training set (false positive).
+
+Based on the chosen distance, different values for precision and sensitivity result from the experiment.
+Since a best value for the distance threshold cannot be determined, different distances are used, and multiple outcomes are reported.
+To have a value as 0.5 as outcome if the synthetic data is not informative for the attacker, the size of the test data set is chosen to be equal to the size of the training data set.
+
+\subsection{The proportion of overfitting as a new disclosure metric}\label{proportionoverfitting}
+
+Another way of assessing disclosure is to inspect the overfitting of a model.
+This is the case because overfitting happens if a model learns the peculiarities of the training data rather than generalizable patterns.
 The more the model captures information about the individuals in the training data rather than information that applies to all individuals in the basic population, the more likely it is that an attacker can conclude that a specific individual was used in the training data from comparing this individual with synthetic individuals in contrast to other individuals in the basic population.
 Therefore, overfitting has a direct relation to membership privacy.
 Overfitting has also been investigated as an indicator for disclosure risk in synthetic images \citep{webster_detecting_2019, hayes_logan_2019}.
@@ -1605,21 +1621,6 @@ With this, the {\em proportion of overfitting} is defined here as
 
 This proportion grows if the similarity  between the generated data and the training data increases relative to the similarity between the validation data and the generated data.
 
-\paragraph{Simulating a membership attack}\label{membershipattack}
-A a second method for measuring disclosure, a membership attack \citep{choi_generating_2017, goncalves} is simulated.
-The attacker has a set of synthetic data and a set of ``real'' samples , which are referred to as ``test'' samples for this experiment.
-The attacker then guesses whether one of the test samples is in the training set of the model that generated the synthetic data set or not.
-The precision and sensitivity of the guesses are reported as outcome of the experiment.
-
-The guesses of the attacker are based on distances between samples.
-The attacker assumes that one of the test samples is in the training data set if the test sample is near a synthetic sample, i.e., if the distance with respect to some distance measure is lower than a pre-specified threshold.
-As distance measure between two samples, the absolute-value norm is used, which is equivalent to the Hamming distance for binary values.
-For each of the training samples, the attacker may identify the sample as training sample if there is a synthetic sample nearby (true positive), or the attacker may guess wrong if no synthetic sample is inside the pre-specified distance (false negative).
-Also, for each test sample, the attacker may guess correctly that it has not been used for training (true negative) or assume that it is in the training set (false positive).
-
-Based on the chosen distance, different values for precision and sensitivity result from the experiment.
-Since a best value for the distance threshold cannot be determined, different distances are used, and multiple outcomes are reported.
-To have a value as 0.5 as outcome if the synthetic data is not informative for the attacker, the size of the test data set is chosen to be equal to the size of the training data set.
 
 \subsection{An experiment with simulated genetic variant data}\label{simuexp}
 
