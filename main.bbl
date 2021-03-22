@@ -101,6 +101,19 @@ Bottou, L., Curtis, F.~E. \harvardand\ Nocedal, J.  \harvardyearleft
   learning', {\em Siam Review} {\bf 60}(2),~223--311.
 \newblock Publisher: SIAM.
 
+\harvarditem[Brown et~al.]{Brown, Mann, Ryder, Subbiah, Kaplan, Dhariwal,
+  Neelakantan, Shyam, Sastry, Askell, Agarwal, Herbert-Voss, Krueger, Henighan,
+  Child, Ramesh, Ziegler, Wu, Winter, Hesse, Chen, Sigler, Litwin, Gray, Chess,
+  Clark, Berner, McCandlish, Radford, Sutskever \harvardand\
+  Amodei}{2020}{gpt3}
+Brown, T.~B., Mann, B., Ryder, N., Subbiah, M., Kaplan, J., Dhariwal, P.,
+  Neelakantan, A., Shyam, P., Sastry, G., Askell, A., Agarwal, S.,
+  Herbert-Voss, A., Krueger, G., Henighan, T., Child, R., Ramesh, A., Ziegler,
+  D.~M., Wu, J., Winter, C., Hesse, C., Chen, M., Sigler, E., Litwin, M., Gray,
+  S., Chess, B., Clark, J., Berner, C., McCandlish, S., Radford, A., Sutskever,
+  I. \harvardand\ Amodei, D.  \harvardyearleft 2020\harvardyearright ,
+  `Language models are few-shot learners'.
+
 \harvarditem[Budin-Ljøsne et~al.]{Budin-Ljøsne, Burton, Isaeva, Gaye, Turner,
   Murtagh, Wallace, Ferretti \harvardand\
   Harris}{2015}{budin-ljosne_datashield}
@@ -298,6 +311,11 @@ Hayes, J., Melis, L., Danezis, G. \harvardand\ Cristofaro, E.~D.
   Enhancing Technologies} {\bf 2019}(1),~133--152.
 \newline\harvardurl{https://content.sciendo.com/view/journals/popets/2019/1/article-p133.xml}
 
+\harvarditem[He et~al.]{He, Zhang, Ren \harvardand\ Sun}{2015}{resnet}
+He, K., Zhang, X., Ren, S. \harvardand\ Sun, J.  \harvardyearleft
+  2015\harvardyearright , `Deep residual learning for image recognition', {\em
+  arXiv preprint arXiv:1512.03385} .
+
 \harvarditem{Hinton}{2002}{cdorig}
 Hinton, G.~E.  \harvardyearleft 2002\harvardyearright , `Training products of
   experts by minimizing {Contrastive} {Divergence}', {\em Neural Computation}
@@ -384,6 +402,13 @@ Krizhevsky, A.  \harvardyearleft 2009\harvardyearright , Learning multiple
 Krizhevsky, A. \harvardand\ Hinton, G.  \harvardyearleft 2009\harvardyearright
   , `Learning multiple layers of features from tiny images', {\em Technical
   report, University of Toronto} .
+
+\harvarditem{LeCun}{2019}{lecun_dlhardware}
+LeCun, Y.  \harvardyearleft 2019\harvardyearright , 1.1 {Deep} {Learning}
+  {Hardware}: {Past}, {Present}, and {Future}, {\em in} `2019 {IEEE}
+  {International} {Solid}-{State} {Circuits} {Conference} - ({ISSCC})',
+  pp.~12--19.
+\newblock ISSN: 2376-8606.
 
 \harvarditem{Lenz \harvardand\ Binder}{2020}{dsdbm}
 Lenz, S. \harvardand\ Binder, H.  \harvardyearleft 2020\harvardyearright ,

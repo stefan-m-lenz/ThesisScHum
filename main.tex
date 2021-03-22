@@ -2062,8 +2062,6 @@ Calculates the log-likelihood for a RBM/DBM (exponential complexity)\\
 \end{tabularx}
 \end{table}
 
-
-
 %\begin{figure}[h]
 %   \centering
 %   \includegraphics[scale=0.4,trim={0.1cm 0 0 0.1cm},clip]{images/dsBoltzmannLearningcurves.png}
@@ -2071,16 +2069,28 @@ Calculates the log-likelihood for a RBM/DBM (exponential complexity)\\
 % \end{figure}
 
 
-
-
-
-
-
-
 \clearpage
 \FloatBarrier
 
 \section{Discussion}
+
+\subsection{Performance considerations}
+As can be seen figure \ref{fig:dbmtrainingtimes} (p.\ \pageref{fig:dbmtrainingtimes}), the performance of DBM training scales in the same way as matrix multiplication.
+For the measurements shown there, a virtual machine on a single core was used.
+If multiple cores are involved, multi-threading can speed up the matrix multiplications for large matrices.
+This is done by the highly optimized OpenBLAS library, which is employed by Julia and which is capable of multi-threading internally \citep{openblas}.
+Measured on a single core in a virtualized environment on a standard desktop computer, the times give a lower bound of the computational performance.
+For performing deep learning on large quantities of image and text data, the need for special hardware rises \citep{lecun_dlhardware}.
+Major breakthroughs in language processing and image recognition such as the famous models {\em GPT-3} and \citep{gpt3} and {\em ResNet} \citep{resnet} build on very deep architectures with many parameters.
+This may give the impression that immense amounts of data and computation are needed to make use of deep learning at all.
+The results shown here show that deep learning can bring also benefits on a smaller scale.
+
+One possibility for future steps for developing the \apkg{BoltzmannMachines} package is to further optimize its performance.
+In Julia version 1.5, multi-threading is now an official and stable language feature.
+It could be investigated whether the use of threads could speed up some parts of the code.
+For this it must be considered that the multiplication of large matrices is already multi-threaded since Julia uses the OpenBLAS library, which already uses multi-threading internally \citep{openblas}.
+So performance gains may only be expected if the matrix operations cannot exhaust the threading capabilities of the CPU.
+TODO discuss GPU
 
 \subsection{Comparison of DBMs and other generative approaches}
 
@@ -2105,13 +2115,8 @@ TODO idee modelle kombinieren, dbms verbessern missing values, softmax evaluiere
 
 VAEs in DataSHIELD implementieren. TODO in JuliaConnectoR Kapitel Flux Beispiel einbauen und hier referenzieren. Sagen: Funzt auch, wie man oben sehen kann.
 
-One possibility for future steps for developing the \apkg{BoltzmannMachines} package is to further optimize its performance.
-In Julia version 1.5, multi-threading is now an official and stable language feature.
-It could be investigated whether the use of threads could speed up some parts of the code.
-For this it must be considered that the multiplication of large matrices is already multi-threaded since Julia uses the OpenBLAS library, which already uses multi-threading internally \citep{openblas}.
-So performance gains may only be expected if the matrix operations cannot exhaust the threading capabilities of the CPU.
 
-TODO discuss GPU
+
 
 
 
