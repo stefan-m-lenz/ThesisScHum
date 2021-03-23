@@ -393,6 +393,11 @@ Kingma, D.~P. \harvardand\ Welling, M.  \harvardyearleft 2014\harvardyearright
   eds, `2nd International Conference on Learning Representations ({ICLR}),
   Conference Track Proceedings'.
 
+\harvarditem{Knuth}{1974}{knuth_1974}
+Knuth, D.~E.  \harvardyearleft 1974\harvardyearright , `Computer programming as
+  an art', {\em Communications of the ACM} {\bf 17}(12),~667--673.
+\newline\harvardurl{https://doi.org/10.1145/361604.361612}
+
 \harvarditem{Krizhevsky}{2009}{krizhevsky2009tinyimagesthesis}
 Krizhevsky, A.  \harvardyearleft 2009\harvardyearright , Learning multiple
   layers of features from tiny images, Master's thesis, University of Toronto,
@@ -409,6 +414,14 @@ LeCun, Y.  \harvardyearleft 2019\harvardyearright , 1.1 {Deep} {Learning}
   {International} {Solid}-{State} {Circuits} {Conference} - ({ISSCC})',
   pp.~12--19.
 \newblock ISSN: 2376-8606.
+
+\harvarditem[LeCun et~al.]{LeCun, Bengio \harvardand\
+  Hinton}{2015}{lecun_deep_learning_2015}
+LeCun, Y., Bengio, Y. \harvardand\ Hinton, G.  \harvardyearleft
+  2015\harvardyearright , `Deep learning', {\em Nature} {\bf
+  521}(7553),~436--444.
+\newblock Number: 7553 Publisher: Nature Publishing Group.
+\newline\harvardurl{https://www.nature.com/articles/nature14539}
 
 \harvarditem{Lenz \harvardand\ Binder}{2020}{dsdbm}
 Lenz, S. \harvardand\ Binder, H.  \harvardyearleft 2020\harvardyearright ,

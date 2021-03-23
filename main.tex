@@ -956,7 +956,7 @@ The \apkg{darch} package uses the GPL-3 license \citep{gplv3}, which enforces th
 
 
 
-\subsubsection{Choice of implementation technology}
+\subsubsection{Choice of implementation technology}\label{impltechnology}
 
 Starting from the original MATLAB implementation of \cite{hinton_reducing_2006}, the first attempt for experimenting with the algorithms was to use MATLAB.
 The resulting MATLAB implementation was very slow, however, and the possibilities for making MATLAB code run faster are limited.
@@ -1660,7 +1660,7 @@ As a motivation behind the properties of the simulation data set, one can consid
 If a group like the groups of 5 SNP variables is present in patients with a certain condition (``cases"), this could indicate that these mutations must occur together to deactivate certain genetic pathways, thereby leading to the condition.
 
 
-\subsubsection{Results}
+\subsubsection{Results}\label{simuexpresults}
 
 A hierarchical clustering view of the data is shown in figure \ref{fig:distclustersnps}, panel A.
 The most obvious structures there are the black blocks.
@@ -1746,7 +1746,7 @@ This is done via the proportions of overfitting (see \ref{proportionoverfitting}
 The test data sets for the simulated membership attacks comprise 500 samples from the respective validation data sets.
 
 \FloatBarrier
-\subsubsection{Results}
+\subsubsection{Results}\label{realexpresults}
 
 The results of the comparison with respect to the performance of the different approaches are shown in figure \ref{fig:rmseodds} and table \ref{tab:distgenresults_rmse}.
 There, the distance $d(x_{gen},x_{val})$, which has been defined in \ref{measuringperformance}, is used as performance metric.
@@ -2080,17 +2080,27 @@ For the measurements shown there, a virtual machine on a single core was used.
 If multiple cores are involved, multi-threading can speed up the matrix multiplications for large matrices.
 This is done by the highly optimized OpenBLAS library, which is employed by Julia and which is capable of multi-threading internally \citep{openblas}.
 Measured on a single core in a virtualized environment on a standard desktop computer, the times give a lower bound of the computational performance.
-For performing deep learning on large quantities of image and text data, the need for special hardware rises \citep{lecun_dlhardware}.
-Major breakthroughs in language processing and image recognition such as the famous models {\em GPT-3} and \citep{gpt3} and {\em ResNet} \citep{resnet} build on very deep architectures with many parameters.
-This may give the impression that immense amounts of data and computation are needed to make use of deep learning at all.
-The results shown here show that deep learning can bring also benefits on a smaller scale.
 
-One possibility for future steps for developing the \apkg{BoltzmannMachines} package is to further optimize its performance.
+For performing deep learning on large quantities of image and text data, the need for special hardware rises \citep{lecun_dlhardware}.
+Major breakthroughs in language processing and image recognition such as the famous models {\em GPT-3} and \citep{gpt3} {\em ResNet} \citep{resnet} build on very deep architectures with many parameters.
+This may give the impression that immense amounts of data and computation are needed to make use of deep learning at all.
+The results of the experiments conducted here (see \ref{simuexpresults} and \ref{realexpresults}) show that deep learning can bring also benefits on a smaller scale, particularly in settings with lower sample sizes.
+There, standard hardware can be totally sufficient.
+
+But, of course, performance improvements are worth considering.
+When optimizing software solutions, it must, however, always be taken into account that such changes cost time when implementing them, and they may cost additional time in the future if the flexibility to apply further changes is affected by the optimization.
+This dilemma has been addressed in the famous quote "premature optimization is the root of all evil" \citep{knuth_1974}.
+The dilemma exists also in research software development because the resulting software needs to be subject to experimentation.
+
+Julia was chosen as language for the implementation of deep Boltzmann machines here because it aims to hit the sweet spot in this dilemma with its attempt to solve the ``two-language problem'' \citep{bezanson2017julia}, i.e., having one scripting language, such as Python, for fast development and prototyping, and one low-level language, such as C or Fortran, for speeding up time-critical parts.
+With Julia aiming at the speed of C, there is no need to optimize via moving parts of the implementation to a low-level language.
+Improvements such as reusing allocated space (see \ref{impltechnology} for more details) can be implemented directly in Julia.
+
+Optimizing the performance of the implementation of deep Boltzmann machines could be done via further parallelizing the algorithms. TODO GPU
+As the multiplication of large matrices is already multi-threaded, performance gains may only be expected if the matrix operations exhaust the threading capabilities of the CPU.
 In Julia version 1.5, multi-threading is now an official and stable language feature.
 It could be investigated whether the use of threads could speed up some parts of the code.
-For this it must be considered that the multiplication of large matrices is already multi-threaded since Julia uses the OpenBLAS library, which already uses multi-threading internally \citep{openblas}.
-So performance gains may only be expected if the matrix operations cannot exhaust the threading capabilities of the CPU.
-TODO discuss GPU
+
 
 \subsection{Comparison of DBMs and other generative approaches}
 
@@ -2105,10 +2115,16 @@ TODO Nußberger
 
 TODO Rolle der hyperparameter
 
+\cite{hinton_reducing_2006} used deep belief networks to pre-train autoencoder networks, which were then fine-tuned using backpropagation.
+This was done to overcome the problem that the backpropagation algorithm alone was not able to find a good solution given a limited amount of data \citep{lecun_deep_learning_2015}.
+It might be interesting to investigate whether {\em variational} autoencoders could profit in the same way from such a pre-training in settings of low sample size, as they are also trained via backpropagation. 
+
 \subsection{Directions in privacy-perserving deep learning}
 TODO diskutieren: privacy-accounting in DBMs and other approaches
 
 \subsection{Modeling continously valued data}
+one step for applying arbitrary tabular data.
+Privacy-consideration better use intensity values.
 
 \subsection{Ideas for future work}
 TODO idee modelle kombinieren, dbms verbessern missing values, softmax evaluieren
