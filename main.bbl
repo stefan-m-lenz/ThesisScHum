@@ -71,6 +71,12 @@ Bergstra, J., Bardenet, R., Bengio, Y. \harvardand\ Kégl, B.  \harvardyearleft
   K.~Q. Weinberger, eds, `Advances in {Neural} {Information} {Processing}
   {Systems}', Vol.~24, Curran Associates, Inc., pp.~2546--2554.
 
+\harvarditem[Besard et~al.]{Besard, Foket \harvardand\
+  De~Sutter}{2018}{juliagpu}
+Besard, T., Foket, C. \harvardand\ De~Sutter, B.  \harvardyearleft
+  2018\harvardyearright , `Effective extensible programming: Unleashing {Julia}
+  on {GPUs}', {\em IEEE Transactions on Parallel and Distributed Systems} .
+
 \harvarditem[Bezanson et~al.]{Bezanson, Edelman, Karpinski \harvardand\
   Shah}{2017}{bezanson2017julia}
 Bezanson, J., Edelman, A., Karpinski, S. \harvardand\ Shah, V.~B.
@@ -629,6 +635,12 @@ Theis, L., Oord, A. v.~d. \harvardand\ Bethge, M.  \harvardyearleft
   arXiv:1511.01844 [cs, stat]} .
 \newblock arXiv: 1511.01844.
 \newline\harvardurl{http://arxiv.org/abs/1511.01844}
+
+\harvarditem{Vlad}{2019}{performancegpucpu}
+Vlad  \harvardyearleft 2019\harvardyearright , `Answer to: Training a simple
+  model in {Tensorflow} {GPU} slower than {CPU}'.
+\newblock Accessed 2021-03-23.
+\newline\harvardurl{https://stackoverflow.com/a/55750666/3180809}
 
 \harvarditem[Webster et~al.]{Webster, Rabin, Simon \harvardand\
   Jurie}{2019}{webster_detecting_2019}

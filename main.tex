@@ -2092,14 +2092,18 @@ When optimizing software solutions, it must, however, always be taken into accou
 This dilemma has been addressed in the famous quote "premature optimization is the root of all evil" \citep{knuth_1974}.
 The dilemma exists also in research software development because the resulting software needs to be subject to experimentation.
 
-Julia was chosen as language for the implementation of deep Boltzmann machines here because it aims to hit the sweet spot in this dilemma with its attempt to solve the ``two-language problem'' \citep{bezanson2017julia}, i.e., having one scripting language, such as Python, for fast development and prototyping, and one low-level language, such as C or Fortran, for speeding up time-critical parts.
-With Julia aiming at the speed of C, there is no need to optimize via moving parts of the implementation to a low-level language.
+Julia was chosen as language for the implementation of deep Boltzmann machines here because it aims to hit the sweet spot in this dilemma with its attempt to solve the ``two-language problem'' \citep{bezanson2017julia}, i.e., having one scripting language, such as Python, for fast development and prototyping, and an additional low-level language, such as C or Fortran, for speeding up time-critical parts.
+With Julia aiming at the speed of C, there is no need to move parts of the implementation to a low-level language.
 Improvements such as reusing allocated space (see \ref{impltechnology} for more details) can be implemented directly in Julia.
 
-Optimizing the performance of the implementation of deep Boltzmann machines could be done via further parallelizing the algorithms. TODO GPU
+Optimizing the performance of the implementation of deep Boltzmann machines could be done via further parallelizing the algorithms.
+Many deep learning frameworks such as \apkg{TensorFlow} \citep{tensorflow} and \apkg{PyTorch} \citep{pytorch} support to run code on graphics processing units (GPUs) in addition to the central processing unit (CPU).
+Also the Julia package \apkg{Flux} supports to run array operations also on NVIDIA GPUs via the \apkg{CUDA} Julia package \citep{juliagpu}.
 As the multiplication of large matrices is already multi-threaded, performance gains may only be expected if the matrix operations exhaust the threading capabilities of the CPU.
-In Julia version 1.5, multi-threading is now an official and stable language feature.
-It could be investigated whether the use of threads could speed up some parts of the code.
+To get substantial performance improvements, the matrices need to have a sufficient size \citep{performancegpucpu}.
+Here one needs also to take into account that the size of the matrices used in the training depends on the chosen batch size, as the update in the training algorithm can only be parallelized for samples in the same batch.
+Specific hardware requirements such as restrictions to certain types of graphics cards of a specific vendor make this kind of optimizations less attractive, in particular when considering the diverse computing infrastructure in research environments.
+Given these considerations, which show that it is not trivial to harness the multi-threading power of GPUs, a definitive use case where the performance would be needed to investigate this direction further.
 
 
 \subsection{Comparison of DBMs and other generative approaches}
