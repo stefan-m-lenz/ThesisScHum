@@ -479,6 +479,12 @@ Manrique‐Vallier, D. \harvardand\ Hu, J.  \harvardyearleft
   , `{MIT} license'.
 \newline\harvardurl{https://opensource.org/licenses/MIT}
 
+\harvarditem{Masters \harvardand\ Luschi}{2018}{masters_revisiting_2018}
+Masters, D. \harvardand\ Luschi, C.  \harvardyearleft 2018\harvardyearright ,
+  `Revisiting {Small} {Batch} {Training} for {Deep} {Neural} {Networks}', {\em
+  arXiv:1804.07612 [cs, stat]} .
+\newline\harvardurl{http://arxiv.org/abs/1804.07612}
+
 \harvarditem{McCoy \harvardand\ Wu}{2014}{isingmodel}
 McCoy, B.~M. \harvardand\ Wu, T.~T.  \harvardyearleft 2014\harvardyearright ,
   {\em The Two-Dimensional {Ising} Model}, 2 edn, Courier Corporation.

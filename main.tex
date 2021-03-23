@@ -1410,7 +1410,7 @@ The grammar is inspired by BSON \citep{bsonspec}.
 
 
 \FloatBarrier
-\section{Deep generative models in DataSHIELD}
+\section{Deep generative models in DataSHIELD}\label{deepgends}
 
 If data of individuals is distributed across different sites and data protection constraints prevent that the data leave the sites, joint analyses are not possible in a simple way. 
 A practical approach to this problems is taken by DataSHIELD \citep{budin-ljosne_datashield}, a software framework for privacy-preserving analyses of distributed biomedical data, which allows conducting several important types of statistical analyses on distributed data.
@@ -2097,13 +2097,14 @@ With Julia aiming at the speed of C, there is no need to move parts of the imple
 Improvements such as reusing allocated space (see \ref{impltechnology} for more details) can be implemented directly in Julia.
 
 Optimizing the performance of the implementation of deep Boltzmann machines could be done via further parallelizing the algorithms.
-Many deep learning frameworks such as \apkg{TensorFlow} \citep{tensorflow} and \apkg{PyTorch} \citep{pytorch} support to run code on graphics processing units (GPUs) in addition to the central processing unit (CPU).
-Also the Julia package \apkg{Flux} supports to run array operations also on NVIDIA GPUs via the \apkg{CUDA} Julia package \citep{juliagpu}.
+With their special architecture, graphics processing units (GPUs) allow a massive parallelization of operations that are executed simultaneously in the same way on different data points.
+Many deep learning frameworks such as \apkg{TensorFlow} \citep{tensorflow} and \apkg{PyTorch} \citep{pytorch} support to run code on GPUs in addition to the central processing unit (CPU).
+Also the Julia package \apkg{Flux} supports to run array operations on NVIDIA GPUs via the \apkg{CUDA} Julia package \citep{juliagpu}.
 As the multiplication of large matrices is already multi-threaded, performance gains may only be expected if the matrix operations exhaust the threading capabilities of the CPU.
 To get substantial performance improvements, the matrices need to have a sufficient size \citep{performancegpucpu}.
-Here one needs also to take into account that the size of the matrices used in the training depends on the chosen batch size, as the update in the training algorithm can only be parallelized for samples in the same batch.
-Specific hardware requirements such as restrictions to certain types of graphics cards of a specific vendor make this kind of optimizations less attractive, in particular when considering the diverse computing infrastructure in research environments.
-Given these considerations, which show that it is not trivial to harness the multi-threading power of GPUs, a definitive use case where the performance would be needed to investigate this direction further.
+This size is restricted by the batch size, as the update in the training algorithm can only be parallelized for samples in the same batch, and large batch sizes are not desirable in all cases \citep{masters_revisiting_2018}.
+Moreover, specific hardware requirements such as restrictions to certain types of graphics cards of a specific vendor make this kind of optimizations less attractive, in particular when considering a distributed setting, such as discussed in section \ref{deepgends}, involving several clinics with different compute infrastructures.
+Given these considerations, which show that it is not trivial to harness the power of GPUs, a definitive use case where the performance would be needed to investigate this direction further.
 
 
 \subsection{Comparison of DBMs and other generative approaches}
