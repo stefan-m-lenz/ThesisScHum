@@ -154,6 +154,18 @@ Therefore, the ability to determine good hyperparameters is especially important
 Based on Julia because fast and allows experimenting easily.
 
 
+One advantage of DBMs is that it is particularly easy to perform conditional sampling, i.e., drawing from the learned distribution conditioned on certain values of input variables.
+
+An example for using conditional sampling in a setting with biomedical data could be the simulation of a patient cohort with a specific rare disease pattern using a Boltzmann machine that has been trained with a data set of diagnoses from a more general population cohort.
+A result from such a simulation could be used for a sample size calculation when planning a study involving the specific disease pattern and other combinations of characteristics.
+In cases where certain combinations might be quite rare, the learned correlations between all the variables can help in estimating the frequencies of the combinations of specific characteristics.
+
+The flexibility in conditional sampling separates DBMs from VAEs and GANs, where this is not possible.
+Variants of VAEs and GANs have been proposed for this, called {\em conditional VAEs} \citep{cvae} and {\em conditional GANs} \citep{cgan}.
+In both these approaches, the variables that are used as conditions need to be specified in the training.
+In DBMs, this is not necessary and conditions can be set on arbitrary variables.
+
+
 Saving parameters can aid in training models also with fewer data points as the performance of more complex models may deteriorate if the sample size is too small \citep{chan_classifier_1999}.
 The problem of small sample sizes is particularly prevalent when dealing with genetic variant data
 because there is a high number of genetic variants, and additionally the sequencing of genomes is still relatively expensive.
@@ -2113,45 +2125,44 @@ Given these considerations, which show that it is not trivial to harness the pow
 \cite{nussberger_synthetic_2020} have compared DBMs, VAEs, and GANs in more diverse settings, in particular with a broader range regarding the number of samples.
 The experiment shown in section \ref{realexp} builds on this and performs this comparison in a setting of distributed data. 
 Additionally to evaluating the performance, the disclosure is regarded here as well.
-
+For this we used a new approach to look at the overfitting and the simulated membership attacks.
 
 \subsubsection{Conditional sampling}
-One advantage of DBMs is that it is particularly easy to perform conditional sampling (see \ref{condsamplingrbm} and \ref{dbmprobs}), i.e., drawing from the learned distribution conditioned on certain values of input variables.
 
-An example for using conditional sampling in a setting with biomedical data could be the simulation of a patient cohort with a specific rare disease pattern using a Boltzmann machine that has been trained with a data set of diagnoses from a more general population cohort.
-A result from such a simulation could be used for a sample size calculation when planning a study involving the specific disease pattern and other combinations of characteristics.
-In cases where certain combinations might be quite rare, the learned correlations between all the variables can help in estimating the frequencies of the combinations of specific characteristics.
-
-The flexibility in conditional sampling separates DBMs from VAEs and GANs, where this is not possible.
-Variants of VAEs and GANs have been proposed for this, called {\em conditional VAEs} \citep{cvae} and {\em conditional GANs} \citep{cgan}.
-In both these approaches, the variables that are used as conditions need to be specified in the training.
-In DBMs, this is not necessary and conditions can be set on arbitrary variables.
 
 
 \subsubsection{Ideas for combining different models}
+
+The findings here indicate that DBMs and VAEs both 
+
+
+VAEs in DataSHIELD implementieren. TODO in JuliaConnectoR Kapitel Flux Beispiel einbauen und hier referenzieren. Sagen: Funzt auch, wie man oben sehen kann.
 
 \cite{hinton_reducing_2006} used deep belief networks to pre-train autoencoder networks, which were then fine-tuned using backpropagation.
 This was done to overcome the problem that the backpropagation algorithm alone was not able to find a good solution given a limited amount of data \citep{lecun_deep_learning_2015}.
 It might be interesting to investigate whether {\em variational} autoencoders could profit in the same way from such a pre-training in settings of low sample size, as they are also trained via backpropagation. 
 
-Another idea to create better synthetic data sets to increase the generative performance could to combine different types of generative models in ensembles of generative models .
-The idea is similar to the idea of ensemble learning and super learners that combine different predictive models to get better predictions \citep{van_der_laan_targeted_2011}.
-Generative ensembles have been studied in semi-supervised learning and TODO \citep{zanda_ensemble}.
-For creating synthetic data, the ensembles could be used to enhance the performance with respect to a performance criterion that is applied on combined data from different models.
-This is basically the same procedure as described in the experiments for (see figure \ref{fig:experimentalsetup} on p. \pageref{fig:experimentalsetup}), only with the same data but different generative approaches used at the  
-In addition to that, a disclosure metrics could be applied.
-This way, the different models could also be used to increase the diversity in the synthetic data.
+Another idea to create better synthetic data sets could be to combine different types of generative models in ensembles of generative models.
+Ensemble learning is mostly done with classification tasks \citep{ensemble_learning_survey_2018}.
+Unsupervised ensembles have been used for outlier detection \citep{unsupervised_outlier}.
+Ensembles of predictive models are used to increase the predictive performance.
+Multiple models are trained on the data and their predictions are combined to get a better predictor.
+The heterogeneity between the models can prevent overfitting and thereby leads to results that generalize better \citep{ensemble_learning_survey_2018}.
+Translating this idea to increase the quality of synthetic data could therefore be promising, in particularly in setting of small sample size, where the issue of overfitting is most important.
+Using generative ensembles has been investigated in GANs to prevent mode collapse and increase the diversity of generated samples \citep{toutouh_ensemblegan_2020}.
+For creating synthetic data, multiple models can be used to enhance the performance with respect to a performance criterion that is applied on combined data from different models.
+Experimentally this could be investigated with a similar setup to the one in the distributed experiments (see figure \ref{fig:experimentalsetup} on p. \pageref{fig:experimentalsetup}).
+In contrast to splitting the data set in different parts as done here, the same data but different generative approaches can be used to create the parts of the synthetic data set.
+The combined synthetic data can be assessed in a similar way as shown here with respect to performance and disclosure.
+This way, the question whether a combination of different approaches can lead to better and more diverse synthetic data could be studied further.
 
 
-\subsection{Handling different data types}
-one step for applying arbitrary tabular data.
+%\subsection{Handling different data types}
+%one step for applying arbitrary tabular data.
+
+%dbms verbessern missing values, softmax evaluieren
 %TODO martin paper zitieren?
-Privacy-consideration better use intensity values.
-
-\subsection{Ideas for future work}
-TODO idee modelle kombinieren, dbms verbessern missing values, softmax evaluieren
-
-VAEs in DataSHIELD implementieren. TODO in JuliaConnectoR Kapitel Flux Beispiel einbauen und hier referenzieren. Sagen: Funzt auch, wie man oben sehen kann.
+%Privacy-consideration better use intensity values.
 
 
 \subsection{Conclusion and outlook}

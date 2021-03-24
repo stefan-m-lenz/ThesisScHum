@@ -130,6 +130,15 @@ Budin-Ljøsne, I., Burton, P., Isaeva, J., Gaye, A., Turner, A., Murtagh,
   Health Genomics} {\bf 18}(2),~87--96.
 \newline\harvardurl{https://www.karger.com/Article/FullText/368959}
 
+\harvarditem[Campos et~al.]{Campos, Zimek, Sander, Campello, Micenková,
+  Schubert, Assent \harvardand\ Houle}{2016}{unsupervised_outlier}
+Campos, G.~O., Zimek, A., Sander, J., Campello, R. J. G.~B., Micenková, B.,
+  Schubert, E., Assent, I. \harvardand\ Houle, M.~E.  \harvardyearleft
+  2016\harvardyearright , `On the evaluation of unsupervised outlier detection:
+  measures, datasets, and an empirical study', {\em Data Mining and Knowledge
+  Discovery} {\bf 30}(4),~891--927.
+\newline\harvardurl{https://doi.org/10.1007/s10618-015-0444-8}
+
 \harvarditem{Carreira-Perpinan \harvardand\
   Hinton}{2005}{perpinan_contrastive_2005}
 Carreira-Perpinan, M.~A. \harvardand\ Hinton, G.~E.  \harvardyearleft
@@ -576,6 +585,12 @@ Rumelhart, D.~E., Hinton, G.~E. \harvardand\ Williams, R.~J.  \harvardyearleft
   errors', {\em Nature} {\bf 323}(6088),~533--536.
 \newline\harvardurl{https://www.nature.com/articles/323533a0}
 
+\harvarditem{Sagi \harvardand\ Rokach}{2018}{ensemble_learning_survey_2018}
+Sagi, O. \harvardand\ Rokach, L.  \harvardyearleft 2018\harvardyearright ,
+  `Ensemble learning: {A} survey', {\em {WIREs} Data Mining and Knowledge
+  Discovery} {\bf 8}(4),~e1249.
+\newline\harvardurl{https://onlinelibrary.wiley.com/doi/abs/10.1002/widm.1249}
+
 \harvarditem{Salakhutdinov}{2008}{salakhutdinov2008learning}
 Salakhutdinov, R.  \harvardyearleft 2008\harvardyearright , `Learning and
   evaluating {Boltzmann} machines', {\em Technical Report UTML TR 2008-002,
@@ -657,6 +672,13 @@ Theis, L., Oord, A. v.~d. \harvardand\ Bethge, M.  \harvardyearleft
 \newblock arXiv: 1511.01844.
 \newline\harvardurl{http://arxiv.org/abs/1511.01844}
 
+\harvarditem[Toutouh et~al.]{Toutouh, Hemberg \harvardand\
+  O'Reily}{2020}{toutouh_ensemblegan_2020}
+Toutouh, J., Hemberg, E. \harvardand\ O'Reily, U.-M.  \harvardyearleft
+  2020\harvardyearright , Re-purposing heterogeneous generative ensembles with
+  evolutionary computation, {\em in} `Proceedings of the 2020 {Genetic} and
+  {Evolutionary} {Computation} {Conference}', pp.~425--434.
+
 \harvarditem{Van~der Laan \harvardand\ Rose}{2011}{van_der_laan_targeted_2011}
 Van~der Laan, M.~J. \harvardand\ Rose, S.  \harvardyearleft
   2011\harvardyearright , {\em Targeted learning: causal inference for
@@ -702,13 +724,6 @@ Xianyi, Z. \harvardand\ Kroeker, M.  \harvardyearleft 2020\harvardyearright ,
 Yuret, D.  \harvardyearleft 2016\harvardyearright , `{Knet} - {Koç}
   {University} deep learning framework for {Julia}'.
 \newline\harvardurl{https://github.com/denizyuret/Knet.jl}
-
-\harvarditem{Zanda \harvardand\ Brown}{2009}{zanda_ensemble}
-Zanda, M. \harvardand\ Brown, G.  \harvardyearleft 2009\harvardyearright , A
-  {Study} of {Semi}-supervised {Generative} {Ensembles}, {\em in} J.~A.
-  Benediktsson, J.~Kittler \harvardand\ F.~Roli, eds, `Multiple {Classifier}
-  {Systems}', Lecture {Notes} in {Computer} {Science}, Springer, Berlin,
-  Heidelberg, pp.~242--251.
 
 \harvarditem[Zappa~Nardelli et~al.]{Zappa~Nardelli, Belyakova, Pelenitsyn,
   Chung, Bezanson \harvardand\ Vitek}{2018}{zappa_nardelli_julia_2018}
