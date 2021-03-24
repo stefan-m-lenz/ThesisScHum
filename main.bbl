@@ -489,6 +489,13 @@ Masters, D. \harvardand\ Luschi, C.  \harvardyearleft 2018\harvardyearright ,
 McCoy, B.~M. \harvardand\ Wu, T.~T.  \harvardyearleft 2014\harvardyearright ,
   {\em The Two-Dimensional {Ising} Model}, 2 edn, Courier Corporation.
 
+\harvarditem{Mirza \harvardand\ Osindero}{2014}{cgan}
+Mirza, M. \harvardand\ Osindero, S.  \harvardyearleft 2014\harvardyearright ,
+  `Conditional {Generative} {Adversarial} {Nets}', {\em arXiv:1411.1784 [cs,
+  stat]} .
+\newblock arXiv: 1411.1784.
+\newline\harvardurl{http://arxiv.org/abs/1411.1784}
+
 \harvarditem{{MongoDB, Inc.}}{2009}{bsonspec}
 {MongoDB, Inc.}  \harvardyearleft 2009\harvardyearright , `{BSON} ({Binary}
   {JSON}) serialization'.
@@ -595,6 +602,14 @@ Smolensky, P.  \harvardyearleft 1986\harvardyearright , `Foundations of harmony
   processing', {\em Parallel distributed processing: Explorations in the
   microstructure of cognition} {\bf 1},~191--281.
 
+\harvarditem[Sohn et~al.]{Sohn, Lee \harvardand\ Yan}{2015}{cvae}
+Sohn, K., Lee, H. \harvardand\ Yan, X.  \harvardyearleft 2015\harvardyearright
+  , Learning {Structured} {Output} {Representation} using {Deep} {Conditional}
+  {Generative} {Models}, {\em in} C.~Cortes, N.~Lawrence, D.~Lee, M.~Sugiyama
+  \harvardand\ R.~Garnett, eds, `Advances in {Neural} {Information}
+  {Processing} {Systems}', Vol.~28, Curran Associates, Inc.
+\newline\harvardurl{https://proceedings.neurips.cc/paper/2015/file/8d55a249e6baa5c06772297520da2051-Paper.pdf}
+
 \harvarditem{Srivastava \harvardand\
   Salakhutdinov}{2012}{srivastava2012multimodal}
 Srivastava, N. \harvardand\ Salakhutdinov, R.~R.  \harvardyearleft
@@ -642,6 +657,11 @@ Theis, L., Oord, A. v.~d. \harvardand\ Bethge, M.  \harvardyearleft
 \newblock arXiv: 1511.01844.
 \newline\harvardurl{http://arxiv.org/abs/1511.01844}
 
+\harvarditem{Van~der Laan \harvardand\ Rose}{2011}{van_der_laan_targeted_2011}
+Van~der Laan, M.~J. \harvardand\ Rose, S.  \harvardyearleft
+  2011\harvardyearright , {\em Targeted learning: causal inference for
+  observational and experimental data}, Springer Science \& Business Media.
+
 \harvarditem{Vlad}{2019}{performancegpucpu}
 Vlad  \harvardyearleft 2019\harvardyearright , `Answer to: Training a simple
   model in {Tensorflow} {GPU} slower than {CPU}'.
@@ -682,6 +702,13 @@ Xianyi, Z. \harvardand\ Kroeker, M.  \harvardyearleft 2020\harvardyearright ,
 Yuret, D.  \harvardyearleft 2016\harvardyearright , `{Knet} - {Koç}
   {University} deep learning framework for {Julia}'.
 \newline\harvardurl{https://github.com/denizyuret/Knet.jl}
+
+\harvarditem{Zanda \harvardand\ Brown}{2009}{zanda_ensemble}
+Zanda, M. \harvardand\ Brown, G.  \harvardyearleft 2009\harvardyearright , A
+  {Study} of {Semi}-supervised {Generative} {Ensembles}, {\em in} J.~A.
+  Benediktsson, J.~Kittler \harvardand\ F.~Roli, eds, `Multiple {Classifier}
+  {Systems}', Lecture {Notes} in {Computer} {Science}, Springer, Berlin,
+  Heidelberg, pp.~242--251.
 
 \harvarditem[Zappa~Nardelli et~al.]{Zappa~Nardelli, Belyakova, Pelenitsyn,
   Chung, Bezanson \harvardand\ Vitek}{2018}{zappa_nardelli_julia_2018}

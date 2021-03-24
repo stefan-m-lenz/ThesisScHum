@@ -458,7 +458,7 @@ As shown in figure (\ref{fig:dbn}B), only the last RBM in the network can be use
 The ability to generate data from complex distributions is furthermore reduced if the DBN is used for dimension reduction because in this case the top RBM is also the smallest network.
 
 
-\subsubsection{Deep Boltzmann machines}
+\subsubsection{Deep Boltzmann machines}\label{dbmprobs}
 
 If the network architecture of a DBN is treated as a Boltzmann machine, we get a \emph{deep Boltzmann machine}, where the complete network can be utilized for generating samples.
 A deep Boltzmann machine, as defined by \cite{salakhutdinov2009DBMs}, with $n_L$ number of hidden layers has parameters
@@ -2074,7 +2074,7 @@ Calculates the log-likelihood for a RBM/DBM (exponential complexity)\\
 
 \section{Discussion}
 
-\subsection{Performance considerations}
+\subsection{Computational performance}
 As can be seen figure \ref{fig:dbmtrainingtimes} (p.\ \pageref{fig:dbmtrainingtimes}), the performance of DBM training scales in the same way as matrix multiplication.
 For the measurements shown there, a virtual machine on a single core was used.
 If multiple cores are involved, multi-threading can speed up the matrix multiplications for large matrices.
@@ -2107,28 +2107,45 @@ Moreover, specific hardware requirements such as restrictions to certain types o
 Given these considerations, which show that it is not trivial to harness the power of GPUs, a definitive use case where the performance would be needed to investigate this direction further.
 
 
-\subsection{Comparison of DBMs and other generative approaches}
+\subsection{DBMs and other generative approaches}
 
-TODO DBMs are good at conditional sampling:
+\subsubsection{Performance on data of small sample size}
+\cite{nussberger_synthetic_2020} have compared DBMs, VAEs, and GANs in more diverse settings, in particular with a broader range regarding the number of samples.
+The experiment shown in section \ref{realexp} builds on this and performs this comparison in a setting of distributed data. 
+Additionally to evaluating the performance, the disclosure is regarded here as well.
+
+
+\subsubsection{Conditional sampling}
+One advantage of DBMs is that it is particularly easy to perform conditional sampling (see \ref{condsamplingrbm} and \ref{dbmprobs}), i.e., drawing from the learned distribution conditioned on certain values of input variables.
 
 An example for using conditional sampling in a setting with biomedical data could be the simulation of a patient cohort with a specific rare disease pattern using a Boltzmann machine that has been trained with a data set of diagnoses from a more general population cohort.
 A result from such a simulation could be used for a sample size calculation when planning a study involving the specific disease pattern and other combinations of characteristics.
-%TODO martin paper zitieren?
 In cases where certain combinations might be quite rare, the learned correlations between all the variables can help in estimating the frequencies of the combinations of specific characteristics.
 
-TODO Nußberger
+The flexibility in conditional sampling separates DBMs from VAEs and GANs, where this is not possible.
+Variants of VAEs and GANs have been proposed for this, called {\em conditional VAEs} \citep{cvae} and {\em conditional GANs} \citep{cgan}.
+In both these approaches, the variables that are used as conditions need to be specified in the training.
+In DBMs, this is not necessary and conditions can be set on arbitrary variables.
 
-TODO Rolle der hyperparameter
+
+\subsubsection{Ideas for combining different models}
 
 \cite{hinton_reducing_2006} used deep belief networks to pre-train autoencoder networks, which were then fine-tuned using backpropagation.
 This was done to overcome the problem that the backpropagation algorithm alone was not able to find a good solution given a limited amount of data \citep{lecun_deep_learning_2015}.
 It might be interesting to investigate whether {\em variational} autoencoders could profit in the same way from such a pre-training in settings of low sample size, as they are also trained via backpropagation. 
 
-\subsection{Directions in privacy-perserving deep learning}
-TODO diskutieren: privacy-accounting in DBMs and other approaches
+Another idea to create better synthetic data sets to increase the generative performance could to combine different types of generative models in ensembles of generative models .
+The idea is similar to the idea of ensemble learning and super learners that combine different predictive models to get better predictions \citep{van_der_laan_targeted_2011}.
+Generative ensembles have been studied in semi-supervised learning and TODO \citep{zanda_ensemble}.
+For creating synthetic data, the ensembles could be used to enhance the performance with respect to a performance criterion that is applied on combined data from different models.
+This is basically the same procedure as described in the experiments for (see figure \ref{fig:experimentalsetup} on p. \pageref{fig:experimentalsetup}), only with the same data but different generative approaches used at the  
+In addition to that, a disclosure metrics could be applied.
+This way, the different models could also be used to increase the diversity in the synthetic data.
 
-\subsection{Modeling continously valued data}
+
+\subsection{Handling different data types}
 one step for applying arbitrary tabular data.
+%TODO martin paper zitieren?
 Privacy-consideration better use intensity values.
 
 \subsection{Ideas for future work}
@@ -2137,12 +2154,10 @@ TODO idee modelle kombinieren, dbms verbessern missing values, softmax evaluiere
 VAEs in DataSHIELD implementieren. TODO in JuliaConnectoR Kapitel Flux Beispiel einbauen und hier referenzieren. Sagen: Funzt auch, wie man oben sehen kann.
 
 
-
-
-
-
-
-\subsection{Conclusion}
+\subsection{Conclusion and outlook}
+Deep learning can help to create synthetic data that preserves higher-level structures.
+Both DBMs and VAEs are promising models for creating synthetic data in settings of small sample size, whereas GANs do not perform well in such settings.
+Further research to work out the and maybe combine different models.
 
 \clearpage
 \appendix
