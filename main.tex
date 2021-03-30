@@ -144,19 +144,17 @@ The problem of small sample sizes is particularly prevalent when dealing with ge
 because there is a high number of genetic variants, and additionally the sequencing of genomes is still relatively expensive.
 This results in relatively few samples compared to the number of dimensions in data sets of genetic variants.
 Also for clinical data, the availability of high-quality data is one of the key challenges \citep{machine_learning_review_nejm}.
-Although there is an abundance of routine care data, sample sizes are often small when it comes to curated data of clinical registries and clinical studies.
-Additionally, privacy restrictions make it difficult to use health information of humans for research.
+Although there is an abundance of routine care data, sample sizes are often small when it comes to curated data or data from clinical studies.
+Additionally, privacy restrictions make it difficult to use health information of humans for research and further limit the amount of accessible data.
 
-one class of deep learning approaches are generative models. 
-DBMs are one of the first deep learning algorithms 
-Generative models have made their appearance in mainstream media when an artist trained a generative model on images of paintings, used it to generate new paintings, and sold one of these paintings for \$432,000 at the auction house Christie's \citep{cohn_ai_2018}.
+In contrast to prediction models, which require labeled data as input, unsupervised learning techniques aim at capturing structure of the input data without a specific prediction task.
+This makes unsupervised learning particularly interesting if there is not enough labeled data.
+One class of unsupervised deep learning approaches are {\em generative models}, which able to generate new data according to a distribution that is learned from input data.
+Generative models have made their appearance in mainstream media when an artist trained a generative model on images of paintings, used it to create new paintings, and sold one of these paintings for \$432,000 at the auction house Christie's \citep{cohn_ai_2018}.
 
 
 Besides generating data, DBMs and VAEs can be used for dimensionality reduction by .
 The activation patterns of hidden nodes in DBMs and VAEs can be used to extract patterns in data \citep{hess_exploring_2020}.
-
-Hpyerparameter is also a big challenge \citep{min_deep_2017}.
-Since biomedical data sets can be very diverse, default values for hyperparameters may often not be the best choice.
 
 
 
@@ -170,6 +168,9 @@ Rare - distributed - privacy - DataSHIELD \citep{gaye_datashield,budin-ljosne_da
 TODO several approaches, e.g. synthpop. \citep{bonofiglio2020}. deep learning models as generative models capture more complicated structure
 compare with no deep learning approaches. compare in a distributed setting.
 Investigate with respect to privacy.
+
+Hyperparameter is also a big challenge \citep{min_deep_2017}.
+Since biomedical data sets can be very diverse, default values for hyperparameters may often not be the best choice.
 
 %Multimodal DBMs have been used by Srivastava et al. for image captions \citep{srivastava2012multimodal}.
 %Here we want to broaden the scope a little bit and present an extensible approach for creating deep Boltzmann architectures with different types of visible units and flexible partitioned hidden layers. Training of such architectures ....
