@@ -331,6 +331,20 @@ He, K., Zhang, X., Ren, S. \harvardand\ Sun, J.  \harvardyearleft
   2015\harvardyearright , `Deep residual learning for image recognition', {\em
   arXiv preprint arXiv:1512.03385} .
 
+\harvarditem[Hess et~al.]{Hess, Hackenberg \harvardand\
+  Binder}{2020}{hess_exploring_2020}
+Hess, M., Hackenberg, M. \harvardand\ Binder, H.  \harvardyearleft
+  2020\harvardyearright , `Exploring generative deep learning for omics data
+  using log-linear models', {\em Bioinformatics} {\bf 36}(20),~5045--5053.
+\newline\harvardurl{https://doi.org/10.1093/bioinformatics/btaa623}
+
+\harvarditem[Hess et~al.]{Hess, Lenz, Bl{\"a}tte, Bullinger \harvardand\
+  Binder}{2017}{hess2017partitioned}
+Hess, M., Lenz, S., Bl{\"a}tte, T.~J., Bullinger, L. \harvardand\ Binder, H.
+  \harvardyearleft 2017\harvardyearright , `Partitioned learning of deep
+  {Boltzmann} machines for {SNP} data', {\em Bioinformatics} {\bf
+  33}(20),~3173--3180.
+
 \harvarditem{Hinton}{2002}{cdorig}
 Hinton, G.~E.  \harvardyearleft 2002\harvardyearright , `Training products of
   experts by minimizing {Contrastive} {Divergence}', {\em Neural Computation}
@@ -561,6 +575,13 @@ Quick, H., Holan, S.~H. \harvardand\ Wikle, C.~K.  \harvardyearleft
   {\bf 181}(3),~649--661.
 \newline\harvardurl{https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/rssa.12360}
 
+\harvarditem[Rajkomar et~al.]{Rajkomar, Dean \harvardand\
+  Kohane}{2019}{machine_learning_review_nejm}
+Rajkomar, A., Dean, J. \harvardand\ Kohane, I.  \harvardyearleft
+  2019\harvardyearright , `Machine {Learning} in {Medicine}', {\em New England
+  Journal of Medicine} {\bf 380}(14).
+\newline\harvardurl{https://www.nejm.org/doi/full/10.1056/NEJMra1814259}
+
 \harvarditem[Ranzato et~al.]{Ranzato, Boureau, Chopra \harvardand\
   LeCun}{2007}{ranzato_ebm}
 Ranzato, M., Boureau, Y.-L., Chopra, S. \harvardand\ LeCun, Y.
@@ -679,16 +700,18 @@ Toutouh, J., Hemberg, E. \harvardand\ O'Reily, U.-M.  \harvardyearleft
   evolutionary computation, {\em in} `Proceedings of the 2020 {Genetic} and
   {Evolutionary} {Computation} {Conference}', pp.~425--434.
 
-\harvarditem{Van~der Laan \harvardand\ Rose}{2011}{van_der_laan_targeted_2011}
-Van~der Laan, M.~J. \harvardand\ Rose, S.  \harvardyearleft
-  2011\harvardyearright , {\em Targeted learning: causal inference for
-  observational and experimental data}, Springer Science \& Business Media.
-
 \harvarditem{Vlad}{2019}{performancegpucpu}
 Vlad  \harvardyearleft 2019\harvardyearright , `Answer to: Training a simple
   model in {Tensorflow} {GPU} slower than {CPU}'.
 \newblock Accessed 2021-03-23.
 \newline\harvardurl{https://stackoverflow.com/a/55750666/3180809}
+
+\harvarditem[Wang et~al.]{Wang, Ghasedi~Dizaji \harvardand\
+  Huang}{2018}{wang_conditional_2018}
+Wang, X., Ghasedi~Dizaji, K. \harvardand\ Huang, H.  \harvardyearleft
+  2018\harvardyearright , `Conditional generative adversarial network for gene
+  expression inference', {\em Bioinformatics} {\bf 34}(17),~i603--i611.
+\newline\harvardurl{https://doi.org/10.1093/bioinformatics/bty563}
 
 \harvarditem[Webster et~al.]{Webster, Rabin, Simon \harvardand\
   Jurie}{2019}{webster_detecting_2019}
