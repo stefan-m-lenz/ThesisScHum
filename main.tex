@@ -135,31 +135,36 @@ More generally, this approach of wrapping external deep learning functionality p
 \clearpage
 \section{Introduction}
 
-TODO deep learning popular with images, most popular use cases deal with large sample size
-
-Other popular approaches are also generative adversarial networks (GANs) \citep{goodfellow_generative_2014} and variational autoencoders (VAEs) \citep{Kingma2013}.
-One advantage of DBMs is that it is particularly easy to perform conditional sampling, i.e., drawing from the learned distribution conditioned on certain values of input variables.
-The flexibility in conditional sampling separates DBMs from VAEs and GANs, where this is not possible.
-Variants of VAEs and GANs have been proposed for this, called {\em conditional VAEs} \citep{cvae} and {\em conditional GANs} \citep{cgan}.
-The latter has also been applied to gene expression data \citep{wang_conditional_2018}.
-There, the prediction of gene activation from so-called landmark genes, which are suspected to contain most information of the genome, has been improved.
-For this, and in conditional VAEs and conditional GANs in general, the variables that are used as conditions need to be specified in the training.
-DBMs have the advantage that the specification of specific variables as conditions is not necessary and conditions can be set on arbitrary variables.
-Conditional sampling in DBMs could therefore be used to simulate the regulation of arbitrary gene expression patterns based on a DBM model that has been trained on genetic expression data.
-
-Besides generating data, DBMs and VAEs can be used for dimensionality reduction by .
-The activation patterns of hidden nodes in DBMs and VAEs can be used to extract patterns in data \citep{hess_exploring_2020}.
-
-The main challenge in applying deep learning on biomedical data is the 
-Saving parameters can aid in training models also with fewer data points as the performance of more complex models may deteriorate if the sample size is too small \citep{chan_classifier_1999}.
+Deep learning algorithms have revolutionized image and speech recognition \citep{goodfellow_deep_2016}, and are the state-of-the-art in many fields for prediction models.
+Also advances in bioinformatics have been made using deep learning.
+Yet, there are some challenges that prevent deep learning from providing in bioinformatics applications. 
+One big challenge in particular is limited data \citep{min_deep_2017}.
+While the amount of data in fields such as image and speech recognition has been increased dramatically with the content available in the internet, the amount of usable genetic or medical data remains comparatively small.
 The problem of small sample sizes is particularly prevalent when dealing with genetic variant data
 because there is a high number of genetic variants, and additionally the sequencing of genomes is still relatively expensive.
 This results in relatively few samples compared to the number of dimensions in data sets of genetic variants.
 Also for clinical data, the availability of high-quality data is one of the key challenges \citep{machine_learning_review_nejm}.
-Although there is an abundance of routine care data, sample sizes are often small when it comes to rarer diagnoses or curated data of clinical registries and clinical studies.
+Although there is an abundance of routine care data, sample sizes are often small when it comes to curated data of clinical registries and clinical studies.
+Additionally, privacy restrictions make it difficult to use health information of humans for research.
+
+one class of deep learning approaches are generative models. 
+DBMs are one of the first deep learning algorithms 
+Generative models have made their appearance in mainstream media when an artist trained a generative model on images of paintings, used it to generate new paintings, and sold one of these paintings for \$432,000 at the auction house Christie's \citep{cohn_ai_2018}.
+
+
+Besides generating data, DBMs and VAEs can be used for dimensionality reduction by .
+The activation patterns of hidden nodes in DBMs and VAEs can be used to extract patterns in data \citep{hess_exploring_2020}.
+
+Hpyerparameter is also a big challenge \citep{min_deep_2017}.
+Since biomedical data sets can be very diverse, default values for hyperparameters may often not be the best choice.
+
+
 
 DBMS good for small sample size \citep{nussberger_synthetic_2020}. 
 Further partitioned can be used to improve on genetic data \citep{hess2017partitioned}.
+Saving parameters can aid in training models also with fewer data points as the performance of more complex models may deteriorate if the sample size is too small \citep{chan_classifier_1999}.
+Therefore partitioning \citep{hess2017partitioned}
+
 
 Rare - distributed - privacy - DataSHIELD \citep{gaye_datashield,budin-ljosne_datashield}
 TODO several approaches, e.g. synthpop. \citep{bonofiglio2020}. deep learning models as generative models capture more complicated structure
@@ -171,11 +176,24 @@ Investigate with respect to privacy.
 %Those architectures are not only useful for putting data of different types in one model but also in cases where a natural partitioning of the data can be derived from domain knowledge. With partitioning one can greatly reduce the number of parameters in the model. This allows training models on data sets where the sample size would otherwise be too small to fit a full model.
 
 TODO aus motivation von Bioinf App not fail: VAE and GAN backpropagation, DBMs harder to train and the algorithm is complex.
-Since biomedical data sets can be very diverse, default values for hyperparameters may often not be the best choice.
+
 Therefore, the ability to determine good hyperparameters is especially important there.
 
 TODO DBMs multimodal , e. g. clinical, gene expression, and single nucleotide polymorphism (SNP) data
 
+Other popular approaches are also generative adversarial networks (GANs) \citep{goodfellow_generative_2014} and variational autoencoders (VAEs) \citep{Kingma2013}.
+One advantage of DBMs is that it is particularly easy to perform conditional sampling, i.e., drawing from the learned distribution conditioned on certain values of input variables.
+The flexibility in conditional sampling separates DBMs from VAEs and GANs, where this is not possible.
+Variants of VAEs and GANs have been proposed for this, called {\em conditional VAEs} \citep{cvae} and {\em conditional GANs} \citep{cgan}.
+The latter has also been applied to gene expression data \citep{wang_conditional_2018}.
+There, the prediction of gene activation from so-called landmark genes, which are suspected to contain most information of the genome, has been improved.
+For this, and in conditional VAEs and conditional GANs in general, the variables that are used as conditions need to be specified in the training.
+DBMs have the advantage that the specification of specific variables as conditions is not necessary and conditions can be set on arbitrary variables.
+Conditional sampling in DBMs could therefore be used to simulate the regulation of arbitrary gene expression patterns based on a DBM model that has been trained on genetic expression data.
+TODO link with small sample size. overall model. used for different stuff/transfer.
+
+Summed up, deep Boltzmann machines show many promising qualities for deep learning on biomedical data, where limited sample size and privacy restrictions are common challenges.
+This work aims to investigate this and to make DBMs available in form of user-friendly software.
 
 
 
@@ -1351,7 +1369,7 @@ Pkg.add("BoltzmannMachinesPlots")
 using BoltzmannMachinesPlots
 \end{lstlisting}
 
-The \inlinecode{plotevaluation} function (see p.\ \pageref{bmplots_plotevaluation}), which is defined there, takes care of plotting the information of a \inlinecode{Monitor} object.
+The \inlinecode{plotevaluation} function, which is defined there, takes care of plotting the information of a \inlinecode{Monitor} object.
 For examples of such monitoring plots, see figure \ref{fig:monitoring_bmplots}.
 \begin{lstlisting}[language=Julia]
 plotevaluation(monitors[1]) # pre-training of first RBM layer
@@ -1375,7 +1393,7 @@ with nodes in higher layers encoding more abstract patterns than the nodes in th
 Intuitively, this dimension reduction can be thought of as looking at the ideas that the network has about its input.
 If in the top hidden layer only two nodes are used for encoding the information, the activation patterns resulting from the input can be visualized as point in the 2D plane.
 For this, each input sample is used to induce activation in the network, resulting in one 2D point that is defined by the activation of the nodes in the top layer.
-The \inlinecode{scatterhidden} function (see p.\ \pageref{bmplots_scatterhidden}) does this in a convenient way.
+The \inlinecode{scatterhidden} function of \apkg{BoltzmannMachinesPlots} package does this in a convenient way.
 It creates a scatter plot of the logit-transformed mean-field activation in the top hidden layer of a DBM, given the input data and the DBM.
 
 
@@ -2219,13 +2237,6 @@ eRum 2020
 This appendix lists the documentation for all exported and documented items of the \apkg{BoltzmannMachines} Julia package, as of version 1.2.0. The code of the package and more documentation can be found on the GitHub repository \url{https://github.com/stefan-m-lenz/BoltzmannMachines.jl}.
 
 \input{appendix/BoltzmannMachines_Doku}
-
-\clearpage
-\section[Documentation of Julia package \apkg{BoltzmannMachinesPlots}]{Documentation of Julia package \\ \apkg{BoltzmannMachinesPlots}}
-%TODO Vorrede
-
-\label{BMPlotsDoku}
-\input{appendix/BoltzmannMachinesPlots_Doku}
 
 \clearpage
 \section[Documentation of R package \apkg{JuliaConnectoR}]{Documentation of R package \\ \apkg{JuliaConnectoR}}

@@ -184,6 +184,11 @@ Choi, E., Biswal, S., Malin, B., Duke, J., Stewart, W.~F. \harvardand\ Sun, J.
   `Proceedings of {Machine} {Learning} for {Healthcare} 2017', Northeastern
   University, Boston, Massachusetts, p.~21.
 
+\harvarditem{Cohn}{2018}{cohn_ai_2018}
+Cohn, G.  \harvardyearleft 2018\harvardyearright , `{AI} {Art} at
+  {Christie}’s {Sells} for \$432,500', {\em The New York Times} .
+\newline\harvardurl{https://www.nytimes.com/2018/10/25/arts/design/ai-art-sold-christies.html}
+
 \harvarditem{Curry}{1944}{gradientdescent}
 Curry, H.~B.  \harvardyearleft 1944\harvardyearright , `The method of steepest
   descent for non-linear minimization problems', {\em Quarterly of Applied
@@ -512,6 +517,12 @@ Masters, D. \harvardand\ Luschi, C.  \harvardyearleft 2018\harvardyearright ,
 McCoy, B.~M. \harvardand\ Wu, T.~T.  \harvardyearleft 2014\harvardyearright ,
   {\em The Two-Dimensional {Ising} Model}, 2 edn, Courier Corporation.
 
+\harvarditem[Min et~al.]{Min, Lee \harvardand\ Yoon}{2017}{min_deep_2017}
+Min, S., Lee, B. \harvardand\ Yoon, S.  \harvardyearleft 2017\harvardyearright
+  , `Deep learning in bioinformatics', {\em Briefings in Bioinformatics} {\bf
+  18}(5),~851--869.
+\newline\harvardurl{https://doi.org/10.1093/bib/bbw068}
+
 \harvarditem{Mirza \harvardand\ Osindero}{2014}{cgan}
 Mirza, M. \harvardand\ Osindero, S.  \harvardyearleft 2014\harvardyearright ,
   `Conditional {Generative} {Adversarial} {Nets}', {\em arXiv:1411.1784 [cs,
@@ -580,6 +591,7 @@ Quick, H., Holan, S.~H. \harvardand\ Wikle, C.~K.  \harvardyearleft
 Rajkomar, A., Dean, J. \harvardand\ Kohane, I.  \harvardyearleft
   2019\harvardyearright , `Machine {Learning} in {Medicine}', {\em New England
   Journal of Medicine} {\bf 380}(14).
+\newblock Publisher: Massachusetts Medical Society pages = {1347--1358},.
 \newline\harvardurl{https://www.nejm.org/doi/full/10.1056/NEJMra1814259}
 
 \harvarditem[Ranzato et~al.]{Ranzato, Boureau, Chopra \harvardand\
