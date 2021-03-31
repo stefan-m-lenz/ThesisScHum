@@ -138,6 +138,7 @@ More generally, this approach of wrapping external deep learning functionality p
 Deep learning algorithms have revolutionized image and speech recognition \citep{goodfellow_deep_2016}, and are the state-of-the-art in many fields for prediction models.
 Also advances in bioinformatics have been made using deep learning.
 Yet, there are some challenges that prevent deep learning from being used in bioinformatics applications. 
+
 One particularly big challenge is limited data \citep{min_deep_2017}.
 While the amount of data in fields such as image and speech recognition has been increased dramatically with the content available in the internet, the amount of usable genetic or medical data remains comparatively small.
 The problem of small sample sizes is particularly prevalent when dealing with genetic variant data
@@ -151,36 +152,29 @@ In contrast to prediction models, which require labeled data as input, unsupervi
 This makes unsupervised learning particularly interesting if there is not enough labeled data.
 One class of unsupervised deep learning approaches are {\em generative models}, which are able to generate new data according to a distribution that is learned from input data.
 Generative models have made their appearance in mainstream media when an artist trained a generative model on images of paintings, used it to create new paintings, and sold one of these paintings for \$432,000 at the auction house Christie's \citep{cohn_ai_2018}.
-
-Other popular approaches are also generative adversarial networks (GANs) \citep{goodfellow_generative_2014} and variational autoencoders (VAEs) \citep{Kingma2013}.
+The generative approach used there is called generative adversarial network (GAN) \citep{goodfellow_generative_2014}.
+Other generative approaches in the field of deep learning are variational autoencoders (VAEs) \citep{Kingma2013} and deep Boltzmann machines (DBMs) \citep{salakhutdinov2009DBMs}.
+In a comparison of GANs, VAEs and DBMs on genetic variant data of different rather small sample sizes, DBMs showed a good generative performance \citep{nussberger_synthetic_2020}.
 Besides generating data, DBMs and VAEs can be used for dimensionality reduction by analysing the activation in higher-level layers of the network, which encode features of increasing complexity in the data.
 This has, e.g., been applied to find patterns in gene expression data \citep{ding_interpretable_2018, hess_exploring_2020}.
 
-
-
-DBMS good for small sample size \citep{nussberger_synthetic_2020}. 
-Further partitioned can be used to improve on genetic data \citep{hess2017partitioned}.
-Saving parameters can aid in training models also with fewer data points as the performance of more complex models may deteriorate if the sample size is too small \citep{chan_classifier_1999}.
-Therefore partitioning \citep{hess2017partitioned}
-
-
-Rare - distributed - privacy - DataSHIELD \citep{gaye_datashield,budin-ljosne_datashield}
+Another possible application of generative models is to create synthetic data for privacy-preserving analyses of data that cannot be pooled due to data protection concerns.
+This applies, e.g., to the MIRACUM consortium \citep{prokosch_miracum_2018}, which includes ten German University hospitals.
+One of the goals there is to jointly analyze data that is distributed across multiple sites.
+Pooling the data of all patients for joint analysis is inhibited by data protection laws.
+Therefore, alternative ways of analyzing the data must be sought. 
+The DataSHIELD software \citep{gaye_datashield,budin-ljosne_datashield}, which 
 TODO several approaches, e.g. synthpop. \citep{bonofiglio2020}. deep learning models as generative models capture more complicated structure
 compare with no deep learning approaches. compare in a distributed setting.
-Investigate with respect to privacy.
-
-Hyperparameter is also a big challenge \citep{min_deep_2017}.
-Since biomedical data sets can be very diverse, default values for hyperparameters may often not be the best choice.
+The question is here, whether deep learning techniques can be used to create synthetic data and whether they pose an increased risk with respect to violations of privacy when generating synthetic data.
 
 %Multimodal DBMs have been used by Srivastava et al. for image captions \citep{srivastava2012multimodal}.
 %Here we want to broaden the scope a little bit and present an extensible approach for creating deep Boltzmann architectures with different types of visible units and flexible partitioned hidden layers. Training of such architectures ....
 %Those architectures are not only useful for putting data of different types in one model but also in cases where a natural partitioning of the data can be derived from domain knowledge. With partitioning one can greatly reduce the number of parameters in the model. This allows training models on data sets where the sample size would otherwise be too small to fit a full model.
 
-TODO aus motivation von Bioinf App not fail: VAE and GAN backpropagation, DBMs harder to train and the algorithm is complex.
+%Idee: aus motivation von Bioinf App not fail: VAE and GAN backpropagation, DBMs harder to train and the algorithm is complex.
 
-Therefore, the ability to determine good hyperparameters is especially important there.
-
-TODO DBMs multimodal , e. g. clinical, gene expression, and single nucleotide polymorphism (SNP) data
+%Idee: DBMs multimodal , e. g. clinical, gene expression, and single nucleotide polymorphism (SNP) data
 
 Unsupervised learning is also called self-supervised learning if the model is designed to predict parts of the input from other parts \citep{lecun_selfsupervised_2019}.
 One advantage of DBMs is that it is particularly easy to perform such predictions of parts of data based on other parts.
@@ -192,12 +186,13 @@ There, the prediction of gene activation from so-called landmark genes, which ar
 For this, and in conditional VAEs and conditional GANs in general, the variables that are used as conditions need to be specified in the training.
 DBMs have the advantage that the specification of specific variables as conditions is not necessary and conditions can be set on arbitrary variables.
 Conditional sampling in DBMs could therefore be used to simulate the regulation of arbitrary gene expression patterns based on a DBM model that has been trained on genetic expression data.
-TODO link with small sample size. overall model. used for different stuff/transfer.
 
-Summed up, deep Boltzmann machines show many promising qualities for deep learning on biomedical data, where limited sample size and privacy restrictions are common challenges.
-This work aims to investigate this and to make DBMs available in form of user-friendly software.
+Apparently deep Boltzmann machines exhibit promising qualities for deep learning on biomedical data, where limited sample size and privacy restrictions are common challenges.
+An additional big challenge for deep learning on biomedical data is finding good hyperparameters for the optimization algorithms \citep{min_deep_2017}.
+Since biomedical data sets can be very diverse, default values for hyperparameters may often not be the best choice and the ability to determine good hyperparameters is especially important there.
+As the success of the learning depends critically on good hyperparameters, a special emphasis needs to be put on evaluating the learning.
 
-
+This work aims to investigate how DBMs can be used to tackle the challenges for deep learning on biomedical data. Furthermore, it strives to make DBMs accessible in form of user-friendly software.
 
 
 
@@ -2144,6 +2139,11 @@ Given these considerations, which show that it is not trivial to harness the pow
 The experiment shown in section \ref{realexp} builds on this and performs this comparison in a setting of distributed data. 
 Additionally to evaluating the performance, the disclosure is regarded here as well.
 For this we used a new approach to look at the overfitting and the simulated membership attacks.
+
+Further partitioned can be used to improve on genetic data \citep{hess2017partitioned}.
+Saving parameters can aid in training models also with fewer data points as the performance of more complex models may deteriorate if the sample size is too small \citep{chan_classifier_1999}.
+Therefore partitioning \citep{hess2017partitioned}
+TODO multimodal implementation. martin?
 
 \subsubsection{Conditional sampling}
 
