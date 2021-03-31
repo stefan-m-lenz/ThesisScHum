@@ -137,24 +137,24 @@ More generally, this approach of wrapping external deep learning functionality p
 
 Deep learning algorithms have revolutionized image and speech recognition \citep{goodfellow_deep_2016}, and are the state-of-the-art in many fields for prediction models.
 Also advances in bioinformatics have been made using deep learning.
-Yet, there are some challenges that prevent deep learning from providing in bioinformatics applications. 
-One big challenge in particular is limited data \citep{min_deep_2017}.
+Yet, there are some challenges that prevent deep learning from being used in bioinformatics applications. 
+One particularly big challenge is limited data \citep{min_deep_2017}.
 While the amount of data in fields such as image and speech recognition has been increased dramatically with the content available in the internet, the amount of usable genetic or medical data remains comparatively small.
 The problem of small sample sizes is particularly prevalent when dealing with genetic variant data
-because there is a high number of genetic variants, and additionally the sequencing of genomes is still relatively expensive.
+because there is a high number of genetic variants, and, at the same time, the sequencing of genomes is still relatively expensive.
 This results in relatively few samples compared to the number of dimensions in data sets of genetic variants.
-Also for clinical data, the availability of high-quality data is one of the key challenges \citep{machine_learning_review_nejm}.
+Also for clinical data, the availability of high-quality data is also one of the key challenges \citep{machine_learning_review_nejm}.
 Although there is an abundance of routine care data, sample sizes are often small when it comes to curated data or data from clinical studies.
 Additionally, privacy restrictions make it difficult to use health information of humans for research and further limit the amount of accessible data.
 
 In contrast to prediction models, which require labeled data as input, unsupervised learning techniques aim at capturing structure of the input data without a specific prediction task.
 This makes unsupervised learning particularly interesting if there is not enough labeled data.
-One class of unsupervised deep learning approaches are {\em generative models}, which able to generate new data according to a distribution that is learned from input data.
+One class of unsupervised deep learning approaches are {\em generative models}, which are able to generate new data according to a distribution that is learned from input data.
 Generative models have made their appearance in mainstream media when an artist trained a generative model on images of paintings, used it to create new paintings, and sold one of these paintings for \$432,000 at the auction house Christie's \citep{cohn_ai_2018}.
 
-
-Besides generating data, DBMs and VAEs can be used for dimensionality reduction by .
-The activation patterns of hidden nodes in DBMs and VAEs can be used to extract patterns in data \citep{hess_exploring_2020}.
+Other popular approaches are also generative adversarial networks (GANs) \citep{goodfellow_generative_2014} and variational autoencoders (VAEs) \citep{Kingma2013}.
+Besides generating data, DBMs and VAEs can be used for dimensionality reduction by analysing the activation in higher-level layers of the network, which encode features of increasing complexity in the data.
+This has, e.g., been applied to find patterns in gene expression data \citep{ding_interpretable_2018, hess_exploring_2020}.
 
 
 
@@ -182,8 +182,9 @@ Therefore, the ability to determine good hyperparameters is especially important
 
 TODO DBMs multimodal , e. g. clinical, gene expression, and single nucleotide polymorphism (SNP) data
 
-Other popular approaches are also generative adversarial networks (GANs) \citep{goodfellow_generative_2014} and variational autoencoders (VAEs) \citep{Kingma2013}.
-One advantage of DBMs is that it is particularly easy to perform conditional sampling, i.e., drawing from the learned distribution conditioned on certain values of input variables.
+Unsupervised learning is also called self-supervised learning if the model is designed to predict parts of the input from other parts \citep{lecun_selfsupervised_2019}.
+One advantage of DBMs is that it is particularly easy to perform such predictions of parts of data based on other parts.
+This can be achieved via conditional sampling, i.e., drawing from the learned distribution conditioned on certain values of input variables.
 The flexibility in conditional sampling separates DBMs from VAEs and GANs, where this is not possible.
 Variants of VAEs and GANs have been proposed for this, called {\em conditional VAEs} \citep{cvae} and {\em conditional GANs} \citep{cgan}.
 The latter has also been applied to gene expression data \citep{wang_conditional_2018}.

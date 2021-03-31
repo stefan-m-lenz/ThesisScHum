@@ -195,6 +195,14 @@ Curry, H.~B.  \harvardyearleft 1944\harvardyearright , `The method of steepest
   Mathematics} {\bf 2}(3),~258--261.
 \newline\harvardurl{\url{https://www.ams.org/qam/1944-02-03/S0033-569X-1944-10667-3/}}
 
+\harvarditem[Ding et~al.]{Ding, Condon \harvardand\
+  Shah}{2018}{ding_interpretable_2018}
+Ding, J., Condon, A. \harvardand\ Shah, S.~P.  \harvardyearleft
+  2018\harvardyearright , `Interpretable dimensionality reduction of single
+  cell transcriptome data with deep generative models', {\em Nature
+  Communications} {\bf 9}(1),~2002.
+\newline\harvardurl{\url{https://www.nature.com/articles/s41467-018-04368-5}}
+
 \harvarditem{Dinur \harvardand\ Nissim}{2003}{dinur_revealing_2003}
 Dinur, I. \harvardand\ Nissim, K.  \harvardyearleft 2003\harvardyearright ,
   Revealing information while preserving privacy, {\em in} `Proceedings of the
