@@ -15,14 +15,14 @@ Abadi, M., Chu, A., Goodfellow, I., McMahan, H.~B., Mironov, I., Talwar, K.
   SIGSAC Conference on Computer and Communications Security - CCS'16}
   pp.~308--318.
 \newblock arXiv: 1607.00133.
-\newline\harvardurl{http://arxiv.org/abs/1607.00133}
+\newline\harvardurl{\url{http://arxiv.org/abs/1607.00133}}
 
 \harvarditem[Abadi et~al.]{Abadi, Isard \harvardand\ Murray}{2017}{tensorflow}
 Abadi, M., Isard, M. \harvardand\ Murray, D.~G.  \harvardyearleft
   2017\harvardyearright , `A computational model for {TensorFlow}: an
   introduction', {\em Proceedings of the 1st ACM SIGPLAN International Workshop
   on Machine Learning and Programming Languages} pp.~1--7.
-\newline\harvardurl{http://doi.acm.org/10.1145/3088525.3088527}
+\newline\harvardurl{\url{http://doi.acm.org/10.1145/3088525.3088527}}
 
 \harvarditem[Ackley et~al.]{Ackley, Hinton \harvardand\
   Sejnowski}{1985}{ackley_boltzmann_1985}
@@ -43,7 +43,7 @@ Azur, M.~J., Stuart, E.~A., Frangakis, C. \harvardand\ Leaf, P.~J.
   \harvardyearleft 2011\harvardyearright , `Multiple imputation by chained
   equations: what is it and how does it work?', {\em International Journal of
   Methods in Psychiatric Research} {\bf 20}(1),~40--49.
-\newline\harvardurl{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3074241/}
+\newline\harvardurl{\url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3074241/}}
 
 \harvarditem[Bates et~al.]{Bates, Kornblith, Noack, Bouchet-Valat, Borregaard,
   Arslan, White, Kleinschmidt, Lynch, Dunning, Mogensen, Lendle, Aluthge,
@@ -56,7 +56,7 @@ Bates, D., Kornblith, S., Noack, A., Bouchet-Valat, M., Borregaard, M.~K.,
   B., Caine, C., Lin, D., Ngo, H.~Q., Adenbaum, J., TagBot, J. \harvardand\
   Hein, L.  \harvardyearleft 2021\harvardyearright , `Julia package
   \apkg{GLM}'.
-\newline\harvardurl{https://zenodo.org/record/4556866}
+\newline\harvardurl{\url{https://zenodo.org/record/4556866}}
 
 \harvarditem{Bengio}{2012}{bengio2012practical}
 Bengio, Y.  \harvardyearleft 2012\harvardyearright , Practical recommendations
@@ -98,7 +98,7 @@ Bonofiglio, F., Schumacher, M. \harvardand\ Binder, H.  \harvardyearleft
   inferences from empirical {IPD} summaries only: {Applications} to distributed
   computing under disclosure constraints', {\em Statistics in Medicine} {\bf
   39}(8),~1183--1198.
-\newline\harvardurl{https://onlinelibrary.wiley.com/doi/abs/10.1002/sim.8470}
+\newline\harvardurl{\url{https://onlinelibrary.wiley.com/doi/abs/10.1002/sim.8470}}
 
 \harvarditem[Bottou et~al.]{Bottou, Curtis \harvardand\
   Nocedal}{2018}{bottou_optimization_2018}
@@ -128,7 +128,7 @@ Budin-Ljøsne, I., Burton, P., Isaeva, J., Gaye, A., Turner, A., Murtagh,
   2015\harvardyearright , `{DataSHIELD}: {An} {Ethically} {Robust} {Solution}
   to {Multiple}-{Site} {Individual}-{Level} {Data} {Analysis}', {\em Public
   Health Genomics} {\bf 18}(2),~87--96.
-\newline\harvardurl{https://www.karger.com/Article/FullText/368959}
+\newline\harvardurl{\url{https://www.karger.com/Article/FullText/368959}}
 
 \harvarditem[Campos et~al.]{Campos, Zimek, Sander, Campello, Micenková,
   Schubert, Assent \harvardand\ Houle}{2016}{unsupervised_outlier}
@@ -137,7 +137,7 @@ Campos, G.~O., Zimek, A., Sander, J., Campello, R. J. G.~B., Micenková, B.,
   2016\harvardyearright , `On the evaluation of unsupervised outlier detection:
   measures, datasets, and an empirical study', {\em Data Mining and Knowledge
   Discovery} {\bf 30}(4),~891--927.
-\newline\harvardurl{https://doi.org/10.1007/s10618-015-0444-8}
+\newline\harvardurl{\url{https://doi.org/10.1007/s10618-015-0444-8}}
 
 \harvarditem{Carreira-Perpinan \harvardand\
   Hinton}{2005}{perpinan_contrastive_2005}
@@ -160,7 +160,7 @@ Chang, K., Balachandar, N., Lam, C., Yi, D., Brown, J., Beers, A., Rosen, B.,
   2018\harvardyearright , `Distributed deep learning networks among
   institutions for medical imaging', {\em Journal of the American Medical
   Informatics Association} .
-\newline\harvardurl{https://academic.oup.com/jamia/advance-article/doi/10.1093/jamia/ocy017/4956468}
+\newline\harvardurl{\url{https://academic.oup.com/jamia/advance-article/doi/10.1093/jamia/ocy017/4956468}}
 
 \harvarditem[Chen et~al.]{Chen, Li, Li, Lin, Wang, Wang, Xiao, Xu, Zhang
   \harvardand\ Zhang}{2015}{mxnet}
@@ -168,7 +168,7 @@ Chen, T., Li, M., Li, Y., Lin, M., Wang, N., Wang, M., Xiao, T., Xu, B., Zhang,
   C. \harvardand\ Zhang, Z.  \harvardyearleft 2015\harvardyearright , `{MXNet}:
   {A} {Flexible} and {Efficient} {Machine} {Learning} {Library} for
   {Heterogeneous} {Distributed} {Systems}', {\em arXiv:1512.01274 [cs]} .
-\newline\harvardurl{http://arxiv.org/abs/1512.01274}
+\newline\harvardurl{\url{http://arxiv.org/abs/1512.01274}}
 
 \harvarditem[Cho et~al.]{Cho, Ilin \harvardand\ Raiko}{2011}{cho2011improved}
 Cho, K., Ilin, A. \harvardand\ Raiko, T.  \harvardyearleft
@@ -187,13 +187,13 @@ Choi, E., Biswal, S., Malin, B., Duke, J., Stewart, W.~F. \harvardand\ Sun, J.
 \harvarditem{Cohn}{2018}{cohn_ai_2018}
 Cohn, G.  \harvardyearleft 2018\harvardyearright , `{AI} {Art} at
   {Christie}’s {Sells} for \$432,500', {\em The New York Times} .
-\newline\harvardurl{https://www.nytimes.com/2018/10/25/arts/design/ai-art-sold-christies.html}
+\newline\harvardurl{\url{https://www.nytimes.com/2018/10/25/arts/design/ai-art-sold-christies.html}}
 
 \harvarditem{Curry}{1944}{gradientdescent}
 Curry, H.~B.  \harvardyearleft 1944\harvardyearright , `The method of steepest
   descent for non-linear minimization problems', {\em Quarterly of Applied
   Mathematics} {\bf 2}(3),~258--261.
-\newline\harvardurl{https://www.ams.org/qam/1944-02-03/S0033-569X-1944-10667-3/}
+\newline\harvardurl{\url{https://www.ams.org/qam/1944-02-03/S0033-569X-1944-10667-3/}}
 
 \harvarditem{Dinur \harvardand\ Nissim}{2003}{dinur_revealing_2003}
 Dinur, I. \harvardand\ Nissim, K.  \harvardyearleft 2003\harvardyearright ,
@@ -201,7 +201,7 @@ Dinur, I. \harvardand\ Nissim, K.  \harvardyearleft 2003\harvardyearright ,
   twenty-second {ACM} {SIGMOD}-{SIGACT}-{SIGART} symposium on {Principles} of
   database systems', {PODS} '03, Association for Computing Machinery, New York,
   NY, USA, pp.~202--210.
-\newline\harvardurl{https://doi.org/10.1145/773153.773173}
+\newline\harvardurl{\url{https://doi.org/10.1145/773153.773173}}
 
 \harvarditem[Doiron et~al.]{Doiron, Marcon, Fortier, Burton \harvardand\
   Ferretti}{2017}{opal}
@@ -230,7 +230,7 @@ Eisen, M.~B., Spellman, P.~T., Brown, P.~O. \harvardand\ Botstein, D.
   Sciences} {\bf 95}(25),~14863--14868.
 \newblock Publisher: National Academy of Sciences, Section: Biological
   Sciences.
-\newline\harvardurl{https://www.pnas.org/content/95/25/14863}
+\newline\harvardurl{\url{https://www.pnas.org/content/95/25/14863}}
 
 \harvarditem{Faraway}{2002}{faraway_regression}
 Faraway, J.~J.  \harvardyearleft 2002\harvardyearright , {\em Practical
@@ -258,7 +258,7 @@ Gaye, A., Marcon, Y., Isaeva, J., LaFlamme, P., Turner, A., Jones, E.~M.,
   `{DataSHIELD}: taking the analysis to the data, not the data to the
   analysis', {\em International Journal of Epidemiology} {\bf
   43}(6),~1929--1944.
-\newline\harvardurl{http://ije.oxfordjournals.org/content/43/6/1929}
+\newline\harvardurl{\url{http://ije.oxfordjournals.org/content/43/6/1929}}
 
 \harvarditem{Geman \harvardand\ Geman}{1984}{gibbssamplingorig}
 Geman, S. \harvardand\ Geman, D.  \harvardyearleft 1984\harvardyearright ,
@@ -270,7 +270,7 @@ Geman, S. \harvardand\ Geman, D.  \harvardyearleft 1984\harvardyearright ,
 
 \harvarditem{{\em GNU General Public License}}{2007}{gplv3}
 {\em GNU General Public License}  \harvardyearleft 2007\harvardyearright .
-\newline\harvardurl{http://www.gnu.org/licenses/gpl.html}
+\newline\harvardurl{\url{http://www.gnu.org/licenses/gpl.html}}
 
 \harvarditem[Goncalves et~al.]{Goncalves, Ray, Soper, Stevens, Coyle
   \harvardand\ Sales}{2020}{goncalves}
@@ -284,6 +284,7 @@ Goncalves, A., Ray, P., Soper, B., Stevens, J., Coyle, L. \harvardand\ Sales,
   Courville}{2016}{goodfellow_deep_2016}
 Goodfellow, I., Bengio, Y. \harvardand\ Courville, A.  \harvardyearleft
   2016\harvardyearright , {\em Deep {Learning}}, MIT Press.
+\newline\harvardurl{\url{http://www.deeplearningbook.org}}
 
 \harvarditem[Goodfellow et~al.]{Goodfellow, Pouget-Abadie, Mirza, Xu,
   Warde-Farley, Ozair, Courville \harvardand\
@@ -315,7 +316,7 @@ Harris, C.~R., Millman, K.~J., van~der Walt, S.~J., Gommers, R., Virtanen, P.,
   Sheppard, K., Reddy, T., Weckesser, W., Abbasi, H., Gohlke, C. \harvardand\
   Oliphant, T.~E.  \harvardyearleft 2020\harvardyearright , `Array programming
   with {NumPy}', {\em Nature} {\bf 585}(7825),~357--362.
-\newline\harvardurl{https://doi.org/10.1038/s41586-020-2649-2}
+\newline\harvardurl{\url{https://doi.org/10.1038/s41586-020-2649-2}}
 
 \harvarditem[Hastie et~al.]{Hastie, Tibshirani \harvardand\
   Friedman}{2009}{hastie_elements}
@@ -329,7 +330,7 @@ Hayes, J., Melis, L., Danezis, G. \harvardand\ Cristofaro, E.~D.
   \harvardyearleft 2019\harvardyearright , `{LOGAN}: {Membership} {Inference}
   {Attacks} {Against} {Generative} {Models}', {\em Proceedings on Privacy
   Enhancing Technologies} {\bf 2019}(1),~133--152.
-\newline\harvardurl{https://content.sciendo.com/view/journals/popets/2019/1/article-p133.xml}
+\newline\harvardurl{\url{https://content.sciendo.com/view/journals/popets/2019/1/article-p133.xml}}
 
 \harvarditem[He et~al.]{He, Zhang, Ren \harvardand\ Sun}{2015}{resnet}
 He, K., Zhang, X., Ren, S. \harvardand\ Sun, J.  \harvardyearleft
@@ -341,7 +342,7 @@ He, K., Zhang, X., Ren, S. \harvardand\ Sun, J.  \harvardyearleft
 Hess, M., Hackenberg, M. \harvardand\ Binder, H.  \harvardyearleft
   2020\harvardyearright , `Exploring generative deep learning for omics data
   using log-linear models', {\em Bioinformatics} {\bf 36}(20),~5045--5053.
-\newline\harvardurl{https://doi.org/10.1093/bioinformatics/btaa623}
+\newline\harvardurl{\url{https://doi.org/10.1093/bioinformatics/btaa623}}
 
 \harvarditem[Hess et~al.]{Hess, Lenz, Bl{\"a}tte, Bullinger \harvardand\
   Binder}{2017}{hess2017partitioned}
@@ -355,7 +356,7 @@ Hinton, G.~E.  \harvardyearleft 2002\harvardyearright , `Training products of
   experts by minimizing {Contrastive} {Divergence}', {\em Neural Computation}
   {\bf 14}(8),~1771--1800.
 \newblock Publisher: MIT Press.
-\newline\harvardurl{https://doi.org/10.1162/089976602760128018}
+\newline\harvardurl{\url{https://doi.org/10.1162/089976602760128018}}
 
 \harvarditem{Hinton}{2012}{hinton_practical_2012}
 Hinton, G.~E.  \harvardyearleft 2012\harvardyearright , A practical guide to
@@ -367,13 +368,13 @@ Hinton, G.~E.  \harvardyearleft 2012\harvardyearright , A practical guide to
 Hinton, G.~E. \harvardand\ Salakhutdinov, R.~R.  \harvardyearleft
   2006\harvardyearright , `Reducing the dimensionality of data with neural
   networks', {\em Science} {\bf 313}(5786),~504--507.
-\newline\harvardurl{http://science.sciencemag.org/content/313/5786/504}
+\newline\harvardurl{\url{http://science.sciencemag.org/content/313/5786/504}}
 
 \harvarditem{Howie \harvardand\ Marchini}{2015}{impute_1000_genomes}
 Howie, B. \harvardand\ Marchini, J.  \harvardyearleft 2015\harvardyearright ,
   `1,000 {Genomes} haplotypes - {Phase} 3 integrated variant set release in
   {NCBI} build 37 (hg19) coordinates'.
-\newline\harvardurl{https://mathgen.stats.ox.ac.uk/impute/1000GP\_Phase3.html}
+\newline\harvardurl{\url{https://mathgen.stats.ox.ac.uk/impute/1000GP\_Phase3.html}}
 
 \harvarditem[Howie et~al.]{Howie, Donnelly \harvardand\
   Marchini}{2009}{impute2}
@@ -411,7 +412,7 @@ Jones, D.~C., Arthur, B., Nagy, T., Gowda, S., Godisemo, Holy, T., Mattriks,
   Hyatt, K., Forsyth, J., Borje, G., Saba, E., Coalson, C. \harvardand\
   Pelenitsyn, A.  \harvardyearleft 2018\harvardyearright ,
   `{GiovineItalia}/{Gadfly.jl}: Crafty statistical graphics for {Julia}'.
-\newline\harvardurl{https://doi.org/10.5281/zenodo.1924781}
+\newline\harvardurl{\url{https://doi.org/10.5281/zenodo.1924781}}
 
 \harvarditem{Kifer \harvardand\ Machanavajjhala}{2011}{kifer_no_2011}
 Kifer, D. \harvardand\ Machanavajjhala, A.  \harvardyearleft
@@ -419,7 +420,7 @@ Kifer, D. \harvardand\ Machanavajjhala, A.  \harvardyearleft
   of the 2011 {ACM} {SIGMOD} {International} {Conference} on {Management} of
   data', {SIGMOD} '11, Association for Computing Machinery, New York, NY, USA,
   pp.~193--204.
-\newline\harvardurl{https://doi.org/10.1145/1989323.1989345}
+\newline\harvardurl{\url{https://doi.org/10.1145/1989323.1989345}}
 
 \harvarditem{Kingma \harvardand\ Welling}{2014}{Kingma2013}
 Kingma, D.~P. \harvardand\ Welling, M.  \harvardyearleft 2014\harvardyearright
@@ -430,7 +431,7 @@ Kingma, D.~P. \harvardand\ Welling, M.  \harvardyearleft 2014\harvardyearright
 \harvarditem{Knuth}{1974}{knuth_1974}
 Knuth, D.~E.  \harvardyearleft 1974\harvardyearright , `Computer programming as
   an art', {\em Communications of the ACM} {\bf 17}(12),~667--673.
-\newline\harvardurl{https://doi.org/10.1145/361604.361612}
+\newline\harvardurl{\url{https://doi.org/10.1145/361604.361612}}
 
 \harvarditem{Krizhevsky}{2009}{krizhevsky2009tinyimagesthesis}
 Krizhevsky, A.  \harvardyearleft 2009\harvardyearright , Learning multiple
@@ -442,12 +443,17 @@ Krizhevsky, A. \harvardand\ Hinton, G.  \harvardyearleft 2009\harvardyearright
   , `Learning multiple layers of features from tiny images', {\em Technical
   report, University of Toronto} .
 
-\harvarditem{LeCun}{2019}{lecun_dlhardware}
-LeCun, Y.  \harvardyearleft 2019\harvardyearright , 1.1 {Deep} {Learning}
-  {Hardware}: {Past}, {Present}, and {Future}, {\em in} `2019 {IEEE}
+\harvarditem{LeCun}{2019{\em a}}{lecun_dlhardware}
+LeCun, Y.  \harvardyearleft 2019{\em a}\harvardyearright , 1.1 {Deep}
+  {Learning} {Hardware}: {Past}, {Present}, and {Future}, {\em in} `2019 {IEEE}
   {International} {Solid}-{State} {Circuits} {Conference} - ({ISSCC})',
   pp.~12--19.
 \newblock ISSN: 2376-8606.
+
+\harvarditem{LeCun}{2019{\em b}}{lecun_selfsupervised_2019}
+LeCun, Y.  \harvardyearleft 2019{\em b}\harvardyearright , `Facebook post about
+  self-supervised learning'.
+\newline\harvardurl{\url{https://www.facebook.com/722677142/posts/10155934004262143/}}
 
 \harvarditem[LeCun et~al.]{LeCun, Bengio \harvardand\
   Hinton}{2015}{lecun_deep_learning_2015}
@@ -455,13 +461,13 @@ LeCun, Y., Bengio, Y. \harvardand\ Hinton, G.  \harvardyearleft
   2015\harvardyearright , `Deep learning', {\em Nature} {\bf
   521}(7553),~436--444.
 \newblock Number: 7553 Publisher: Nature Publishing Group.
-\newline\harvardurl{https://www.nature.com/articles/nature14539}
+\newline\harvardurl{\url{https://www.nature.com/articles/nature14539}}
 
 \harvarditem{Lenz \harvardand\ Binder}{2020}{dsdbm}
 Lenz, S. \harvardand\ Binder, H.  \harvardyearleft 2020\harvardyearright ,
   `Deep generative models in {DataSHIELD}', {\em arXiv:2003.07775 [cs, stat]} .
 \newblock arXiv: 2003.07775.
-\newline\harvardurl{http://arxiv.org/abs/2003.07775}
+\newline\harvardurl{\url{http://arxiv.org/abs/2003.07775}}
 
 \harvarditem[Li et~al.]{Li, Li \harvardand\
   Venkatasubramanian}{2007}{li_t-closeness:_2007}
@@ -477,7 +483,7 @@ Li, N., Qardaji, W., Su, D., Wu, Y. \harvardand\ Yang, W.  \harvardyearleft
   definitions, {\em in} `Proceedings of the 2013 {ACM} {SIGSAC} conference on
   {Computer} \& communications security', {CCS} '13, Association for Computing
   Machinery, New York, NY, USA, pp.~889--900.
-\newline\harvardurl{https://doi.org/10.1145/2508859.2516686}
+\newline\harvardurl{\url{https://doi.org/10.1145/2508859.2516686}}
 
 \harvarditem[Machanavajjhala et~al.]{Machanavajjhala, Kifer, Gehrke
   \harvardand\ Venkitasubramaniam}{2007}{machanavajjhala_l-diversity_2007}
@@ -485,13 +491,13 @@ Machanavajjhala, A., Kifer, D., Gehrke, J. \harvardand\ Venkitasubramaniam, M.
   \harvardyearleft 2007\harvardyearright , `\textit{{L}}-diversity: {Privacy}
   beyond \textit{k}-anonymity', {\em ACM Transactions on Knowledge Discovery
   from Data} {\bf 1}(1),~3--es.
-\newline\harvardurl{https://doi.org/10.1145/1217299.1217302}
+\newline\harvardurl{\url{https://doi.org/10.1145/1217299.1217302}}
 
 \harvarditem{Malmaud \harvardand\ White}{2018}{tensorflowjl}
 Malmaud, J. \harvardand\ White, L.  \harvardyearleft 2018\harvardyearright ,
   `{TensorFlow}.jl: {An} {Idiomatic} {Julia} {Front} {End} for {TensorFlow}',
   {\em Journal of Open Source Software} {\bf 3}(31),~1002.
-\newline\harvardurl{https://joss.theoj.org/papers/10.21105/joss.01002}
+\newline\harvardurl{\url{https://joss.theoj.org/papers/10.21105/joss.01002}}
 
 \harvarditem{Manrique‐Vallier \harvardand\
   Hu}{2018}{manriquevallier_bayesian_2018}
@@ -500,18 +506,18 @@ Manrique‐Vallier, D. \harvardand\ Hu, J.  \harvardyearleft
   synthetic multivariate categorical data in the presence of structural zeros',
   {\em Journal of the Royal Statistical Society: Series A (Statistics in
   Society)} {\bf 181}(3),~635--647.
-\newline\harvardurl{https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/rssa.12352}
+\newline\harvardurl{\url{https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/rssa.12352}}
 
 \harvarditem{{Massachusetts Institute of Technology}}{n.d.}{mitlicense}
 {Massachusetts Institute of Technology}  \harvardyearleft n.d.\harvardyearright
   , `{MIT} license'.
-\newline\harvardurl{https://opensource.org/licenses/MIT}
+\newline\harvardurl{\url{https://opensource.org/licenses/MIT}}
 
 \harvarditem{Masters \harvardand\ Luschi}{2018}{masters_revisiting_2018}
 Masters, D. \harvardand\ Luschi, C.  \harvardyearleft 2018\harvardyearright ,
   `Revisiting {Small} {Batch} {Training} for {Deep} {Neural} {Networks}', {\em
   arXiv:1804.07612 [cs, stat]} .
-\newline\harvardurl{http://arxiv.org/abs/1804.07612}
+\newline\harvardurl{\url{http://arxiv.org/abs/1804.07612}}
 
 \harvarditem{McCoy \harvardand\ Wu}{2014}{isingmodel}
 McCoy, B.~M. \harvardand\ Wu, T.~T.  \harvardyearleft 2014\harvardyearright ,
@@ -521,19 +527,19 @@ McCoy, B.~M. \harvardand\ Wu, T.~T.  \harvardyearleft 2014\harvardyearright ,
 Min, S., Lee, B. \harvardand\ Yoon, S.  \harvardyearleft 2017\harvardyearright
   , `Deep learning in bioinformatics', {\em Briefings in Bioinformatics} {\bf
   18}(5),~851--869.
-\newline\harvardurl{https://doi.org/10.1093/bib/bbw068}
+\newline\harvardurl{\url{https://doi.org/10.1093/bib/bbw068}}
 
 \harvarditem{Mirza \harvardand\ Osindero}{2014}{cgan}
 Mirza, M. \harvardand\ Osindero, S.  \harvardyearleft 2014\harvardyearright ,
   `Conditional {Generative} {Adversarial} {Nets}', {\em arXiv:1411.1784 [cs,
   stat]} .
 \newblock arXiv: 1411.1784.
-\newline\harvardurl{http://arxiv.org/abs/1411.1784}
+\newline\harvardurl{\url{http://arxiv.org/abs/1411.1784}}
 
 \harvarditem{{MongoDB, Inc.}}{2009}{bsonspec}
 {MongoDB, Inc.}  \harvardyearleft 2009\harvardyearright , `{BSON} ({Binary}
   {JSON}) serialization'.
-\newline\harvardurl{http://bsonspec.org/}
+\newline\harvardurl{\url{http://bsonspec.org/}}
 
 \harvarditem{Murtagh \harvardand\ Contreras}{2012}{hclust}
 Murtagh, F. \harvardand\ Contreras, P.  \harvardyearleft 2012\harvardyearright
@@ -544,7 +550,7 @@ Murtagh, F. \harvardand\ Contreras, P.  \harvardyearleft 2012\harvardyearright
 Nowok, B., Raab, G.~M. \harvardand\ Dibben, C.  \harvardyearleft
   2016\harvardyearright , `synthpop: {Bespoke} {Creation} of {Synthetic} {Data}
   in {R}', {\em Journal of Statistical Software} {\bf 74}(1),~1--26.
-\newline\harvardurl{https://www.jstatsoft.org/index.php/jss/article/view/v074i11}
+\newline\harvardurl{\url{https://www.jstatsoft.org/index.php/jss/article/view/v074i11}}
 
 \harvarditem[Nußberger et~al.]{Nußberger, Boesel, Lenz, Binder \harvardand\
   Hess}{2020}{nussberger_synthetic_2020}
@@ -552,7 +558,7 @@ Nußberger, J., Boesel, F., Lenz, S., Binder, H. \harvardand\ Hess, M.
   \harvardyearleft 2020\harvardyearright , `Synthetic observations from deep
   generative models and binary omics data with limited sample size', {\em
   Briefings in Bioinformatics} .
-\newline\harvardurl{https://academic.oup.com/bib/advance-article/doi/10.1093/bib/bbaa226/5917048}
+\newline\harvardurl{\url{https://academic.oup.com/bib/advance-article/doi/10.1093/bib/bbaa226/5917048}}
 
 \harvarditem[Paszke et~al.]{Paszke, Gross, Massa, Lerer, Bradbury, Chanan,
   Killeen, Lin, Gimelshein, Antiga, Desmaison, Kopf, Yang, DeVito, Raison,
@@ -584,15 +590,14 @@ Quick, H., Holan, S.~H. \harvardand\ Wikle, C.~K.  \harvardyearleft
   data with decreased disclosure risk by using differential smoothing', {\em
   Journal of the Royal Statistical Society: Series A (Statistics in Society)}
   {\bf 181}(3),~649--661.
-\newline\harvardurl{https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/rssa.12360}
+\newline\harvardurl{\url{https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/rssa.12360}}
 
 \harvarditem[Rajkomar et~al.]{Rajkomar, Dean \harvardand\
   Kohane}{2019}{machine_learning_review_nejm}
 Rajkomar, A., Dean, J. \harvardand\ Kohane, I.  \harvardyearleft
   2019\harvardyearright , `Machine {Learning} in {Medicine}', {\em New England
-  Journal of Medicine} {\bf 380}(14).
-\newblock Publisher: Massachusetts Medical Society pages = {1347--1358},.
-\newline\harvardurl{https://www.nejm.org/doi/full/10.1056/NEJMra1814259}
+  Journal of Medicine} {\bf 380}(14),~1347--1358.
+\newline\harvardurl{\url{https://www.nejm.org/doi/full/10.1056/NEJMra1814259}}
 
 \harvarditem[Ranzato et~al.]{Ranzato, Boureau, Chopra \harvardand\
   LeCun}{2007}{ranzato_ebm}
@@ -604,7 +609,7 @@ Ranzato, M., Boureau, Y.-L., Chopra, S. \harvardand\ LeCun, Y.
 \harvarditem{{Regents of the University of California}}{1999}{bsd3}
 {Regents of the University of California}  \harvardyearleft
   1999\harvardyearright , `The 3-{Clause} {BSD} {License}'.
-\newline\harvardurl{https://opensource.org/licenses/BSD-3-Clause}
+\newline\harvardurl{\url{https://opensource.org/licenses/BSD-3-Clause}}
 
 \harvarditem[Rumbaugh et~al.]{Rumbaugh, Jacobson \harvardand\ Booch}{1999}{uml}
 Rumbaugh, J., Jacobson, I. \harvardand\ Booch, G.  \harvardyearleft
@@ -616,13 +621,13 @@ Rumbaugh, J., Jacobson, I. \harvardand\ Booch, G.  \harvardyearleft
 Rumelhart, D.~E., Hinton, G.~E. \harvardand\ Williams, R.~J.  \harvardyearleft
   1986\harvardyearright , `Learning representations by back-propagating
   errors', {\em Nature} {\bf 323}(6088),~533--536.
-\newline\harvardurl{https://www.nature.com/articles/323533a0}
+\newline\harvardurl{\url{https://www.nature.com/articles/323533a0}}
 
 \harvarditem{Sagi \harvardand\ Rokach}{2018}{ensemble_learning_survey_2018}
 Sagi, O. \harvardand\ Rokach, L.  \harvardyearleft 2018\harvardyearright ,
   `Ensemble learning: {A} survey', {\em {WIREs} Data Mining and Knowledge
   Discovery} {\bf 8}(4),~e1249.
-\newline\harvardurl{https://onlinelibrary.wiley.com/doi/abs/10.1002/widm.1249}
+\newline\harvardurl{\url{https://onlinelibrary.wiley.com/doi/abs/10.1002/widm.1249}}
 
 \harvarditem{Salakhutdinov}{2008}{salakhutdinov2008learning}
 Salakhutdinov, R.  \harvardyearleft 2008\harvardyearright , `Learning and
@@ -656,7 +661,7 @@ Sohn, K., Lee, H. \harvardand\ Yan, X.  \harvardyearleft 2015\harvardyearright
   {Generative} {Models}, {\em in} C.~Cortes, N.~Lawrence, D.~Lee, M.~Sugiyama
   \harvardand\ R.~Garnett, eds, `Advances in {Neural} {Information}
   {Processing} {Systems}', Vol.~28, Curran Associates, Inc.
-\newline\harvardurl{https://proceedings.neurips.cc/paper/2015/file/8d55a249e6baa5c06772297520da2051-Paper.pdf}
+\newline\harvardurl{\url{https://proceedings.neurips.cc/paper/2015/file/8d55a249e6baa5c06772297520da2051-Paper.pdf}}
 
 \harvarditem{Srivastava \harvardand\
   Salakhutdinov}{2012}{srivastava2012multimodal}
@@ -669,25 +674,25 @@ Sweeney, L.  \harvardyearleft 2012\harvardyearright , `{k}-anonymity: A model
   for protecting privacy', {\em International Journal of Uncertainty, Fuzziness
   and Knowledge-Based Systems} .
 \newblock Publisher: World Scientific Publishing Company.
-\newline\harvardurl{https://www.worldscientific.com/doi/epdf/10.1142/S0218488502001648}
+\newline\harvardurl{\url{https://www.worldscientific.com/doi/epdf/10.1142/S0218488502001648}}
 
 \harvarditem{{The 1000 Genomes Project Consortium}}{2012}{1000genomes}
 {The 1000 Genomes Project Consortium}  \harvardyearleft 2012\harvardyearright ,
   `An integrated map of genetic variation from 1,092 human genomes', {\em
   Nature} {\bf 491}(7422),~56--65.
-\newline\harvardurl{http://dx.doi.org/10.1038/nature11632}
+\newline\harvardurl{\url{http://dx.doi.org/10.1038/nature11632}}
 
 \harvarditem{{The Theano Development Team}}{2016}{theano}
 {The Theano Development Team}  \harvardyearleft 2016\harvardyearright ,
   `Theano: {A} {Python} framework for fast computation of mathematical
   expressions', {\em arXiv:1605.02688 [cs]} .
-\newline\harvardurl{http://arxiv.org/abs/1605.02688}
+\newline\harvardurl{\url{http://arxiv.org/abs/1605.02688}}
 
 \harvarditem{Theis}{2011}{deepbelief_github}
 Theis, L.  \harvardyearleft 2011\harvardyearright , `Code for training and
   evaluating restricted boltzmann machines ({RBMs}) and deep belief networks
   ({DBNs})'.
-\newline\harvardurl{https://github.com/lucastheis/deepbelief}
+\newline\harvardurl{\url{https://github.com/lucastheis/deepbelief}}
 
 \harvarditem[Theis et~al.]{Theis, Gerwinn, Sinz \harvardand\
   Bethge}{2011}{theis2011deepbelief}
@@ -703,7 +708,7 @@ Theis, L., Oord, A. v.~d. \harvardand\ Bethge, M.  \harvardyearleft
   2015\harvardyearright , `A note on the evaluation of generative models', {\em
   arXiv:1511.01844 [cs, stat]} .
 \newblock arXiv: 1511.01844.
-\newline\harvardurl{http://arxiv.org/abs/1511.01844}
+\newline\harvardurl{\url{http://arxiv.org/abs/1511.01844}}
 
 \harvarditem[Toutouh et~al.]{Toutouh, Hemberg \harvardand\
   O'Reily}{2020}{toutouh_ensemblegan_2020}
@@ -716,14 +721,14 @@ Toutouh, J., Hemberg, E. \harvardand\ O'Reily, U.-M.  \harvardyearleft
 Vlad  \harvardyearleft 2019\harvardyearright , `Answer to: Training a simple
   model in {Tensorflow} {GPU} slower than {CPU}'.
 \newblock Accessed 2021-03-23.
-\newline\harvardurl{https://stackoverflow.com/a/55750666/3180809}
+\newline\harvardurl{\url{https://stackoverflow.com/a/55750666/3180809}}
 
 \harvarditem[Wang et~al.]{Wang, Ghasedi~Dizaji \harvardand\
   Huang}{2018}{wang_conditional_2018}
 Wang, X., Ghasedi~Dizaji, K. \harvardand\ Huang, H.  \harvardyearleft
   2018\harvardyearright , `Conditional generative adversarial network for gene
   expression inference', {\em Bioinformatics} {\bf 34}(17),~i603--i611.
-\newline\harvardurl{https://doi.org/10.1093/bioinformatics/bty563}
+\newline\harvardurl{\url{https://doi.org/10.1093/bioinformatics/bty563}}
 
 \harvarditem[Webster et~al.]{Webster, Rabin, Simon \harvardand\
   Jurie}{2019}{webster_detecting_2019}
@@ -737,7 +742,7 @@ Webster, R., Rabin, J., Simon, L. \harvardand\ Jurie, F.  \harvardyearleft
 \harvarditem{Wickham}{2016}{ggplot2}
 Wickham, H.  \harvardyearleft 2016\harvardyearright , {\em ggplot2: Elegant
   Graphics for Data Analysis}, Springer-Verlag New York.
-\newline\harvardurl{https://ggplot2.tidyverse.org}
+\newline\harvardurl{\url{https://ggplot2.tidyverse.org}}
 
 \harvarditem[Wolfson et~al.]{Wolfson, Wallace, Masca, Rowe, Sheehan, Ferretti,
   LaFlamme, Tobin, Macleod, Little, Fortier, Knoppers \harvardand\
@@ -748,17 +753,17 @@ Wolfson, M., Wallace, S.~E., Masca, N., Rowe, G., Sheehan, N.~A., Ferretti, V.,
   `{DataSHIELD}: resolving a conflict in contemporary bioscience—performing a
   pooled analysis of individual-level data without sharing the data', {\em
   International Journal of Epidemiology} {\bf 39}(5),~1372--1382.
-\newline\harvardurl{http://ije.oxfordjournals.org/content/39/5/1372}
+\newline\harvardurl{\url{http://ije.oxfordjournals.org/content/39/5/1372}}
 
 \harvarditem{Xianyi \harvardand\ Kroeker}{2020}{openblas}
 Xianyi, Z. \harvardand\ Kroeker, M.  \harvardyearleft 2020\harvardyearright ,
   `{OpenBLAS}: {An} optimized {BLAS} library'.
-\newline\harvardurl{http://www.openblas.net/}
+\newline\harvardurl{\url{http://www.openblas.net/}}
 
 \harvarditem{Yuret}{2016}{knetjl}
 Yuret, D.  \harvardyearleft 2016\harvardyearright , `{Knet} - {Koç}
   {University} deep learning framework for {Julia}'.
-\newline\harvardurl{https://github.com/denizyuret/Knet.jl}
+\newline\harvardurl{\url{https://github.com/denizyuret/Knet.jl}}
 
 \harvarditem[Zappa~Nardelli et~al.]{Zappa~Nardelli, Belyakova, Pelenitsyn,
   Chung, Bezanson \harvardand\ Vitek}{2018}{zappa_nardelli_julia_2018}
@@ -770,6 +775,6 @@ Zappa~Nardelli, F., Belyakova, J., Pelenitsyn, A., Chung, B., Bezanson, J.
 \harvarditem{Zhang}{2018}{mochajl}
 Zhang, C.  \harvardyearleft 2018\harvardyearright , `{Mocha.jl} - deep learning
   framework for {Julia}'.
-\newline\harvardurl{https://github.com/pluskid/Mocha.jl}
+\newline\harvardurl{\url{https://github.com/pluskid/Mocha.jl}}
 
 \end{thebibliography}
