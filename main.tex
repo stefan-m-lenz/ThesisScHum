@@ -163,10 +163,11 @@ This applies, e.g., to the MIRACUM consortium \citep{prokosch_miracum_2018}, whi
 One of the goals there is to jointly analyze data that is distributed across multiple sites.
 Pooling the data of all patients for joint analysis is inhibited by data protection laws.
 Therefore, alternative ways of analyzing the data must be sought. 
-The DataSHIELD software \citep{gaye_datashield,budin-ljosne_datashield}, which 
-TODO several approaches, e.g. synthpop. \citep{bonofiglio2020}. deep learning models as generative models capture more complicated structure
-compare with no deep learning approaches. compare in a distributed setting.
-The question is here, whether deep learning techniques can be used to create synthetic data and whether they pose an increased risk with respect to violations of privacy when generating synthetic data.
+One way to conduct analyses across distributed data is provided by the DataSHIELD software \citep{gaye_datashield,budin-ljosne_datashield}.
+This has been used in several multicenter projects conducting epidemiological studies \citep{doiron_datashield_2013, pastorino_datashield_2019, oluwagbemigun_datashield_2020}.
+With DataSHIELD, many common statistical analyses can be conducted.
+Generating synthetic data in DataSHIELD has also already been explored for enabling analyses that were previously not possible \citep{bonofiglio2020}.
+The question is here, whether deep learning techniques can also be brought to DataSHIELD for creating synthetic data, and whether they pose an increased risk with respect to violations of privacy.
 
 %Multimodal DBMs have been used by Srivastava et al. for image captions \citep{srivastava2012multimodal}.
 %Here we want to broaden the scope a little bit and present an extensible approach for creating deep Boltzmann architectures with different types of visible units and flexible partitioned hidden layers. Training of such architectures ....
@@ -178,7 +179,7 @@ The question is here, whether deep learning techniques can be used to create syn
 
 Unsupervised learning is also called self-supervised learning if the model is designed to predict parts of the input from other parts \citep{lecun_selfsupervised_2019}.
 One advantage of DBMs is that it is particularly easy to perform such predictions of parts of data based on other parts.
-This can be achieved via conditional sampling, i.e., drawing from the learned distribution conditioned on certain values of input variables.
+This can be achieved via conditional sampling, i.e., drawing from the learned distribution conditioned on certain values of input variables \citep{salakhutdinov2015generativemodels}.
 The flexibility in conditional sampling separates DBMs from VAEs and GANs, where this is not possible.
 Variants of VAEs and GANs have been proposed for this, called {\em conditional VAEs} \citep{cvae} and {\em conditional GANs} \citep{cgan}.
 The latter has also been applied to gene expression data \citep{wang_conditional_2018}.
@@ -186,6 +187,7 @@ There, the prediction of gene activation from so-called landmark genes, which ar
 For this, and in conditional VAEs and conditional GANs in general, the variables that are used as conditions need to be specified in the training.
 DBMs have the advantage that the specification of specific variables as conditions is not necessary and conditions can be set on arbitrary variables.
 Conditional sampling in DBMs could therefore be used to simulate the regulation of arbitrary gene expression patterns based on a DBM model that has been trained on genetic expression data.
+Such a model that has learned the overall structure of a data set is then also able to utilize the information about the whole distribution when making inferences about about smaller subgroups.
 
 Apparently deep Boltzmann machines exhibit promising qualities for deep learning on biomedical data, where limited sample size and privacy restrictions are common challenges.
 An additional big challenge for deep learning on biomedical data is finding good hyperparameters for the optimization algorithms \citep{min_deep_2017}.

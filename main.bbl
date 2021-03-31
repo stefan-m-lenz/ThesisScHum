@@ -211,6 +211,17 @@ Dinur, I. \harvardand\ Nissim, K.  \harvardyearleft 2003\harvardyearright ,
   NY, USA, pp.~202--210.
 \newline\harvardurl{\url{https://doi.org/10.1145/773153.773173}}
 
+\harvarditem[Doiron et~al.]{Doiron, Burton, Marcon, Gaye, Wolffenbuttel,
+  Perola, Stolk, Foco, Minelli, Waldenberger, Holle, Kvaløy, Hillege, Tassé,
+  Ferretti \harvardand\ Fortier}{2013}{doiron_datashield_2013}
+Doiron, D., Burton, P., Marcon, Y., Gaye, A., Wolffenbuttel, B. H.~R., Perola,
+  M., Stolk, R.~P., Foco, L., Minelli, C., Waldenberger, M., Holle, R.,
+  Kvaløy, K., Hillege, H.~L., Tassé, A.-M., Ferretti, V. \harvardand\
+  Fortier, I.  \harvardyearleft 2013\harvardyearright , `Data harmonization and
+  federated analysis of population-based studies: the {BioSHaRE} project', {\em
+  Emerging Themes in Epidemiology} {\bf 10}(1),~12.
+\newline\harvardurl{\url{https://doi.org/10.1186/1742-7622-10-12}}
+
 \harvarditem[Doiron et~al.]{Doiron, Marcon, Fortier, Burton \harvardand\
   Ferretti}{2017}{opal}
 Doiron, D., Marcon, Y., Fortier, I., Burton, P. \harvardand\ Ferretti, V.
@@ -568,6 +579,34 @@ Nußberger, J., Boesel, F., Lenz, S., Binder, H. \harvardand\ Hess, M.
   Briefings in Bioinformatics} .
 \newline\harvardurl{\url{https://academic.oup.com/bib/advance-article/doi/10.1093/bib/bbaa226/5917048}}
 
+\harvarditem[Oluwagbemigun et~al.]{Oluwagbemigun, Foerster, Watkins, Fouhy,
+  Stanton, Bergmann, Boeing \harvardand\
+  Nöthlings}{2020}{oluwagbemigun_datashield_2020}
+Oluwagbemigun, K., Foerster, J., Watkins, C., Fouhy, F., Stanton, C., Bergmann,
+  M.~M., Boeing, H. \harvardand\ Nöthlings, U.  \harvardyearleft
+  2020\harvardyearright , `Dietary {Patterns} {Are} {Associated} with {Serum}
+  {Metabolite} {Patterns} and {Their} {Association} {Is} {Influenced} by {Gut}
+  {Bacteria} among {Older} {German} {Adults}', {\em The Journal of Nutrition}
+  {\bf 150}(1),~149--158.
+\newline\harvardurl{\url{https://doi.org/10.1093/jn/nxz194}}
+
+\harvarditem[Pastorino et~al.]{Pastorino, Bishop, Crozier, Granström, Kordas,
+  Küpers, O'Brien, Polanska, Sauder, Zafarmand, Wilson, Agyemang, Burton,
+  Cooper, Corpeleijn, Dabelea, Hanke, Inskip, McAuliffe, Olsen, Vrijkotte,
+  Brage, Kennedy, O'Gorman, Scherer, Wijndaele, Wareham, Desoye \harvardand\
+  Ong}{2019}{pastorino_datashield_2019}
+Pastorino, S., Bishop, T., Crozier, S.~R., Granström, C., Kordas, K., Küpers,
+  L.~K., O'Brien, E.~C., Polanska, K., Sauder, K.~A., Zafarmand, M.~H., Wilson,
+  R.~C., Agyemang, C., Burton, P.~R., Cooper, C., Corpeleijn, E., Dabelea, D.,
+  Hanke, W., Inskip, H.~M., McAuliffe, F.~M., Olsen, S.~F., Vrijkotte, T.~G.,
+  Brage, S., Kennedy, A., O'Gorman, D., Scherer, P., Wijndaele, K., Wareham,
+  N.~J., Desoye, G. \harvardand\ Ong, K.~K.  \harvardyearleft
+  2019\harvardyearright , `Associations between maternal physical activity in
+  early and late pregnancy and offspring birth size: remote federated
+  individual level meta-analysis from eight cohort studies', {\em BJOG: An
+  International Journal of Obstetrics \& Gynaecology} {\bf 126}(4),~459--470.
+\newline\harvardurl{\url{https://obgyn.onlinelibrary.wiley.com/doi/abs/10.1111/1471-0528.15476}}
+
 \harvarditem[Paszke et~al.]{Paszke, Gross, Massa, Lerer, Bradbury, Chanan,
   Killeen, Lin, Gimelshein, Antiga, Desmaison, Kopf, Yang, DeVito, Raison,
   Tejani, Chilamkurthy, Steiner, Fang, Bai \harvardand\
@@ -602,7 +641,7 @@ Prokosch, H.-U., Acker, T., Bernarding, J., Binder, H., Boeker, M., Boerries,
   \harvardand\ Storf, H.  \harvardyearleft 2018\harvardyearright , `{MIRACUM}:
   {Medical} {Informatics} in {Research} and {Care} in {University} {Medicine}',
   {\em Methods of Information in Medicine} {\bf 57}(S 1),~e82--e91.
-\newline\harvardurl{http://www.thieme-connect.de/DOI/DOI?10.3414/ME17-02-0025}
+\newline\harvardurl{\url{http://www.thieme-connect.de/DOI/DOI?10.3414/ME17-02-0025}}
 
 \harvarditem[Quick et~al.]{Quick, Holan \harvardand\
   Wikle}{2018}{quick_generating_2018}
