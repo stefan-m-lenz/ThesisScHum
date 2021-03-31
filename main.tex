@@ -158,10 +158,15 @@ In a comparison of GANs, VAEs and DBMs on genetic variant data of different rath
 Besides generating data, DBMs and VAEs can be used for dimensionality reduction by analysing the activation in higher-level layers of the network, which encode features of increasing complexity in the data.
 This has, e.g., been applied to find patterns in gene expression data \citep{ding_interpretable_2018, hess_exploring_2020}.
 
-Another possible application of generative models is to create synthetic data for privacy-preserving analyses of data that cannot be pooled due to data protection concerns.
-This applies, e.g., to the MIRACUM consortium \citep{prokosch_miracum_2018}, which includes ten German University hospitals.
-One of the goals there is to jointly analyze data that is distributed across multiple sites.
-Pooling the data of all patients for joint analysis is inhibited by data protection laws.
+Another possible application of generative models is to create synthetic data for privacy-preserving analyses.
+Synthetic data is data that has similar properties to original data but that is not linked to individual samples of the original data.
+In the same way as the previously mentioned generated paintings are not simply modified versions of original paintings but entirely new fabrications,
+synthetic patient data is not created from single patients but from the distribution of patient characteristics that have been learned by a generative model.
+The advantage of this generated synthetic data is that it can be used with less data protection restrictions of the original data as it does not contain individual-level data.
+This can be useful in settings where data is distributed and sharing the data of individuals is prohibited due to privacy concerns.
+For example, in the MIRACUM consortium \citep{prokosch_miracum_2018}, which includes ten German University hospitals,
+one of the goals is to jointly analyze data that is distributed across multiple sites.
+However, pooling the data of all patients for joint analysis is not possible because of data protection laws.
 Therefore, alternative ways of analyzing the data must be sought. 
 One way to conduct analyses across distributed data is provided by the DataSHIELD software \citep{gaye_datashield,budin-ljosne_datashield}.
 This has been used in several multicenter projects conducting epidemiological studies \citep{doiron_datashield_2013, pastorino_datashield_2019, oluwagbemigun_datashield_2020}.
