@@ -2276,16 +2276,16 @@ Neben kleiner Stichproben kann der Datenschutz eine zusätzliche Hürde für die
 Um in solchen Fällen dennoch Analysen durchführen zu können, ist es eine Option, auf die Erzeugung von synthetischen Daten zurückzugreifen.
 Synthetische Daten können die Struktur der Originaldaten abbilden, unterliegen aber einem geringeren Schutz als diese.
 Hierzu werden DBMs mit anderen populären generativen Ansätzen bezüglich der Qualität der erzeugten synthetischen Daten und des Risikos von Datenlecks verglichen.
-Dabei werden neben Generative Adversarial Networks (GANs) und Variational Autoencoders (VAEs) auch einfachere Methoden als Referenz herangezogen.
-Die Experimente zeigen, dass DBMs in solchen Szenarien selbst bei kleinen Stichprobengrößen an verschiedenen Standorten anwendbar sind.
+Dabei werden neben Generative Adversarial Networks (GANs) und Variational Autoencoders (VAEs), die ebenfalls aus tiefen neuronalen Netzen bestehen, auch einfachere Methoden wie die multiple Imputation mittels logistischer Regressionsmodelle betrachtet.
+Die Experimente zeigen, dass DBMs in verteilten Szenarien selbst bei kleinen Stichprobengrößen an verschiedenen Standorten anwendbar sind.
 VAEs zeigten eine zu DBMs vergleichbare Leistung, während die anderen Ansätze deutlich schlechter abschnitten.
 
 Schließlich wird eine softwaretechnische Umsetzung von DBMs auf Basis der DataSHIELD-Infrastruktur vorgestellt. DataSHIELD ist ein Framework zur Durchführung von datenschutzkonformen Analysen auf verteilten Daten, das auf der Programmiersprache R basiert.
 Da es keine Umsetzung von DBMs in R gibt, war eine Sprachschnittstelle notwendig, um die Funktionalität des \apkg{BoltzmannMachines}-Pakets in R verfügbar zu machen.
-Es gibt zwei andere Pakete, \apkg{JuliaCall} und \apkg{XRJulia}, die es ebenfalls ermöglichen, R mit Julia zu verbinden, aber sie boten nicht alle notwendigen Funktionen.
-Deswegen wurde eine neue Lösung geschaffen, die eine komfortable interaktive Handhabung bietet und gleichzeitig einen besonderen Fokus auf die notwendige Stabilität für eine Produktivumgebung legt.
+Zwei Pakete, \apkg{JuliaCall} und \apkg{XRJulia}, ermöglichten es bereits, R mit Julia zu verbinden, boten aber nicht alle notwendigen Funktionen.
+Darum wurde eine neuer Ansatz verfolgt, der eine komfortable interaktive Handhabung bietet und gleichzeitig einen besonderen Fokus auf die notwendige Stabilität für eine Produktivumgebung legt.
 Das resultierende \apkg{JuliaConnectoR} R-Paket wurde offiziell im Comprehensive R Archive Network (CRAN) registriert.
-Damit wurde auch auf der technischen Seite gezeigt, dass Deep-Learning-Algorithmen für verteilte, datenschutzkonforme Analysen in DataSHIELD verwendet werden können.
+Mit dieser Lösung wurde auch auf der technischen Seite gezeigt, dass Deep-Learning-Algorithmen für verteilte, datenschutzkonforme Analysen in DataSHIELD verwendet werden können.
 
 
 \clearpage
