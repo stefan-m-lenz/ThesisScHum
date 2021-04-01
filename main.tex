@@ -3,6 +3,7 @@
 \date{\today}
 
 \documentclass[12pt]{article}
+\usepackage[ngerman,english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{natbib}
 \usepackage[toc,page,title]{appendix}
@@ -103,6 +104,7 @@
 \newpage
 \onehalfspacing
 \setlength{\emergencystretch}{3em}
+\selectlanguage{english}
 
 \section*{Abstract}
 
@@ -116,9 +118,9 @@ To make DBMs available for experimentation, an easily extensible implementation 
 The implementation offers several unique features, in particular for evaluation and monitoring of the training of DBMs.
 This is especially important for biomedical data sets, where finding good hyperparameters is hard due to the diversity of the data.
 
-In addition to small sample sizes, data protection constraints may impose an additional challenge for analyzing biomedical data, in particular, if the data is distributed across different sites.
+In addition to small sample sizes, data protection constraints may impose an additional challenge for analyzing biomedical data, in particular, if the data is distributed across different sites and cannot be pooled for the analysis.
 One approach for conducting privacy-preserving analyses in such a setting is to generate synthetic data, which captures the important structure of the original data of the individuals and, at the same time, can be used with less data protection constraints as the original data.
-For this, we compare DBMs with other popular generative approaches, namely generative adversarial networks (GANs) and variational autoencoders (VAEs) with respect to generative performance and disclosure risk.
+For this, DBMs are compared with other popular generative approaches, namely generative adversarial networks (GANs) and variational autoencoders (VAEs) with respect to generative performance and disclosure risk.
 In addition to these neural network approaches, simpler methods such as multiple imputation by chained equations (MICE) and independent marginals (IM) are also considered as references.
 The experiments show the feasibility of DBMs as a generative approach in distributed settings, even with small sample sizes at different sites.
 VAEs showed also a comparable performance to DBMs in this setting, while the other approaches performed considerably worse.
@@ -2262,10 +2264,29 @@ This is only the client side part of the software for training deep Boltzmann ma
 \url{https://github.com/stefan-m-lenz/dsBoltzmannMachines}.
 
 \input{appendix/dsBoltzmannMachinesClient_Doku}
-
+\selectlanguage{ngerman}
 \clearpage
 \section{Zusammenfassung (deutsch)}
-TODO, 1 Seite
+Deep Boltzmann Machines (DBMs) sind ein vielversprechender Ansatz für Deep Learning auf Daten mit kleinem Stichprobenumfang, was bei biomedizinischen Datensätzen häufig der Fall ist.
+Um DBMs einfach handhaben zu können, wurde das \apkg{BoltzmannMachines} Programmpaket in der Programmiersprache Julia erstellt, welches mittlerweile auch im offiziellen Paket-Repositorium für Julia registriert ist.
+Das Paket weist mehrere Alleinstellungsmerkmale auf, insbesondere was die Evaluation des Lernprozesses betrifft.
+Besonders relevant ist diese Funktionalität für biomedizinische Datensätze, bei denen die Wahl der Trainings-Hyperparameter aufgrund der Diversität der Datensätze immer wieder eine neue Herausforderung darstellt.
+
+Neben kleiner Stichproben kann der Datenschutz eine zusätzliche Hürde für die Analyse biomedizinischer Daten darstellen, insbesondere wenn Daten über verschiedene Standorte verteilt sind und nicht zusammengeführt werden dürfen.
+Um in solchen Fällen dennoch Analysen durchführen zu können, ist es eine Option, auf die Erzeugung von synthetischen Daten zurückzugreifen.
+Synthetische Daten können die Struktur der Originaldaten abbilden, unterliegen aber einem geringeren Schutz als diese.
+Hierzu werden DBMs mit anderen populären generativen Ansätzen bezüglich der Qualität der erzeugten synthetischen Daten und des Risikos von Datenlecks verglichen.
+Dabei werden neben Generative Adversarial Networks (GANs) und Variational Autoencoders (VAEs) auch einfachere Methoden als Referenz herangezogen.
+Die Experimente zeigen, dass DBMs in solchen Szenarien selbst bei kleinen Stichprobengrößen an verschiedenen Standorten anwendbar sind.
+VAEs zeigten eine zu DBMs vergleichbare Leistung, während die anderen Ansätze deutlich schlechter abschnitten.
+
+Schließlich wird eine softwaretechnische Umsetzung von DBMs auf Basis der DataSHIELD-Infrastruktur vorgestellt. DataSHIELD ist ein Framework zur Durchführung von datenschutzkonformen Analysen auf verteilten Daten, das auf der Programmiersprache R basiert.
+Da es keine Umsetzung von DBMs in R gibt, war eine Sprachschnittstelle notwendig, um die Funktionalität des \apkg{BoltzmannMachines}-Pakets in R verfügbar zu machen.
+Es gibt zwei andere Pakete, \apkg{JuliaCall} und \apkg{XRJulia}, die es ebenfalls ermöglichen, R mit Julia zu verbinden, aber sie boten nicht alle notwendigen Funktionen.
+Deswegen wurde eine neue Lösung geschaffen, die eine komfortable interaktive Handhabung bietet und gleichzeitig einen besonderen Fokus auf die notwendige Stabilität für eine Produktivumgebung legt.
+Das resultierende \apkg{JuliaConnectoR} R-Paket wurde offiziell im Comprehensive R Archive Network (CRAN) registriert.
+Damit wurde auch auf der technischen Seite gezeigt, dass Deep-Learning-Algorithmen für verteilte, datenschutzkonforme Analysen in DataSHIELD verwendet werden können.
+
 
 \clearpage
 \section{Eidesstattliche Versicherung}
