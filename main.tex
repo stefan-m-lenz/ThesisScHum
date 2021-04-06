@@ -238,7 +238,7 @@ A Boltzmann machine model with parameters $\Theta$ defines a probability distrib
 \end{equation}
 The normalizing factor $Z$, the so called \emph{partition function}, is defined as $Z = \int_{\Omega} e^{-E(x)} dx$. In case of a discrete probability distribution, this can be written as $Z = \sum_{v,h}e^{-E(v,h)}$ where the sum goes over all possible combinations of $v$ and $h$.
 The term in the denominator $p^*(v,h) = e^{-E(v,h)}$ is called \emph{unnormalized probability}.
-The probability space is divided into dimensions of observed variables (subsumed in vector $v$) and hidden/latent variables (in $h$), corresponding to visible and hidden nodes in the graphical representation, see figure \ref{fig:bmsoverview}.
+The probability space is divided into dimensions of observed variables (subsumed in vector $v$) and hidden/latent variables (in $h$), corresponding to visible and hidden nodes in the graphical representation, see Figure \ref{fig:bmsoverview}.
 
 The so called \emph{free energy}, a notation also inspired by physics, is defined as
 \[
@@ -259,7 +259,7 @@ With these basic properties defined, we can go further to take a look at the det
 Here we only consider the special cases of restricted Boltzmann machines and (multimodal) deep Boltzmann machines.
 These models have restrictions on their parameterization compared to a general Boltzmann machine.
 The restrictions correspond to a layered design of their graphs.
-For an intuitive overview of the architectures of the different types that are considered here, see figure \ref{fig:bmsoverview}.
+For an intuitive overview of the architectures of the different types that are considered here, see Figure \ref{fig:bmsoverview}.
 
 \begin{figure}[h]
 
@@ -275,7 +275,7 @@ For an intuitive overview of the architectures of the different types that are c
 
 \subsubsection{Basic properties of restricted Boltzmann machines}\label{rbmtypes}
 
-\emph{Restricted Boltzmann machines} \citep{smolensky1986foundations}, or RBMs,  consist of two layers, a visible layer $v$, which receives the input data, and a hidden layer $h$, which encodes latent features of the data. For a graphical depiction, see figure \ref{fig:bmsoverview}B.
+\emph{Restricted Boltzmann machines} \citep{smolensky1986foundations}, or RBMs,  consist of two layers, a visible layer $v$, which receives the input data, and a hidden layer $h$, which encodes latent features of the data. For a graphical depiction, see Figure \ref{fig:bmsoverview}B.
 The nodes inside the same layer are not connected to each other, and therefore, the network has the form of a bipartite graph.
 Although other distributions are also possible for the hidden nodes \citep{hinton_practical_2012}, we only consider RBMs with Bernoulli distributed hidden nodes, and therefore only consider data representations via discrete features.
 The types of RBMs presented in the following may, however, differ in the distribution of their visible nodes, which makes them suitable for modeling different types of input data.
@@ -287,9 +287,9 @@ The most basic model in this class of models are restricted Boltzmann machines w
 \end{equation}
 
 The parameters of the model are $\Theta = (W, a, b)$ with \emph{weight matrix} $W$, vector $a$ as the \emph{visible bias}, and $b$ as the \emph{hidden bias}.
-The weights correspond to the connections between the visible and hidden units in a weighted graph, as shown in figure \ref{fig:bmsoverview}.
+The weights correspond to the connections between the visible and hidden units in a weighted graph, as shown in Figure \ref{fig:bmsoverview}.
 The bias variables are usually not depicted in graph views of neural networks, but they are equivalent to adding additional nodes to the model that always have the value one. The visible bias corresponds to the weights on the connections to an additional node that is connected to all nodes of the visible layer, and the hidden bias corresponds to the weights on the connections to an additional node that is connected to all nodes of the hidden layer. The bias variables serve to set a basic level of activation of the nodes, which is then modified by the input from the connected units.
-To see the mapping from the parameters in the formula to the network view, see figure \ref{fig:rbmweights}.
+To see the mapping from the parameters in the formula to the network view, see Figure \ref{fig:rbmweights}.
 
 \begin{figure}[h]
    \centering
@@ -474,7 +474,7 @@ Using the gradients specified above, it is possible to run the gradient optimiza
 
 The next step in the evolution deep Boltzmann machines are deep belief networks (DBNs) \citep{hinton_reducing_2006}, which have been invented to make better use of RBMs for dimensionality reduction.
 Detecting higher level features in data is hard using shallow networks such as RBMs.
-The idea of DBNs is to stack RBMs on top of each other (see figure \ref{fig:dbn}) to be able to model features of increasing complexity with an increased depth of the network.
+The idea of DBNs is to stack RBMs on top of each other (see Figure \ref{fig:dbn}) to be able to model features of increasing complexity with an increased depth of the network.
 
 \begin{figure}[h]
    \centering
@@ -503,7 +503,7 @@ The energy is defined as
 \[
 E(v, h^{(1)}, \dots, h^{(n_L)}) = - a^T v - v^T W^{(1)} h^{(1)} - \sum_{k=1}^{n_L} b^{(k)} h^{(k)} -  \sum_{k=2}^{n_L} h^{(k-1)}W^{(k)}h^{(k)}.
 \]
-For the connection between the formula and the resulting network architecture see figure  \ref{fig:dbmweights}.
+For the connection between the formula and the resulting network architecture see Figure \ref{fig:dbmweights}.
 \begin{figure}[h]
    \centering
    \includegraphics[scale=0.6]{images/dbmweights.pdf}
@@ -526,7 +526,7 @@ p\left(h^{(k)} \mid h^{(k-1)}, h^{(k+1)} \right) = \sigm \bigg( b^{(k)} + (W^{(k
 \end{equation}
 for all other intermediate hidden layers.
 
-These conditional probabilities can be used to perform Gibbs sampling in deep Boltzmann machines (see figure \ref{fig:dbmsampling}) similar to the Gibbs sampling algorithm in restricted Boltzmann machines (as described before in \ref{condsamplingrbm}).
+These conditional probabilities can be used to perform Gibbs sampling in deep Boltzmann machines (see Figure \ref{fig:dbmsampling}) similar to the Gibbs sampling algorithm in restricted Boltzmann machines (as described before in \ref{condsamplingrbm}).
 
 \begin{figure}[h]
    \centering
@@ -541,7 +541,7 @@ These conditional probabilities can be used to perform Gibbs sampling in deep Bo
 
 In context of DBMs, the DBN learning algorithm (see \ref{dbns}) is called greedy layerwise pre-training.
 This pre-training helps the algorithm for training a general Boltzmann machine to find a better optimum.
-An intermediate layer in a DBM receives input from its neighboring layers (see formula (\ref{dbmcondprobintermediate}) and figure \ref{fig:dbmsampling}), but during pre-training it only gets input from the layer below. To account for this, the DBN training is modified for training a DBM and the input from the visible layer ($ = (W^{(1)})^T v$) and from the last hidden layer (= $W^{(n_L-1)} h^{(n_L)}$) is doubled.
+An intermediate layer in a DBM receives input from its neighboring layers (see formula (\ref{dbmcondprobintermediate}) and Figure \ref{fig:dbmsampling}), but during pre-training it only gets input from the layer below. To account for this, the DBN training is modified for training a DBM and the input from the visible layer ($ = (W^{(1)})^T v$) and from the last hidden layer (= $W^{(n_L-1)} h^{(n_L)}$) is doubled.
 \citep{salakhutdinov2009DBMs}.
 
 
@@ -592,7 +592,7 @@ This results in the following gradients for the different types of model paramet
 \frac{\partial}{\partial b^{(k)}}  \ELBO(\tilde{v}, \mu) &=  \mu^{(k)} - \EX_{P_\text{model}} h^{(k)}  &\quad ( k = 1, \dots, n_L)
 \end{align*}
 
-The expected values under the distribution of the model ($\EX_{P_\text{model}}$) are estimated like in the RBM by running a Gibbs sampler (see figure \ref{fig:dbmsampling}).
+The expected values under the distribution of the model ($\EX_{P_\text{model}}$) are estimated like in the RBM by running a Gibbs sampler (see Figure \ref{fig:dbmsampling}).
 This Gibbs sampler is run with a number of parallel persistent chains, which are called ``fantasy particles" \citep{salakhutdinov2009DBMs}. The results are averaged over the number of fantasy particles to get better estimations for the expected values in the distribution of the model.
 For the convergence of the gradient optimization, it is necessary to decrease the learning rate $\epsilon_t$ over time such that the series $\sum_{k=1}^\infty \epsilon_t^2$ converges, e.g. $\epsilon_t = \frac{c}{d+t}$ with constants $c, d > 0$ \citep{sala2012anefficient}.
 
@@ -622,7 +622,7 @@ The complexity for calculating the partition function for all the different type
 
 By using the formulas for the free energy and the symmetry of restricted Boltzmann with binary nodes, $n = \min(n_V, n_H)$ with $n_V$.
 In RBMs with one of layer Gaussian nodes and one layer of binary nodes, $n$ is the number of binary nodes, since the contribution of the Gaussian nodes can be integrated analytically.
-In case of a deep Boltzmann machine, it is possible to sum out each second layer, similar to the calculation of the free energy in restricted Boltzmann machines. So for DBMs, $n$ can be reduced to the number of nodes in each second layer, see figure \ref{aissummingout}.
+In case of a deep Boltzmann machine, it is possible to sum out each second layer, similar to the calculation of the free energy in restricted Boltzmann machines. So for DBMs, $n$ can be reduced to the number of nodes in each second layer, see Figure \ref{aissummingout}.
 
 \begin{figure}[h!]
 \centering
@@ -653,11 +653,11 @@ The factors $\beta_k$ with $0 = \beta_0 < \beta_1 < ... < \beta_K = 1$ are calle
 The choice of the temperatures, the number of importance weights and also the number of Gibbs sampling steps for the transition are hyperparameters for the AIS algorithm.
 
 With AIS it is possible to get a direct estimate of the partition function $Z_A$ of a model $A$ by annealing from the model $A$ to a null model with all weights being zero as model $B$.
-$Z_A$ can be computed from the estimation of $\frac{Z_B}{Z_A}$ because the partition function $Z_B$ of the null model can be calculated exactly. This approach is shown in figure \ref{figTwotypesais}A.
+$Z_A$ can be computed from the estimation of $\frac{Z_B}{Z_A}$ because the partition function $Z_B$ of the null model can be calculated exactly. This approach is shown in Figure \ref{figTwotypesais}A.
 
 It is also possible to compare the likelihood of two models instead of calculating it directly.
 For this, only the ratio $\frac{Z_B}{Z_A}$ between two full models needs to be estimated.
-There are two practical approaches for constructing intermediate models  for directly annealing from one full model to another full model (see also figure \ref{figTwotypesais}, B and C):
+There are two practical approaches for constructing intermediate models  for directly annealing from one full model to another full model (see also Figure \ref{figTwotypesais}, B and C):
 \begin{enumerate}
 \item Combining (adding) corresponding weights of two models of the same size to get an intermediate model of the same size.
 \item Constructing a larger model by putting the two models next to each other and connecting their nodes, increasing the energy in one part of the combined model while reducing it in the other part \citep{theis2011deepbelief}:
@@ -673,12 +673,12 @@ The weights of the first model are depicted as continuous lines, the weights of 
 The same two RBMs are compared again by annealing from a model that is equivalent to the first model to a model that is equivalent to a second model via a combined, bigger model. For this approach, both models do not necessarily have to be of the same size.}
 \label{figTwotypesais}
 \end{figure}
-The approach with a combined model (see figure \ref{figTwotypesais}C) is more flexible and allows to estimate the ratios of two arbitrary Boltzmann machines of the same type and with the same number of hidden nodes.
+The approach with a combined model (see Figure \ref{figTwotypesais}C) is more flexible and allows to estimate the ratios of two arbitrary Boltzmann machines of the same type and with the same number of hidden nodes.
 But it requires sampling in a Boltzmann machine that has as many hidden nodes as the two models together.
 
 In a DBM, it is possible to use only the states of each second layer from samples generated by running a Gibbs chain \citep{salakhutdinov2008learning}. The unnormalized probabilities of these states can be calculated by analytically summing out the other layers.
 For this, we can use the fact that the states in one layer are independent from the states of each non-adjacent layer to get the unnormalized probability $p_k^*(\tilde{h})$ for the subset $\tilde{h} = \left(h^{(1)}, h^{(3)}, \dots\right)$ of a generated sample $x = \left( v, h^{(1)}, h^{(2)}, \dots \right)$ in an intermediate model.
-The layers that can be analytically summed out are the same as the ones shown in figure \ref{aissummingout}.
+The layers that can be analytically summed out are the same as the ones shown in Figure \ref{aissummingout}.
 To calculate the ratio $\frac{p_k^*(x_k)}{p_{k-1}^*(x_{k})}$, one can derive the formula for $p^*(\tilde{h})$ in a DBM similarly to the free energy $F(v) = - \log p^*(v)$ in RBMs \citep{sala2012anefficient}. For a DBM with three hidden layers, the formula is
 \begin{align}
 p^*( \tilde{h} ) =&  e^{(b^{(1)})^T h^{(1)}} \prod_j (1+ \exp((a + W^{(1)} h^{(1)})_j)) \; \cdot \nonumber \\
@@ -686,7 +686,7 @@ p^*( \tilde{h} ) =&  e^{(b^{(1)})^T h^{(1)}} \prod_j (1+ \exp((a + W^{(1)} h^{(1
 \label{eqn:aisunnormalizedprob}
 \end{align}
 
-Here the visible layer $v$ and the second hidden layer $h^{(2)}$ have been summed out analytically, like shown in figure \ref{aissummingout}B.
+Here the visible layer $v$ and the second hidden layer $h^{(2)}$ have been summed out analytically, like shown in Figure \ref{aissummingout}B.
 
 %Note that the model for Gibbs sampling, used as the Markov transition operator, can differ from the model that is used to evaluate the unnormalized probability $p_k^*(h)$ as long as the probability distribution $p_k(h)$ of the hidden nodes is the same.
 %This trick can be used to fit AIS for GBRBMs in the same schema as RBMs with Bernoulli distributed nodes.
@@ -779,7 +779,7 @@ The energy function $E$ for RBMs with categorical data is the same as for Bernou
 The difference is that not all combinations of visible nodes are allowed. Thus the partition function $Z = \sum_{v} \sum_{h} e^{-E(v,h)}$ and the probability
 $p(v) = \frac{\sum_h e^{-E(v,h)}}{Z}$ change because the sum over all possible states of $v$ in the formula for $Z$ contains less summands than in the case with a Bernoulli distribution, where all combinations of activations are possible.
 
-For deriving the formulas for an RBM that handles the dummy encoding like exemplified in table \ref{dummenc}, let us denote with $C_k$ the set of dummy variables that the dummy variable $k$ belongs to.
+For deriving the formulas for an RBM that handles the dummy encoding like exemplified in Table \ref{dummenc}, let us denote with $C_k$ the set of dummy variables that the dummy variable $k$ belongs to.
 The visible nodes of the RBM can cover multiple categorical variables and multiple sets of dummy variables, which may differ in the number of categories.
 If the number of categories equals two for all categorical variables, this model is the same as an RBM with Bernoulli distributed nodes.
 
@@ -824,7 +824,7 @@ p(v_k = 1 \mid h) &= \frac{p(v_k = 1, h)}{p(h)} \\
 \subsubsection{Generalizing annealed importance sampling for multimodal DBMs} \label{unnormalizedprobsrbm}
 
 To generalize the evaluation of the lower bound of the likelihood in multimodal DBMs, the AIS algorithm for estimating the partition function via AIS can be generalized.
-This can be done by ``summing out" or ``integrating out" the different types of visible nodes (see figure \ref{aissummingout} C).
+This can be done by ``summing out" or ``integrating out" the different types of visible nodes (see Figure \ref{aissummingout} C).
 In section \ref{methodAIS}, AIS for binary DBMs is described.
 In formula (\ref{eqn:aisunnormalizedprob}) the binary visible layer is summed out by using the formula
 \[
@@ -1036,7 +1036,7 @@ With respect also to the biomedical data sets of rather small sample sizes, suff
 \subsubsection{Package interface}
 
 In the following, we take a closer look at how the \apkg{BoltzmannMachines} Julia package handles the different algorithms and all their different variants.
-An overview over the type relations can be found in figure \ref{umlclassdiagram}.
+An overview over the type relations can be found in Figure \ref{umlclassdiagram}.
 The diagram show the relations of the types in the \apkg{BoltzmannMachines} Julia package as a UML class diagram \citep{uml}.
 Although the Julia language does not have the concept of classes and visibility, the diagram is suited well to show the connections of the types with the most important associated functions, even if only a subset of the expressiveness of UML is needed.
 Instead of using classical object oriented inheritance such as in Java or C++, inheritance relationships (triangle-shaped arrows in the UML diagram) can be implemented in Julia using {\em multiple dispatch} of functions.
@@ -1060,7 +1060,7 @@ So always the actual run-time type of objects is used to determine the method in
 }
 
 All types of Boltzmann machines in the package have the common abstract supertype \inlinecode{AbstractBM}.
-The functions that are available for all different subtypes can be seen in figure \ref{umlclassdiagram} in the boxes below the type names.
+The functions that are available for all different subtypes can be seen in Figure \ref{umlclassdiagram} in the boxes below the type names.
 For each of the models of Boltzmann machines, it is possible to generate samples by using Gibbs sampling via the \inlinecode{samples} function.
 Conditional sampling is conveniently possible via this function (see \ref{usagesampling} and p.\ \pageref{bms_samples}).
 Functions for evaluating the likelihood are also available for all implemented Boltzmann models.
@@ -1097,7 +1097,7 @@ The reason why the function name ends with an exclamation mark is that this is a
 
 The lower bound of the likelihood, which is the optimization objective of the DBM training algorithm, can be calculated via \inlinecode{logproblowerbound}.
 This function is available for (multimodal) DBMs in addition to the ones listed for \code{AbstractBM}s.
-An overview of the functions for evaluating the likelihood in RBMs and DBMs is given in table \ref{juliaFunTableEval}.
+An overview of the functions for evaluating the likelihood in RBMs and DBMs is given in Table \ref{juliaFunTableEval}.
 
 
 \rowcolors{1}{gray!25}{white}
@@ -1146,7 +1146,7 @@ Using RBMs as building blocks allows a very flexible composition of DBMs.
 Figure \ref{mdbmimplasstack} shows how RBMs and \inlinecode{PartitionedRBM}s can be  arranged  and stacked to form \inlinecode{MultimodalDBM}s or \inlinecode{PartitionedBernoulliDBM}s.
 
 An optimization of the algorithms for DBMs that contain only Bernoulli distributed nodes such as the \inlinecode{BasicDBM} or the \inlinecode{PartitionedBernoulliDBM} is possible by implementing specialized methods for these types.
-For example, summing out nodes can be done more flexibly and effectively in DBMs with only Bernoulli distributed nodes (see figure \ref{aissummingout}).
+For example, summing out nodes can be done more flexibly and effectively in DBMs with only Bernoulli distributed nodes (see Figure \ref{aissummingout}).
 
 \begin{figure}[h]
    \centering
@@ -1165,7 +1165,7 @@ The methods listed there are implemented for all subtypes of RBMs in the package
 The function \inlinecode{samplehidden} and \inlinecode{samplevisible} are used for Gibbs sampling to sample from $p(h|v)$ and $p(v|h)$, respectively (see \ref{gibbssamplingrbm}).
 The functions \inlinecode{hiddenpotential} and \inlinecode{visiblepotential} calculate the deterministic activation potential $\EX_v p(h|v)$ and $\EX_h p(v|h)$, which is used for RBM training and DBN training (see \ref{dbns}).
 As recommended by \cite{hinton_practical_2012} the activation potential is used for the last update of the hidden units in Gibbs sampling (see section 3.1 there), and the probabilities are also used for the visible states in the last step of sampling in the model distribution (section 3.2 there).
-Calculating the \inlinecode{visiblepotential} is also needed for sampling in DBNs as shown in figure \ref{fig:dbn}, where the activation from the top layer is passed down to the visible layer in a deterministic way.
+Calculating the \inlinecode{visiblepotential} is also needed for sampling in DBNs as shown in Figure \ref{fig:dbn}, where the activation from the top layer is passed down to the visible layer in a deterministic way.
 For each of these functions for sampling and calculating the activation potential, there is also a function that is suffixed with an exclamation mark.
 These variants are mostly used in the implementation as they allow to reuse allocated space, which makes the implementation much faster.
 
@@ -1222,10 +1222,10 @@ dbm = fitdbm(x; nhiddens = [50, 20], epochs = 200,
 The learning rate and the number of epochs can also be specified for pre-training separately (see detailed description of the arguments of \inlinecode{fitdbm} on p.\ \pageref{bms_fitdbm}).
 Furthermore, the hyperparameters for pre-training the RBM layers in a DBM can be specified individually for each layer.
 For this purpose, the hyperparameters for each RBM can be defined in an array of designated objects of type \inlinecode{AbstractTrainLayer}.
-Analogously to how RBMs are arranged as building blocks in DBMs (see figure  \ref{mdbmimplasstack}), these hyperparameter definition objects can be arranged in vectors and passed to \inlinecode{fitrbm} or \inlinecode{stackrbms}.
+Analogously to how RBMs are arranged as building blocks in DBMs (see Figure \ref{mdbmimplasstack}), these hyperparameter definition objects can be arranged in vectors and passed to \inlinecode{fitrbm} or \inlinecode{stackrbms}.
 Objects of type \inlinecode{TrainLayer} are then translated to RBMs and objects of type \inlinecode{TrainPartitionedLayer} to partitioned RBMs.
 For illustrating this, let us assume here that \inlinecode{x} has only 6 variables.
-Then the code in listing \ref{lst:partdbm} results in a model shown in figure \ref{fig:smallpartitioneddbm}.
+Then the code in listing \ref{lst:partdbm} results in a model shown in Figure \ref{fig:smallpartitioneddbm}.
 
 \begin{figure}[h]
    \centering
@@ -1322,8 +1322,8 @@ fitrbm(x; epochs = 20,
 \end{lstlisting}
 
 The \inlinecode{fitdbm} function allows to monitor the pre-training as well as the fine-tuning.
-An overview of the most important pre-defined functions that can be used for monitoring can be found in table \ref{monfun}.
-For each of the training functions in table \ref{juliaFunTableTrain}, there is also a function prefixed with ``\inlinecode{monitoring\_}", which allows to write the monitoring with functions in table \ref{monfun} in a compact way.
+An overview of the most important pre-defined functions that can be used for monitoring can be found in Table \ref{monfun}.
+For each of the training functions in Table \ref{juliaFunTableTrain}, there is also a function prefixed with ``\inlinecode{monitoring\_}", which allows to write the monitoring with functions in Table \ref{monfun} in a compact way.
 This works also for other user-defined functions that accept the same input arguments as the pre-defined monitoring functions.
 
 \begin{lstlisting}[language=Julia,caption={Monitoring pre-training and fine-tuning}, label={lst:monfitdbm}]
@@ -1376,7 +1376,7 @@ using BoltzmannMachinesPlots
 \end{lstlisting}
 
 The \inlinecode{plotevaluation} function, which is defined there, takes care of plotting the information of a \inlinecode{Monitor} object.
-For examples of such monitoring plots, see figure \ref{fig:monitoring_bmplots}.
+For examples of such monitoring plots, see Figure \ref{fig:monitoring_bmplots}.
 \begin{lstlisting}[language=Julia]
 plotevaluation(monitors[1]) # pre-training of first RBM layer
 plotevaluation(monitors[3]) # fine-tuning
@@ -1500,7 +1500,7 @@ DataSHIELD ({\em D}ata {\em A}ggregation {\em T}hrough
 lev{\em EL} {\em D}atabases) \citep{budin-ljosne_datashield} is open source software for the privacy-preserving analysis of individual-level data that may be distributed across different sites.
 Most of the algorithms implemented in DataSHIELD rely on communicating aggregated statistics instead of individual data.
 These are considered to be sufficiently non-disclosive to be shared across sites.
-The basic principle of the software is shown in figure \ref{fig:datashieldprinciple}.
+The basic principle of the software is shown in Figure \ref{fig:datashieldprinciple}.
 
  \begin{figure}[h]
    \centering
@@ -1538,7 +1538,7 @@ To implement an algorithm in DataSHIELD, it needs to be reformulated to rely sol
 This is not possible for all algorithms.
 It may also be very complicated to achieve, or it may be that this work simply has not been done yet.
 Using synthetic data can be an alternative in these cases \citep{bonofiglio2020, manriquevallier_bayesian_2018, synthpop, quick_generating_2018}.
-A workflow of how synthetic data can be used in a distributed setting is depicted in figure \ref{fig:syntheticdataprinciple}.
+A workflow of how synthetic data can be used in a distributed setting is depicted in Figure \ref{fig:syntheticdataprinciple}.
 
 \begin{figure}[h]
    \centering
@@ -1658,7 +1658,7 @@ This proportion grows if the similarity  between the generated data and the trai
 
 \subsection{An experiment with simulated genetic variant data}\label{simuexp}
 
-The experiment investigates whether the approach of generating data in a distributed manner across different sites, as depicted in figure \ref{fig:syntheticdataprinciple}, is feasible using DBMs.
+The experiment investigates whether the approach of generating data in a distributed manner across different sites, as depicted in Figure \ref{fig:syntheticdataprinciple}, is feasible using DBMs.
 In particular interesting is how the number of participating sites and the numbers of samples at each sites influence the quality of the synthetic data.
 
 The experiment is based on simulated genetic variant data with patterns that are clearly visible in a binary heatmap with a hierarchical clustering \citep{hclust} of the  samples.
@@ -1696,7 +1696,7 @@ If a group like the groups of 5 SNP variables is present in patients with a cert
 
 \subsubsection{Results}\label{simuexpresults}
 
-A hierarchical clustering view of the data is shown in figure \ref{fig:distclustersnps}, panel A.
+A hierarchical clustering view of the data is shown in Figure \ref{fig:distclustersnps}, panel A.
 The most obvious structures there are the black blocks.
 These result from the five subgroups in the ``cases'' as the hierarchical clustering algorithms manages to group those samples together.
 In the original data, these black blocks are very solid as all samples in each subgroup are assigned to one cluster.
@@ -1715,7 +1715,7 @@ Different synthetic data sets are depicted in panels B, C and D.
 From panel B, where synthetic data from a single DBM is shown, one can see that using synthetic data instead of the original data leads to some bias, as the black blocks are not as dense as in the original data, which means that there is some additional noise in the generated synthetic data.
 Nevertheless, it is clearly visible in the synthetic data that there is a strong correlation between the specific variables in subgroups of samples.
 This shows that a DBM is able to learn such patterns.
-When the data is split between different sites/DBMs as shown in figure \ref{fig:experimentalsetup}, the blocks become less clear and the noise increases.
+When the data is split between different sites/DBMs as shown in Figure \ref{fig:experimentalsetup}, the blocks become less clear and the noise increases.
 Panel D shows an extreme case, where there are 20 sites with only 25 samples per site.
 Still, blocks in the respective variables are visible.
 But the noise outside of the blocks is captured less well, and artifacts from noise increase as the model has fewer samples to learn from.
@@ -1724,7 +1724,7 @@ As architecture of the DBMs, two hidden layers with 50 and 10 hidden nodes were 
 A learning rate of 0.001 was used for pre-training and a initial learning rate of 0.1 was used for fine-tuning.
 Both pre-training and fine-tuning use 30 training epochs.
 
-Summed up, the results of the experiment indicate that using DBMs on distributed data for generating synthetic data (see figure \ref{fig:syntheticdataprinciple} in \ref{syntheticdata_ds}) can be a suitable approach for analyzing higher-level patterns in data.
+Summed up, the results of the experiment indicate that using DBMs on distributed data for generating synthetic data (see Figure \ref{fig:syntheticdataprinciple} in \ref{syntheticdata_ds}) can be a suitable approach for analyzing higher-level patterns in data.
 
 \FloatBarrier
 \subsection{An experiment for comparing different distributed generative approaches on real genetic variant data}\label{realexp}
@@ -1758,7 +1758,7 @@ From the 5008 samples, 500 samples are used in the training data sets, 100 in th
 
 To evaluate different generative approaches in a distributed setting,
 the setup of the experiment is very similar to the one with the simulated data shown in section \ref{simuexp}.
-In the same way as described in \ref{simuexpsetup} and shown in figure \ref{fig:experimentalsetup},
+In the same way as described in \ref{simuexpsetup} and shown in Figure \ref{fig:experimentalsetup},
 the training data is distributed among different sites, and then different models are trained at the sites on their share of the data.
 Further, the models at the different sites generate synthetic data, which are then compiled into a joint synthetic data set.
 The joint synthetic data sets are finally used for the evaluation.
@@ -1782,7 +1782,7 @@ The test data sets for the simulated membership attacks comprise 500 samples fro
 \FloatBarrier
 \subsubsection{Results}\label{realexpresults}
 
-The results of the comparison with respect to the performance of the different approaches are shown in figure \ref{fig:rmseodds} and table \ref{tab:distgenresults_rmse}.
+The results of the comparison with respect to the performance of the different approaches are shown in Figure \ref{fig:rmseodds} and Table \ref{tab:distgenresults_rmse}.
 There, the distance $d(x_{gen},x_{val})$, which has been defined in \ref{measuringperformance}, is used as performance metric.
 This distance measures how well the bivariate associations between all combinations of variables in the original data are preserved in the synthetic data.
 The effect of the sample size and the number of participating sites can be seen by comparing the results for using the whole data set (``One site''), and splitting the data on 2, 5, and 20 sites.
@@ -1801,8 +1801,8 @@ The variance of the performance of VAEs stays very constant across all the scena
 But with lower sample size, the question of the disclosure risk becomes also more critical, as the danger of copying data increases.
 Therefore, this needs also to be taken into account when comparing the models.
 The first approach for measuring the disclosure risk is by evaluating the proportion of overfitting as defined in \ref{proportionoverfitting}.
-The results for this evaluation can be found in figure \ref{fig:distgenresults_overfitting} and table \ref{tab:distgenresults_overfitting}.
-There, the same models as shown in figure \ref{fig:rmseodds} are evaluated with respect to disclosure.
+The results for this evaluation can be found in Figure \ref{fig:distgenresults_overfitting} and Table \ref{tab:distgenresults_overfitting}.
+There, the same models as shown in Figure \ref{fig:rmseodds} are evaluated with respect to disclosure.
 
 It can be seen that DBMs exhibit less overfitting than VAEs and GANs here.
 In the scenarios with two and five sites, they even overfit less than all the other approaches.
@@ -1810,13 +1810,13 @@ In the extreme scenario with 20 sites with 25 samples, the overfitting is simila
 With a decreased number of samples, the variance of the overfitting increases. This can simply be explained by the fact that if fewer samples are in the data set, they may not always represent the overall structure well.
 
 For the same models as used for assessing the overfitting, the disclosure risk is appraised via simulated membership attacks as described in \ref{membershipattack}.
-The precision and sensitivity of the membership attacks are shown in figure \ref{fig:membershipattack}.
+The precision and sensitivity of the membership attacks are shown in Figure \ref{fig:membershipattack}.
 
 To interpret the values for precision and sensitivity, one can consider the following:
 As the training and test data set for the membership attacks have equal size, a precision of 0.5 is expected for a random guess.
 Models generating synthetic data that cannot be used by the attacker to infer membership should therefore also have a precision that is close to 0.5.
 Higher values result from models generating samples that are nearer to training samples.
-Lower values can corresponds to a low sensitivity, as can be seen in figure \ref{fig:membershipattack}.
+Lower values can corresponds to a low sensitivity, as can be seen in Figure \ref{fig:membershipattack}.
 The sensitivity can be seen as a performance metric on the training data here because it quantifies the overall distance between synthetic samples and training samples.
 Therefore, a very low sensitivity means that the synthetic samples are too far removed from the training samples.
 This in turn may result in a precision that is lower than 0.5 because the attacker is simply mislead by synthetic data of bad quality.
@@ -1868,13 +1868,13 @@ VAE & \makecell{1.05 \\ (0.72 - 1.85)} & \makecell{1.02 \\ (0.68 - 1.72)} & \mak
    \captionsetup{type=figure}
    \includegraphics[scale=0.7]{images/overfitting.pdf}
    \captionof{figure}{Comparing the proportion of overfitting in DBMs, GANs, IM, MICE, and VAEs via the RMSE of log odds ratios in several settings of distributed data.
-   The data points shown stand for the same data sets and models as in figure \ref{fig:rmseodds}.}
+   The data points shown stand for the same data sets and models as in Figure \ref{fig:rmseodds}.}
    \label{fig:distgenresults_overfitting}
 
 \hskip 5pt
 
 \captionsetup{type=table}
-\caption{Quantiles of the proportion of overfitting as depicted in figure \ref{fig:distgenresults_overfitting}, summarized in the form  {\em Median} ({\em 5\% quantile} - {\em 95\% quantile}).}\label{tab:distgenresults_overfitting}.
+\caption{Quantiles of the proportion of overfitting as depicted in Figure \ref{fig:distgenresults_overfitting}, summarized in the form  {\em Median} ({\em 5\% quantile} - {\em 95\% quantile}).}\label{tab:distgenresults_overfitting}.
 \begin{tabular}{l|cccc}
 \\\\[-4\medskipamount]
 & 1 site & 2 sites & 5 sites & 20 sites \\[0.5ex]
@@ -1892,7 +1892,7 @@ VAE & \makecell{0.19 \\ (0.057 - 0.32)} & \makecell{0.27 \\ (0.062 - 0.45)} & \m
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.7]{images/membership_combined.pdf}
-\caption{Precision and sensitivity of simulated membership attacks.  The data points shown stand for the same data sets and models as in figures \ref{fig:rmseodds} and \ref{fig:distgenresults_overfitting}. The x-axes indicate different distances used by the attacker (see \ref{membershipattack}).}
+\caption{Precision and sensitivity of simulated membership attacks.  The data points shown stand for the same data sets and models as in Figure \ref{fig:rmseodds} and Figure \ref{fig:distgenresults_overfitting}. The x-axes indicate different distances used by the attacker (see \ref{membershipattack}).}
 \label{fig:membershipattack}
 \end{figure}
 
@@ -1907,8 +1907,8 @@ The subsequent experiment in \ref{realexp} measures the similarity of odds ratio
 
 Now a practical implementation of working with synthetic data in a distributed setting is presented on the basis of DBMs in DataSHIELD.
 The resulting software is the first that allows generating synthetic data in DataSHIELD using deep learning.
-The general principle for this has been sketched in figure \ref{fig:syntheticdataprinciple}.
-In figure \ref{fig:examplaryworkflow}, the workflow using the software is shown in more detail using a single site.
+The general principle for this has been sketched in Figure \ref{fig:syntheticdataprinciple}.
+In Figure \ref{fig:examplaryworkflow}, the workflow using the software is shown in more detail using a single site.
 
 \begin{figure}[h]
    \centering
@@ -1923,9 +1923,9 @@ In figure \ref{fig:examplaryworkflow}, the workflow using the software is shown 
    \label{fig:examplaryworkflow}
  \end{figure}
 
-As indicated in figure \ref{fig:examplaryworkflow}, the software consists of a client-side part and a server-side part.
+As indicated in Figure \ref{fig:examplaryworkflow}, the software consists of a client-side part and a server-side part.
 These are implemented in two separate R packages, \apkg{dsBoltzmannMachinesClient}\footnote{\url{https://github.com/stefan-m-lenz/dsBoltzmannMachinesClient}} and \apkg{dsBoltzmannMachines}\footnote{\url{https://github.com/stefan-m-lenz/dsBoltzmannMachines}}.
-The dependencies of all the parts are shown in figure \ref{fig:dsBoltzmann_dependencies}.
+The dependencies of all the parts are shown in Figure \ref{fig:dsBoltzmann_dependencies}.
 Plots from the monitoring data are produced by a separate package, \apkg{BoltzmannMachinesRPlots}\footnote{\url{https://github.com/stefan-m-lenz/BoltzmannMachinesRPlots}}, which utilizes the \apkg{ggplot2} \citep{ggplot2} package.
 Separating this functionality has the advantage that this package can also be used directly with the \apkg{BoltzmannMachines} Julia package in R via the \apkg{JuliaConnectoR} without DataSHIELD (see TODO JuliaConnectoR-part).
 For the communication with the Opal server, the Opal R client package is used, which can access functions that have been installed in a remote Opal server.
@@ -1941,7 +1941,7 @@ These wrap the functionality of the \apkg{BoltzmannMachines} Julia package via t
  
 
 
-In the following, the R code for performing the complete workflow as shown in figure \ref{fig:examplaryworkflow} is detailed.
+In the following, the R code for performing the complete workflow as shown in Figure \ref{fig:examplaryworkflow} is detailed.
 In a first step (see listing \ref{lst:dslogin}), the user has to load the \apkg{dsBoltzmannMachinesClient} package and login to the remote Opal servers.
 As the \apkg{dsBoltzmannMachinesClient} package depends on the Opal R client, that is loaded implicitly as well.
 The login function can be used to obtain a DataSHIELD login object using the URL of the Opal server and the credentials of the user.
@@ -2001,14 +2001,14 @@ Another option for data protection that can be set in the Opal server is the min
 
 The \apkg{BoltzmannMachinesRPlots} package has implicitly been loaded as well when loading the \inlinecode{dsBoltzmannMachinesClient} package. 
 With its \inlinecode{plotmonitoring} function, the learning curves can be displayed.
-The resulting curves look similar to the ones shown in figure \ref{fig:monitoring_bmplots}.
+The resulting curves look similar to the ones shown in Figure \ref{fig:monitoring_bmplots}.
 
 \begin{lstlisting}[language=R, float=!h]
 plotMonitoring(result)
 \end{lstlisting}
 
 It is also possible to spare the monitoring by passing an empty vector as \inlinecode{monitoringdata} argument.
-To get an impression of the time that the training requires, figure \ref{fig:dbmtrainingtimes} shows measurements taken with varying numbers of samples and variables.
+To get an impression of the time that the training requires, Figure \ref{fig:dbmtrainingtimes} shows measurements taken with varying numbers of samples and variables.
 As can be seen there, the training time grows linearly with the number of samples if the hyperparameters are left unchanged.
 If the number of variables is increased and the number of hidden nodes is scaled in the same proportion, the execution time grows quadratically.
 These measurements show empirically what is expected theoretically, i.e., that the algorithm has the same time complexity as matrix multiplication.
@@ -2039,13 +2039,13 @@ generated <- ds.dbm.samples(o, nsamples = 1000)
 
 It is also possible to perform a dimension reduction.
 This can be done with the function \inlinecode{ds.dbm.top2LatentDims}, which performs a PCA on the logit-transformed mean-field activations that are induced by the data in the top hidden layer of the DBM.
-An exemplary output can be seen in figure \ref{fig:dbmvspca}.
+An exemplary output can be seen in Figure \ref{fig:dbmvspca}.
 \begin{lstlisting}[language=R]
 ds.dbm.top2LatentDims(o, data = "D")
 \end{lstlisting}
 
 The resulting plot provides a clearly better dimension reduction than PCA alone in this case.
-The five subgroups of the cases and the control group (see also figure \ref{fig:distclustersnps}, panel A, for the hierarchical clustering view on the data set) form 6 distinct clusters there, which are not visible in the PCA.
+The five subgroups of the cases and the control group (see also Figure \ref{fig:distclustersnps}, panel A, for the hierarchical clustering view on the data set) form 6 distinct clusters there, which are not visible in the PCA.
 
 
  \begin{figure}[!hb]
@@ -2109,7 +2109,7 @@ Calculates the log-likelihood for a RBM/DBM (exponential complexity)\\
 \section{Discussion}
 
 \subsection{Computational performance}
-As can be seen figure \ref{fig:dbmtrainingtimes} (p.\ \pageref{fig:dbmtrainingtimes}), the performance of DBM training scales in the same way as matrix multiplication.
+As can be seen Figure \ref{fig:dbmtrainingtimes} (p.\ \pageref{fig:dbmtrainingtimes}), the performance of DBM training scales in the same way as matrix multiplication.
 For the measurements shown there, a virtual machine on a single core was used.
 If multiple cores are involved, multi-threading can speed up the matrix multiplications for large matrices.
 This is done by the highly optimized OpenBLAS library, which is employed by Julia and which is capable of multi-threading internally \citep{openblas}.
@@ -2178,7 +2178,7 @@ The heterogeneity between the models can prevent overfitting and thereby leads t
 Translating this idea to increase the quality of synthetic data could therefore be promising, in particularly in setting of small sample size, where the issue of overfitting is most important.
 Using generative ensembles has been investigated in GANs to prevent mode collapse and increase the diversity of generated samples \citep{toutouh_ensemblegan_2020}.
 For creating synthetic data, multiple models can be used to enhance the performance with respect to a performance criterion that is applied on combined data from different models.
-Experimentally this could be investigated with a similar setup to the one in the distributed experiments (see figure \ref{fig:experimentalsetup} on p. \pageref{fig:experimentalsetup}).
+Experimentally this could be investigated with a similar setup to the one in the distributed experiments (see Figure \ref{fig:experimentalsetup} on p. \pageref{fig:experimentalsetup}).
 In contrast to splitting the data set in different parts as done here, the same data but different generative approaches can be used to create the parts of the synthetic data set.
 The combined synthetic data can be assessed in a similar way as shown here with respect to performance and disclosure.
 This way, the question whether a combination of different approaches can lead to better and more diverse synthetic data could be studied further.
