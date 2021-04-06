@@ -482,11 +482,11 @@ LeCun, Y., Bengio, Y. \harvardand\ Hinton, G.  \harvardyearleft
 \newblock Number: 7553 Publisher: Nature Publishing Group.
 \newline\harvardurl{\url{https://www.nature.com/articles/nature14539}}
 
-\harvarditem{Lenz \harvardand\ Binder}{2020}{dsdbm}
-Lenz, S. \harvardand\ Binder, H.  \harvardyearleft 2020\harvardyearright ,
-  `Deep generative models in {DataSHIELD}', {\em arXiv:2003.07775 [cs, stat]} .
-\newblock arXiv: 2003.07775.
-\newline\harvardurl{\url{http://arxiv.org/abs/2003.07775}}
+\harvarditem[Lenz et~al.]{Lenz, Hess \harvardand\ Binder}{2021}{dsdbm}
+Lenz, S., Hess, M. \harvardand\ Binder, H.  \harvardyearleft
+  2021\harvardyearright , `Deep generative models in {DataSHIELD}', {\em BMC
+  Medical Research Methodology} {\bf 21}(1),~64.
+\newline\harvardurl{\url{https://doi.org/10.1186/s12874-021-01237-6}}
 
 \harvarditem[Li et~al.]{Li, Li \harvardand\
   Venkatasubramanian}{2007}{li_t-closeness:_2007}
