@@ -777,6 +777,14 @@ Toutouh, J., Hemberg, E. \harvardand\ O'Reily, U.-M.  \harvardyearleft
   evolutionary computation, {\em in} `Proceedings of the 2020 {Genetic} and
   {Evolutionary} {Computation} {Conference}', pp.~425--434.
 
+\harvarditem{van Buuren \harvardand\
+  Groothuis-Oudshoorn}{2011}{mice_buuren_2011}
+van Buuren, S. \harvardand\ Groothuis-Oudshoorn, K.  \harvardyearleft
+  2011\harvardyearright , `mice: {Multivariate} {Imputation} by {Chained}
+  {Equations} in {R}', {\em Journal of Statistical Software} {\bf
+  45}(1),~1--67.
+\newline\harvardurl{\url{https://www.jstatsoft.org/index.php/jss/article/view/v045i03}}
+
 \harvarditem{Vlad}{2019}{performancegpucpu}
 Vlad  \harvardyearleft 2019\harvardyearright , `Answer to: Training a simple
   model in {Tensorflow} {GPU} slower than {CPU}'.

@@ -2141,24 +2141,35 @@ Moreover, specific hardware requirements such as restrictions to certain types o
 Given these considerations, which show that it is not trivial to harness the power of GPUs, a definitive use case where the performance would be needed to investigate this direction further.
 
 
-\subsection{DBMs and other generative approaches}
+\subsection{Generative performance and disclosure risk}
+The experiment shown in section \ref{realexp} builds on \cite{nussberger_synthetic_2020} where DBMs, VAEs, and GANs are compared in diverse settings, in particular with a broad range regarding the number of samples.
+The results of \cite{nussberger_synthetic_2020} also show that DBMs and VAEs are feasible generative models for genetic variant data, while the generative performance GANs is insufficient in settings of low sample size.
+Here, these approaches are investigated in settings where data is distributed across a number of sites.
+The results for the generative performance are in concordance with \cite{nussberger_synthetic_2020}.
+The comparison to the MICE model, which has been used as an approach for creating synthetic data in practice \citep{mice_buuren_2011}, shows that applying deep learning can lead to clearly superior results also in small data sets.
+It also shows that not all deep learning models are suited well for such settings and the size of the data set is a factor to consider when choosing a deep learning approach.
 
-\subsubsection{Performance on data of small sample size}
-\cite{nussberger_synthetic_2020} have compared DBMs, VAEs, and GANs in more diverse settings, in particular with a broader range regarding the number of samples.
-The experiment shown in section \ref{realexp} builds on this and performs this comparison in a setting of distributed data. 
-Additionally to evaluating the performance, the disclosure is regarded here as well.
-For this we used a new approach to look at the overfitting and the simulated membership attacks.
+In addition to evaluating the performance, the disclosure risk is regarded here as well, with a focus on membership disclosure \citep{li_membership_2013}.
+For this, a new approach to evaluate the disclosure risk by assessing the overfitting via the proposed ``proportion of overfitting'' (see \ref{proportionoverfitting}).
+As an additional method for measuring the disclosure risk, simulated membership attacks are performed \citep{goncalves}.
+In both the results of the proportion of overfitting and the precision of the membership attacks, DBMs and VAEs do not exhibit an increased disclosure risk compared to the simpler approaches IM and MICE.
+TODO how do the two approaches compare
 
 Further partitioned can be used to improve on genetic data \citep{hess2017partitioned}.
 Saving parameters can aid in training models also with fewer data points as the performance of more complex models may deteriorate if the sample size is too small \citep{chan_classifier_1999}.
 Therefore partitioning \citep{hess2017partitioned}
 TODO multimodal implementation. martin?
 
-\subsubsection{Conditional sampling}
+
+%\subsection{Handling different data types}
+%one step for applying arbitrary tabular data.
+
+%dbms verbessern missing values, softmax evaluieren
+%TODO martin paper zitieren?
+%Privacy-consideration better use intensity values.
 
 
-
-\subsubsection{Ideas for combining different models}
+\subsection{Outlook: Ideas for combining different models}
 
 The findings here indicate that DBMs and VAEs both 
 
@@ -2183,16 +2194,7 @@ In contrast to splitting the data set in different parts as done here, the same 
 The combined synthetic data can be assessed in a similar way as shown here with respect to performance and disclosure.
 This way, the question whether a combination of different approaches can lead to better and more diverse synthetic data could be studied further.
 
-
-%\subsection{Handling different data types}
-%one step for applying arbitrary tabular data.
-
-%dbms verbessern missing values, softmax evaluieren
-%TODO martin paper zitieren?
-%Privacy-consideration better use intensity values.
-
-
-\subsection{Conclusion and outlook}
+\subsection{Conclusion}
 Deep learning can help to create synthetic data that preserves higher-level structures.
 Both DBMs and VAEs are promising models for creating synthetic data in settings of small sample size, whereas GANs do not perform well in such settings.
 Further research to work out the and maybe combine different models.
