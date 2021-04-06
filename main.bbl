@@ -565,6 +565,12 @@ Murtagh, F. \harvardand\ Contreras, P.  \harvardyearleft 2012\harvardyearright
   , `Algorithms for hierarchical clustering: an overview', {\em Wiley
   Interdiscip. Rev. Data Min. Knowl. Discov.} {\bf 2},~86--97.
 
+\harvarditem{Nelder \harvardand\ Wedderburn}{1972}{glm_1972}
+Nelder, J.~A. \harvardand\ Wedderburn, R.~W.  \harvardyearleft
+  1972\harvardyearright , `Generalized linear models', {\em Journal of the
+  Royal Statistical Society: Series A (General)} {\bf 135}(3),~370--384.
+\newblock Publisher: Wiley Online Library.
+
 \harvarditem[Nowok et~al.]{Nowok, Raab \harvardand\ Dibben}{2016}{synthpop}
 Nowok, B., Raab, G.~M. \harvardand\ Dibben, C.  \harvardyearleft
   2016\harvardyearright , `synthpop: {Bespoke} {Creation} of {Synthetic} {Data}
