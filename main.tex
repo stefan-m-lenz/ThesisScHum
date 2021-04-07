@@ -2134,7 +2134,7 @@ Given these considerations, which show that it is not trivial to harness the pow
 
 \subsection{Generative performance and modeling capabilities}
 The experiment shown in section \ref{realexp} builds on \cite{nussberger_synthetic_2020} where the generative performance of DBMs, VAEs, and GANs is compared in diverse settings, in particular with a broad range regarding the number of samples.
-The results of \cite{nussberger_synthetic_2020} show that DBMs and VAEs are feasible generative models for genetic variant data, while the generative performance GANs is insufficient in settings of low sample size.
+The results of \cite{nussberger_synthetic_2020} show that DBMs and VAEs are suitable as generative models for genetic variant data, while the generative performance GANs is insufficient in settings of low sample size.
 Here, these approaches are investigated in settings where data is distributed across a number of sites.
 The results for the generative performance in these distributed settings are in concordance with \cite{nussberger_synthetic_2020}.
 
@@ -2145,9 +2145,9 @@ The networks considered in the experiments were densely connected.
 For modeling higher dimensional data, more parsimonious models may perform better \citep{nussberger_synthetic_2020}.
 More generally, saving parameters can aid in training models also with fewer data points per dimension \citep{chan_classifier_1999}.
 One approach for reducing the number of parameters in DBMs is to partition the layers.
-For genetic variant data, an approach using a sparse regression that is used to partition based on clusters of SNPs has been examined in DBMs \citep{hess2017partitioned} and lead to meaningful results.
+For genetic variant data, an approach using sparse regression for partitioning clusters of SNPs has been examined in DBMs \citep{hess2017partitioned} and lead to meaningful results.
 The implementation was also based on the \apkg{BoltzmannMachines} package.
-Its concept of multimodal DBMs  allows to train DBMs with partitioned layers conveniently.
+The concept of multimodal DBMs in the package allows to train DBMs with partitioned layers conveniently.
 It is based on using restricted Boltzmann machines (RBMs) as building blocks (see Figure \ref{mdbmimplasstack} on p.~\pageref{mdbmimplasstack}).
 This makes it also easy to model different distributions at the visible layer.
 \cite{treppner_making_2020} used this feature to construct DBMs with input variables following negative binomial distributions for clustering single-cell sequencing data.
@@ -2156,12 +2156,13 @@ This makes it also easy to model different distributions at the visible layer.
 In addition to evaluating the performance, the disclosure risk is regarded here as well, with a focus on membership disclosure \citep{li_membership_2013}.
 For this, a new approach to evaluate the disclosure risk by assessing the overfitting via the proposed ``proportion of overfitting'' (see \ref{proportionoverfitting}).
 As an additional method for measuring the disclosure risk, simulated membership attacks are performed \citep{goncalves}.
-Both disclosure metrics can be applied directly to the synthetic data and it is not required to distort the data or to modify the training to control the disclosure, as it is needed when applying differential privacy \citep{dwork_differential_2008, abadi_deep_2016}.
+Both disclosure metrics can be applied directly to the synthetic data without having to distort the data or having to modify the training to control the disclosure, as it is needed when applying differential privacy \citep{dwork_differential_2008, abadi_deep_2016}.
 
-The membership attack requires to take the sensitivity and the threshold for the distance used by the attacker into account when interpreting the precision.
+The membership attack requires to take the sensitivity and the attackers' distance threshold  into account when interpreting the precision.
 The advantage of the proportion of overfitting is that it consists of a single number.
 It can therefore be used more easily to compare two models directly with respect to disclosure.
-The proportion of overfitting has also an intuitive meaning, i.e., the amount of which a model learns more about the training data than about the general structure of the underlying data distribution.
+The proportion of overfitting has also an intuitive meaning.
+It is the amount of which a model learns more about the training data than about the general structure of the underlying data distribution.
 
 In both the results of the proportion of overfitting and the precision of the membership attacks, DBMs and VAEs do not exhibit an increased disclosure risk compared to the simpler approaches IM and MICE.
 Particularly interesting is the higher variance in the precision of the membership attack on MICE compared to VAEs and DBMs (see Figure \ref{fig:membershipattack} on p.~\pageref{fig:membershipattack}).
@@ -2173,7 +2174,7 @@ Since DataSHIELD allows to extract information via logistic regression models an
 In DataSHIELD only known users are allowed to conduct analyses and their activity is logged to prevent analyses with malicious intent.
 If data is to be released completely without restrictions, e.g., by putting it on a internet site for anyone to download and analyze, the privacy concerns are higher than in a setting where known users analyze data via DataSHIELD.
 In an unrestricted scenario, additional measures are needed to ensure the best confidence in the protection of sensitive data.
-But this applies regardless of the data protection method, as all approaches for managing the disclosure risk work with thresholds, which are hard to validate and also cannot give an absolute certainty (see \ref{privacyconcepts}).
+Yet, this applies regardless of the data protection method, as all approaches for managing the disclosure risk work with thresholds, which are hard to validate and also cannot give an absolute certainty (see \ref{privacyconcepts}).
 A combination of different disclosure metrics and human assessment can minimize the risk in such cases.
 
 Summed up, the results strengthen the assumption that it is possible to use DBMs, and additionally VAEs, for generating synthetic data from sensitive data of individuals.
@@ -2195,9 +2196,9 @@ It might be interesting to investigate whether {\em variational} autoencoders co
 
 Another idea to create better synthetic data sets could be to combine different types of generative models in ensembles of generative models.
 Ensemble learning is mostly done with classification tasks \citep{ensemble_learning_survey_2018}.
-Unsupervised ensembles have been used for outlier detection \citep{unsupervised_outlier}.
 Ensembles of predictive models are used to increase the predictive performance.
-Multiple models are trained on the data and their predictions are combined to get a better predictor.
+There multiple models are trained on the data and their predictions are combined to get a better predictor.
+Unsupervised ensembles have been used for outlier detection \citep{unsupervised_outlier}.
 The heterogeneity between the models can prevent overfitting and thereby leads to results that generalize better \citep{ensemble_learning_survey_2018}.
 Translating this idea to increase the quality of synthetic data could therefore be promising, in particularly in setting of small sample size, where the issue of overfitting is most important.
 Using generative ensembles has been investigated in GANs to prevent mode collapse and increase the diversity of generated samples \citep{toutouh_ensemblegan_2020}.
@@ -2207,20 +2208,29 @@ In contrast to splitting the data set in different parts as done here, the same 
 The combined synthetic data can be assessed in a similar way as shown here with respect to performance and disclosure.
 This way, the question whether a combination of different approaches can lead to better and more diverse synthetic data could be studied further.
 
-The findings here indicate that DBMs and VAEs can both be auitable for data of small sample size.
+The findings here indicate that DBMs and VAEs can both be suitable for data of small sample size.
 Combining their generative capabilities could therefore be particularly promising.
 A first step could be to implement VAEs in DataSHIELD as an additional deep generative approach.
-This can in principle be done analogously to the implementation shown in section \ref{dsBoltzmannMachinesImpl}.
+This can be done analogously to the implementation shown in section \ref{dsBoltzmannMachinesImpl}.
 VAEs can be constructed and trained using the \apkg{Flux} package in Julia.
 The interface can be wrapped in a DataSHIELD R package via the \apkg{JuliaConnectoR}.
 The same approach can be taken for all kinds of other generative models.
-Using the example of neural differential equations models \citep{juliaconnector_2021, chen_neural_2019}, it has been demonstrated that also complex neural networks based on \apkg{Flux} can be wrapped via the \apkg{JuliaConnectoR} to be handled in R, 
-This shows that it is possible to bring very diverse deep learning algorithms into the DataSHIELD infrastructure.
+Using the example of neural differential equations models \citep{juliaconnector_2021, chen_neural_2019}, it has been demonstrated that also complex neural networks based on \apkg{Flux} can be wrapped via the \apkg{JuliaConnectoR} for being handled in R.
+This shows that it is in principle possible to bring very diverse deep learning algorithms into the DataSHIELD infrastructure.
 
 \subsection{Conclusion}
-Deep learning can help to create synthetic data that preserves higher-level structures.
-Both DBMs and VAEs are promising models for creating synthetic data in settings of small sample size, whereas GANs do not perform well in such settings.
-Further research to work out the and maybe combine different models.
+Deep learning can help to create synthetic data that preserve higher-level structures in biomedical data.
+Both DBMs and VAEs are promising models for creating synthetic data from data of small sample size, whereas GANs do not perform well in such settings.
+Even given only a limited number of samples, DBMs and VAEs can generate clearly better synthetic data than simpler methods such as multiple imputation via chained logistic regression models.
+Using deep learning for generating synthetic data from sensitive information such as genetic variant data of individuals does not necessarily result in an increased disclosure risk.
+
+The implementation of DBMs in Julia via the \apkg{BoltzmannMachines} package allows a flexible composition of DBMs from building blocks of RBMs.
+It also offers convenient methods for evaluating the training.
+This is important for finding good hyperparameters, which is especially relevant when regarding the diversity of biomedical data sets, where default values for hyperparameters are often not sufficient.
+
+Algorithms and data structures from Julia can be accessed in R via the \apkg{JuliaConnectoR} R package.
+This allows wrapping the functionality of the \apkg{BoltzmannMachines} package into a DataSHIELD R package.
+By the same mechanism, VAEs or other complex generative models could be integrated in DataSHIELD for enabling distributed analyses based on synthetic data.
 
 \clearpage
 \appendix
