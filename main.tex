@@ -2132,11 +2132,11 @@ Moreover, specific hardware requirements such as restrictions to certain types o
 Given these considerations, which show that it is not trivial to harness the power of GPUs, a definitive use case where the performance would be needed to investigate this direction further.
 
 
-\subsection{Generative performance}
-The experiment shown in section \ref{realexp} builds on \cite{nussberger_synthetic_2020} where DBMs, VAEs, and GANs are compared in diverse settings, in particular with a broad range regarding the number of samples.
-The results of \cite{nussberger_synthetic_2020} also show that DBMs and VAEs are feasible generative models for genetic variant data, while the generative performance GANs is insufficient in settings of low sample size.
+\subsection{Generative performance and modeling capabilities}
+The experiment shown in section \ref{realexp} builds on \cite{nussberger_synthetic_2020} where the generative performance of DBMs, VAEs, and GANs is compared in diverse settings, in particular with a broad range regarding the number of samples.
+The results of \cite{nussberger_synthetic_2020} show that DBMs and VAEs are feasible generative models for genetic variant data, while the generative performance GANs is insufficient in settings of low sample size.
 Here, these approaches are investigated in settings where data is distributed across a number of sites.
-The results for the generative performance are in concordance with \cite{nussberger_synthetic_2020}.
+The results for the generative performance in these distributed settings are in concordance with \cite{nussberger_synthetic_2020}.
 
 The comparison to the MICE model, which has been used as an approach for creating synthetic data in practice \citep{mice_buuren_2011}, shows that applying deep learning can lead to clearly superior results also in small data sets.
 It also shows that not all deep learning models are suited well for such settings and the size of the data set is a factor to consider when choosing a deep learning approach.
@@ -2147,12 +2147,12 @@ More generally, saving parameters can aid in training models also with fewer dat
 One approach for reducing the number of parameters in DBMs is to partition the layers.
 For genetic variant data, an approach using a sparse regression that is used to partition based on clusters of SNPs has been examined in DBMs \citep{hess2017partitioned} and lead to meaningful results.
 The implementation was also based on the \apkg{BoltzmannMachines} package.
-Its concept of multimodal DBMs (see Figure \ref{mdbmimplasstack} on p.~\pageref{mdbmimplasstack}) allows to train DBMs with partitioned layers conveniently.
+Its concept of multimodal DBMs  allows to train DBMs with partitioned layers conveniently.
+It is based on using restricted Boltzmann machines (RBMs) as building blocks (see Figure \ref{mdbmimplasstack} on p.~\pageref{mdbmimplasstack}).
+This makes it also easy to model different distributions at the visible layer.
+\cite{treppner_making_2020} used this feature to construct DBMs with input variables following negative binomial distributions for clustering single-cell sequencing data.
 
-
-TODO multimodal implementation. martin?
-
-\subsection{Disclosure risk}
+\subsection{Disclosure risk of synthetic data}
 In addition to evaluating the performance, the disclosure risk is regarded here as well, with a focus on membership disclosure \citep{li_membership_2013}.
 For this, a new approach to evaluate the disclosure risk by assessing the overfitting via the proposed ``proportion of overfitting'' (see \ref{proportionoverfitting}).
 As an additional method for measuring the disclosure risk, simulated membership attacks are performed \citep{goncalves}.
