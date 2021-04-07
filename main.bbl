@@ -162,6 +162,14 @@ Chang, K., Balachandar, N., Lam, C., Yi, D., Brown, J., Beers, A., Rosen, B.,
   Informatics Association} .
 \newline\harvardurl{\url{https://academic.oup.com/jamia/advance-article/doi/10.1093/jamia/ocy017/4956468}}
 
+\harvarditem[Chen et~al.]{Chen, Rubanova, Bettencourt \harvardand\
+  Duvenaud}{2019}{chen_neural_2019}
+Chen, R. T.~Q., Rubanova, Y., Bettencourt, J. \harvardand\ Duvenaud, D.
+  \harvardyearleft 2019\harvardyearright , `Neural {Ordinary} {Differential}
+  {Equations}', {\em arXiv:1806.07366 [cs, stat]} .
+\newblock arXiv: 1806.07366.
+\newline\harvardurl{http://arxiv.org/abs/1806.07366}
+
 \harvarditem[Chen et~al.]{Chen, Li, Li, Lin, Wang, Wang, Xiao, Xu, Zhang
   \harvardand\ Zhang}{2015}{mxnet}
 Chen, T., Li, M., Li, Y., Lin, M., Wang, N., Wang, M., Xiao, T., Xu, B., Zhang,
@@ -482,7 +490,15 @@ LeCun, Y., Bengio, Y. \harvardand\ Hinton, G.  \harvardyearleft
 \newblock Number: 7553 Publisher: Nature Publishing Group.
 \newline\harvardurl{\url{https://www.nature.com/articles/nature14539}}
 
-\harvarditem[Lenz et~al.]{Lenz, Hess \harvardand\ Binder}{2021}{dsdbm}
+\harvarditem{Lenz, Hackenberg \harvardand\ Binder}{2021}{juliaconnector_2021}
+Lenz, S., Hackenberg, M. \harvardand\ Binder, H.  \harvardyearleft
+  2021\harvardyearright , `The {JuliaConnectoR}: a functionally oriented
+  interface for integrating {Julia} in {R}', {\em arXiv:2005.06334 [cs, stat]}
+  .
+\newblock arXiv: 2005.06334.
+\newline\harvardurl{http://arxiv.org/abs/2005.06334}
+
+\harvarditem{Lenz, Hess \harvardand\ Binder}{2021}{dsdbm}
 Lenz, S., Hess, M. \harvardand\ Binder, H.  \harvardyearleft
   2021\harvardyearright , `Deep generative models in {DataSHIELD}', {\em BMC
   Medical Research Methodology} {\bf 21}(1),~64.

@@ -1890,7 +1890,7 @@ VAE & \makecell{0.19 \\ (0.057 - 0.32)} & \makecell{0.27 \\ (0.062 - 0.45)} & \m
 
 
 \FloatBarrier
-\subsection{The \apkg{dsBoltzmannMachines} DataSHIELD package}
+\subsection{The \apkg{dsBoltzmannMachines} DataSHIELD package}\label{dsBoltzmannMachinesImpl}
 
 The previous experiments in \ref{simuexp} and \ref{realexp} have investigated the feasibility of using synthetic data for joint analyses of distributed data.
 In \ref{simuexp}, a hierarchical clustering was explored as a joint analysis.
@@ -2141,9 +2141,14 @@ The results for the generative performance are in concordance with \cite{nussber
 The comparison to the MICE model, which has been used as an approach for creating synthetic data in practice \citep{mice_buuren_2011}, shows that applying deep learning can lead to clearly superior results also in small data sets.
 It also shows that not all deep learning models are suited well for such settings and the size of the data set is a factor to consider when choosing a deep learning approach.
 
-Further partitioned can be used to improve on genetic data \citep{hess2017partitioned}.
-Saving parameters can aid in training models also with fewer data points as the performance of more complex models may deteriorate if the sample size is too small \citep{chan_classifier_1999}.
-Therefore partitioning \citep{hess2017partitioned}
+The networks considered in the experiments were densely connected. 
+For modeling higher dimensional data, more parsimonious models may perform better \citep{nussberger_synthetic_2020}.
+More generally, saving parameters can aid in training models also with fewer data points per dimension \citep{chan_classifier_1999}.
+One approach for reducing the number of parameters in DBMs is to partition the layers.
+For genetic variant data, an approach using a sparse regression that is used to partition based on clusters of SNPs has been examined in DBMs \citep{hess2017partitioned} and lead to meaningful results.
+The implementation was also based on the \apkg{BoltzmannMachines} package.
+Its concept of multimodal DBMs (see Figure \ref{mdbmimplasstack} on p.~\pageref{mdbmimplasstack}) allows to train DBMs with partitioned layers conveniently.
+
 
 TODO multimodal implementation. martin?
 
@@ -2151,12 +2156,12 @@ TODO multimodal implementation. martin?
 In addition to evaluating the performance, the disclosure risk is regarded here as well, with a focus on membership disclosure \citep{li_membership_2013}.
 For this, a new approach to evaluate the disclosure risk by assessing the overfitting via the proposed ``proportion of overfitting'' (see \ref{proportionoverfitting}).
 As an additional method for measuring the disclosure risk, simulated membership attacks are performed \citep{goncalves}.
+Both disclosure metrics can be applied directly to the synthetic data and it is not required to distort the data or to modify the training to control the disclosure, as it is needed when applying differential privacy \citep{dwork_differential_2008, abadi_deep_2016}.
 
 The membership attack requires to take the sensitivity and the threshold for the distance used by the attacker into account when interpreting the precision.
 The advantage of the proportion of overfitting is that it consists of a single number.
 It can therefore be used more easily to compare two models directly with respect to disclosure.
 The proportion of overfitting has also an intuitive meaning, i.e., the amount of which a model learns more about the training data than about the general structure of the underlying data distribution.
-
 
 In both the results of the proportion of overfitting and the precision of the membership attacks, DBMs and VAEs do not exhibit an increased disclosure risk compared to the simpler approaches IM and MICE.
 Particularly interesting is the higher variance in the precision of the membership attack on MICE compared to VAEs and DBMs (see Figure \ref{fig:membershipattack} on p.~\pageref{fig:membershipattack}).
@@ -2182,12 +2187,7 @@ Summed up, the results strengthen the assumption that it is possible to use DBMs
 %Privacy-consideration better use intensity values.
 
 
-\subsection{Outlook: Ideas for combining different models}
-
-The findings here indicate that DBMs and VAEs both 
-
-
-VAEs in DataSHIELD implementieren. TODO in JuliaConnectoR Kapitel Flux Beispiel einbauen und hier referenzieren. Sagen: Funzt auch, wie man oben sehen kann.
+\subsection{Outlook}
 
 \cite{hinton_reducing_2006} used deep belief networks to pre-train autoencoder networks, which were then fine-tuned using backpropagation.
 This was done to overcome the problem that the backpropagation algorithm alone was not able to find a good solution given a limited amount of data \citep{lecun_deep_learning_2015}.
@@ -2206,6 +2206,16 @@ Experimentally this could be investigated with a similar setup to the one in the
 In contrast to splitting the data set in different parts as done here, the same data but different generative approaches can be used to create the parts of the synthetic data set.
 The combined synthetic data can be assessed in a similar way as shown here with respect to performance and disclosure.
 This way, the question whether a combination of different approaches can lead to better and more diverse synthetic data could be studied further.
+
+The findings here indicate that DBMs and VAEs can both be auitable for data of small sample size.
+Combining their generative capabilities could therefore be particularly promising.
+A first step could be to implement VAEs in DataSHIELD as an additional deep generative approach.
+This can in principle be done analogously to the implementation shown in section \ref{dsBoltzmannMachinesImpl}.
+VAEs can be constructed and trained using the \apkg{Flux} package in Julia.
+The interface can be wrapped in a DataSHIELD R package via the \apkg{JuliaConnectoR}.
+The same approach can be taken for all kinds of other generative models.
+Using the example of neural differential equations models \citep{juliaconnector_2021, chen_neural_2019}, it has been demonstrated that also complex neural networks based on \apkg{Flux} can be wrapped via the \apkg{JuliaConnectoR} to be handled in R, 
+This shows that it is possible to bring very diverse deep learning algorithms into the DataSHIELD infrastructure.
 
 \subsection{Conclusion}
 Deep learning can help to create synthetic data that preserves higher-level structures.
