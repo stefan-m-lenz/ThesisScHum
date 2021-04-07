@@ -396,6 +396,11 @@ Hinton, G.~E. \harvardand\ Salakhutdinov, R.~R.  \harvardyearleft
   networks', {\em Science} {\bf 313}(5786),~504--507.
 \newline\harvardurl{\url{http://science.sciencemag.org/content/313/5786/504}}
 
+\harvarditem{Hinton \harvardand\ Sejnowski}{1999}{sejnowski_unsupervised_1999}
+Hinton, G. \harvardand\ Sejnowski, T.~J.  \harvardyearleft
+  1999\harvardyearright , {\em Unsupervised {Learning}: {Foundations} of
+  {Neural} {Computation}}, MIT Press.
+
 \harvarditem{Howie \harvardand\ Marchini}{2015}{impute_1000_genomes}
 Howie, B. \harvardand\ Marchini, J.  \harvardyearleft 2015\harvardyearright ,
   `1,000 {Genomes} haplotypes - {Phase} 3 integrated variant set release in
@@ -695,6 +700,13 @@ Ranzato, M., Boureau, Y.-L., Chopra, S. \harvardand\ LeCun, Y.
 Rumbaugh, J., Jacobson, I. \harvardand\ Booch, G.  \harvardyearleft
   1999\harvardyearright , {\em The unified modeling language reference manual},
   Addison-Wesley.
+
+\harvarditem{Rumbold \harvardand\ Pierscionek}{2017}{rumbold_effect_2017}
+Rumbold, J. M.~M. \harvardand\ Pierscionek, B.  \harvardyearleft
+  2017\harvardyearright , `The {Effect} of the {General} {Data} {Protection}
+  {Regulation} on {Medical} {Research}', {\em Journal of Medical Internet
+  Research} {\bf 19}(2),~e7108.
+\newline\harvardurl{\url{https://www.jmir.org/2017/2/e47}}
 
 \harvarditem[Rumelhart et~al.]{Rumelhart, Hinton \harvardand\
   Williams}{1986}{backpropagation}
