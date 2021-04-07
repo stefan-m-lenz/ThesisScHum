@@ -167,8 +167,7 @@ Chang, K., Balachandar, N., Lam, C., Yi, D., Brown, J., Beers, A., Rosen, B.,
 Chen, R. T.~Q., Rubanova, Y., Bettencourt, J. \harvardand\ Duvenaud, D.
   \harvardyearleft 2019\harvardyearright , `Neural {Ordinary} {Differential}
   {Equations}', {\em arXiv:1806.07366 [cs, stat]} .
-\newblock arXiv: 1806.07366.
-\newline\harvardurl{http://arxiv.org/abs/1806.07366}
+\newline\harvardurl{\url{http://arxiv.org/abs/1806.07366}}
 
 \harvarditem[Chen et~al.]{Chen, Li, Li, Lin, Wang, Wang, Xiao, Xu, Zhang
   \harvardand\ Zhang}{2015}{mxnet}
@@ -495,8 +494,7 @@ Lenz, S., Hackenberg, M. \harvardand\ Binder, H.  \harvardyearleft
   2021\harvardyearright , `The {JuliaConnectoR}: a functionally oriented
   interface for integrating {Julia} in {R}', {\em arXiv:2005.06334 [cs, stat]}
   .
-\newblock arXiv: 2005.06334.
-\newline\harvardurl{http://arxiv.org/abs/2005.06334}
+\newline\harvardurl{\url{http://arxiv.org/abs/2005.06334}}
 
 \harvarditem{Lenz, Hess \harvardand\ Binder}{2021}{dsdbm}
 Lenz, S., Hess, M. \harvardand\ Binder, H.  \harvardyearleft
@@ -805,8 +803,7 @@ Treppner, M., Salas-Bastos, A., Hess, M., Lenz, S., Vogel, T. \harvardand\
   Binder, H.  \harvardyearleft 2020\harvardyearright , `Making many out of few:
   deep generative models for single-cell {RNA}-sequencing data', {\em bioRxiv}
   p.~2020.05.27.119594.
-\newblock Publisher: Cold Spring Harbor Laboratory Section: New Results.
-\newline\harvardurl{https://www.biorxiv.org/content/10.1101/2020.05.27.119594v2}
+\newline\harvardurl{\url{https://www.biorxiv.org/content/10.1101/2020.05.27.119594v2}}
 
 \harvarditem{van Buuren \harvardand\
   Groothuis-Oudshoorn}{2011}{mice_buuren_2011}
