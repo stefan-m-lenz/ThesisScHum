@@ -1495,7 +1495,7 @@ But at first, the feasibility of this approach is investigated, including a comp
 \subsection{Theoretical background}
 
 \subsubsection{Privacy concepts}\label{privacyconcepts}
-If synthetic data are generated from real patient data, it is particularly important to evaluate not only the quality of the synthetic data for conducting analyses but also to assess the risk of leaking private information that may result from releasing the synthetic data.
+If synthetic data are generated from real patient data, it is particularly important to evaluate not only the usability of the synthetic data for conducting analyses but also to assess the risk of leaking private information that may result from releasing the synthetic data.
 There is always a tradeoff between privacy and usability \citep{dinur_revealing_2003, kifer_no_2011}.
 This means, absolute guarantees of privacy are impossible in all practical cases.
 If the model learns information from data, there is always some information about the original data points contained.
@@ -1589,7 +1589,7 @@ In contrast to DBMs, where all nodes in the graph influence all of their neighbo
 This has the advantage that VAEs and GANs can be trained via the backpropagation algorithm \citep{backpropagation}, which is supported by many deep learning frameworks.
 The implementation of VAEs and GANs that is used for the experiments here is based on the Julia package \apkg{Flux}.
 
-In addition to the complex neural network models, also simpler techniques shall be included in the experiments to be able to see whether more complex models really brings an improvement.
+In addition to the complex neural network models, also simpler techniques shall be included in the experiments to be able to see whether more complex models really bring an improvement.
 
 {\em Multiple imputation by chained equations} (MICE) is a technique that is primarily used for imputing missing values in data sets \citep{mice}.
 The algorithm can also be used as a generative approach because generating new data can be considered to be equivalent to imputing whole samples.
@@ -1665,7 +1665,8 @@ Also, for each test sample, the attacker may guess correctly that it has not bee
 
 Based on the chosen distance, different values for precision and sensitivity result from the experiment.
 Since a best value for the distance threshold cannot be determined, different distances are used, and multiple outcomes are reported.
-To have a value as 0.5 as outcome if the synthetic data is not informative for the attacker, the size of the test data set is chosen to be equal to the size of the training data set.
+The size of the test data set is chosen to be equal to the size of the training data set.
+Consequently, a value of 0.5 as outcome indicates that the synthetic data is not informative for the attacker. 
 
 \subsection{The proportion of overfitting as a new disclosure metric}\label{proportionoverfitting}
 
@@ -1677,9 +1678,9 @@ Overfitting has also been investigated as an indicator for disclosure risk in sy
 The most extreme case of overfitting is if a model directly memorizes the original data and generates samples that are copies of training samples.
 Such a case is an obvious violation of privacy.
 But for most cases, the decision about a possible disclosure is not easily made in a binary way, and for those a numeric measure is needed.
-For this, overfitting is measured here using the training data set $x_{train}$, a validation data set $x_{val}$, a generated synthetic data set $x_{gen}$, and a similarity measure.
+Here, overfitting is measured using the training data set $x_{train}$, a validation data set $x_{val}$, a generated synthetic data set $x_{gen}$, and a similarity measure.
 For the latter, the distance measure $d$, which is also used for measuring the performance (see \ref{measuringperformance}), can be used.
-With this, the {\em proportion of overfitting} is defined here as
+With this, the {\em proportion of overfitting} is defined as
 
 \begin{equation}
 \frac{d(x_{gen}, x_{val}) - d(x_{gen}, x_{train})}{d(x_{gen}, x_{val})}.
@@ -1691,7 +1692,7 @@ This proportion grows if the similarity  between the generated data and the trai
 \subsection{An experiment with simulated genetic variant data}\label{simuexp}
 
 This experiment investigates whether the approach of generating data in a distributed manner across different sites, as depicted in Figure \ref{fig:syntheticdataprinciple}, is feasible using DBMs.
-In particular interesting is how the number of participating sites and the numbers of samples at each sites influence the quality of the synthetic data.
+In particular, I investigate how the number of participating sites and the numbers of samples at each sites influence the quality of the synthetic data.
 
 The experiment is based on simulated genetic variant data with patterns that are clearly visible in a binary heatmap with a hierarchical clustering \citep{hclust} of the  samples.
 With these clearly visible patterns it is possible to evaluate the synthetic samples visually by judging whether the original patterns can be recovered in the synthetic data.
@@ -1776,16 +1777,16 @@ VAEs and GANs are trained via the \apkg{Flux} Julia package in the same way as d
 The real data for the experiment is taken from the 1000 genomes project \citep{1000genomes}.
 More specifically, a subset of the 1000 genomes data is used, which is available online from a web page \citep{impute_1000_genomes} of the IMPUTE2 software \citep{impute2}.
 This data set contains genetic variant data (SNP data) of 2504 humans.
-For each variant there is information about the genetic haplotype, that is, the information about the genetic variation is given on the level of the chromosomes.
+The data is provided in haploid form, that is, the information about the genetic variation is given on the level of the chromosomes.
 In the data there are in total 5008 chromosomes, which are used as independent samples for the purpose of learning structure in genetic data.
 Each of these samples is a vector of binary SNP variables.
 Each variable stands for a defined location on a chromosome, with a value of 1 indicating that the sample has a defined deviation from the reference genome in this place.
+Such a deviation is also referred to as the minor allele.
 
 From the complete genetic information, 30 loci on chromosome 6, spanning 50 SNP variables, are randomly selected.
-As the variance in some SNPs across samples is very low, only SNPs with a minor allele frequency below 0.2 were considered.
+As the variance in some SNPs across samples is very low, only SNPs with a minor allele frequency above 0.2 were considered.
 This prevents that the structure in the data sets becomes too simple by excluding variables that are expected to be mostly constant in subsets of samples.
-The 30 genomic locations spanning 50 variables form 30 different data sets, which are used in the evaluation.
-For each of these 30 different data sets, a training data set $x_{train}$, a test data set $x_{test}$, and a validation data set $x_{val}$ is selected.
+For each of these 30 different genomic locations, a training data set $x_{train}$, a test data set $x_{test}$, and a validation data set $x_{val}$ are selected.
 From the 5008 samples, 500 samples are used in the training data sets, 100 in the test data sets, and 1000 in the validation data sets.
 
 To evaluate different generative approaches in a distributed setting,
@@ -1803,7 +1804,7 @@ For MICE, also 15 different orderings of the variables are explored.
 
 To have a fair comparison between the approaches, the same performance metric must be used for picking the best model per approach as for the overall comparison.
 For this purpose, only a measure that applies to the synthetic data can be used, as the different approaches have different optimization criteria.
-GANs, in particular, do not even have a single optimization criterion because the discriminator and generator networks are trained independently.
+GANs, in particular, do not even have a single optimization criterion because the discriminator and generator networks have different loss functions.
 Therefore, a measure of the quality of the synthetic data is needed for comparing the models as well as for picking the model with the best performance for each approach.
 Here, the rooted mean squared error (RMSE) of the log odds ratios is employed as this performance measure (see \ref{measuringperformance}).
 
@@ -1814,7 +1815,8 @@ The test data sets for the simulated membership attacks comprise 500 samples fro
 \FloatBarrier
 \subsubsection{Results}\label{realexpresults}
 
-The results of the comparison with respect to the performance of the different approaches are shown in Figure \ref{fig:rmseodds} and Table \ref{tab:distgenresults_rmse}.
+\paragraph{Generative performance}
+The results of the comparison with respect to the generative performance of the different approaches are shown in Figure \ref{fig:rmseodds} and Table \ref{tab:distgenresults_rmse}.
 There, the distance $d(x_{gen},x_{val})$, which has been defined in \ref{measuringperformance}, is used as performance metric.
 This distance measures how well the bivariate associations between all combinations of variables in the original data are preserved in the synthetic data.
 The effect of the sample size and the number of participating sites can be seen by comparing the results for using the whole data set (``One site''), and splitting the data on 2, 5, and 20 sites.
@@ -1822,7 +1824,7 @@ By splitting the data, the number of samples per site decreases from 500 to 250,
 
 Running the complete experiment took 25 hours on a cluster of three computers with 8, 12, and 28 cores with clock speeds of about 3 GHz and at least than 8 GB RAM per core.
 
-The median performance of DBMs and VAEs is very close, especially in the settings with one and two sites.
+The median performance of DBMs and VAEs is very close, especially in the settings with one and two sites (see Figure \ref{fig:rmseodds} and Table \ref{tab:distgenresults_rmse}).
 The other approaches perform clearly worse in all scenarios.
 As IM does not aim at modeling the bivariate associations, and MICE is not clearly better than IM, it can be concluded that MICE also mostly fails to capture the overall structure of the bivariate assiciations.
 In the setting with one site and 500 samples, the GAN is at least somewhat better than the simpler approaches, IM and MICE.
@@ -1830,9 +1832,10 @@ The limited sample size seems to be especially impacting GANs negatively, as the
 
 In the settings with 5 and 20 sites, the variance in the performance of DBMs gets higher.
 The variance of the performance of VAEs stays very constant across all the scenarios.
-But with lower sample size, the question of the disclosure risk becomes also more critical, as the danger of copying data increases.
-Therefore, this needs also to be taken into account when comparing the models.
-The first approach for measuring the disclosure risk is by evaluating the proportion of overfitting as defined in \ref{proportionoverfitting}.
+
+\paragraph{Disclosure risk}
+With lower sample size, the question of the disclosure risk becomes more critical, as the danger of copying data increases.
+I am first measuring the disclosure risk by evaluating the proportion of overfitting as defined in \ref{proportionoverfitting}.
 The results for this evaluation can be found in Figure \ref{fig:distgenresults_overfitting} and Table \ref{tab:distgenresults_overfitting}.
 There, the same models as shown in Figure \ref{fig:rmseodds} are evaluated with respect to disclosure.
 
@@ -1841,16 +1844,16 @@ In the scenarios with two and five sites, they even overfit less than all the ot
 In the extreme scenario with 20 sites with 25 samples, the overfitting is similarly pronounced in all approaches.
 With a decreased number of samples, the variance of the overfitting increases. This can simply be explained by the fact that if fewer samples are in the data set, they may not always represent the overall structure well.
 
-For the same models as used for assessing the overfitting, the disclosure risk is appraised via simulated membership attacks as described in \ref{membershipattack}.
+For the same models as used for assessing the overfitting, the disclosure risk is also appraised via simulated membership attacks as described in \ref{membershipattack}.
 The precision and sensitivity of the membership attacks are shown in Figure \ref{fig:membershipattack}.
 
 To interpret the values for precision and sensitivity, one can consider the following:
 As the training and test data set for the membership attacks have equal size, a precision of 0.5 is expected for a random guess.
 Models generating synthetic data that cannot be used by the attacker to infer membership should therefore also have a precision that is close to 0.5.
-Higher values result from models generating samples that are nearer to training samples.
-Lower values can corresponds to a low sensitivity, as can be seen in Figure \ref{fig:membershipattack}.
+A higher precision results from models generating samples that are nearer to training samples.
+A low precision can correspond to a low sensitivity, as can be seen in Figure \ref{fig:membershipattack}.
 The sensitivity can be seen as a performance metric on the training data here because it quantifies the overall distance between synthetic samples and training samples.
-Therefore, a very low sensitivity means that the synthetic samples are too far removed from the training samples.
+Therefore, a very low sensitivity means that the synthetic samples are too far away from the training samples.
 This in turn may result in a precision that is lower than 0.5 because the attacker is simply mislead by synthetic data of bad quality.
 If a model produces data that is so different from the training data that no true positives or false positives can be found by the attacker, no value for the precision can be determined.
 
@@ -2199,8 +2202,8 @@ It is the amount of which a model learns more about the training data than about
 
 In both the results of the proportion of overfitting and the precision of the membership attacks, DBMs and VAEs do not exhibit an increased disclosure risk compared to the simpler approaches IM and MICE.
 Particularly interesting is the higher variance in the precision of the membership attack on MICE compared to VAEs and DBMs (see Figure \ref{fig:membershipattack} on p.~\pageref{fig:membershipattack}).
-One can interpret this as a higher disclosure risk of MICE compared to the two neural network approaches.
-Via the distance-base membership, there is not more identifying information derivable from the synthetic data generated by a DBM or VAE than in a sequence of logistic regression models, such as in the MICE method.
+One can interpret this as a higher disclosure risk of MICE compared to the two neural network approaches in this scenario.
+This means that there is not more identifying information derivable from the synthetic data generated by a DBM or VAE than from data generated via a sequence of logistic regression models, such as in the MICE method.
 This is in contrast to the possible intuition that the more complex approaches must have a higher risk of leaking information.
 Since DataSHIELD allows to extract information via logistic regression models and it is therefore possible to use the MICE method to generate synthetic data from the DataSHIELD client side already, one can argue that using DBMs or VAEs as generative approaches does not lower the level of privacy in a setting where DataSHIELD is used.
 
@@ -2230,7 +2233,7 @@ It might be interesting to investigate whether {\em variational} autoencoders co
 Another idea to create better synthetic data sets could be to combine different types of generative models in ensembles of generative models.
 Ensemble learning is mostly done with classification tasks \citep{ensemble_learning_survey_2018}.
 Ensembles of predictive models are used to increase the predictive performance.
-There multiple models are trained on the data and their predictions are combined to get a better predictor.
+Multiple models are trained on the data and their predictions are combined to get a better predictor.
 Unsupervised ensembles have been used for outlier detection \citep{unsupervised_outlier}.
 The heterogeneity between the models can prevent overfitting and thereby leads to results that generalize better \citep{ensemble_learning_survey_2018}.
 Translating this idea to increase the quality of synthetic data could therefore be promising, in particularly in setting of small sample size, where the issue of overfitting is most important.
