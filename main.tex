@@ -22,6 +22,7 @@
 \usepackage{placeins}
 \usepackage{setspace}
 \usepackage{lscape}
+\usepackage[shortlabels]{enumitem}
 \usepackage[a4paper,%bindingoffset=0.2in,
             left=2.5cm,right=2.5cm,top=2.1cm,bottom=2.5cm]{geometry}
 \usepackage{helvet}
@@ -1418,6 +1419,36 @@ This way, Julia packages in general can be used in a straightforward and stable 
 \subsection{Feature overview and comparison to existing solutions}
 TODO feature matrix aus JuliaConnectoR-Paper
 
+\rowcolors{1}{gray!25}{white}
+\begin{table}[h!]
+\centering
+\begin{tabular}{p{6.1cm} p{3cm} p{2.1cm} p{1.9cm} l}
+%\hline
+{\bf Feature} & {\bf \apkg{JuliaConnectoR}} & {\bf \apkg{JuliaCall}} & {\bf \apkg{XRJulia}} & {\bf See} \\
+%\hline
+Communication & TCP/binary & \proglang{C}-interface & TCP/JSON &
+\ref{Communication} \\
+Automatic importing of packages & Yes & No & No &
+\ref{AutomaticImport} \\
+Specification for type translation & Yes & No & No &
+\ref{RtoJulia} \\
+Reversible translation & Yes
+& No & No & \ref{JuliatoR} \\
+Callbacks & Yes & Yes & No & \ref{Callbacks} \\
+Let-syntax & Yes & No & No & \ref{LetSyntax} \\
+Show standard (error) output & Yes & No & Yes &
+\ref{OutputRedirection} \\
+Interruptible & Yes & No & Yes & \ref{Interrupting} \\
+Missing values & Yes & Yes & No & \ref{MissingValues} \\
+\proglang{R} data frames to \proglang{Julia} Tables & Yes & Yes & No &
+\ref{DataFrameSupport} \\
+%\hline
+\end{tabular}
+\caption{\label{tab:JuliaConnectoRFeatures} Comparison of features between the
+\apkg{JuliaConnectoR} (version 0.6), \apkg{JuliaCall} (version 0.17.1) and
+\apkg{XRJulia} (version 0.9.0).}
+\end{table}
+
 \subsection{Using \apkg{BoltzmannMachines} in R via the \apkg{JuliaConnector}}
 As mentioned in section \ref{BMfeatures}, there is currently no R package that implements deep Boltzmann machines.
 But via the \apkg{JuliaConnectoR}, all features of the \apkg{BoltzmannMachines} package become conveniently usable in R.
@@ -2252,31 +2283,49 @@ By the same mechanism, VAEs or other complex generative models could be integrat
 \section[Publications and declaration of own contributions]{Publications and declaration of \\ own contributions}
 Parts of this work have been published in the following articles:
 
-Boltzmann arxiv
+\begin{enumerate}[(1)]
+\item
+Lenz, S., Hess, M. \harvardand\ Binder, H.  \harvardyearleft
+   2019\harvardyearright , `Unsupervised deep learning on biomedical data with \apkg{BoltzmannMachines.jl}', {\em bioRxiv 578252}.
+\newline\harvardurl{\url{https://doi.org/10.1101/578252}}
 
-JuliaConnectoR
+\item 
+Lenz, S., Hackenberg, M. \harvardand\ Binder, H.  \harvardyearleft
+  2021\harvardyearright , `The {JuliaConnectoR}: a functionally oriented
+  interface for integrating {Julia} in {R}', {\em arXiv:2005.06334 [cs, stat]}. 
+  \newline(Accepted by {\em Journal of Statistical Software})
+\newline\harvardurl{\url{http://arxiv.org/abs/2005.06334}}
 
-dsBoltzmannMachines
+\item
+Lenz, S., Hess, M. \harvardand\ Binder, H.  \harvardyearleft
+  2021\harvardyearright , `Deep generative models in {DataSHIELD}', {\em BMC
+  Medical Research Methodology} {\bf 21}(1),~64.
+\newline\harvardurl{\url{https://doi.org/10.1186/s12874-021-01237-6}}
+\end{enumerate}
 
-The contributions to the published packages and corresponding publications are as follows:
+The contributions to the publications are as follows:
 
-TODO
+\begin{enumerate}[(1)]
+\item
+Harald Binder contributed to the initial design of the \apkg{BoltzmannMachines} package by creating a Julia version from a MATLAB predecessor that I wrote.
+I then developed the Julia code further and made the training more flexible, added the concept of multimodal DBMs, and put a special emphasis for evaluating the training.
+Moritz Hess contributed by providing the perspective of the application on omics data.
 
-The package \apkg{BoltzmannMachines} has furthermore been used for the following articles:
+\item
+I developed the design of the \apkg{JuliaConnectoR} package and implemented it.
+Harald Binder contributed by requesting features for convenient interactive use, thereby steering the software design into this direction.
+Maren Hackenberg contributed the example for using neural differential equations in the article. 
+This example is not included in the thesis.
 
-Martin
+\item
+Harald Binder and I developed the concept for the analysis and the simulation design. I designed and implemented the software and conducted the analyses. Moritz Hess contributed to  the experiment for comparing the different generative models on genetic variant data by preparing the data and giving advice for the model training.
+\end{enumerate}
 
-Moritz Bioinformatics x2
+All plots and drawings have been created by myself.
+All artwork that was used for composing the drawings does not require attribution.
 
-Parts of this work have been presented in the following conferences
-GMDS 2018
-GMDS 2019
-JuliaCon 2018
-JuliaCon 2020
-eRum 2020
 
 \setlength{\emergencystretch}{3em}
-
 
 \clearpage
 \section[Documentation of Julia package \apkg{BoltzmannMachines}]{Documentation of Julia package \\ \apkg{BoltzmannMachines}}
