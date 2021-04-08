@@ -1479,24 +1479,26 @@ The grammar is inspired by BSON \citep{bsonspec}.
 \FloatBarrier
 \section{Deep generative models in DataSHIELD}\label{deepgends}
 
-If data of individuals is distributed across different sites and data protection constraints prevent that the data leave the sites, joint analyses are not possible in a simple way. 
-A practical approach to this problems is taken by DataSHIELD \citep{budin-ljosne_datashield}, a software framework for privacy-preserving analyses of distributed biomedical data, which allows conducting several important types of statistical analyses on distributed data.
+If data of individuals is distributed across different clinics/sites and data protection constraints prevent that the data leave the sites, a joint analysis is not possible in a simple way. 
+A practical approach to this problem is taken by DataSHIELD \citep{budin-ljosne_datashield}, a software framework for privacy-preserving analyses of distributed biomedical data, which allows conducting several important types of statistical analyses on distributed data.
 The implementations of the algorithms are based on reformulating the underlying algorithms in a way that only aggregated data has to leave the sites.
 However, not all algorithms are suitable to be applied in such a way.
 For example, it is possible to train deep learning models on distributed data by transferring the models between the sites during the training.
 This approach can yield results without much  performance loss but it requires that the model parameters are exchanged between the sites very often \citep{chang_distributed}.
 Since the number of model parameters in neural networks may even exceed the amount of training data, and there are many small training steps that need to be performed, this approach leads to an extensive data flow between the sites.
-This in turn raises practical issues and also makes it hard to argue that no individual data leave the sites.
+This in turn raises practical issues because the networks need to be serialized, transferred, and deserialized, which can consume much time for large networks.
+But most importantly, it makes it hard to argue that no individual data leave the sites if large quantities of data are exchanged.
 An alternative approach to conduct analyses in such a scenario is to use synthetic data \citep{bonofiglio2020}.
-The goal of synthetic data is to create data that captures the underlying structure of the original data but is not linked to the individuals and can be used without or with less privacy restrictions than the original data.
-Here, both approaches are combined by introducing a software based on the DataSHIELD infrastructure that can generate synthetic data using DBMs.
-But at first, the feasibility of this approach is investigated, including a comparison of DBMs with two other neural network approaches, GANs and VAEs, and with multiple imputation as a simpler method.
+The goal of synthetic data is to create data that captures the underlying structure of the original data but is not linked to the individuals and can be used without or with less privacy restrictions compared to the original data.
+In this chapter I first investigate the feasibility of distributed analyses based on synthetic observations generated from deep generative approaches.
+This includes a comparison of DBMs with two other neural network approaches, GANs and VAEs, and with multiple imputation as a simpler method.
+Finally, I introduce a software based on the DataSHIELD infrastructure that can generate synthetic data using DBMs.
 
 \subsection{Theoretical background}
 
 \subsubsection{Privacy concepts}\label{privacyconcepts}
 If synthetic data are generated from real patient data, it is particularly important to evaluate not only the usability of the synthetic data for conducting analyses but also to assess the risk of leaking private information that may result from releasing the synthetic data.
-There is always a tradeoff between privacy and usability \citep{dinur_revealing_2003, kifer_no_2011}.
+There is always a trade-off between privacy and usability \citep{dinur_revealing_2003, kifer_no_2011}.
 This means, absolute guarantees of privacy are impossible in all practical cases.
 If the model learns information from data, there is always some information about the original data points contained.
 This opens the door for probabilistic reasoning about the original data.
@@ -1870,12 +1872,12 @@ MICE and IM also have clearly lower sensitivity values than DBMs and VAEs.
    \captionsetup{type=figure}
    \includegraphics[scale=0.7]{images/rmseodds.pdf}
    \captionof{figure}{Comparing the generative performance of DBMs, GANs, IM, MICE, and VAEs via the RMSE of log odds ratios. There is one data point for each genomic locus in the box plots. (See \ref{realexpsetup} for the description of the data sets.)
-   Separate for the different approaches, the data points in the plot show the performance of the best models with respect to the RMSE of log odds ratios.}
+   Separate for the different approaches, the data points in the plot show the performance of the best models with respect to the RMSE of log odds ratios that are found in the grid search.}
    \label{fig:rmseodds}
 
 
 \captionsetup{type=table}
-\captionof{table}{Quantiles of the RMSE of log odds ratios as depicted in  \ref{fig:rmseodds} in the form {\em Median} ({\em 5\% quantile} - {\em 95\% quantile}).}
+\captionof{table}{Quantiles of the RMSE of log odds ratios as depicted in Figure \ref{fig:rmseodds} summarized as: {\em Median} ({\em 5\% quantile} - {\em 95\% quantile}).}
 \label{tab:distgenresults_rmse}
 \begin{tabular}{l|cccc}
 \\\\[-4\medskipamount]
@@ -1895,13 +1897,11 @@ VAE & \makecell{1.05 \\ (0.72 - 1.85)} & \makecell{1.02 \\ (0.68 - 1.72)} & \mak
    \captionsetup{type=figure}
    \includegraphics[scale=0.7]{images/overfitting.pdf}
    \captionof{figure}{Comparing the proportion of overfitting in DBMs, GANs, IM, MICE, and VAEs via the RMSE of log odds ratios in several settings of distributed data.
-   The data points shown stand for the same data sets and models as in Figure \ref{fig:rmseodds}.}
+   The data points shown stand for the same data sets and models as in Figure \ref{fig:rmseodds}, i.e., there is one data point for the best model with respect to the RMSE of log odds ratios per genomic locus.}
    \label{fig:distgenresults_overfitting}
 
-\hskip 5pt
-
 \captionsetup{type=table}
-\caption{Quantiles of the proportion of overfitting as depicted in Figure \ref{fig:distgenresults_overfitting}, summarized in the form  {\em Median} ({\em 5\% quantile} - {\em 95\% quantile}).}\label{tab:distgenresults_overfitting}.
+\caption{Quantiles of the proportion of overfitting as depicted in Figure \ref{fig:distgenresults_overfitting}, summarized as: {\em Median} ({\em 5\% quantile} - {\em 95\% quantile}).}\label{tab:distgenresults_overfitting}.
 \begin{tabular}{l|cccc}
 \\\\[-4\medskipamount]
 & 1 site & 2 sites & 5 sites & 20 sites \\[0.5ex]
