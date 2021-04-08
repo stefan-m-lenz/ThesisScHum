@@ -31,6 +31,11 @@ The package requires that
 and that the Julia executable is in the system search \env{PATH} or that the
 \env{JULIA\_BINDIR} environment variable is set to the \code{bin} directory of
 the Julia installation.
+If the \env{JULIA\_BINDIR} variable is set, it takes precedence over
+looking in the executable path.
+By setting the \env{JULIA\_BINDIR} variable before starting Julia,
+it is therefore possible to use different installations of Julia on the
+same machine without having to change the executable path.
 \end{Section}
 %
 \begin{Section}{Function overview}
@@ -38,7 +43,7 @@ the Julia installation.
 The function \code{\LinkA{juliaImport}{juliaImport}} makes
 functions and data types from Julia packages or modules available as R functions.
 
-If only a single Julia function needs to be importedR, \code{\LinkA{juliaFun}{juliaFun}}
+If only a single Julia function needs to be imported in R, \code{\LinkA{juliaFun}{juliaFun}}
 can do this. The simplest way to call a Julia function without any importing
 is to use \code{\LinkA{juliaCall}{juliaCall}} with the function name given
 as character string.
@@ -79,7 +84,7 @@ The type correspondences of the basic R data types in Julia are the following:
 \code{character} & \eqn{\rightarrow}{} & \code{String} \\{}
 \code{complex} & \eqn{\rightarrow}{} & \code{Complex\{Float64\}} \\{}
 \code{raw}  & \eqn{\rightarrow}{} & \code{UInt8} \\{}
-\code{symbol} & \eqn{\rightarrow}{} & \code{Symbol}
+\code{symbol} & \eqn{\rightarrow}{} & \code{Symbol} \\{}
 }
 
 R vectors of length 1 of the types in the table above will be translated to the types shown.
@@ -94,7 +99,7 @@ will be of type \code{Array\{Float64,2\}}.
 
 Missing values (\code{NA}) in R are translated to \code{missing} values in Julia.
 R vectors and arrays with missing values are converted to Julia arrays
-of type \code{Array\{Union\{Missing, T\}\}}, where \code{T} stands for the translated 
+of type \code{Array\{Union\{Missing, T\}\}}, where \code{T} stands for the translated
 type in the table above.
 
 R lists are translated as \code{Vector\{T\}} in Julia, with \code{T} being
@@ -143,7 +148,7 @@ The following table shows how basic R-compatible types of Julia are translated t
 \code{UInt64}, \code{Int128}, \code{UInt128}, \code{Ptr} & \eqn{\rightarrow}{} &\code{raw} with type attribute \\{}
 \code{Complex\{Float64\}}& \eqn{\rightarrow}{} &\code{complex} \\{}
 \code{Complex\{Int\var{X}\}} with \var{X} \eqn{\leq}{} 64 & \eqn{\rightarrow}{} &\code{complex} with type attribute \\{}
-\code{Complex\{Float\var{X}\}} with \var{X} \eqn{\leq}{} 32 & \eqn{\rightarrow}{} &\code{complex} with type attribute
+\code{Complex\{Float\var{X}\}} with \var{X} \eqn{\leq}{} 32 & \eqn{\rightarrow}{} &\code{complex} with type attribute \\{}
 }
 
 Julia \code{Array}s of these types are translated to \code{vector}s or \code{array}s of the corresponding types in R.
@@ -170,13 +175,37 @@ is possible via \code{\LinkA{juliaGet}{juliaGet}}.
 %
 \begin{Section}{Limitations}
 
-
+%
+\begin{SubSection}{Possible inexactness when dealing with large 64 bit integers}
 Numbers of type \code{Int64} that are too big to be expressed as 32-bit
 \code{integer} values in R will be translated to \code{double} numbers.
 This may lead to a inaccurate results for very large numbers,
 when they are translated back to Julia, since, e. g.,
 \code{(2\textasciicircum{}53 + 1) - 2\textasciicircum{}53 == 0} holds for double-precision
 floating point numbers.
+\end{SubSection}
+
+
+%
+\begin{SubSection}{Non-ASCII characters in variable names}
+Julia uses UTF-8 as default string encoding everywhere.
+In particular, Julia permits characters that are not
+expressible in encodings such as "Latin-1" in variable and function names.
+In R, the encoding of names in lists of environments depends on the platform.
+On locales without UTF-8 as native encoding, (i.e., mostly Windows),
+unexpected translations may happen when using UTF-8 characters in strings.
+
+When using \code{\LinkA{juliaImport}{juliaImport}} for importing packages/modules,
+alternative names for variables using non-ASCII characters are added,
+which are compatible across different encodings.
+(For more information, see \code{\LinkA{juliaImport}{juliaImport}}.)
+
+In other places, such as when evaluating code via \code{\LinkA{juliaEval}{juliaEval}} and
+\code{\LinkA{juliaLet}{juliaLet}}, the problem cannot be addressed.
+It should therefore be avoided to use non-ASCII characters
+if code should be portable across different platforms.
+\end{SubSection}
+
 \end{Section}
 \inputencoding{utf8}
 \HeaderA{AccessMutate.JuliaProxy}{Access or mutate Julia objects via proxy objects}{AccessMutate.JuliaProxy}
@@ -387,17 +416,15 @@ for applying the function in a vectorized manner via "broadcasting" in Julia.
 %
 \begin{Usage}
 \begin{verbatim}
-juliaCall(name, ...)
+juliaCall(...)
 \end{verbatim}
 \end{Usage}
 %
 \begin{Arguments}
 \begin{ldescription}
-\item[\code{name}] name of the Julia function. May be prefixed with a package or module
-path.
-
-\item[\code{...}] parameters handed to the function. Will be translated
-to Julia data structures
+\item[\code{...}] the name of the Julia function as first argument, followed by the
+parameters handed to the function.
+All arguments to the Julia function are translated to Julia data structures.
 \end{ldescription}
 \end{Arguments}
 %
@@ -586,7 +613,7 @@ The following table shows the translation of Julia objects into R objects.
 \code{Tuple} & \eqn{\rightarrow}{} & \code{list} \\{}
 \code{NamedTuple} & \eqn{\rightarrow}{} & \code{list} with the named elements \\{}
 \code{AbstractDict} & \eqn{\rightarrow}{} & \code{list} with two sub-lists: "\code{keys}" and "\code{values}" \\{}
-\code{AbstractSet} & \eqn{\rightarrow}{} & \code{list} \\
+\code{AbstractSet} & \eqn{\rightarrow}{} & \code{list} \\{}
 }
 \end{Details}
 %
@@ -623,7 +650,7 @@ A module path may simply be the name of a package but it may also
 be a relative module path.
 Specifying a relative Julia module path like \code{.MyModule}
 allows importing a module that does not correspond to a package,
-but has been loaded in the \code{Main} module, e. g. by \\
+but has been loaded in the \code{Main} module, e. g. by
 \code{juliaCall("include", "path/to/MyModule.jl")}.
 Additionally, via a path such as \code{SomePkg.SubModule},
 a submodule of a package can be imported.
@@ -638,6 +665,18 @@ or only those exported explicitly.
 an environment containing all functions and type constructors
 from the specified module as R functions
 \end{Value}
+%
+\begin{Note}\relax
+If a package or module contains functions or types with names that contain
+non-ASCII characters, (additional) alternatives names are provided
+if there are LaTeX-like names for the characters available in Julia.
+In the alternative names of the variables, the LaTeX-like names of the
+characters surrounded by \code{<...>} replace the original characters.
+(See example below.)
+For writing platform independent code, it is recommended to use those
+alternative names.
+(See also \LinkA{JuliaConnectoR-package}{JuliaConnectoR.Rdash.package} under "Limitations".)
+\end{Note}
 %
 \begin{Examples}
 \begin{ExampleCode}
@@ -663,10 +702,7 @@ if (juliaSetupOk()) {
    # by directly using the module object returned by "include".
    TestModule1 <- juliaImport(juliaCall("include", testModule))
    TestModule1$test1()
-}
 
-
-if (juliaSetupOk()) {
 
    # Importing a submodule
    testModule <- system.file("examples", "TestModule1.jl",
@@ -677,6 +713,18 @@ if (juliaSetupOk()) {
    # call function of submodule
    SubModule1$test2()
 
+
+   # Functions using non-ASCII characters
+   greekModule <- system.file("examples", "GreekModule.jl",
+                             package = "JuliaConnectoR")
+   suppressWarnings({ # importing gives a warning on non-UTF-8 locales
+      GreekModule <- juliaImport(juliaCall("include", greekModule))
+   })
+   # take a look at the file
+   cat(readLines(greekModule, encoding = "UTF-8"), sep = "\n")
+   # use alternative names
+   GreekModule$`<sigma>`(1)
+   GreekModule$`log<sigma>`(1)
 }
 
 
@@ -754,12 +802,12 @@ if (juliaSetupOk()) {
 \HeaderA{juliaPut}{Create a Julia proxy object from an R object}{juliaPut}
 %
 \begin{Description}\relax
-This function creates a proxy object for a Julia object that would
-otherwise be translated to an R object.
-This is useful to prevent many translations of large objects
-if it is necessary performance reasons.
-To see which objects are translated by default, please see the
-\LinkA{JuliaConnectoR-package}{JuliaConnectoR.Rdash.package} documentation.
+This function can be used to copy R vectors and matrices to Julia and keep
+them there.
+The returned proxy object can be used in place of the original vector or
+matrix.
+This is useful to prevent that large R vectors / matrices
+are repeatedly translated when using an object in multiple calls to Julia.
 \end{Description}
 %
 \begin{Usage}
@@ -795,6 +843,8 @@ if (juliaSetupOk()) {
 %
 \begin{Description}\relax
 Checks that Julia can be started and that the Julia version is at least 1.0.
+For more information about the setup and discovery of Julia,
+see \LinkA{JuliaConnectoR-package}{JuliaConnectoR.Rdash.package}, section "Setup".
 \end{Description}
 %
 \begin{Usage}
