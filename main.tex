@@ -1228,12 +1228,12 @@ For this purpose, the hyperparameters for each RBM can be defined in an array of
 Analogously to how RBMs are arranged as building blocks in DBMs (see Figure \ref{mdbmimplasstack}), these hyperparameter definition objects can be arranged in vectors and passed to \inlinecode{fitrbm} or \inlinecode{stackrbms}.
 Objects of type \inlinecode{TrainLayer} are then translated to RBMs and objects of type \inlinecode{TrainPartitionedLayer} to partitioned RBMs.
 For illustrating this, let us assume here that \inlinecode{x} has only 6 variables.
-Then the code in listing \ref{lst:partdbm} results in a model shown in Figure \ref{fig:smallpartitioneddbm}.
+Then the code in Listing \ref{lst:partdbm} results in a model shown in Figure \ref{fig:smallpartitioneddbm}.
 
 \begin{figure}[h]
    \centering
    \includegraphics[scale=3.]{images/SmallPartitionedDBM.pdf}
-   \caption{DBM architecture resulting from code in listing \ref{lst:partdbm}}
+   \caption{DBM architecture resulting from code in Listing \ref{lst:partdbm}}
 \label{fig:smallpartitioneddbm}
 \end{figure}
 
@@ -1339,7 +1339,7 @@ monitors, dbm = monitored_fitdbm(x; nhiddens = [6,2],
       monitoringdata = datadict);
 \end{lstlisting}
 
-In listing \ref{lst:monfitdbm}, the different data sets that are to be used in monitoring are at first collected in a \inlinecode{DataDict} object and then passed to the training function via the  \inlinecode{monitoringdata} argument.
+In Listing \ref{lst:monfitdbm}, the different data sets that are to be used in monitoring are at first collected in a \inlinecode{DataDict} object and then passed to the training function via the  \inlinecode{monitoringdata} argument.
 For monitoring the pre-training of higher layers, the input data in the \inlinecode{datadict} is propagated upwards by using the induced deterministic activation potential in the same way as it is done with the data for training the higher layers.
 
 The monitoring functions are expected to write their results in the \inlinecode{Monitor} objects (see p.\ \pageref{bms_Monitor}) that are received as first argument of the monitoring functions.
@@ -1966,7 +1966,7 @@ These wrap the functionality of the \apkg{BoltzmannMachines} Julia package via t
 
 
 In the following, the R code for performing the complete workflow as shown in Figure \ref{fig:examplaryworkflow} is detailed.
-In a first step (see listing \ref{lst:dslogin}), the user has to load the \apkg{dsBoltzmannMachinesClient} package and login to the remote Opal servers.
+In a first step (see Listing \ref{lst:dslogin}), the user has to load the \apkg{dsBoltzmannMachinesClient} package and login to the remote Opal servers.
 As the \apkg{dsBoltzmannMachinesClient} package depends on the Opal R client, that is loaded implicitly as well.
 The login function can be used to obtain a DataSHIELD login object using the URL of the Opal server and the credentials of the user.
 After a successful login, the resulting login object is assigned to the variable \inlinecode{o} here.
