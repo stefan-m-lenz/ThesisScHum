@@ -206,6 +206,12 @@ As the success of the learning depends critically on good hyperparameters, a spe
 
 This work aims to investigate how DBMs can be used to tackle the challenges for deep learning on biomedical data. Furthermore, it strives to make DBMs accessible in form of user-friendly software.
 
+In a first step, the algorithms for training and evaluating DBMs need to be implemented in a way that is suitable for experimentation.
+This implementation can then be used to examine the hypothesis that DBMs can produce useful synthetic data in scenarios with small sample size and also with distributed data.
+For employing DBMs in settings with sensitive health information, the disclosure risk of synthetic data created by DBMs must be investigated as well.
+After this, DBMs can be considered for generating synthetic data in the DataSHIELD infrastructure.
+Since DataSHIELD is based on the R programming language, the algorithms for training and evaluating DBMs must also be made available in R.
+Finally, a solution for applying DBMs via DataSHIELD can be provided.
 
 
 \clearpage
@@ -1411,6 +1417,8 @@ It creates a scatter plot of the logit-transformed mean-field activation in the 
 \clearpage
 \section{Connecting R and Julia with the \apkg{JuliaConnectoR}}
 
+With R being a popular language in bioinformatics and biostatistics, a flexible solution that allows a convenient interactive use and can make DBMs and other deep learning techniques more attractive for biomedical research.
+
 
 One of the unique features of the JuliaConnectoR is the ability to import arbitrary Julia packages in R such that all functions are callable directly as R functions.
 Also handling Julia objects becomes conveniently possible in R by either translating them to R or by accessing them via implicitly created proxy objects in R, which can be used in place of the original Julia objects.
@@ -2296,7 +2304,7 @@ Lenz, S., Hess, M. \harvardand\ Binder, H.  \harvardyearleft
 Lenz, S., Hackenberg, M. \harvardand\ Binder, H.  \harvardyearleft
   2021\harvardyearright , `The {JuliaConnectoR}: a functionally oriented
   interface for integrating {Julia} in {R}', {\em arXiv:2005.06334 [cs, stat]}. 
-  \newline(Accepted by {\em Journal of Statistical Software})
+  \newline(Accepted by the {\em Journal of Statistical Software})
 \newline\harvardurl{\url{http://arxiv.org/abs/2005.06334}}
 
 \item
@@ -2391,7 +2399,7 @@ Freiburg, den TODO \hspace{3cm} Stefan Lenz
 
 \clearpage
 \section{Danksagung}
-
+TODO
 
 
 \end{appendices}
