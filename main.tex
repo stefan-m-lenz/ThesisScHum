@@ -411,7 +411,7 @@ For this, one can use the expected value of the conditional probability $p(h\mid
 In the second term of equation (\ref{eqn:nablaresult}), the sum goes over all nodes in the network.
 Calculating this term is technically not feasible in normal cases, as the number of summands grows exponentially with the number of nodes.
 This means that it is not possible to simply equate the gradient of the log-likelihood with zero and solve the equation to get an optimum. Also finding an optimum with gradient descent \citep{gradientdescent}, walking with small steps in the direction of the gradient to find an optimum, is not possible directly, because this would as well require the calculation of the whole gradient in each iteration step.
-Via Gibbs sampling (see section \ref{gibbssamplingrbm}), however, the term can be estimated.
+Via Gibbs sampling (see Section \ref{gibbssamplingrbm}), however, the term can be estimated.
 With this, it becomes possible to use the estimated gradients in gradient descent, or here rather ``gradient ascent" as we would like to find a (local) maximum.
 
 \paragraph{Batch gradient optimization and the role of mini-batches}
@@ -625,7 +625,7 @@ In most cases, the likelihood cannot be calculated exactly but it can only be es
 
 \paragraph{Exact calculation of the partition function}
 \label{methodExactloglik}
-As mentioned in section \ref{rbmtraining}, the exact calculation of partition functions is only computationally feasible for very small models as its complexity grows exponentially. Exploiting the layerwise structure allows a faster exact calculation of $Z$ such that the computation time does not grow exponentially with the number of all nodes but only grows exponentially with the number of elements in a subset of the nodes. It is possible to utilize the formula for the free energy in restricted Boltzmann machines (see formulas (\ref{eqn:freenergy_rbm}) and (\ref{eqn:freenergy_gbrbm})), where the hidden layer is summed out analytically.
+As mentioned in Section \ref{rbmtraining}, the exact calculation of partition functions is only computationally feasible for very small models as its complexity grows exponentially. Exploiting the layerwise structure allows a faster exact calculation of $Z$ such that the computation time does not grow exponentially with the number of all nodes but only grows exponentially with the number of elements in a subset of the nodes. It is possible to utilize the formula for the free energy in restricted Boltzmann machines (see formulas (\ref{eqn:freenergy_rbm}) and (\ref{eqn:freenergy_gbrbm})), where the hidden layer is summed out analytically.
 With this it is possible to reduce the number of summands.
 The complexity for calculating the partition function for all the different types of  models described here is then still $\mathcal{O}(2^n)$, but with an $n$ smaller than the number of nodes:
 
@@ -704,7 +704,7 @@ Here the visible layer $v$ and the second hidden layer $h^{(2)}$ have been summe
 It can be noted that the term in the first line of formula \ref{eqn:aisunnormalizedprob} is equal to the unnormalized probability of the hidden nodes in a RBM with Bernoulli distributed nodes.
 This procedure can be generalized for AIS on multimodal DBMs.
 If we have the unnormalized probability $p^*(h)$ for each type of RBM that receives the data input, it becomes possible to calculate the unnormalized probability of sampled hidden values in a multimodal DBM in the same way as for a standard DBM with only Bernoulli distributed nodes.
-The formula for the unnormalized probability for the respective RBM type (see section \ref{unnormalizedprobsrbm}) can then be used for summing out the visible units in formula \ref{eqn:aisunnormalizedprob} by substituting the term in the first line with the product of the unnormalized probabilities for all RBMs in the visible layer.
+The formula for the unnormalized probability for the respective RBM type (see Section \ref{unnormalizedprobsrbm}) can then be used for summing out the visible units in formula \ref{eqn:aisunnormalizedprob} by substituting the term in the first line with the product of the unnormalized probabilities for all RBMs in the visible layer.
 
 The formulas for $p^*(h)$ for each different type of RBM are derived next, also by analytically ``summing out", or in case of Gaussian RBMs, ``integrating out" the visible layer.
 
@@ -834,7 +834,7 @@ p(v_k = 1 \mid h) &= \frac{p(v_k = 1, h)}{p(h)} \\
 
 To generalize the evaluation of the lower bound of the likelihood in multimodal DBMs, the AIS algorithm for estimating the partition function via AIS can be generalized.
 This can be done by ``summing out" or ``integrating out" the different types of visible nodes (see Figure \ref{aissummingout} C).
-In section \ref{methodAIS}, AIS for binary DBMs is described.
+In Section \ref{methodAIS}, AIS for binary DBMs is described.
 In formula (\ref{eqn:aisunnormalizedprob}) the binary visible layer is summed out by using the formula
 \[
 p^*(h) = e^{b^T h} \prod_j (1+ \exp((a + W h)_j))
@@ -877,7 +877,7 @@ For {\bf Cho's alternative parameterization} (see formula (\ref{eqn:energyformul
    &\stackrel{(\ref{eqn:densitynormal})}{=} \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{\frac{1}{2}(Wh)_i^2 + (Wh)_i a_i}{\sigma_i^2} \right ) \prod_{i=1}^{n_V}\left(\sqrt{2\pi} \sigma_i \right).
 \end{align*}
 
-For the RBM for {\bf categorical variables with the dummy encoding with reference level} from section \ref{methodsoftmax0}, the unnormalized probability can be derived similar to the RBM with Bernoulli distributed nodes. At first, the energy function can be rewritten in the same way as with the RBM with Bernoulli distributed nodes:
+For the RBM for {\bf categorical variables with the dummy encoding with reference level} from Section \ref{methodsoftmax0}, the unnormalized probability can be derived similar to the RBM with Bernoulli distributed nodes. At first, the energy function can be rewritten in the same way as with the RBM with Bernoulli distributed nodes:
 \begin{align}
 e^{-E(v,h)} &= \exp \left(\sum_j b_j h_j + \sum_{i,j} w_{ij} v_i h_j + \sum_i a_i v_i \right) \nonumber \\
 &= \exp \left( \sum_i b_j h_j + \sum_i v_i \left( a_i + \sum_j w_{ij} h_j \right) \right) \nonumber \\
@@ -1173,7 +1173,7 @@ The abstract type for RBMs is \inlinecode{AbstractRBM}.
 The methods listed there are implemented for all subtypes of RBMs in the package.
 The function \inlinecode{samplehidden} and \inlinecode{samplevisible} are used for Gibbs sampling to sample from $p(h|v)$ and $p(v|h)$, respectively (see \ref{gibbssamplingrbm}).
 The functions \inlinecode{hiddenpotential} and \inlinecode{visiblepotential} calculate the deterministic activation potential $\EX_v p(h|v)$ and $\EX_h p(v|h)$, which is used for RBM training and DBN training (see \ref{dbns}).
-As recommended by \cite{hinton_practical_2012} the activation potential is used for the last update of the hidden units in Gibbs sampling (see section 3.1 there), and the probabilities are also used for the visible states in the last step of sampling in the model distribution (section 3.2 there).
+As recommended by \cite{hinton_practical_2012} the activation potential is used for the last update of the hidden units in Gibbs sampling (see Section 3.1 there), and the probabilities are also used for the visible states in the last step of sampling in the model distribution (Section 3.2 there).
 Calculating the \inlinecode{visiblepotential} is also needed for sampling in DBNs as shown in Figure \ref{fig:dbn}, where the activation from the top layer is passed down to the visible layer in a deterministic way.
 For each of these functions for sampling and calculating the activation potential, there is also a function that is suffixed with an exclamation mark.
 These variants are mostly used in the implementation as they allow to reuse allocated space, which makes the implementation much faster.
@@ -1458,7 +1458,7 @@ Missing values & Yes & Yes & No & \ref{MissingValues} \\
 \end{table}
 
 \subsection{Using \apkg{BoltzmannMachines} in R via the \apkg{JuliaConnector}}
-As mentioned in section \ref{BMfeatures}, there is currently no R package that implements deep Boltzmann machines.
+As mentioned in Section \ref{BMfeatures}, there is currently no R package that implements deep Boltzmann machines.
 But via the \apkg{JuliaConnectoR}, all features of the \apkg{BoltzmannMachines} package become conveniently usable in R.
 This can be demonstrated by some examples, which show how easy it becomes to translate Julia code for training and evaluating deep and restricted Boltzmann machines to R code that calls the \apkg{BoltzmannMachines} Julia package via the \apkg{JuliaConnectoR} behind the scenes.
 
@@ -1774,7 +1774,7 @@ Summed up, the results of the experiment indicate that using DBMs on distributed
 
 After the experiment with simulated data, the question remains how well the findings generalize on real genetic data.
 It is also interesting how DBMs compare to other generative models, in particular, in settings of small sample size.
-Therefore, the next experiment evaluates DBMs and other generative approaches in a setting similar to the one in section \ref{simuexp} using real genetic variant data that is distributed among a number of virtual sites.
+Therefore, the next experiment evaluates DBMs and other generative approaches in a setting similar to the one in Section \ref{simuexp} using real genetic variant data that is distributed among a number of virtual sites.
 As additional generative approaches, VAEs, GANs and MICE are considered.
 The method of independent marginals is added as a reference for a baseline performance.
 
@@ -1800,7 +1800,7 @@ For each of these 30 different genomic locations, a training data set $x_{train}
 From the 5008 samples, 500 samples are used in the training data sets, 100 in the test data sets, and 1000 in the validation data sets.
 
 To evaluate different generative approaches in a distributed setting,
-the setup of the experiment is very similar to the one with the simulated data shown in section \ref{simuexp}.
+the setup of the experiment is very similar to the one with the simulated data shown in Section \ref{simuexp}.
 In the same way as described in \ref{simuexpsetup} and shown in Figure \ref{fig:experimentalsetup},
 the training data is distributed among different sites, and then different models are trained at the sites on their share of the data.
 Further, the models at the different sites generate synthetic data, which are then compiled into a joint synthetic data set.
@@ -2051,7 +2051,7 @@ These measurements show empirically what is expected theoretically, i.e., that t
 \begin{figure}[hb]
    \centering
    \includegraphics[scale=.6]{images/trainingtimes.pdf}
-   \caption{Training duration of DBMs using the dsBoltzmannMachines package. On the left, the DBMs are trained on data sets with 50 variables and a varying number of samples. The DBMs have two hidden layers with 50 and 10 nodes, respectively. On the right, the number of samples is fixed as 2500. The DBMs are trained using data sets with varying numbers of variables. The hidden layers are scaled proportionally. In all cases the training consists of 30 epochs pre-training and 30 epochs fine-tuning and the monitoring is performed on the training data set and a test data set with 10 percent of the samples in the training data set.}
+   \caption{Training duration of DBMs using the dsBoltzmannMachines package. On the left, the DBMs are trained on data sets with 50 variables and a varying number of samples. The DBMs have two hidden layers with 50 and 10 nodes, respectively. On the right, the number of samples is fixed as 2500. The DBMs are trained using data sets with varying numbers of variables. The hidden layers are scaled proportionally. In all cases the training consists of 30 epochs pre-training and 30 epochs fine-tuning and the monitoring is performed on the training data set and a test data set with 10 percent of the samples in the training data set. The times were measured on a virtual machine with one core, giving a lower bound of the performance. As can be seen, the performance scales in the same way as matrix multiplication. }
    \label{fig:dbmtrainingtimes}
  \end{figure}
 
@@ -2086,7 +2086,7 @@ The five subgroups of the cases and the control group (see also Figure \ref{fig:
  \begin{figure}[!hb]
    \centering
    \includegraphics[scale=1]{images/dbmvspca.pdf}
-   \caption{Dimension reduction using DBMs and PCA. The data set used is the simulated data set from section \ref{simuexp}. Left: Principal component analysis (PCA) of the data. Right: Output from \inlinecode{ds.dbm.top2LatentDims}, which performs a PCA on  activation of the hidden nodes that is induced by the data using the mean-field algorithm.}
+   \caption{Dimension reduction using DBMs and PCA. The data set used is the simulated data set from Section \ref{simuexp}. Left: Principal component analysis (PCA) of the data. Right: Output from \inlinecode{ds.dbm.top2LatentDims}, which performs a PCA on  activation of the hidden nodes that is induced by the data using the mean-field algorithm.}
    \label{fig:dbmvspca}
  \end{figure}
 
@@ -2144,17 +2144,12 @@ Calculates the log-likelihood for a RBM/DBM (exponential complexity)\\
 \section{Discussion}
 
 \subsection{Computational performance}
-As can be seen Figure \ref{fig:dbmtrainingtimes} (p.\ \pageref{fig:dbmtrainingtimes}), the performance of DBM training scales in the same way as matrix multiplication.
-For the measurements shown there, a virtual machine on a single core was used.
-If multiple cores are involved, multi-threading can speed up the matrix multiplications for large matrices.
-This is done by the highly optimized OpenBLAS library, which is employed by Julia and which is capable of multi-threading internally \citep{openblas}.
-Measured on a single core in a virtualized environment on a standard desktop computer, the times give a lower bound of the computational performance.
-
 For performing deep learning on large quantities of image and text data, the need for special hardware rises \citep{lecun_dlhardware}.
 Major breakthroughs in language processing and image recognition such as the famous models {\em GPT-3} and \citep{gpt3} {\em ResNet} \citep{resnet} build on very deep architectures with many parameters.
 This may give the impression that immense amounts of data and computation are needed to make use of deep learning at all.
 The results of the experiments conducted here (see \ref{simuexpresults} and \ref{realexpresults}) show that deep learning can bring also benefits on a smaller scale, particularly in settings with lower sample sizes.
-There, standard hardware can be totally sufficient.
+With the software employed here, the speed of the training was sufficient, even utilizing only standard hardware.
+This demonstrates that deep learning can also be feasible and beneficial without investments in dedicated hardware.
 
 But, of course, performance improvements are worth considering.
 When optimizing software solutions, it must, however, always be taken into account that such changes cost time when implementing them, and they may cost additional time in the future if the flexibility to apply further changes is affected by the optimization.
@@ -2169,15 +2164,17 @@ Optimizing the performance of the implementation of deep Boltzmann machines coul
 With their special architecture, graphics processing units (GPUs) allow a massive parallelization of operations that are executed simultaneously in the same way on different data points.
 Many deep learning frameworks such as \apkg{TensorFlow} \citep{tensorflow} and \apkg{PyTorch} \citep{pytorch} support to run code on GPUs in addition to the central processing unit (CPU).
 Also the Julia package \apkg{Flux} supports to run array operations on NVIDIA GPUs via the \apkg{CUDA} Julia package \citep{juliagpu}.
-As the multiplication of large matrices is already multi-threaded, performance gains may only be expected if the matrix operations exhaust the threading capabilities of the CPU.
-To get substantial performance improvements, the matrices need to have a sufficient size \citep{performancegpucpu}.
+As the multiplication of large matrices is already multi-threaded on CPUs with multiple cores, performance gains by moving computations to the GPU may only be expected if the matrix operations exhaust the threading capabilities of the CPU.
+On CPUs with multiple cores, multi-threading can speed up the matrix multiplications for large matrices.
+This is done by the highly optimized OpenBLAS library, which is employed by Julia and which is capable of multi-threading internally \citep{openblas}.
+To get substantial performance improvements by switching to GPU computing, the matrices need to have a sufficient size \citep{performancegpucpu}.
 This size is restricted by the batch size, as the update in the training algorithm can only be parallelized for samples in the same batch, and large batch sizes are not desirable in all cases \citep{masters_revisiting_2018}.
-Moreover, specific hardware requirements such as restrictions to certain types of graphics cards of a specific vendor make this kind of optimizations less attractive, in particular when considering a distributed setting, such as discussed in section \ref{deepgends}, involving several clinics with different compute infrastructures.
+Moreover, specific hardware requirements such as restrictions to certain types of graphics cards of a specific vendor make this kind of optimizations less attractive, in particular when considering a distributed setting, such as discussed in Section \ref{deepgends}, involving several clinics with different compute infrastructures.
 Given these considerations, which show that it is not trivial to harness the power of GPUs, a definitive use case where the performance would be needed to investigate this direction further.
 
 
 \subsection{Generative performance and modeling capabilities}
-The experiment shown in section \ref{realexp} builds on \cite{nussberger_synthetic_2020} where the generative performance of DBMs, VAEs, and GANs is compared in diverse settings, in particular with a broad range regarding the number of samples.
+The experiment shown in Section \ref{realexp} builds on \cite{nussberger_synthetic_2020} where the generative performance of DBMs, VAEs, and GANs is compared in diverse settings, in particular with a broad range regarding the number of samples.
 The results of \cite{nussberger_synthetic_2020} show that DBMs and VAEs are suitable as generative models for genetic variant data, while the generative performance GANs is insufficient in settings of low sample size.
 Here, these approaches are investigated in settings where data is distributed across a number of sites.
 The results for the generative performance in these distributed settings are in concordance with \cite{nussberger_synthetic_2020}.
@@ -2192,7 +2189,7 @@ One approach for reducing the number of parameters in DBMs is to partition the l
 For genetic variant data, an approach using sparse regression for partitioning clusters of SNPs has been examined in DBMs \citep{hess2017partitioned} and lead to meaningful results.
 The implementation was also based on the \apkg{BoltzmannMachines} package.
 The concept of multimodal DBMs in the package allows to train DBMs with partitioned layers conveniently.
-It is based on using restricted Boltzmann machines (RBMs) as building blocks (see Figure \ref{mdbmimplasstack} on p.~\pageref{mdbmimplasstack}).
+It is based on using restricted Boltzmann machines (RBMs) as building blocks.
 This makes it also easy to model different distributions at the visible layer.
 \cite{treppner_making_2020} used this feature to construct DBMs with input variables following negative binomial distributions for clustering single-cell sequencing data.
 
@@ -2247,15 +2244,18 @@ The heterogeneity between the models can prevent overfitting and thereby leads t
 Translating this idea to increase the quality of synthetic data could therefore be promising, in particularly in setting of small sample size, where the issue of overfitting is most important.
 Using generative ensembles has been investigated in GANs to prevent mode collapse and increase the diversity of generated samples \citep{toutouh_ensemblegan_2020}.
 For creating synthetic data, multiple models can be used to enhance the performance with respect to a performance criterion that is applied on combined data from different models.
-Experimentally this could be investigated with a similar setup to the one in the distributed experiments (see Figure \ref{fig:experimentalsetup} on p. \pageref{fig:experimentalsetup}).
-In contrast to splitting the data set in different parts as done here, the same data but different generative approaches can be used to create the parts of the synthetic data set.
+Experimentally this could be investigated with a similar setup to the one in the distributed experiments.
+Here, in the experiments with simulated and real genetic variant data, the data is split in different parts, corresponding to different sites/clinics.
+Synthetic data is generated from different models that have been trained on different parts. Then, the resulting synthetic data sets are combined and evaluated.
+A very similar approach can be used to investigate generative ensembles. 
+Instead of splitting the data, the same data but different generative approaches can be used to create the parts of the synthetic data set.
 The combined synthetic data can be assessed in a similar way as shown here with respect to performance and disclosure.
 This way, the question whether a combination of different approaches can lead to better and more diverse synthetic data could be studied further.
 
 The findings here indicate that DBMs and VAEs can both be suitable for data of small sample size.
 Combining their generative capabilities could therefore be particularly promising.
 A first step could be to implement VAEs in DataSHIELD as an additional deep generative approach.
-This can be done analogously to the implementation shown in section \ref{dsBoltzmannMachinesImpl}.
+This can be done analogously to the implementation shown in Section \ref{dsBoltzmannMachinesImpl}.
 VAEs can be constructed and trained using the \apkg{Flux} package in Julia.
 The interface can be wrapped in a DataSHIELD R package via the \apkg{JuliaConnectoR}.
 The same approach can be taken for all kinds of other generative models.
