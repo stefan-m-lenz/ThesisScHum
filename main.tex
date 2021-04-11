@@ -147,11 +147,11 @@ While the amount of data in fields such as image and speech recognition has been
 The problem of small sample sizes is particularly prevalent when dealing with genetic variant data
 because there is a high number of genetic variants, and, at the same time, the sequencing of genomes is still relatively expensive.
 This results in relatively few samples compared to the number of dimensions in data sets of genetic variants.
-Also for clinical data, the availability of high-quality data is also one of the key challenges \citep{machine_learning_review_nejm}.
+Also for clinical data, the availability of high-quality data is one of the key challenges \citep{machine_learning_review_nejm}.
 Although there is an abundance of routine care data, sample sizes are often small when it comes to curated data or data from clinical studies.
 Additionally, privacy restrictions make it difficult to use health information of humans for research and further limit the amount of accessible data.
 For example, the European General Data Protection Regulation (GDPR) requires an explicit consent for analyzing the health care data of individuals, which makes it hard to collect large amounts of data that can be used for various research purposes \citep{rumbold_effect_2017}.
-Thus, approaches that can yield good results also with a limited amount of data are needed in many cases when applying deep learning on biomedical data.
+Thus, approaches that can yield good results with only a limited amount of data are needed in many cases when applying deep learning on biomedical data.
 
 Unsupervised learning is particularly interesting if there is not enough or no labeled data.
 In contrast to prediction models, which require labeled data as input, unsupervised learning techniques aim at capturing structure of the input data without a specific prediction task.
@@ -159,7 +159,7 @@ One class of unsupervised deep learning approaches are {\em generative models}, 
 Generative models have made their appearance in mainstream media when an artist trained a generative model on images of paintings, used it to create new paintings, and sold one of these paintings for \$432,000 at the auction house Christie's \citep{cohn_ai_2018}.
 The generative approach used there is called generative adversarial network (GAN) \citep{goodfellow_generative_2014}.
 Other generative approaches in the field of deep learning are variational autoencoders (VAEs) \citep{Kingma2013} and deep Boltzmann machines (DBMs) \citep{salakhutdinov2009DBMs}.
-In a comparison of GANs, VAEs and DBMs on genetic variant data of different rather small sample sizes, DBMs showed a good generative performance \citep{nussberger_synthetic_2020}.
+In a comparison of GANs, VAEs, and DBMs on genetic variant data of different rather small sample sizes, DBMs showed a good generative performance \citep{nussberger_synthetic_2020}.
 Besides generating data, DBMs and VAEs can be used for dimensionality reduction by analysing the activation in higher-level layers of the network, which encode features of increasing complexity in the data.
 This has, e.g., been applied to find patterns in gene expression data \citep{ding_interpretable_2018, hess_exploring_2020}.
 
@@ -167,7 +167,7 @@ Another possible application of generative models is to create synthetic data fo
 Synthetic data is data that has similar properties to original data but that is not linked to individual samples of the original data.
 In the same way as the previously mentioned generated paintings are not simply modified versions of original paintings but entirely new fabrications,
 synthetic patient data is not created from single patients but from the distribution of patient characteristics that have been learned by a generative model.
-The advantage of this generated synthetic data is that it can be used with less data protection restrictions of the original data as it does not contain individual-level data.
+The advantage of synthetic data is that it can be used with less data protection restrictions of the original data as it does not contain individual-level data.
 This can be useful in settings where data is distributed and sharing the data of individuals is prohibited due to privacy concerns.
 For example, in the MIRACUM consortium \citep{prokosch_miracum_2018}, which includes ten German University hospitals,
 one of the goals is to jointly analyze data that is distributed across multiple sites.
@@ -2206,14 +2206,14 @@ The proportion of overfitting has also an intuitive meaning.
 It is the amount of which a model learns more about the training data than about the general structure of the underlying data distribution.
 
 In both the results of the proportion of overfitting and the precision of the membership attacks, DBMs and VAEs do not exhibit an increased disclosure risk compared to the simpler approaches IM and MICE.
-Particularly interesting is the higher variance in the precision of the membership attack on MICE compared to VAEs and DBMs (see Figure \ref{fig:membershipattack} on p.~\pageref{fig:membershipattack}).
+Particularly interesting is the higher variance in the precision of the membership attack on MICE compared to VAEs and DBMs.
 One can interpret this as a higher disclosure risk of MICE compared to the two neural network approaches in this scenario.
 This means that there is not more identifying information derivable from the synthetic data generated by a DBM or VAE than from data generated via a sequence of logistic regression models, such as in the MICE method.
 This is in contrast to the possible intuition that the more complex approaches must have a higher risk of leaking information.
 Since DataSHIELD allows to extract information via logistic regression models and it is therefore possible to use the MICE method to generate synthetic data from the DataSHIELD client side already, one can argue that using DBMs or VAEs as generative approaches does not lower the level of privacy in a setting where DataSHIELD is used.
 
 In DataSHIELD only known users are allowed to conduct analyses and their activity is logged to prevent analyses with malicious intent.
-If data is to be released completely without restrictions, e.g., by putting it on a internet site for anyone to download and analyze, the privacy concerns are higher than in a setting where known users analyze data via DataSHIELD.
+If data is to be released completely without restrictions, e.g., by putting it on a internet site for anyone to download and analyze, the privacy concerns are higher than in a setting where only known users analyze data via DataSHIELD.
 In an unrestricted scenario, additional measures are needed to ensure the best confidence in the protection of sensitive data.
 Yet, this applies regardless of the data protection method, as all approaches for managing the disclosure risk work with thresholds, which are hard to validate and also cannot give an absolute certainty (see \ref{privacyconcepts}).
 A combination of different disclosure metrics and human assessment can minimize the risk in such cases.
@@ -2245,7 +2245,7 @@ Translating this idea to increase the quality of synthetic data could therefore 
 Using generative ensembles has been investigated in GANs to prevent mode collapse and increase the diversity of generated samples \citep{toutouh_ensemblegan_2020}.
 For creating synthetic data, multiple models can be used to enhance the performance with respect to a performance criterion that is applied on combined data from different models.
 Experimentally this could be investigated with a similar setup to the one in the distributed experiments.
-Here, in the experiments with simulated and real genetic variant data, the data is split in different parts, corresponding to different sites/clinics.
+In the experiments with simulated and real genetic variant data here, the data is split in different parts, corresponding to different sites/clinics.
 Synthetic data is generated from different models that have been trained on different parts. Then, the resulting synthetic data sets are combined and evaluated.
 A very similar approach can be used to investigate generative ensembles. 
 Instead of splitting the data, the same data but different generative approaches can be used to create the parts of the synthetic data set.
@@ -2259,7 +2259,7 @@ This can be done analogously to the implementation shown in Section \ref{dsBoltz
 VAEs can be constructed and trained using the \apkg{Flux} package in Julia.
 The interface can be wrapped in a DataSHIELD R package via the \apkg{JuliaConnectoR}.
 The same approach can be taken for all kinds of other generative models.
-Using the example of neural differential equations models \citep{juliaconnector_2021, chen_neural_2019}, it has been demonstrated that also complex neural networks based on \apkg{Flux} can be wrapped via the \apkg{JuliaConnectoR} for being handled in R.
+Using an example of neural differential equations models \citep{juliaconnector_2021, chen_neural_2019}, it has been demonstrated that also complex neural networks based on \apkg{Flux} can be wrapped via the \apkg{JuliaConnectoR} for being handled in R.
 This shows that it is in principle possible to bring very diverse deep learning algorithms into the DataSHIELD infrastructure.
 
 \subsection{Conclusion}
@@ -2274,7 +2274,7 @@ This is important for finding good hyperparameters, which is especially relevant
 
 Algorithms and data structures from Julia can be accessed in R via the \apkg{JuliaConnectoR} R package.
 This allows wrapping the functionality of the \apkg{BoltzmannMachines} package into a DataSHIELD R package.
-By the same mechanism, VAEs or other complex generative models could be integrated in DataSHIELD for enabling distributed analyses based on synthetic data.
+With the same mechanism, VAEs or other complex generative models could be integrated in DataSHIELD for enabling distributed analyses based on synthetic data.
 
 \clearpage
 \appendix
