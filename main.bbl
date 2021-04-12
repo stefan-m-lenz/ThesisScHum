@@ -86,7 +86,7 @@ Bezanson, J., Edelman, A., Karpinski, S. \harvardand\ Shah, V.~B.
 \harvarditem{Bland \harvardand\ Altman}{2000}{blandaltmannodds}
 Bland, J.~M. \harvardand\ Altman, D.~G.  \harvardyearleft 2000\harvardyearright
   , `The odds ratio', {\em BMJ} {\bf 320}(7247),~1468.
-\newline\harvardurl{https://www.bmj.com/content/320/7247/1468.1}
+\newline\harvardurl{\url{https://www.bmj.com/content/320/7247/1468.1}}
 
 \harvarditem[Blei et~al.]{Blei, Kucukelbir \harvardand\
   McAuliffe}{2017}{blei_variational_2017}
@@ -164,8 +164,8 @@ Chang, K., Balachandar, N., Lam, C., Yi, D., Brown, J., Beers, A., Rosen, B.,
   Rubin, D.~L. \harvardand\ Kalpathy-Cramer, J.  \harvardyearleft
   2018\harvardyearright , `Distributed deep learning networks among
   institutions for medical imaging', {\em Journal of the American Medical
-  Informatics Association} .
-\newline\harvardurl{\url{https://academic.oup.com/jamia/advance-article/doi/10.1093/jamia/ocy017/4956468}}
+  Informatics Association} pp.~945--954.
+\newline\harvardurl{\url{https://doi.org/10.1093/jamia/ocy017}}
 
 \harvarditem[Chen et~al.]{Chen, Rubanova, Bettencourt \harvardand\
   Duvenaud}{2019}{chen_neural_2019}
@@ -205,7 +205,7 @@ Cohn, G.  \harvardyearleft 2018\harvardyearright , `{AI} {Art} at
 Curry, H.~B.  \harvardyearleft 1944\harvardyearright , `The method of steepest
   descent for non-linear minimization problems', {\em Quarterly of Applied
   Mathematics} {\bf 2}(3),~258--261.
-\newline\harvardurl{\url{https://www.ams.org/qam/1944-02-03/S0033-569X-1944-10667-3/}}
+\newline\harvardurl{\url{https://doi.org/10.1090/qam/10667}}
 
 \harvarditem[Ding et~al.]{Ding, Condon \harvardand\
   Shah}{2018}{ding_interpretable_2018}
@@ -361,7 +361,7 @@ Hayes, J., Melis, L., Danezis, G. \harvardand\ Cristofaro, E.~D.
   \harvardyearleft 2019\harvardyearright , `{LOGAN}: {Membership} {Inference}
   {Attacks} {Against} {Generative} {Models}', {\em Proceedings on Privacy
   Enhancing Technologies} {\bf 2019}(1),~133--152.
-\newline\harvardurl{\url{https://content.sciendo.com/view/journals/popets/2019/1/article-p133.xml}}
+\newline\harvardurl{\url{https://doi.org/10.2478/popets-2019-0008}}
 
 \harvarditem[He et~al.]{He, Zhang, Ren \harvardand\ Sun}{2015}{resnet}
 He, K., Zhang, X., Ren, S. \harvardand\ Sun, J.  \harvardyearleft
@@ -381,6 +381,7 @@ Hess, M., Lenz, S., Bl{\"a}tte, T.~J., Bullinger, L. \harvardand\ Binder, H.
   \harvardyearleft 2017\harvardyearright , `Partitioned learning of deep
   {Boltzmann} machines for {SNP} data', {\em Bioinformatics} {\bf
   33}(20),~3173--3180.
+\newline\harvardurl{\url{https://doi.org/10.1093/bioinformatics/btx408}}
 
 \harvarditem{Hinton}{2002}{cdorig}
 Hinton, G.~E.  \harvardyearleft 2002\harvardyearright , `Training products of
@@ -424,7 +425,7 @@ Howie, B.~N., Donnelly, P. \harvardand\ Marchini, J.  \harvardyearleft
 Innes, M.  \harvardyearleft 2018\harvardyearright , `Flux: {Elegant} machine
   learning with \proglang{Julia}.', {\em Journal of Open Source Software} {\bf
   3}(25),~602.
-\newline\harvardurl{https://joss.theoj.org/papers/10.21105/joss.00602.pdf}
+\newline\harvardurl{\url{https://doi.org/10.21105/joss.00602}}
 
 \harvarditem{{ISO/IEC}}{1998}{cppstandard}
 {ISO/IEC}  \harvardyearleft 1998\harvardyearright , {\em {ISO International
@@ -635,7 +636,7 @@ Pastorino, S., Bishop, T., Crozier, S.~R., Granström, C., Kordas, K., Küpers,
   early and late pregnancy and offspring birth size: remote federated
   individual level meta-analysis from eight cohort studies', {\em BJOG: An
   International Journal of Obstetrics \& Gynaecology} {\bf 126}(4),~459--470.
-\newline\harvardurl{\url{https://obgyn.onlinelibrary.wiley.com/doi/abs/10.1111/1471-0528.15476}}
+\newline\harvardurl{\url{https://doi.org/10.1111/1471-0528.15542}}
 
 \harvarditem[Paszke et~al.]{Paszke, Gross, Massa, Lerer, Bradbury, Chanan,
   Killeen, Lin, Gimelshein, Antiga, Desmaison, Kopf, Yang, DeVito, Raison,
@@ -727,9 +728,10 @@ Sagi, O. \harvardand\ Rokach, L.  \harvardyearleft 2018\harvardyearright ,
 \newline\harvardurl{\url{https://onlinelibrary.wiley.com/doi/abs/10.1002/widm.1249}}
 
 \harvarditem{Salakhutdinov}{2008}{salakhutdinov2008learning}
-Salakhutdinov, R.  \harvardyearleft 2008\harvardyearright , `Learning and
-  evaluating {Boltzmann} machines', {\em Technical Report UTML TR 2008-002,
-  Department of Computer Science, University of Toronto} .
+Salakhutdinov, R.  \harvardyearleft 2008\harvardyearright , Learning and
+  evaluating {Boltzmann} machines, Technical Report UTML TR 2008-002,
+  Department of Computer Science, University of Toronto.
+\newline\harvardurl{\url{http://www.cs.toronto.edu/~rsalakhu/papers/bm.pdf}}
 
 \harvarditem{Salakhutdinov}{2015}{salakhutdinov2015generativemodels}
 Salakhutdinov, R.  \harvardyearleft 2015\harvardyearright , `Learning deep
@@ -761,9 +763,10 @@ Smolensky, P.  \harvardyearleft 1986\harvardyearright , `Foundations of harmony
 Sohn, K., Lee, H. \harvardand\ Yan, X.  \harvardyearleft 2015\harvardyearright
   , Learning {Structured} {Output} {Representation} using {Deep} {Conditional}
   {Generative} {Models}, {\em in} C.~Cortes, N.~Lawrence, D.~Lee, M.~Sugiyama
-  \harvardand\ R.~Garnett, eds, `Advances in {Neural} {Information}
-  {Processing} {Systems}', Vol.~28, Curran Associates, Inc.
-\newline\harvardurl{\url{https://proceedings.neurips.cc/paper/2015/file/8d55a249e6baa5c06772297520da2051-Paper.pdf}}
+  \harvardand\ R.~Garnett, eds, `Proceedings of the 28th International
+  Conference on Neural Information Processing Systems - Volume 2', Vol.~28 of
+  {\em NIPS'15}, MIT Press, Cambridge, MA, USA, p.~3483–3491.
+\newline\harvardurl{\url{https://dl.acm.org/doi/abs/10.5555/2969442.2969628}}
 
 \harvarditem{Srivastava \harvardand\
   Salakhutdinov}{2012}{srivastava2012multimodal}
@@ -776,7 +779,7 @@ Sweeney, L.  \harvardyearleft 2012\harvardyearright , `{k}-anonymity: A model
   for protecting privacy', {\em International Journal of Uncertainty, Fuzziness
   and Knowledge-Based Systems} .
 \newblock Publisher: World Scientific Publishing Company.
-\newline\harvardurl{\url{https://www.worldscientific.com/doi/epdf/10.1142/S0218488502001648}}
+\newline\harvardurl{\url{https://doi.org/10.1142/S0218488502001648}}
 
 \harvarditem{{The 1000 Genomes Project Consortium}}{2012}{1000genomes}
 {The 1000 Genomes Project Consortium}  \harvardyearleft 2012\harvardyearright ,
