@@ -197,7 +197,7 @@ There, the prediction of gene activation from so-called landmark genes, which ar
 For this, and in conditional VAEs and conditional GANs in general, the variables that are used as conditions need to be specified in the training.
 DBMs have the advantage that the specification of specific variables as conditions is not necessary and conditions can be set on arbitrary variables.
 Conditional sampling in DBMs could therefore be used to simulate the regulation of arbitrary gene expression patterns based on a DBM model that has been trained on genetic expression data.
-Such a model that has learned the overall structure of a data set is then also able to utilize the information about the whole distribution when making inferences about about smaller subgroups.
+Such a model that has learned the overall structure of a data set is then also able to utilize the information about the whole distribution when making inferences about smaller subgroups.
 
 Apparently deep Boltzmann machines exhibit promising qualities for deep learning on biomedical data, where limited sample size and privacy restrictions are common challenges.
 An additional big challenge for deep learning on biomedical data is finding good hyperparameters for the optimization algorithms \citep{min_deep_2017}.
@@ -1208,7 +1208,7 @@ For the following examples, we assume that \inlinecode{x} is such a matrix of ty
 nsamples, nvariables = size(x)
 \end{lstlisting}
 
-\paragraph{Training}
+\paragraph{Training}\label{trainingimpl}
 
 After loading the package via a \inlinecode{using} statement, training an RBM or a a DBM is as simple as calling \inlinecode{fitrbm} or \inlinecode{fitdbm}, respectively.
 
@@ -1306,7 +1306,7 @@ For re-using allocated space, there is also the functions \inlinecode{gibbssampl
 
 Monitoring is the evaluation of a model during the training time.
 This can be used for hyperparameter tuning.
-If the resulting learning curve \dots
+If the resulting learning curve \citep{ml_encyclopedia} \dots
 \begin{itemize}
 \item \dots is unstable or not going in the right direction, the learning rate needs to be reduced.
 \item \dots is smooth but too flat, the learning rate can be increased.
@@ -1643,9 +1643,9 @@ The similarity of patterns between original and synthetic data can be compared b
 Still, measuring the performance with a numeric measure has the advantage that different models can be evaluated automatically and that the assessment is less subjective than with the visual inspection of samples.
 There are many different measures, which can be used to evaluate the performance of generative models and which also have been applied to medical data sets \citep{goncalves}.
 
-For the experiments here, the rooted mean squared error (RMSE) between the pairwise log odds ratios is utilized as as performance metric \citep{nussberger_synthetic_2020}.
-This metric measures the quality of modeling the bivariate associations between all combinations of variables.
-It is calculated using a validation data set $x_{val}$ and a generated data set $x_{gen}$.
+The odds ratio is a measure for the bivariate association between two binary variables \citep{blandaltmannodds}.
+For the experiments here, the rooted mean squared error (RMSE) between the pairwise log odds ratios is utilized as a performance metric \citep{nussberger_synthetic_2020}.
+Given a validation data set $x_{val}$ and a generated data set $x_{gen}$, this metric is calculated as follows:
 For each of the two data sets, the pairwise odds ratios are calculated for all pairs of variables in the respective data set.
 These values are logarithmized and collected in matrices.
 (If zeros occur in cells of the cross tables for calculating the odds ratios, a value of 0.5 is used for these cells instead to avoid getting infinite values.)
@@ -1747,7 +1747,7 @@ In the original data, these black blocks are very solid as all samples in each s
  \begin{figure}[!hb]
    \centering
    \includegraphics[scale=1]{images/hclust.pdf}
-   \caption{Original data and different synthetic data sets, hierarchically clustered in the rows/samples. The columns are the different SNPs/variables. Black rectangles indicate values of 1, white rectangles values of zero. The black blocks result from the groups of five 1s, as samples with the same pattern are clustered together. The different vertical positions of the blocks result from the noise outside of the pattern, which randomly influences the clustering. A: original data set. B: synthetic data from a DBM trained on the original data set. C and D: synthetic data from the distributed experiment with 2 and 20 sites, respectively.}
+   \caption{Comparison of original (simulated) data and synthetic data. The samples, which are depicted in the rows of the matrices, are clustered hierarchically based on their Euclidean distances. The columns are the different SNPs/variables. Black rectangles indicate values of 1, white rectangles values of zero. The black blocks result from the groups of five 1s, as samples with the same pattern are clustered together. The different vertical positions of the blocks result from the noise outside of the pattern, which randomly influences the clustering. A: original data set. B: synthetic data generated from a DBM trained on the original data set. C and D: synthetic data from the distributed experiment with 2 and 20 sites, respectively.}
    \label{fig:distclustersnps}
  \end{figure}
 
@@ -1763,16 +1763,16 @@ Panel D shows an extreme case, where there are 20 sites with only 25 samples per
 Still, blocks in the respective variables are visible.
 But the noise outside of the blocks is captured less well, and artifacts from noise increase as the model has fewer samples to learn from.
 
-As architecture of the DBMs, two hidden layers with 50 and 10 hidden nodes were chosen.
+The employed DBMs had two hidden layers with 50 and 10 hidden nodes.
 A learning rate of 0.001 was used for pre-training and a initial learning rate of 0.1 was used for fine-tuning.
-Both pre-training and fine-tuning use 30 training epochs.
+Both pre-training and fine-tuning were performed for 30 training epochs.
 
 Summed up, the results of the experiment indicate that using DBMs on distributed data for generating synthetic data (see Figure \ref{fig:syntheticdataprinciple} in \ref{syntheticdata_ds}) can be a suitable approach for analyzing higher-level patterns in data.
 
 \FloatBarrier
 \subsection{An experiment for comparing different distributed generative approaches on real genetic variant data}\label{realexp}
 
-After the experiment with simulated data, the question remains how well the findings generalize on real genetic data.
+After the experiment with simulated data, the question remains how well the findings generalize to real genetic data.
 It is also interesting how DBMs compare to other generative models, in particular, in settings of small sample size.
 Therefore, the next experiment evaluates DBMs and other generative approaches in a setting similar to the one in Section \ref{simuexp} using real genetic variant data that is distributed among a number of virtual sites.
 As additional generative approaches, VAEs, GANs and MICE are considered.
@@ -1784,7 +1784,7 @@ VAEs and GANs are trained via the \apkg{Flux} Julia package in the same way as d
 
 \subsubsection{Experimental setup}\label{realexpsetup}
 
-The real data for the experiment is taken from the 1000 genomes project \citep{1000genomes}.
+The data for the experiment is taken from the 1000 genomes project \citep{1000genomes}.
 More specifically, a subset of the 1000 genomes data is used, which is available online from a web page \citep{impute_1000_genomes} of the IMPUTE2 software \citep{impute2}.
 This data set contains genetic variant data (SNP data) of 2504 humans.
 The data is provided in haploid form, that is, the information about the genetic variation is given on the level of the chromosomes.
@@ -1937,8 +1937,9 @@ VAE & \makecell{0.19 \\ (0.057 - 0.32)} & \makecell{0.27 \\ (0.062 - 0.45)} & \m
 \subsection{The \apkg{dsBoltzmannMachines} DataSHIELD package}\label{dsBoltzmannMachinesImpl}
 
 The previous experiments in \ref{simuexp} and \ref{realexp} have investigated the feasibility of using synthetic data for joint analyses of distributed data.
-In \ref{simuexp}, a hierarchical clustering was explored as a joint analysis.
-The subsequent experiment in \ref{realexp} measures the similarity of odds ratios in the synthetic data, which can be interpreted as an indicator for how well the synthetic data can be used in analyses like logistic regression models.
+In \ref{simuexp}, a hierarchical clustering was performed as a joint analysis.
+The subsequent experiment in \ref{realexp} compares odds ratios in the synthetic data with odds ratios in the original data.
+This comparison can be interpreted as an indicator for how well the synthetic data can be used in analyses like logistic regression models because odds ratios and logistic regression models are closely linked \citep{blandaltmannodds}.
 
 Now a practical implementation of working with synthetic data in a distributed setting is presented on the basis of DBMs in DataSHIELD.
 The resulting software is the first that allows generating synthetic data in DataSHIELD using deep learning.
@@ -2031,11 +2032,11 @@ The returned result contains by default only the monitoring information.
 The trained model is assigned to a variable at the server side, which is called ``\inlinecode{dbm}'' by default.
 (Subsequent functions that use a DBM will also assume this if it is not specified otherwise.)
 It is technically possible to return the trained model itself, as the \inlinecode{JuliaConnectoR} can translate Julia objects to R objects, and the communication with the Opal server allows to return arbitrary R objects.
-This is not allowed by default to increase the data protection but it can be enabled by setting the variable \inlinecode{dsBoltzmannMachines.shareModels} to ``\inlinecode{TRUE}'' in the Opal server.
+For increasing the data protection, returning the models is not allowed by default but it can be enabled by setting the variable \inlinecode{dsBoltzmannMachines.shareModels} to ``\inlinecode{TRUE}'' in the Opal server.
 Another option for data protection that can be set in the Opal server is the minimum number of samples that are required to train a model. This can be specified via the variable \inlinecode{dsBoltzmannMachines.privacyLevel}.
 
 The \apkg{BoltzmannMachinesRPlots} package has implicitly been loaded as well when loading the \inlinecode{dsBoltzmannMachinesClient} package. 
-With its \inlinecode{plotmonitoring} function, the learning curves can be displayed.
+With its \inlinecode{plotmonitoring} function, the learning curves \citep{ml_encyclopedia} can be displayed.
 The resulting curves look similar to the ones shown in Figure \ref{fig:monitoring_bmplots}.
 
 \begin{lstlisting}[language=R, float=!h]
@@ -2080,7 +2081,7 @@ ds.dbm.top2LatentDims(o, data = "D")
 \end{lstlisting}
 
 The resulting plot provides a clearly better dimension reduction than PCA alone in this case.
-The five subgroups of the cases and the control group (see also Figure \ref{fig:distclustersnps}, panel A, for the hierarchical clustering view on the data set) form 6 distinct clusters there, which are not visible in the PCA.
+The five subgroups of the cases and the control group (see also Section \ref{simuexpsetup} for the textual description of the data set and Figure \ref{fig:distclustersnps}, panel A, for the hierarchical clustering view on the data set) form 6 distinct clusters there, which are not visible in the PCA.
 
 
  \begin{figure}[!hb]
@@ -2090,7 +2091,7 @@ The five subgroups of the cases and the control group (see also Figure \ref{fig:
    \label{fig:dbmvspca}
  \end{figure}
 
-In addition to using DBMs, it is also possible to train RBMs and DBNs, like it is possible with the \apkg{BoltzmannMachines} Julia package.
+In addition to DBMs, it is also possible to train RBMs and DBNs like in the \apkg{BoltzmannMachines} Julia package.
 More complex partitioned architectures can be constructed as well by defining the parameters for individual layers via \inlinecode{ds.bm.defineLayer} and \inlinecode{ds.bm.definePartitionedLayer}.
 Table \ref{tab:dsBoltzmannFuns} provides a summary of the available functions.
 More detailed descriptions, including an explanation of the arguments, can be found in the documentation of the \apkg{dsBoltzmannMachinesClient} package, which is also reproduced in appendix \ref{dsbmsdoku}.

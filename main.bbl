@@ -83,6 +83,11 @@ Bezanson, J., Edelman, A., Karpinski, S. \harvardand\ Shah, V.~B.
   \harvardyearleft 2017\harvardyearright , `Julia: A fresh approach to
   numerical computing', {\em SIAM Review} {\bf 59}(1),~65--98.
 
+\harvarditem{Bland \harvardand\ Altman}{2000}{blandaltmannodds}
+Bland, J.~M. \harvardand\ Altman, D.~G.  \harvardyearleft 2000\harvardyearright
+  , `The odds ratio', {\em BMJ} {\bf 320}(7247),~1468.
+\newline\harvardurl{https://www.bmj.com/content/320/7247/1468.1}
+
 \harvarditem[Blei et~al.]{Blei, Kucukelbir \harvardand\
   McAuliffe}{2017}{blei_variational_2017}
 Blei, D.~M., Kucukelbir, A. \harvardand\ McAuliffe, J.~D.  \harvardyearleft
@@ -740,6 +745,11 @@ Salakhutdinov, R. \harvardand\ Hinton, G.  \harvardyearleft
 Salakhutdinov, R. \harvardand\ Hinton, G.  \harvardyearleft
   2012\harvardyearright , `An efficient learning procedure for deep {Boltzmann}
   machines', {\em Neural Computation} {\bf 24}(8),~1967--2006.
+
+\harvarditem{Sammut \harvardand\ Webb}{2010}{ml_encyclopedia}
+Sammut, C. \harvardand\ Webb, G.~I.  \harvardyearleft 2010\harvardyearright ,
+  {\em Encyclopedia of {Machine} {Learning}}, Springer Science \& Business
+  Media.
 
 \harvarditem{Smolensky}{1986}{smolensky1986foundations}
 Smolensky, P.  \harvardyearleft 1986\harvardyearright , `Foundations of harmony
