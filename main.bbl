@@ -35,8 +35,8 @@ Ackley, D.~H., Hinton, G.~E. \harvardand\ Sejnowski, T.~J.  \harvardyearleft
   Aboyoun}{2018}{h2o}
 Aiello, S., Eckstrand, E., Fu, A., Landry, M. \harvardand\ Aboyoun, P.
   \harvardyearleft 2018\harvardyearright , `Machine {Learning} with
-  \proglang{R} and \pkg{H2O}', {\em {H2O} booklet} {\bf 550}.
-\newline\harvardurl{https://www.h2o.ai/resources/}
+  \proglang{R} and {H2O}', {\em {H2O} booklet} {\bf 550}.
+\newline\harvardurl{\url{https://www.h2o.ai/resources/}}
 
 \harvarditem[Arnold et~al.]{Arnold, Gosling \harvardand\
   Holmes}{2005}{arnold2005java}
@@ -548,10 +548,10 @@ Li, N., Qardaji, W., Su, D., Wu, Y. \harvardand\ Yang, W.  \harvardyearleft
 Luraschi, J., Kuo, K., Ushey, K., Allaire, J., Macedo, S., Falaki, H., Wang,
   L., Zhang, A., Li, Y., Hajnala, J., Szymkiewicz, M., Davis, W., {RStudio,
   Inc.} \harvardand\ {The Apache Software Foundation}  \harvardyearleft
-  2020\harvardyearright , {\em \pkg{sparklyr}: \proglang{R} {Interface} for
-  \pkg{Apache Spark}}.
+  2020\harvardyearright , {\em \apkg{sparklyr}: \proglang{R} {Interface} for
+  {Apache} {Spark}}.
 \newblock \proglang{R}~package version~1.5.2.
-\newline\harvardurl{https://CRAN.R-project.org/package=sparklyr}
+\newline\harvardurl{\url{https://CRAN.R-project.org/package=sparklyr}}
 
 \harvarditem[Machanavajjhala et~al.]{Machanavajjhala, Kifer, Gehrke
   \harvardand\ Venkitasubramaniam}{2007}{machanavajjhala_l-diversity_2007}
@@ -914,8 +914,8 @@ Xianyi, Z. \harvardand\ Kroeker, M.  \harvardyearleft 2020\harvardyearright ,
 \harvarditem{Ylonen \harvardand\ Lonvick}{2006}{ylonen_ssh}
 Ylonen, T. \harvardand\ Lonvick, C.  \harvardyearleft 2006\harvardyearright ,
   {\em The {Secure} {Shell} ({SSH}) {Protocol} {Architecture}}.
-\newblock Number: RFC 4251.
-\newline\harvardurl{https://www.rfc-editor.org/info/rfc4251}
+\newblock Reqest for comments (RFC) 4251.
+\newline\harvardurl{\url{https://www.rfc-editor.org/info/rfc4251}}
 
 \harvarditem{Yuret}{2016}{knetjl}
 Yuret, D.  \harvardyearleft 2016\harvardyearright , `{Knet} - {Koç}
