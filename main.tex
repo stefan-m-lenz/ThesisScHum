@@ -1425,17 +1425,20 @@ Also handling Julia objects becomes conveniently possible in R by either transla
 This way, Julia packages in general can be used in a straightforward and stable manner in R.
 
 \subsection{Feature overview and comparison to existing solutions}
-TODO feature matrix aus JuliaConnectoR-Paper
+A user-friendly design was the most important concern when developing the \apkg{JuliaConnectoR}.
+This includes ease of use, a clearly defined interface, and stability.
+Table \ref{tab:JuliaConnectoRFeatures} lists the most relevant features.
+For a comparison, the packages \apkg{JuliaCall} and \apkg{XRJulia} are also regarded in the table.
 
 \rowcolors{1}{gray!25}{white}
 \begin{table}[h!]
 \centering
-\begin{tabular}{p{6.1cm} p{3cm} p{2.1cm} p{1.9cm} l}
+\begin{tabular}{p{6.1cm} p{3cm} p{2.1cm} p{1.9cm} p{0.8cm} l}
 %\hline
 {\bf Feature} & {\bf \apkg{JuliaConnectoR}} & {\bf \apkg{JuliaCall}} & {\bf \apkg{XRJulia}} & {\bf See} \\
 %\hline
 Communication & TCP/binary & \proglang{C}-interface & TCP/JSON &
-\ref{Communication} \\
+\ref{juliaconnectorCommuncation} \\
 Automatic importing of packages & Yes & No & No &
 \ref{AutomaticImport} \\
 Specification for type translation & Yes & No & No &
@@ -1457,10 +1460,47 @@ Missing values & Yes & Yes & No & \ref{MissingValues} \\
 \apkg{XRJulia} (version 0.9.0).}
 \end{table}
 
-\subsection{Using \apkg{BoltzmannMachines} in R via the \apkg{JuliaConnector}}
+In the following, these features and the differences between the packages are detailed.
+Afterwards, in \ref{juliaconnectorDbmexample}, it is demonstrated how these features help to train and evaluate DBMs in R.
+In appendix \ref{JuliaConnectoRDoku}, the documentation of the \apkg{JuliaConnectoR} package can be found.
+There, the features are described in greater detail from a user perspective.
+
+\subsubsection{Communication protocol}\label{juliaconnectorCommuncation}
+
+The \apkg{JuliaConnectoR} communicates with Julia via the transmission control protocol (TCP) \citep{tcpspec}.
+TCP is also used by Julia for multi-processing and distributed computing.
+Also other R machine learning packages, e.g., \apkg{h2o} \citep{h2o} and \apkg{sparklyr} \citep{sparklyr}, communicate via TCP with their back-ends, which perform the actual computations.
+The \apkg{JuliaConnectoR} uses a custom binary format to transfer content between Julia and R.
+The format is inspired by BSON \citep{bsonspec}, which is a binary alternative to the text-based JavaScript Object Notation \citep{jsonspec1}.
+The main advantage of this custom format is that it can utilize the binary form of vectors and matrices in R and Julia.
+This allows to use the \inlinecode{writeBin} and \inlinecode{readBin} functions in R for directly writing complete objects into the output stream or reading them from the input stream, respectively.
+Analogously, in Julia the functions \inlinecode{write} and \inlinecode{read} can be used to write and read objects in binary form.
+As the binary representations of numeric vectors and matrices are largely the same, these parallels between Julia and R can be exploited to minimize the communication overhead.
+An additional measure for reducing the communication overhead is to stream the messages, which allows to start reading content in Julia while R is still writing, and vice versa.
+
+\apkg{XRJulia} uses also TCP as underlying communication mechanism but it transports the information via JSON messages.
+These messages can also contain vectors, matrices and complex nested objects.
+As JSON is text-based, numeric values have to be transformed to from their binary form into decimal values and their textual representation to be wrapped in a JSON message.
+This additional overhead slows down the communication, in particular for larger matrices and vectors.
+Therefore, \apkg{XRJulia} escapes the strategy of using TCP for these cases.
+Instead, large arrays are written to temporary binary files on the hard drive (see \inlinecode{largeVectors} documentation item in the manual of \apkg{XRJulia}).
+Yet, writing files to the hard disk involves additional costs compared to using TCP directly.
+Communication via local files also prevents using Julia as a server and R as a client on different machines.
+Although the mechanism for setting such a remote connection is not exposed in the \apkg{JuliaConnnectoR}, the potential for this is there.
+Security considerations are the main reason why this is not fully supported in the \apkg{JuliaConnectoR}.
+There is the possibility for securing TCP connections via Secure Shell (SSH) tunnels \citep{ylonen_ssh}.
+Such a mechanism can be integrated to allow TODO
+
+With this, it is also possible to use container technology
+
+
+\subsection{Using \apkg{BoltzmannMachines} in R via the \apkg{JuliaConnector}}\label{juliaconnectorDbmexample}
 As mentioned in Section \ref{BMfeatures}, there is currently no R package that implements deep Boltzmann machines.
 But via the \apkg{JuliaConnectoR}, all features of the \apkg{BoltzmannMachines} package become conveniently usable in R.
 This can be demonstrated by some examples, which show how easy it becomes to translate Julia code for training and evaluating deep and restricted Boltzmann machines to R code that calls the \apkg{BoltzmannMachines} Julia package via the \apkg{JuliaConnectoR} behind the scenes.
+
+
+ The Julia part of the software runs a server that 
 
 \subsection{Implementation details}
 \begin{table}
@@ -1473,7 +1513,7 @@ This can be demonstrated by some examples, which show how easy it becomes to tra
 
 TODO EBNF syntax \citep{ebnf} für die Grammatik erklären
 
-The grammar is inspired by BSON \citep{bsonspec}.
+
 
 
 %* A string is preceded by the number of bytes to UTF-8-encode the string.
@@ -2349,6 +2389,7 @@ This appendix lists the documentation for all exported and documented items of t
 
 \clearpage
 \section[Documentation of R package \apkg{JuliaConnectoR}]{Documentation of R package \\ \apkg{JuliaConnectoR}}
+\label{JuliaConnectoRDoku}
 This appendix lists the documentation for all exported and items of the \apkg{JuliaConnectoR} R package, as of version 0.6.3. The code of the package and more documentation can be found on the GitHub repository \url{https://github.com/stefan-m-lenz/JuliaConnectoR}. The package is also available from the official R CRAN repository: \url{https://CRAN.R-project.org/package=JuliaConnectoR}.
 
 \input{appendix/JuliaConnectoR_Doku}

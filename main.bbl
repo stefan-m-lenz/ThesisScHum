@@ -31,6 +31,13 @@ Ackley, D.~H., Hinton, G.~E. \harvardand\ Sejnowski, T.~J.  \harvardyearleft
   Cognitive science} {\bf 9}(1),~147--169.
 \newblock Publisher: Elsevier.
 
+\harvarditem[Aiello et~al.]{Aiello, Eckstrand, Fu, Landry \harvardand\
+  Aboyoun}{2018}{h2o}
+Aiello, S., Eckstrand, E., Fu, A., Landry, M. \harvardand\ Aboyoun, P.
+  \harvardyearleft 2018\harvardyearright , `Machine {Learning} with
+  \proglang{R} and \pkg{H2O}', {\em {H2O} booklet} {\bf 550}.
+\newline\harvardurl{https://www.h2o.ai/resources/}
+
 \harvarditem[Arnold et~al.]{Arnold, Gosling \harvardand\
   Holmes}{2005}{arnold2005java}
 Arnold, K., Gosling, J. \harvardand\ Holmes, D.  \harvardyearleft
@@ -111,6 +118,12 @@ Bottou, L., Curtis, F.~E. \harvardand\ Nocedal, J.  \harvardyearleft
   2018\harvardyearright , `Optimization methods for large-scale machine
   learning', {\em Siam Review} {\bf 60}(2),~223--311.
 \newblock Publisher: SIAM.
+
+\harvarditem{Bray}{2017}{jsonspec1}
+Bray, T.  \harvardyearleft 2017\harvardyearright , {\em The {JavaScript}
+  {Object} {Notation} ({JSON}) {Data} {Interchange} {Format}}.
+\newblock Library Catalog: tools.ietf.org.
+\newline\harvardurl{\url{https://tools.ietf.org/html/rfc8259}}
 
 \harvarditem[Brown et~al.]{Brown, Mann, Ryder, Subbiah, Kaplan, Dhariwal,
   Neelakantan, Shyam, Sastry, Askell, Agarwal, Herbert-Voss, Krueger, Henighan,
@@ -529,6 +542,17 @@ Li, N., Qardaji, W., Su, D., Wu, Y. \harvardand\ Yang, W.  \harvardyearleft
   Machinery, New York, NY, USA, pp.~889--900.
 \newline\harvardurl{\url{https://doi.org/10.1145/2508859.2516686}}
 
+\harvarditem[Luraschi et~al.]{Luraschi, Kuo, Ushey, Allaire, Macedo, Falaki,
+  Wang, Zhang, Li, Hajnala, Szymkiewicz, Davis, {RStudio, Inc.} \harvardand\
+  {The Apache Software Foundation}}{2020}{sparklyr}
+Luraschi, J., Kuo, K., Ushey, K., Allaire, J., Macedo, S., Falaki, H., Wang,
+  L., Zhang, A., Li, Y., Hajnala, J., Szymkiewicz, M., Davis, W., {RStudio,
+  Inc.} \harvardand\ {The Apache Software Foundation}  \harvardyearleft
+  2020\harvardyearright , {\em \pkg{sparklyr}: \proglang{R} {Interface} for
+  \pkg{Apache Spark}}.
+\newblock \proglang{R}~package version~1.5.2.
+\newline\harvardurl{https://CRAN.R-project.org/package=sparklyr}
+
 \harvarditem[Machanavajjhala et~al.]{Machanavajjhala, Kifer, Gehrke
   \harvardand\ Venkitasubramaniam}{2007}{machanavajjhala_l-diversity_2007}
 Machanavajjhala, A., Kifer, D., Gehrke, J. \harvardand\ Venkitasubramaniam, M.
@@ -660,6 +684,12 @@ Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel,
   E.  \harvardyearleft 2011\harvardyearright , `Scikit-learn: Machine learning
   in {P}ython', {\em Journal of Machine Learning Research} {\bf
   12},~2825--2830.
+
+\harvarditem{Postel}{1981}{tcpspec}
+Postel, J.  \harvardyearleft 1981\harvardyearright , {\em Transmission
+  {Control} {Protocol}}.
+\newblock Library Catalog: tools.ietf.org.
+\newline\harvardurl{\url{https://tools.ietf.org/html/rfc793}}
 
 \harvarditem[Prokosch et~al.]{Prokosch, Acker, Bernarding, Binder, Boeker,
   Boerries, Daumke, Ganslandt, Hesser, Höning, Neumaier, Marquardt, Renz,
@@ -880,6 +910,12 @@ Wolfson, M., Wallace, S.~E., Masca, N., Rowe, G., Sheehan, N.~A., Ferretti, V.,
 Xianyi, Z. \harvardand\ Kroeker, M.  \harvardyearleft 2020\harvardyearright ,
   `{OpenBLAS}: {An} optimized {BLAS} library'.
 \newline\harvardurl{\url{http://www.openblas.net/}}
+
+\harvarditem{Ylonen \harvardand\ Lonvick}{2006}{ylonen_ssh}
+Ylonen, T. \harvardand\ Lonvick, C.  \harvardyearleft 2006\harvardyearright ,
+  {\em The {Secure} {Shell} ({SSH}) {Protocol} {Architecture}}.
+\newblock Number: RFC 4251.
+\newline\harvardurl{https://www.rfc-editor.org/info/rfc4251}
 
 \harvarditem{Yuret}{2016}{knetjl}
 Yuret, D.  \harvardyearleft 2016\harvardyearright , `{Knet} - {Koç}
