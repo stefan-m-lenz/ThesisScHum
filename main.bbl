@@ -103,6 +103,12 @@ Blei, D.~M., Kucukelbir, A. \harvardand\ McAuliffe, J.~D.  \harvardyearleft
   112}(518),~859--877.
 \newblock Publisher: Taylor \& Francis.
 
+\harvarditem{Boettiger}{2015}{docker_reproducible}
+Boettiger, C.  \harvardyearleft 2015\harvardyearright , `An introduction to
+  {Docker} for reproducible research', {\em ACM SIGOPS Operating Systems
+  Review} {\bf 49}(1),~71--79.
+\newline\harvardurl{\url{https://doi.org/10.1145/2723872.2723882}}
+
 \harvarditem[Bonofiglio et~al.]{Bonofiglio, Schumacher \harvardand\
   Binder}{2020}{bonofiglio2020}
 Bonofiglio, F., Schumacher, M. \harvardand\ Binder, H.  \harvardyearleft
@@ -731,6 +737,11 @@ Ranzato, M., Boureau, Y.-L., Chopra, S. \harvardand\ LeCun, Y.
 {Regents of the University of California}  \harvardyearleft
   1999\harvardyearright , `The 3-{Clause} {BSD} {License}'.
 \newline\harvardurl{\url{https://opensource.org/licenses/BSD-3-Clause}}
+
+\harvarditem{{RStudio Team}}{2020}{rstudio}
+{RStudio Team}  \harvardyearleft 2020\harvardyearright , {\em RStudio:
+  Integrated Development Environment for R}, RStudio, PBC, Boston, MA.
+\newline\harvardurl{\url{http://www.rstudio.com/}}
 
 \harvarditem[Rumbaugh et~al.]{Rumbaugh, Jacobson \harvardand\ Booch}{1999}{uml}
 Rumbaugh, J., Jacobson, I. \harvardand\ Booch, G.  \harvardyearleft

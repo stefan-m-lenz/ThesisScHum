@@ -1433,7 +1433,7 @@ For a comparison, the packages \apkg{JuliaCall} and \apkg{XRJulia} are also rega
 \rowcolors{1}{gray!25}{white}
 \begin{table}[h!]
 \centering
-\begin{tabular}{p{6.1cm} p{3cm} p{2.1cm} p{1.9cm} p{0.8cm} l}
+\begin{tabular}{p{6.1cm} p{3.02cm} p{2.05cm} p{1.9cm} p{0.8cm} l}
 %\hline
 {\bf Feature} & {\bf \apkg{JuliaConnectoR}} & {\bf \apkg{JuliaCall}} & {\bf \apkg{XRJulia}} & {\bf See} \\
 %\hline
@@ -1486,12 +1486,16 @@ Therefore, \apkg{XRJulia} escapes the strategy of using TCP for these cases.
 Instead, large arrays are written to temporary binary files on the hard drive (see \inlinecode{largeVectors} documentation item in the manual of \apkg{XRJulia}).
 Yet, writing files to the hard disk involves additional costs compared to using TCP directly.
 Communication via local files also prevents using Julia as a server and R as a client on different machines.
-Although the mechanism for setting such a remote connection is not exposed in the \apkg{JuliaConnnectoR}, the potential for this is there.
+Although the mechanism for setting such a remote connection is not exposed in the \apkg{JuliaConnectoR}, the potential for this is there.
 Security considerations are the main reason why this is not fully supported in the \apkg{JuliaConnectoR}.
 There is the possibility for securing TCP connections via Secure Shell (SSH) tunnels \citep{ylonen_ssh}.
-Such a mechanism can be integrated to allow TODO
+After an integration SSH tunneling with the \apkg{JuliaConnectoR}, such a mechanism could allow to run Julia remotely and work locally in R.
+This may be used to employ remote servers that provide compute power but do not offer the same convenience as a local machine, e.g., if a integrated development environment such as RStudio \citep{rstudio} cannot be used on a remote server.
 
-With this, it is also possible to use container technology
+%Another usage scenario for remote TCP connections is when using container technology.
+%Wrapping software and the resources into containers can aid in creating software for reproducible research \citep{docker_reproducible}.
+%The communication between containers is also done via TCP.
+%A container that bundles Julia code and its dependencies together with a \apkg{JuliaConnectoR} communication component could be used to wrap functionality for R in a similar way as it is done for 
 
 
 \subsection{Using \apkg{BoltzmannMachines} in R via the \apkg{JuliaConnector}}\label{juliaconnectorDbmexample}
