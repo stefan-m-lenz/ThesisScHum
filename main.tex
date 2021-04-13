@@ -1478,6 +1478,8 @@ Analogously, in Julia the functions \inlinecode{write} and \inlinecode{read} can
 As the binary representations of numeric vectors and matrices are largely the same, these parallels between Julia and R can be exploited to minimize the communication overhead.
 An additional measure for reducing the communication overhead is to stream the messages, which allows to start reading content in Julia while R is still writing, and vice versa.
 
+TODO JuliaCall
+
 \apkg{XRJulia} uses also TCP as underlying communication mechanism but it transports the information via JSON messages.
 These messages can also contain vectors, matrices and complex nested objects.
 As JSON is text-based, numeric values have to be transformed to from their binary form into decimal values and their textual representation to be wrapped in a JSON message.
@@ -1497,6 +1499,36 @@ This may be used to employ remote servers that provide compute power but do not 
 %The communication between containers is also done via TCP.
 %A container that bundles Julia code and its dependencies together with a \apkg{JuliaConnectoR} communication component could be used to wrap functionality for R in a similar way as it is done for 
 
+\subsubsection{Automatic importing of packages and modules}
+
+\begin{lstlisting}[language=Julia,float=!h,caption={Julia code for importing the \apkg{Flux} package and defining a small neural network},label={fluximport}]
+import Pkg
+Pkg.add(name = "Flux", version = "0.11")
+import Flux
+model = Flux.Chain(Flux.Dense(4, 4, Flux.relu), 
+                   Flux.Dense(4, 1))
+\end{lstlisting}
+
+
+\begin{lstlisting}[language=R,float=!h,caption={R code using the \apkg{JuliaConnectoR} for  doing the same as in Listing \ref{fluximport}}]
+Pkg <- juliaImport("Pkg")
+Pkg$add(name = "Flux", version = "0.11")
+Flux <- juliaImport("Flux")
+model <- Flux$Chain(Flux$Dense(4L, 4L, Flux$relu),
+                    Flux$Dense(4L, 1L))
+\end{lstlisting}
+
+It is also possible to import local Julia modules into R similar to packages.
+Wrapping code in local modules has the advantage 
+For more details, including examples for using local modules, see the documentation of \inlinecode{juliaImport} (p. \pageref{rdokitem_juliaImport}ff.).
+
+\subsubsection{Translating data between Julia and R}\label{translatejuliar}
+Notable in Listing \ref{fluximport} is that the numbers needed to be passed as integers.
+This is because the \inlinecode{Dense} function in Julia expects integer values as arguments.
+
+TODO Data frames
+
+TODO missings
 
 \subsection{Using \apkg{BoltzmannMachines} in R via the \apkg{JuliaConnector}}\label{juliaconnectorDbmexample}
 As mentioned in Section \ref{BMfeatures}, there is currently no R package that implements deep Boltzmann machines.
@@ -1504,21 +1536,25 @@ But via the \apkg{JuliaConnectoR}, all features of the \apkg{BoltzmannMachines} 
 This can be demonstrated by some examples, which show how easy it becomes to translate Julia code for training and evaluating deep and restricted Boltzmann machines to R code that calls the \apkg{BoltzmannMachines} Julia package via the \apkg{JuliaConnectoR} behind the scenes.
 
 
+
+example with juliaGet
+The \apkg{JuliaConnectoR} allows to translate models into R objects and serialize them as R objects.
+This is e.g. used in TODO BoltzmannMachinesRPlots
+
+This is used later in
+
  The Julia part of the software runs a server that 
 
-\subsection{Implementation details}
-\begin{table}
-\begin{tabular}{lcl}
-\hiderowcolors
-\input{includes/ebnftable.tex}
-\end{tabular}
-\caption{Serialization grammar for the \apkg{JuliaConnectoR}. TODO: Tabelle aufteilen und erklären}
-\end{table}
-
-TODO EBNF syntax \citep{ebnf} für die Grammatik erklären
-
-
-
+%\subsection{Implementation details}
+%\begin{table}
+%\begin{tabular}{lcl}
+%\hiderowcolors
+%\input{includes/ebnftable.tex}
+%\end{tabular}
+%\caption{Serialization grammar for the \apkg{JuliaConnectoR}. TODO: Tabelle aufteilen und erklären}
+%\end{table}
+%
+%EBNF syntax \citep{ebnf} für die Grammatik erklären
 
 %* A string is preceded by the number of bytes to UTF-8-encode the string.
 %* The sequence of unnamed/positional elements in a list is preceded by
@@ -1527,7 +1563,7 @@ TODO EBNF syntax \citep{ebnf} für die Grammatik erklären
 %  is preceded by the number of bytes that are sent.
 
 
-
+\clearpage
 \FloatBarrier
 \section{Deep generative models in DataSHIELD}\label{deepgends}
 
@@ -2075,8 +2111,9 @@ result <- ds.monitored_fitdbm(o, data = "D.Train",
 The returned result contains by default only the monitoring information.
 The trained model is assigned to a variable at the server side, which is called ``\inlinecode{dbm}'' by default.
 (Subsequent functions that use a DBM will also assume this if it is not specified otherwise.)
-It is technically possible to return the trained model itself, as the \inlinecode{JuliaConnectoR} can translate Julia objects to R objects, and the communication with the Opal server allows to return arbitrary R objects.
+It is technically possible to return the trained model itself, as the \apkg{JuliaConnectoR} can translate Julia objects to R objects, and the communication with the Opal server allows to return arbitrary R objects.
 For increasing the data protection, returning the models is not allowed by default but it can be enabled by setting the variable \inlinecode{dsBoltzmannMachines.shareModels} to ``\inlinecode{TRUE}'' in the Opal server.
+Technically this becomes possible because the \apkg{JuliaConnectoR} can translate complete Julia objects to R objects (see \ref{translatejuliar}).
 Another option for data protection that can be set in the Opal server is the minimum number of samples that are required to train a model. This can be specified via the variable \inlinecode{dsBoltzmannMachines.privacyLevel}.
 
 The \apkg{BoltzmannMachinesRPlots} package has implicitly been loaded as well when loading the \inlinecode{dsBoltzmannMachinesClient} package. 
