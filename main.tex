@@ -1080,8 +1080,9 @@ These functions get as input a data set and all hyperparameters for training the
 Table \ref{juliaFunTableTrain} gives an overview of all functions that can be used for training RBMs and DBMs.
 
 
-\rowcolors{1}{gray!25}{white} % alternating row colors in tables
+
 \begin{table}[h]
+\rowcolors{1}{gray!25}{white} % alternating row colors in tables
 \caption{Functions in the Julia package for training RBMs and DBMs. All these functions return the trained model. The number of training epochs can be specified via the named argument \inlinecode{epochs}. There are many more hyperparameters which can be specified. For a more detailed description of the arguments, see the page references to the package documentation, which can be found in the appendix.}\label{juliaFunTableTrain}
 \begin{tabularx}{\textwidth}{X}
  \Xhline{1pt}
@@ -1109,8 +1110,9 @@ This function is available for (multimodal) DBMs in addition to the ones listed 
 An overview of the functions for evaluating the likelihood in RBMs and DBMs is given in Table \ref{juliaFunTableEval}.
 
 
-\rowcolors{1}{gray!25}{white}
+
 \begin{table}[h]
+\rowcolors{1}{gray!25}{white}
 \caption{Functions in the Julia package for evaluating the likelihood of RBMs and DBMs. The partition function is estimated via AIS unless a value for the parameter \inlinecode{logz} is provided. The partition function cal can also be calculated exactly but this is only feasible for very small models. (For the algorithmic complexity of the corresponding algorithms, see \ref{methodExactloglik}.) }
 \label{juliaFunTableEval}
    \begin{tabularx}{\textwidth}{X}
@@ -1351,9 +1353,10 @@ For monitoring the pre-training of higher layers, the input data in the \inlinec
 The monitoring functions are expected to write their results in the \inlinecode{Monitor} objects (see p.\ \pageref{bms_Monitor}) that are received as first argument of the monitoring functions.
 These \inlinecode{Monitor} objects are collected and returned in form of a vector as the first result of the monitored training function.
 
-\rowcolors{1}{gray!25}{white}
+
 
 \begin{table}[h]
+\rowcolors{1}{gray!25}{white}
 \caption{Monitoring functions in the \apkg{BoltzmannMachines} Julia package}
 \label{monfun}
    \begin{tabularx}{\textwidth}{X}
@@ -1424,18 +1427,29 @@ One of the unique features of the JuliaConnectoR is the ability to import arbitr
 Also handling Julia objects becomes conveniently possible in R by either translating them to R or by accessing them via implicitly created proxy objects in R, which can be used in place of the original Julia objects.
 This way, Julia packages in general can be used in a straightforward and stable manner in R.
 
+\apkg{JuliaCall} tighter integration but unstable.
+\apkg{XRJulia} inefficient and did not exploit all parallels enough because it is a multiple language bridge.
+A new start made it also possible to design clean interface and to bring several other features for convenient interactive use, such as displaying standard output
+
+
 \subsection{Feature overview and comparison to existing solutions}
 A user-friendly design was the most important concern when developing the \apkg{JuliaConnectoR}.
 This includes ease of use, a clearly defined interface, and stability.
 Table \ref{tab:JuliaConnectoRFeatures} lists the most relevant features.
 For a comparison, the packages \apkg{JuliaCall} and \apkg{XRJulia} are also regarded in the table.
 
-\rowcolors{1}{gray!25}{white}
 \begin{table}[h!]
 \centering
-\begin{tabular}{p{6.1cm} p{3.02cm} p{2.05cm} p{1.9cm} p{0.8cm} l}
-%\hline
-{\bf Feature} & {\bf \apkg{JuliaConnectoR}} & {\bf \apkg{JuliaCall}} & {\bf \apkg{XRJulia}} & {\bf See} \\
+\caption{\label{tab:JuliaConnectoRFeatures} Comparison of features between the
+\apkg{JuliaConnectoR} (version 0.6), \apkg{JuliaCall} (version 0.17.1) and
+\apkg{XRJulia} (version 0.9.0).}
+\begin{tabular}{p{6.75cm} p{2cm} p{2.05cm} p{2cm} p{1.2cm}}
+\hline \\ [2ex]\\
+ & \begin{rotate}{25}\apkg{JuliaConnectoR} \end{rotate} &
+ \begin{rotate}{25} \apkg{JuliaCall} \end{rotate} &
+ \begin{rotate}{25} \apkg{XRJulia} \end{rotate} &
+ See \\
+\hline 
 %\hline
 Communication & TCP/binary & \proglang{C}-interface & TCP/JSON &
 \ref{juliaconnectorCommuncation} \\
@@ -1443,7 +1457,7 @@ Automatic importing of packages & Yes & No & No &
 \ref{AutomaticImport} \\
 Specification for type translation & Yes & No & No &
 \ref{RtoJulia} \\
-Reversible translation & Yes
+Reversible translation from Julia to R & Yes
 & No & No & \ref{JuliatoR} \\
 Callbacks & Yes & Yes & No & \ref{Callbacks} \\
 Let-syntax & Yes & No & No & \ref{LetSyntax} \\
@@ -1453,11 +1467,8 @@ Interruptible & Yes & No & Yes & \ref{Interrupting} \\
 Missing values & Yes & Yes & No & \ref{MissingValues} \\
 \proglang{R} data frames to \proglang{Julia} Tables & Yes & Yes & No &
 \ref{DataFrameSupport} \\
-%\hline
+\hline
 \end{tabular}
-\caption{\label{tab:JuliaConnectoRFeatures} Comparison of features between the
-\apkg{JuliaConnectoR} (version 0.6), \apkg{JuliaCall} (version 0.17.1) and
-\apkg{XRJulia} (version 0.9.0).}
 \end{table}
 
 In the following, these features and the differences between the packages are detailed.
@@ -1478,7 +1489,20 @@ Analogously, in Julia the functions \inlinecode{write} and \inlinecode{read} can
 As the binary representations of numeric vectors and matrices are largely the same, these parallels between Julia and R can be exploited to minimize the communication overhead.
 An additional measure for reducing the communication overhead is to stream the messages, which allows to start reading content in Julia while R is still writing, and vice versa.
 
-TODO JuliaCall
+\apkg{JuliaCall} builds on the Julia package \apkg{RCall} \citep{rcallGithub} to bridge Julia and R.
+\apkg{RCall} and \apkg{JuliaCall} use the C-interfaces of R and Julia to exchange data between the processes.
+On the one hand, this tighter connection brings speed advantages compared to TCP.
+On the other hand, such a low-level integration is much harder to maintain and develop.
+This was reflected by the fact that \apkg{JuliaCall} did not work reliably when I started to working on the \apkg{JuliaConnectoR}.
+Also when testing the functionality for the comparison here, using \apkg{JuliaCall} led to crashes of the R session on multiple occasions.
+With the high frequency of new Julia releases, the costs of maintaining a low-level interface increase substantially.
+Keeping complexity low is particularly important for creating sustainable open source software \citep{midha_improving_2010}.
+This aspect was kept in mind in the design of the \apkg{JuliaConnectoR}.
+As a result, the higher-level approach taken by the \apkg{JuliaConnectoR} is compatible with a wide range of R and Julia versions (R 3.2-4.0 and Julia 1.0-1.6), requiring only minimal adaptions for keeping cross-version compatibility.
+Another disadvantage of the coupling via a C-interface is that this requires that R is built shared/dynamic library.
+For using \apkg{RCall}, this is required\footnote{The option \inlinecode{-enable-R-shlib} is required when installing R, see installation instructions of \apkg{RCall}: \url{https://github.com/JuliaInterop/RCall.jl/blob/v0.13.4/docs/src/installation.md}}.
+When installing R, R is not configured by default as shared/dynamic library because this can reduce the performance of R by 10-20\% \citep{rAdmin}.
+
 
 \apkg{XRJulia} uses also TCP as underlying communication mechanism but it transports the information via JSON messages.
 These messages can also contain vectors, matrices and complex nested objects.

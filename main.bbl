@@ -65,6 +65,13 @@ Bates, D., Kornblith, S., Noack, A., Bouchet-Valat, M., Borregaard, M.~K.,
   \apkg{GLM}'.
 \newline\harvardurl{\url{https://zenodo.org/record/4556866}}
 
+\harvarditem[Bates et~al.]{Bates, Lai, Byrne \harvardand\
+  contributors}{2020}{rcallGithub}
+Bates, D., Lai, R., Byrne, S. \harvardand\ contributors  \harvardyearleft
+  2020\harvardyearright , `\proglang{Julia} package {RCall} ({GitHub}
+  repository)'.
+\newline\harvardurl{\url{https://github.com/JuliaInterop/RCall.jl}}
+
 \harvarditem{Bengio}{2012}{bengio2012practical}
 Bengio, Y.  \harvardyearleft 2012\harvardyearright , Practical recommendations
   for gradient-based training of deep architectures, {\em in} `Neural networks:
@@ -102,12 +109,6 @@ Blei, D.~M., Kucukelbir, A. \harvardand\ McAuliffe, J.~D.  \harvardyearleft
   {\em Journal of the American statistical Association} {\bf
   112}(518),~859--877.
 \newblock Publisher: Taylor \& Francis.
-
-\harvarditem{Boettiger}{2015}{docker_reproducible}
-Boettiger, C.  \harvardyearleft 2015\harvardyearright , `An introduction to
-  {Docker} for reproducible research', {\em ACM SIGOPS Operating Systems
-  Review} {\bf 49}(1),~71--79.
-\newline\harvardurl{\url{https://doi.org/10.1145/2723872.2723882}}
 
 \harvarditem[Bonofiglio et~al.]{Bonofiglio, Schumacher \harvardand\
   Binder}{2020}{bonofiglio2020}
@@ -451,11 +452,6 @@ Innes, M.  \harvardyearleft 2018\harvardyearright , `Flux: {Elegant} machine
   Standard ISO/IEC 14882:1998}: {Programming} language --- {C++}},
   International Organization for Standardization (ISO), Geneva, Switzerland.
 
-\harvarditem{{ISO/IEC JTC 1/SC 22}}{1996}{ebnf}
-{ISO/IEC JTC 1/SC 22}  \harvardyearleft 1996\harvardyearright , `Information
-  technology - {Syntactic} metalanguage - {Extended} {BNF}', {\em ISO/IEC
-  International Standard 14977:1996} .
-
 \harvarditem[Jones et~al.]{Jones, Arthur, Nagy, Gowda, Godisemo, Holy,
   Mattriks, Noack, Sengupta, Darakananda, Leblanc, Dunning, Fischer, Chudzicki,
   Piibeleht, Yu, Breloff, Kleinschmidt, Mellnik, Verzani, inkyu, Innes,
@@ -597,6 +593,13 @@ Masters, D. \harvardand\ Luschi, C.  \harvardyearleft 2018\harvardyearright ,
 McCoy, B.~M. \harvardand\ Wu, T.~T.  \harvardyearleft 2014\harvardyearright ,
   {\em The Two-Dimensional {Ising} Model}, 2 edn, Courier Corporation.
 
+\harvarditem[Midha et~al.]{Midha, Singh, Palvia \harvardand\
+  Kshetri}{2010}{midha_improving_2010}
+Midha, V., Singh, R., Palvia, P. \harvardand\ Kshetri, N.  \harvardyearleft
+  2010\harvardyearright , `Improving {Open} {Source} {Software} {Maintenance}',
+  {\em Journal of Computer Information Systems} {\bf 50}(3).
+\newline\harvardurl{\url{https://www.tandfonline.com/doi/abs/10.1080/08874417.2010.11645410}}
+
 \harvarditem[Min et~al.]{Min, Lee \harvardand\ Yoon}{2017}{min_deep_2017}
 Min, S., Lee, B. \harvardand\ Yoon, S.  \harvardyearleft 2017\harvardyearright
   , `Deep learning in bioinformatics', {\em Briefings in Bioinformatics} {\bf
@@ -718,6 +721,12 @@ Quick, H., Holan, S.~H. \harvardand\ Wikle, C.~K.  \harvardyearleft
   Journal of the Royal Statistical Society: Series A (Statistics in Society)}
   {\bf 181}(3),~649--661.
 \newline\harvardurl{\url{https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/rssa.12360}}
+
+\harvarditem{{R Core Team}}{2018}{rAdmin}
+{R Core Team}  \harvardyearleft 2018\harvardyearright , {\em \proglang{R}
+  Installation and Administration}.
+\newblock \proglang{R} version 3.6.3.
+\newline\harvardurl{\url{https://cran.r-project.org/doc/manuals/r-release/R-admin.pdf}}
 
 \harvarditem[Rajkomar et~al.]{Rajkomar, Dean \harvardand\
   Kohane}{2019}{machine_learning_review_nejm}
