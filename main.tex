@@ -1465,8 +1465,8 @@ Reversible translation from Julia to R & Yes
 Callbacks & Yes & Yes & No & \ref{Callbacks} \\
 Let-syntax & Yes & No & No & \ref{LetSyntax} \\
 Show standard (error) output & Yes & No & Yes &
-\ref{OutputRedirection} \\
-Interruptible & Yes & No & Yes & \ref{Interrupting} \\
+\ref{juliaconnectorOutput} \\
+Interruptible & Yes & No & Yes & \ref{juliaconnectorinterrupting} \\
 Missing values & Yes & Yes & No & \ref{juliaconnectorMissings} \\
 \proglang{R} data frames to \proglang{Julia} Tables & Yes & Yes & No &
 \ref{juliaconnectordataframes} \\
@@ -1528,20 +1528,20 @@ This may be used to employ remote servers that provide compute power but do not 
 
 \subsubsection{Automatic importing of packages and modules}\label{juliaconnectoRAutoimport}
 
-One of the main reasons for using a language bridge such as the \apkg{JuliaConnectoR} is to access functionality from packages that are only available in other languages.
+One of the main reasons for using a language bridge such as the \apkg{JuliaConnectoR} is to access functionality from packages that are only available in other languages while being able to do most of the work in a language that is more familiar or more suitable for the rest of the task.
 An example for this can be to use deep learning in Julia but perform data preprocessing and plotting in R.
 
-The function \inlinecode{juliaImport} of the \apkg{JuliaConnectoR} can inspect a Julia package and then return all Julia functions, including type constructors, in the form of an environment that contains corresponding R functions that wrap the Julia functions.
-This approach helps to handle foreign packages in a simple way, and it aids in writing more concise code, as demonstrated in the following.
+The function \inlinecode{juliaImport} (see also on p.~\pageref{rdokitem_juliaImport}ff.) of the \apkg{JuliaConnectoR} can inspect a Julia package and then return all Julia functions, including type constructors, in the form of an environment that contains corresponding R functions that wrap the Julia functions.
+This approach helps to handle foreign packages in a simple way, and it aids in writing more concise code, as can be seen in the following.
 
-At first, a minimal example of how the \apkg{Flux} Julia package can be employed in R  is shown in Listing \ref{fluximportJulia} and Listing \ref{fluximportR}.
+At first, a minimal example, employing the \apkg{Flux} Julia package in R, is shown in Listing \ref{fluximportJulia} and Listing \ref{fluximportR}.
 Later, in Section \ref{juliaconnectorDbmexample}, a more detailed example using DBMs and the \apkg{BoltzmannMachines} package is given.
-This should demonstrate that this feature of the \apkg{JuliaConnectoR} can be used with any package.
-In Listing \ref{fluximportJulia} and Listing \ref{fluximportR}, two packages are involved.
-The first package that is imported into R is the Julia \inlinecode{Pkg} package.
+This should demonstrate that the \apkg{JuliaConnectoR} can be used for importing arbitrary packages.
+In Listing \ref{fluximportJulia} and Listing \ref{fluximportR}, two different packages are involved.
+The first package that is imported into R is the Julia package \inlinecode{Pkg}.
 This package is contained in the Julia standard library.
 Its purpose is to install and manage other packages.
-In this case, \inlinecode{Pkg} is used to install the \apkg{Flux} package in version 0.11.
+In this example, \inlinecode{Pkg} is used to install the \apkg{Flux} package in version 0.11.
 Then, \apkg{Flux} is used to define a feed-forward neural network, which has two hidden layers, and which uses a rectified linear activation function in the first hidden layer.
 
 
@@ -1553,8 +1553,10 @@ model = Flux.Chain(Flux.Dense(4, 4, Flux.relu),
                    Flux.Dense(4, 1))
 \end{lstlisting}
 
+Via the \apkg{JuliaConnectoR} and \inlinecode{juliaImport}, the R code shown in Listing \ref{fluximportR} can do the same as the Julia code in Listing \ref{fluximportJulia}.
 
 \begin{lstlisting}[language=R,float=!h,caption={R code using the \apkg{JuliaConnectoR} for  doing the same as in Listing \ref{fluximportJulia}},label={fluximportR}]
+library(JuliaConnectoR)
 Pkg <- juliaImport("Pkg")
 Pkg$add(name = "Flux", version = "0.11")
 Flux <- juliaImport("Flux")
@@ -1562,18 +1564,36 @@ model <- Flux$Chain(Flux$Dense(4L, 4L, Flux$relu),
                     Flux$Dense(4L, 1L))
 \end{lstlisting}
 
-An alternative to importing a package in this way is to address the functions via their name as strings via the \inlinecode{juliaCall} function.
-This can make the hard to read.
-The automatic import enables one to wrote conc 
-A nice, small side benefit is that the auto-complete functionality can aid in typing and finding functions.
+An alternative to importing a package in this way is to address the functions via their name as strings via the \inlinecode{juliaCall} function, e.g., by replacing
+\begin{lstlisting}[language=R]
+Pkg <- juliaImport("Pkg")
+Pkg$add(name = "Flux", version = "0.11")
+\end{lstlisting}
+with
+\begin{lstlisting}[language=R]
+juliaEval("import Pkg")
+juliaCall("Pkg.add", name = "Flux", version = "0.11") 
+\end{lstlisting}
+
+This is possible but it makes the code harder to read.
+In the case of constructing the neural network in the last two lines of Listing \ref{fluximportR} this becomes obvious.
+Replacing the imported functions with \inlinecode{juliaCall} there would deteriorate the legibility in a significant way.
+
+An additional nice side benefit of using \inlinecode{juliaImport} is that the auto-complete functionality can aid in typing and finding functions that are collected in the returned environment.
+
+A detail that is also interesting in Listing \ref{fluximportJulia} is that the activation function is specified via passing a function as an argument, which is here the \inlinecode{relu} function from the \apkg{Flux} package.
+In the R code in Listing \ref{fluximportR}, this becomes also possible because the \inlinecode{relu} function has been imported as a function object and the \apkg{JuliaConnectoR} recognizes imported functions and can translate them back to Julia functions.
+Passing functions as arguments to other functions is typical for a functionally oriented style.
+Enabling functional programming was an important consideration in the design of the \apkg{JuliaConnectoR}.
 
 
-It is also possible to import local Julia modules into R similar to packages.
-Wrapping code in local modules has the advantage 
+
+It is also possible to import local Julia modules into R in a similar way as shown above with Julia packages.
+Wrapping code in local modules has the advantage TODO
 For more details, including examples for using local modules, see the documentation of \inlinecode{juliaImport} (p. \pageref{rdokitem_juliaImport}ff.).
 
 \subsubsection{Translating data between Julia and R}\label{translatejuliar}
-Notable in Listing \ref{fluximport} is that the numbers needed to be passed as integers.
+Notable in Listing \ref{fluximportR} is that the numbers needed to be passed as integers.
 This is because the \inlinecode{Dense} function in Julia expects integer values as arguments.
 
 \paragraph{Data frames}\label{juliaconnectordataframes}
@@ -1584,6 +1604,16 @@ TODO Data frames
 TODO missings
 
 \subsubsection{Features for interactive use}
+
+\paragraph{Output redirection}\label{juliaconnectorOutput}
+
+For example, the output when installing a package, such as in Listing \ref{fluximportR} can be displayed on the command line.
+As downloading and compiling a package with all its dependencies may take some time, giving feedback about the progress is important.
+The output is redirected in an asynchronous way.
+This allows that the output is displayed before the function returns.
+
+\paragraph{Interrupting}\label{juliaconnectorinterrupting}
+
 
 \subsection{Using \apkg{BoltzmannMachines} in R via the \apkg{JuliaConnector}}\label{juliaconnectorDbmexample}
 As mentioned in Section \ref{BMfeatures}, there is currently no R package that implements deep Boltzmann machines.
