@@ -1461,18 +1461,18 @@ Communication & TCP/binary & \proglang{C}-interface & TCP/JSON &
 Automatic importing of packages & Yes & No & No &
 \ref{juliaconnectoRAutoimport} \\
 Specification for type translation & Yes & No & No &
-\ref{RtoJulia} \\
+\ref{translatejuliar} \\
 Reversible translation from Julia to R & Yes
-& No & No & \ref{JuliatoR} \\
-Callbacks & Yes & Yes & No & \ref{Callbacks} \\
-Let-syntax & Yes & No & No & \ref{LetSyntax} \\
+& No & No & \ref{translatejuliar} \\
+\proglang{R} data frames to \proglang{Julia} Tables & Yes & Yes & No &
+\ref{juliaconnectordataframes} \\
+Missing values & Yes & Yes & No & \ref{juliaconnectorMissings} \\
+Callbacks & Yes & Yes & No & \ref{juliaconnectorcallbacks} \\
 Show standard (error) output & Yes & No & Yes &
 \ref{juliaconnectorOutput} \\
 Interruptible & Yes & No & Yes & \ref{juliaconnectorinterrupting} \\
-Missing values & Yes & Yes & No & \ref{juliaconnectorMissings} \\
-\proglang{R} data frames to \proglang{Julia} Tables & Yes & Yes & No &
-\ref{juliaconnectordataframes} \\
 \\[-2\medskipamount]
+Let-syntax & Yes & No & No & \ref{juliaconnectorDbmexample} \\
 \hline
 \end{tabular}
 \end{table}
@@ -1531,10 +1531,10 @@ This may be used to employ remote servers that provide compute power but do not 
 
 \subsubsection{Automatic importing of packages and modules}\label{juliaconnectoRAutoimport}
 
-One of the main reasons for using a language bridge such as the \apkg{JuliaConnectoR} is to access functionality from packages that are only available in other languages while being able to do most of the work in a language that is more familiar or more suitable for the rest of the task.
+One of the main reasons for using a language bridge such as the \apkg{JuliaConnectoR} is to access functionality from packages in other languages while being able to do most of the work in a language that is more familiar or more suitable for the rest of the task.
 An example for this can be to use deep learning in Julia but perform data preprocessing and plotting in R.
 
-The function \inlinecode{juliaImport} (see also on p.~\pageref{rdokitem_juliaImport}ff.) of the \apkg{JuliaConnectoR} can inspect a Julia package and then return all Julia functions, including type constructors, in the form of an environment that contains corresponding R functions that wrap the Julia functions.
+The function \inlinecode{juliaImport} (see also on p.~\pageref{rdokitem_juliaImport}ff.) of the \apkg{JuliaConnectoR} can inspect a Julia package and then return all Julia functions, including type constructors, in the form of an environment that contains R functions that wrap the Julia functions.
 This approach helps to handle foreign packages in a simple way, and it aids in writing more concise code, as can be seen in the following.
 
 At first, a minimal example, employing the \apkg{Flux} Julia package in R, is shown in Listing \ref{fluximportJulia} and Listing \ref{fluximportR}.
@@ -1584,22 +1584,58 @@ In the R code in Listing \ref{fluximportR}, this becomes also possible because t
 Passing functions as arguments to other functions is typical for a functionally oriented style.
 Enabling functional programming was an important consideration in the design of the \apkg{JuliaConnectoR}.
 
-An additional nice side benefit of using \inlinecode{juliaImport} is that the auto-complete functionality can aid in typing and finding functions that are collected in the returned environment.
+An additional nice side benefit of using \inlinecode{juliaImport} is that the auto-complete functionality in the R terminal or in RStudio can aid in typing and finding functions that are collected in the returned environment.
 
-When developing Julia code, writing functions and inside a module, which is defined in one or more Julia files, is a good practice because it allows to easily replace the complete code in the Julia session with a single call to the \inlinecode{include} function in Julia.
+When developing Julia code, writing functions inside a module, which is defined in one or more files, is a good practice because it allows to easily replace the complete code in the Julia session with a single call of the \inlinecode{include} function in Julia.
 Moreover, using module files makes debugging easier because errors can be tracked more easily when the line number in the file is specified in the error output.
 It is also possible to import such local Julia modules into R via \inlinecode{juliaImport} in a similar way as shown above with Julia packages.
-For examples, see the documentation of \inlinecode{juliaImport} (p. \pageref{rdokitem_juliaImport}ff.).
+For examples, see the documentation of \inlinecode{juliaImport} (p.~\pageref{rdokitem_juliaImport}ff.).
 
-\subsubsection{Translating data between Julia and R}\label{translatejuliar}
+\subsubsection{Translation between Julia and R}\label{translatejuliar}
 Notable in Listing \ref{fluximportR} is that the numbers needed to be passed as integers (e.g., ``\inlinecode{4L}'' instead of simply ``4'').
 The \inlinecode{Dense} function of the \apkg{Flux} package is sensitive to the types of its input arguments and it is necessary here that the arguments are of type \inlinecode{Int} in Julia.
 If, e.g. floating point numbers of type \inlinecode{Float64} are passed, the \inlinecode{Dense} function would yield a different result.
 This is because the multiple dispatch mechanism in Julia determines which specific method is chosen, dependent on the types of the input arguments.
 Using the exact type is not important in all cases because it is also possible to handle types in Julia in a more relaxed way, e.g., by specifying abstract types or not specifying types for arguments in the definition of functions.
 Examples for such abstract types are \inlinecode{Number}, or the type \inlinecode{Any}, which is most unspecific.
-Given that types are important in Julia, the translations of the types are clearly documented \apkg{JuliaConnectoR} (see p.~\pageref{juliaconnectordokutypetranslation}).
- It is also not possible to infer this automatically, because it is possible that the result of different methods is completely different.
+It is also not possible to infer the type automatically, because it is possible that the results of different methods, which are invoked for different argument types, differ completely.
+Therefore, a \apkg{JuliaConnectoR} user must care about the types of the arguments exactly if the user also would need to care about them when using the functions directly in Julia.
+Consider the example in Listing \ref{multdispatchex}, which illustrates this.
+TODO explain
+
+\begin{lstlisting}[language=Julia, float=!h, numbers=left, caption={Multiple dispatch and type translation}, label={multdispatchex}]
+R> juliaEval("f(i::Int) = i*2")
+R> juliaEval("f(i::Float64) = i*3")
+R> juliaEval("f(i::Number) = i*4")
+R> f <- juliaFun("f")
+R> f(2L)
+[1] 4
+R> f(2)
+[1] 6
+R> f(2i)
+[1] 0+8i
+\end{lstlisting}
+
+Given that types are important in Julia, the translations of the types are clearly documented for the \apkg{JuliaConnectoR} (see p.~\pageref{juliaconnectordokutypetranslation}).
+Although the translation of the basic types is largely the same in \apkg{JuliaCall} and \apkg{XRJulia}, these packages lack a formal specification of the translations.
+Another distinctive feature of the the \apkg{JuliaConnectoR} is that it ensures that the translations from Julia to R are fully reversible.
+Single values, vectors and matrices of primitive types in Julia are translated directly to vectors and matrices in R.
+If a Julia vector or matrix can be mapped to a vector or matrix in R but its type cannot be matched exactly, the information about the original Julia type is attached to the translated object in R.
+If such a translated object is passed to Julia again, it can be reconstructed with its original type.
+For example, if a Julia package operates with single-precision floating point values and a function returns an object of type \inlinecode{Vector\{Float32\}}, this vector can be translated to an R \inlinecode{double} vector with double-precision floating point values, and the information about the original type is added as an attribute in R.
+If this vector is passed to Julia later, it is implicitly converted to the original type.
+
+For efficiency purposes, the \apkg{JuliaConnectoR} does not translate composite objects by default.
+Instead, they are passed to R in form of proxy objects, which hold references to the original objects and can be used in their place.
+With the \inlinecode{juliaGet} function (see p.~\pageref{rdokitem_juliaGet}), also composite objects can be fully translated to R objects in form of nested R lists.
+From these lists, which are annotated with information about the original Julia types, the original objects can be reconstructed later.
+This way, the objects can be serialized in R and saved with the R session, unless, of course, an object contains external references such as file handles or pointers to allocated memory.
+
+\apkg{XRJulia} and \apkg{JuliaCall} also work with proxy objects for types that are more complex than arrays of primitive types.
+\apkg{JuliaCall} cannot translate such objects to R data structures.
+\apkg{XRJulia} also has a \inlinecode{juliaGet} function, which can translate objects from Julia to R.
+A full reconstruction of such objects in Julia is not possible, however, since the type information is not managed.
+
 
 \paragraph{Data frames}\label{juliaconnectordataframes}
 TODO Data frames
@@ -1607,6 +1643,8 @@ TODO Data frames
 \paragraph{Missing values}\label{juliaconnectorMissings}
 
 TODO missings
+
+\paragraph{Callbacks: Translating R functions to Julia functions}\label{juliaconnectorcallbacks}
 
 \subsubsection{Features for interactive use}
 
