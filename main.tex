@@ -1592,8 +1592,14 @@ It is also possible to import such local Julia modules into R via \inlinecode{ju
 For examples, see the documentation of \inlinecode{juliaImport} (p. \pageref{rdokitem_juliaImport}ff.).
 
 \subsubsection{Translating data between Julia and R}\label{translatejuliar}
-Notable in Listing \ref{fluximportR} is that the numbers needed to be passed as integers.
-This is because the \inlinecode{Dense} function in Julia expects integer values as arguments.
+Notable in Listing \ref{fluximportR} is that the numbers needed to be passed as integers (e.g., ``\inlinecode{4L}'' instead of simply ``4'').
+The \inlinecode{Dense} function of the \apkg{Flux} package is sensitive to the types of its input arguments and it is necessary here that the arguments are of type \inlinecode{Int} in Julia.
+If, e.g. floating point numbers of type \inlinecode{Float64} are passed, the \inlinecode{Dense} function would yield a different result.
+This is because the multiple dispatch mechanism in Julia determines which specific method is chosen, dependent on the types of the input arguments.
+Using the exact type is not important in all cases because it is also possible to handle types in Julia in a more relaxed way, e.g., by specifying abstract types or not specifying types for arguments in the definition of functions.
+Examples for such abstract types are \inlinecode{Number}, or the type \inlinecode{Any}, which is most unspecific.
+Given that types are important in Julia, the translations of the types are clearly documented \apkg{JuliaConnectoR} (see p.~\pageref{juliaconnectordokutypetranslation}).
+ It is also not possible to infer this automatically, because it is possible that the result of different methods is completely different.
 
 \paragraph{Data frames}\label{juliaconnectordataframes}
 TODO Data frames
