@@ -1556,9 +1556,9 @@ model = Flux.Chain(Flux.Dense(4, 4, Flux.relu),
                    Flux.Dense(4, 1))
 \end{lstlisting}
 
-Via the \apkg{JuliaConnectoR} and \inlinecode{juliaImport}, the R code shown in Listing \ref{fluximportR} can do the same as the Julia code in Listing \ref{fluximportJulia}.
+Using the \inlinecode{juliaImport} function of the \apkg{JuliaConnectoR}, the R code shown in Listing \ref{fluximportR} can do the same as the Julia code in Listing \ref{fluximportJulia}.
 
-\begin{lstlisting}[language=R,float=!h,caption={R code using the \apkg{JuliaConnectoR} for  doing the same as in Listing \ref{fluximportJulia}},label={fluximportR}]
+\begin{lstlisting}[language=R,numbers=left,float=!h,caption={R code using the \apkg{JuliaConnectoR} for  doing the same as in Listing \ref{fluximportJulia}},label={fluximportR}]
 library(JuliaConnectoR)
 Pkg <- juliaImport("Pkg")
 Pkg$add(name = "Flux", version = "0.11")
@@ -1567,33 +1567,29 @@ model <- Flux$Chain(Flux$Dense(4L, 4L, Flux$relu),
                     Flux$Dense(4L, 1L))
 \end{lstlisting}
 
-An alternative to importing a package in this way is to address the functions via their name as strings via the \inlinecode{juliaCall} function, e.g., by replacing
-\begin{lstlisting}[language=R]
-Pkg <- juliaImport("Pkg")
-Pkg$add(name = "Flux", version = "0.11")
-\end{lstlisting}
-with
+An alternative to importing a package in this way is to address the functions via their name as strings via the \inlinecode{juliaCall} function. 
+For example, the lines 2 and 3 in Listing \ref{fluximportR} could be replaced with:
 \begin{lstlisting}[language=R]
 juliaEval("import Pkg")
 juliaCall("Pkg.add", name = "Flux", version = "0.11") 
 \end{lstlisting}
+(For more information on \inlinecode{juliaEval}, which simply evaluates a given string in Julia and returns the result, see p.~\pageref{rdokitem_juliaEval}. 
+For more details on the usage of \inlinecode{juliaCall} see p.~\pageref{rdokitem_juliaCall}.)
 
-This is possible but it makes the code harder to read.
-In the case of constructing the neural network in the last two lines of Listing \ref{fluximportR} this becomes obvious.
+When considering the next lines, the advantage of the automatic importing becomes more obvious.
 Replacing the imported functions with \inlinecode{juliaCall} there would deteriorate the legibility in a significant way.
-
-An additional nice side benefit of using \inlinecode{juliaImport} is that the auto-complete functionality can aid in typing and finding functions that are collected in the returned environment.
-
-A detail that is also interesting in Listing \ref{fluximportJulia} is that the activation function is specified via passing a function as an argument, which is here the \inlinecode{relu} function from the \apkg{Flux} package.
+In case of the \inlinecode{relu} function, it is not possible to replace it with \inlinecode{juliaCall}, as the function is not called but only referenced.
+The activation function is specified via passing a function as an argument, which is here the \inlinecode{relu} function.
 In the R code in Listing \ref{fluximportR}, this becomes also possible because the \inlinecode{relu} function has been imported as a function object and the \apkg{JuliaConnectoR} recognizes imported functions and can translate them back to Julia functions.
 Passing functions as arguments to other functions is typical for a functionally oriented style.
 Enabling functional programming was an important consideration in the design of the \apkg{JuliaConnectoR}.
 
+An additional nice side benefit of using \inlinecode{juliaImport} is that the auto-complete functionality can aid in typing and finding functions that are collected in the returned environment.
 
-
-It is also possible to import local Julia modules into R in a similar way as shown above with Julia packages.
-Wrapping code in local modules has the advantage TODO
-For more details, including examples for using local modules, see the documentation of \inlinecode{juliaImport} (p. \pageref{rdokitem_juliaImport}ff.).
+When developing Julia code, writing functions and inside a module, which is defined in one or more Julia files, is a good practice because it allows to easily replace the complete code in the Julia session with a single call to the \inlinecode{include} function in Julia.
+Moreover, using module files makes debugging easier because errors can be tracked more easily when the line number in the file is specified in the error output.
+It is also possible to import such local Julia modules into R via \inlinecode{juliaImport} in a similar way as shown above with Julia packages.
+For examples, see the documentation of \inlinecode{juliaImport} (p. \pageref{rdokitem_juliaImport}ff.).
 
 \subsubsection{Translating data between Julia and R}\label{translatejuliar}
 Notable in Listing \ref{fluximportR} is that the numbers needed to be passed as integers.
