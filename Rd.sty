@@ -402,8 +402,6 @@
   \markboth{#1}{#1}
   \noindent
   \nopagebreak
-  \phantomsection     % fuer labels
-  \label{rdokitem_#3} % labels fuer pagerefs
   \begin{center}
   \ifthenelse{\boolean{Rd@use@hyper}}%
     {\def\@currentHref{page.\thepage}
@@ -421,6 +419,8 @@
 	  \vspace{2ex} % wegen parskip im hauptdokument
     \hrule
   \end{center}
+  \phantomsection     % fuer labels
+  \label{rdokitem_#3} % labels fuer pagerefs
   \nopagebreak}
 
 \DeclareTextCommandDefault{\Rpercent}{\%{}}

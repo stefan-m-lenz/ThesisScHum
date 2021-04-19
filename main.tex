@@ -1626,6 +1626,7 @@ A full reconstruction of such objects in Julia is not possible, however, since t
 
 \paragraph{Data frames}\label{juliaconnectordataframes}
 TODO Data frames
+see p.~\pageref{rdokitem_as.data.frame.JuliaProxy}
 
 
 \paragraph{Missing values}\label{juliaconnectorMissings}
@@ -1641,7 +1642,7 @@ At first, a Julia function is defined in Julia with \inlinecode{juliaEval}.
 The returned value, which is the newly defined function, can be assigned to an R variable, which contains the wrapped Julia function (line 1).
 The Julia function \inlinecode{map} applies a given function on a vector of values.
 It is used here as a simple example of a function that receives another function as an argument.
-In line 2 it is used for applying the \inlinecode{times2} function in Julia (line 2).
+In line 2 it is used for applying the \inlinecode{times2} function in Julia.
 The return value is finally also translated to R (line 3). 
 
 \begin{lstlisting}[language=R, float =!h, caption={Passing a reference to a Julia function back to Julia},label={juliafunascallback}, numbers=left]
