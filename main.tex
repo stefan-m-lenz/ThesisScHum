@@ -1456,7 +1456,7 @@ For a comparison, the packages \apkg{JuliaCall} and \apkg{XRJulia} are also rega
  See \\
 \hline 
 \\\\[-4\medskipamount]
-Communication & TCP/binary & \proglang{C}-interface & TCP/JSON &
+Communication & TCP/binary & \proglang{C} interface & TCP/JSON &
 \ref{juliaconnectorCommuncation} \\
 Automatic importing of packages & Yes & No & No &
 \ref{juliaconnectoRAutoimport} \\
@@ -1634,11 +1634,25 @@ TODO missings
 
 \paragraph{Callbacks: Translating R functions to Julia functions}\label{juliaconnectorcallbacks}
 
-As mentioned before in \ref{juliaconnectoRAutoimport}, a Julia function is translated by the \apkg{JuliaConnectoR} to an R function that invokes the Julia function.
-These special R functions can be translated directly back to the original Julia functions.
-Normal R functions are translated as callback functions.
+As mentioned before in \ref{juliaconnectoRAutoimport}, the \apkg{JuliaConnectoR} can translate a Julia function to an R function that invokes the Julia function.
+R functions created in that way can be translated directly back to the original Julia functions.
+Listing \ref{juliafunascallback} shows an example for this.
+At first, a Julia function is defined in Julia with \inlinecode{juliaEval}.
+The returned value, which is the newly defined function, can be assigned to an R variable, which contains the wrapped Julia function (line 1).
+The Julia function \inlinecode{map} applies a given function on a vector of values.
+It is used here as a simple example of a function that receives another function as an argument.
+In line 2 it is used for applying the \inlinecode{times2} function in Julia (line 2).
+The return value is finally also translated to R (line 3). 
+
+\begin{lstlisting}[language=R, float =!h, caption={Passing a reference to a Julia function back to Julia},label={juliafunascallback}, numbers=left]
+R> times2 <- juliaEval("times2(x) = 2*x")
+R> juliaCall("map", times2, c(1,2,3))
+[1] 2 4 6
+\end{lstlisting}
+
+In contrast to R functions that wrap Julia functions, normal R functions are translated as {\em callback} functions.
 That means, they are translated to Julia functions that invoke the original R functions.
-Listing \ref{rfunascallback} and Listing \ref{juliafunascallback} show examples for this.
+Listing \ref{rfunascallback} shows how an R function can be passed to Julia and used as a callback function.
 
 \begin{lstlisting}[language=R, float =!h, caption={An R function used as a callback function}, label={rfunascallback}]
 R> times2 <- function(x) {2*x}
@@ -1646,13 +1660,22 @@ R> juliaCall("map", times2, c(1,2,3))
 [1] 2 4 6
 \end{lstlisting}
 
-\begin{lstlisting}[language=R, float =!h, caption={Passing a reference to Julia function via the \apkg{JuliaConnectoR}},label={juliafunascallback}]
-R> times2 <- juliaEval("times2(x) = 2*x")
-R> juliaCall("map", times2, c(1,2,3))
-[1] 2 4 6
-\end{lstlisting}
+The code in Listing \ref{rfunascallback} is less efficient than the code in Listing \ref{juliafunascallback}, because in Listing \ref{rfunascallback}, Julia and R need to communicate in every separate application of the \inlinecode{times2} function.
+However, this mechanism makes it possible to interweave R and Julia code.
+In such a simple case, this is, of course, not really beneficial.
+In \ref{juliaconnectorDbmexample}, a more useful example for using callback functions is given.
+It shows how an R function can be used for displaying monitoring output during the training of a deep learning model.
+In such a scenario, the overhead of calling back to R after every training epoch is negligible when compared to the overall computation time.
+
+Passing R functions to Julia is also possible with \apkg{JuliaCall}.
+\apkg{XRJulia} does not have that feature.
 
 \subsubsection{Features for interactive use}
+
+\paragraph{Interrupting}\label{juliaconnectorinterrupting}
+With the lower communication overhead via the C interface, \apkg{JuliaCall} has a speed advantage compared to the \apkg{JuliaConnectoR}, which becomes important if the number of calls between R and Julia are high.
+However, in a deep learning scenario, where the amount the speed advantage becomes less important.
+At the same time the stability is more important.
 
 \paragraph{Output redirection}\label{juliaconnectorOutput}
 
@@ -1661,7 +1684,6 @@ As downloading and compiling a package with all its dependencies may take some t
 The output is redirected in an asynchronous way.
 This allows that the output is displayed before the function returns.
 
-\paragraph{Interrupting}\label{juliaconnectorinterrupting}
 
 
 \subsection{Using \apkg{BoltzmannMachines} in R via the \apkg{JuliaConnector}}\label{juliaconnectorDbmexample}
