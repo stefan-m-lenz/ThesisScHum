@@ -1598,26 +1598,13 @@ If, e.g. floating point numbers of type \inlinecode{Float64} are passed, the \in
 This is because the multiple dispatch mechanism in Julia determines which specific method is chosen, dependent on the types of the input arguments.
 Using the exact type is not important in all cases because it is also possible to handle types in Julia in a more relaxed way, e.g., by specifying abstract types or not specifying types for arguments in the definition of functions.
 Examples for such abstract types are \inlinecode{Number}, or the type \inlinecode{Any}, which is most unspecific.
-It is also not possible to infer the type automatically, because it is possible that the results of different methods, which are invoked for different argument types, differ completely.
+It is also not possible to infer the type automatically, because it is possible that the results of different methods, which are invoked for different argument types, are completely different.
 Therefore, a \apkg{JuliaConnectoR} user must care about the types of the arguments exactly if the user also would need to care about them when using the functions directly in Julia.
-Consider the example in Listing \ref{multdispatchex}, which illustrates this.
-TODO explain
-
-\begin{lstlisting}[language=Julia, float=!h, numbers=left, caption={Multiple dispatch and type translation}, label={multdispatchex}]
-R> juliaEval("f(i::Int) = i*2")
-R> juliaEval("f(i::Float64) = i*3")
-R> juliaEval("f(i::Number) = i*4")
-R> f <- juliaFun("f")
-R> f(2L)
-[1] 4
-R> f(2)
-[1] 6
-R> f(2i)
-[1] 0+8i
-\end{lstlisting}
 
 Given that types are important in Julia, the translations of the types are clearly documented for the \apkg{JuliaConnectoR} (see p.~\pageref{juliaconnectordokutypetranslation}).
 Although the translation of the basic types is largely the same in \apkg{JuliaCall} and \apkg{XRJulia}, these packages lack a formal specification of the translations.
+The attempt to translate complex values (e.g., via \inlinecode{juliaCall("typeof", 1i)}) resulted in an error in \apkg{XRJulia}.
+
 Another distinctive feature of the the \apkg{JuliaConnectoR} is that it ensures that the translations from Julia to R are fully reversible.
 Single values, vectors and matrices of primitive types in Julia are translated directly to vectors and matrices in R.
 If a Julia vector or matrix can be mapped to a vector or matrix in R but its type cannot be matched exactly, the information about the original Julia type is attached to the translated object in R.
@@ -1640,11 +1627,30 @@ A full reconstruction of such objects in Julia is not possible, however, since t
 \paragraph{Data frames}\label{juliaconnectordataframes}
 TODO Data frames
 
+
 \paragraph{Missing values}\label{juliaconnectorMissings}
 
 TODO missings
 
 \paragraph{Callbacks: Translating R functions to Julia functions}\label{juliaconnectorcallbacks}
+
+As mentioned before in \ref{juliaconnectoRAutoimport}, a Julia function is translated by the \apkg{JuliaConnectoR} to an R function that invokes the Julia function.
+These special R functions can be translated directly back to the original Julia functions.
+Normal R functions are translated as callback functions.
+That means, they are translated to Julia functions that invoke the original R functions.
+Listing \ref{rfunascallback} and Listing \ref{juliafunascallback} show examples for this.
+
+\begin{lstlisting}[language=R, float =!h, caption={An R function used as a callback function}, label={rfunascallback}]
+R> times2 <- function(x) {2*x}
+R> juliaCall("map", times2, c(1,2,3))
+[1] 2 4 6
+\end{lstlisting}
+
+\begin{lstlisting}[language=R, float =!h, caption={Passing a reference to Julia function via the \apkg{JuliaConnectoR}},label={juliafunascallback}]
+R> times2 <- juliaEval("times2(x) = 2*x")
+R> juliaCall("map", times2, c(1,2,3))
+[1] 2 4 6
+\end{lstlisting}
 
 \subsubsection{Features for interactive use}
 
