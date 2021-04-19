@@ -1625,13 +1625,27 @@ A full reconstruction of such objects in Julia is not possible, however, since t
 
 
 \paragraph{Data frames}\label{juliaconnectordataframes}
-TODO Data frames
-see p.~\pageref{rdokitem_as.data.frame.JuliaProxy}
+In R, data of tabular structure is kept in objects of the class \inlinecode{data.frame}.
+In Julia tabular structures are not part of the standard library but are available in separate packages.
+There are also different approaches to tables in Julia, for example with the DataFrames package, which  or 
+The \apkg{Tables} package defines an interface which unifies the different approaches.
+
+The \apkg{JuliaConnectoR} does not translate structures satisfying the Julia \apkg{Tables} interface by default.
+Firstly, it is better to avoid translating large amounts of data if it not necessary.
+It is also not possible to convert all Julia objects that are classified as Julia \apkg{Tables} to R data frames.
+For example, the \apkg{Tables} package regards all dictionaries with keys of type \inlinecode{Symbol} as tables.
+For example, the dictionary \inlinecode{Dict(:x => [[1,2],"a"])} is considered to be a table by \apkg{Tables} (version 1.3.1).
+Yet, this data structure cannot be converted to an R data frame.
+Therefore, the translation to R data frames must be requested explicitly.
+This can be done with the function \inlinecode{as.data.frame}, which is specialized for Julia proxy objects (see p.~\pageref{rdokitem_as.data.frame.JuliaProxy}).
+
 
 
 \paragraph{Missing values}\label{juliaconnectorMissings}
 
-TODO missings
+As can be seen in listing TODO, missing values are handled in Julia 
+.
+Values of \inlinecode{NaN} and \inlinecode{NA} are distinguished.
 
 \paragraph{Callbacks: Translating R functions to Julia functions}\label{juliaconnectorcallbacks}
 
