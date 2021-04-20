@@ -1720,25 +1720,40 @@ It shows how an R function can be used for displaying monitoring output during t
 In such a scenario, the overhead of calling back to R after every training epoch is negligible when compared to the overall computation time.
 
 Passing R functions to Julia is also possible with \apkg{JuliaCall}.
-\apkg{XRJulia} does not have that feature.
+\apkg{XRJulia} does not have that feature. 
+With the lower communication overhead via the C interface, \apkg{JuliaCall} has a speed advantage compared to the \apkg{JuliaConnectoR} when there is a high number of calls between R and Julia.
+However, in a deep learning scenario, where usually long-running functions are used, this is less important.
+There, stability and ways to get feedback from long-running tasks become more important.
 
 \subsubsection{Features for interactive use}
 
+The \apkg{JuliaConnectoR}
+
 \paragraph{Interrupting}\label{juliaconnectorinterrupting}
-With the lower communication overhead via the C interface, \apkg{JuliaCall} has a speed advantage compared to the \apkg{JuliaConnectoR}, which becomes important if the number of calls between R and Julia are high.
-However, in a deep learning scenario, where the amount the speed advantage becomes less important.
-At the same time the stability is more important.
+
+As training a deep learning model may take a long time and the hyperparameters have a strong influence on the execution times of an algorithm, it can be desired to stop the execution of a function call.
+
 
 \paragraph{Output redirection}\label{juliaconnectorOutput}
 
-For example, the output when installing a package, such as in Listing \ref{fluximportR} can be displayed on the command line.
-As downloading and compiling a package with all its dependencies may take some time, giving feedback about the progress is important.
+Long-running tasks often produce output on the command line to give the user feedback about the progress.
+For example, downloading and installing a package with all its dependencies may take some time.
+In both R and Julia, the package management prints output on the command line to inform the user about the success of failure of the different installation steps.
+In deep learning, getting feedback about the training progress is desirable for estimating the time that is needed for training a model.
+While feedback may also be given via callback functions, this approach only works if the software offers this option.
+Moreover, when developing own algorithms, printing information and having access to warning messages is essential for debugging a program.
+Therefore, the redirection of standard output and standard error output is an important feature for a language bridge that is used in an interactive way.
+
+The \apkg{JuliaConnectoR} displays the standard output and the standard error output from Julia on the R command line.
 The output is redirected in an asynchronous way.
-This allows that the output is displayed before the function returns.
+This allows that the output is displayed before the function returns, which is important for the reporting of progress.
+\apkg{XRJulia} can also do this. Standard output or standard error output is not visible when using \apkg{JuliaCall}.
 
 
 
 \subsection{Using \apkg{BoltzmannMachines} in R via the \apkg{JuliaConnector}}\label{juliaconnectorDbmexample}
+TODO After this overview over the features, which had small examples for showing the principle, here a more comprehensive example shall be given for using DBMs in R.
+
 As mentioned in Section \ref{BMfeatures}, there is currently no R package that implements deep Boltzmann machines.
 But via the \apkg{JuliaConnectoR}, all features of the \apkg{BoltzmannMachines} package become conveniently usable in R.
 This can be demonstrated by some examples, which show how easy it becomes to translate Julia code for training and evaluating deep and restricted Boltzmann machines to R code that calls the \apkg{BoltzmannMachines} Julia package via the \apkg{JuliaConnectoR} behind the scenes.
@@ -2604,7 +2619,7 @@ Lenz, S., Hess, M. \harvardand\ Binder, H.  \harvardyearleft
 \newline\harvardurl{\url{https://doi.org/10.1186/s12874-021-01237-6}}
 \end{enumerate}
 
-All three articles have been written primarily by me under supervision by Prof.~Dr.~Harald Binder. 
+All three articles have been written primarily by me under the supervision of Prof.~Dr.~Harald Binder. 
 All plots and drawings have been created by myself.
 All artwork that was used for composing the drawings does not require attribution.
 The contributions to the publications and to the underlying software packages are further:
