@@ -1625,11 +1625,26 @@ A full reconstruction of such objects in Julia is not possible, however, since t
 
 
 \paragraph{Data frames}\label{juliaconnectordataframes}
-In R, data of tabular structure is kept in objects of the class \inlinecode{data.frame}.
-In Julia tabular structures are not part of the standard library but are available in separate packages.
-There are also different approaches to tables in Julia, for example with the DataFrames package, which  or 
-The \apkg{Tables} package defines an interface which unifies the different approaches.
 
+Data in tabular form is very common in data science. Most biomedical data sets consist of one or more tables.
+Therefore, it is important to deal with this kind of data in an interface between two languages that are used by data scientists.
+
+In R, data of tabular structure is kept in objects of the class \inlinecode{data.frame}.
+There are also additional packages such as \apkg{tibble} \citep{tibble} and \apkg{data.table} \citep{datatable} providing tabular data structures which are compatible with the R \inlinecode{data.frame} interface.
+In Julia, tabular structures are not part of the standard library but they are only available in separate packages.
+In addition defining a data type for holding tabular structure, the Julia package \apkg{DataFrames} \citep{juliaDataFramesGithub} offers tools for working with tabular data.
+Its design is inspired by the R package \apkg{dplyr} \citep{dplyr} and the Python package \apkg{pandas} \citep{pandas}, which aim to streamline data analysis by offering solutions for many common data analysis tasks.
+There are also other packages supporting tabular structures that do not build on the \apkg{DataFrames} package.
+To unify the different approaches, the \apkg{Tables} package was created, which defines an minimal common interface.
+This interface is used by the \apkg{DataFrames} package and also by many other packages, e.g., by the \apkg{CSV} \citep{juliacsvGithub} package for reading CSV files and the \apkg{JuliaDB} package \citep{juliadbGithub} for working with large persistent data sets.
+Due to the broader goal of the \apkg{DataFrames} Julia package, it has not reached version 1.0 yet and there have been many breaking changes in the course of the development.
+Because the interface of the \apkg{Tables} can be considered as stable now, with version 1.0 released in February 2020, and because of its lightweight implementation, the \apkg{Tables} package was used as the basis for the support of tabular structures in the \apkg{JuliaConnectoR}.
+In contrast, \apkg{JuliaCall} depends on the \apkg{DataFrames} package and translates R data frames to Julia objects of type \inlinecode{DataFrames.DataFrame}.
+\apkg{XRJulia} translates R data frames to Julia objects of type \inlinecode{Dict\{String, Any\}}.
+This is not compatible to the \apkg{Tables} interface, which regards only dictionaries with keys of type {Symbol} as tables.
+Moreover, the order of the columns is lost by the translation to a dictionary.
+
+\apkg{JuliaCall} translates Julia data frames directly to R \inlinecode{data.frame} objects.\footnote{For example, \inlinecode{julia\_call("identity", iris)} returns again an R data frame.}
 The \apkg{JuliaConnectoR} does not translate structures satisfying the Julia \apkg{Tables} interface by default.
 Firstly, it is better to avoid translating large amounts of data if it not necessary.
 It is also not possible to convert all Julia objects that are classified as Julia \apkg{Tables} to R data frames.
@@ -1640,12 +1655,13 @@ Therefore, the translation to R data frames must be requested explicitly.
 This can be done with the function \inlinecode{as.data.frame}, which is specialized for Julia proxy objects (see p.~\pageref{rdokitem_as.data.frame.JuliaProxy}).
 
 
-
 \paragraph{Missing values}\label{juliaconnectorMissings}
 
-As can be seen in listing TODO, missing values are handled in Julia 
-.
+Missing values are common in biomedical data.
+Due to this, R supports them as values of the 
+Julia has also a concept for missing values.
 Values of \inlinecode{NaN} and \inlinecode{NA} are distinguished.
+TODO JuliaCall XRJulia
 
 \paragraph{Callbacks: Translating R functions to Julia functions}\label{juliaconnectorcallbacks}
 
