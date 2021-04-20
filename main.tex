@@ -1468,9 +1468,9 @@ Reversible translation from Julia to R & Yes
 \ref{juliaconnectordataframes} \\
 Missing values & Yes & Yes & No & \ref{juliaconnectorMissings} \\
 Callbacks & Yes & Yes & No & \ref{juliaconnectorcallbacks} \\
+Interruptible & Yes & No & Yes & \ref{juliaconnectorinterrupting} \\
 Show standard (error) output & Yes & No & Yes &
 \ref{juliaconnectorOutput} \\
-Interruptible & Yes & No & Yes & \ref{juliaconnectorinterrupting} \\
 \\[-2\medskipamount]
 Let-syntax & Yes & No & No & \ref{juliaconnectorDbmexample} \\
 \hline
@@ -1657,11 +1657,32 @@ This can be done with the function \inlinecode{as.data.frame}, which is speciali
 
 \paragraph{Missing values}\label{juliaconnectorMissings}
 
-Missing values are common in biomedical data.
-Due to this, R supports them as values of the 
+Missing values are common in biomedical data. Both R and Julia support missing values.
+The two languages deal with them in a slightly different way, which needs to be respected when translating between R and Julia.
+
+R allows missing values directly in vectors of numeric and character values.
+For this, R designates certain values to encode the value of \inlinecode{NA}.
+In R double vectors, values of \inlinecode{NaN} and \inlinecode{NA} are distinguished.
+The value of \inlinecode{NaN}, which indicates that the value is ``not a number'', is defined in the international standard concerning floating point values \citep{floatingpointstandard}.
+R extends this standard and uses one of the several representations of \inlinecode{NaN} as the \inlinecode{NA} value in R.
+This makes it possible that both \inlinecode{c(1,NA)} and \inlinecode{c(1, NaN)} are of type \inlinecode{double}.
+
 Julia has also a concept for missing values.
-Values of \inlinecode{NaN} and \inlinecode{NA} are distinguished.
-TODO JuliaCall XRJulia
+In contrast to R, missing values are represented by the \inlinecode{missing} object, which is of type \inlinecode{Missing}. Accordingly, the vector \inlinecode{[1.0, missing]} is of type \inlinecode{Array\{Union\{Missing, Float64\},1\}}, while \inlinecode{[1.0, NaN]} is of type \inlinecode{Array\{Float64,1\}}.
+
+The \apkg{JuliaConnectoR} makes sure that \inlinecode{NA} values in R are translated to \inlinecode{missing} values in Julia and vice versa, while \inlinecode{NaN} values are treated as floating point values according to the standard.
+In the following code snippet, this is demonstrated via performing an addition of two R vectors in Julia:
+
+\begin{lstlisting}
+R> juliaCall("+", c(1, NA, NaN), c(1, 2, 3))
+[1] 2 NA NaN
+\end{lstlisting}
+
+
+In \apkg{JuliaCall}, calling \inlinecode{julia\_call("identity", NA)} for translating a value of \inlinecode{NA} to Julia and back to R produced a fatal error, terminating the R session.
+In \apkg{XRJulia} the call \inlinecode{juliaCall("identity", NA)} returns \inlinecode{NULL} and gives a warning message.
+For both packages there is no definition of how these values shall be handled between R and Julia.
+
 
 \paragraph{Callbacks: Translating R functions to Julia functions}\label{juliaconnectorcallbacks}
 
