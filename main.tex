@@ -95,6 +95,9 @@
     escapeinside={\%*}{*)}
 }
 
+\def\backtick{\`{}}
+\lstdefinestyle{rlststyle}{literate={`}{\backtick}1, escapechar=@}
+
 
 \begin{document}
 \includepdf[pages=-]{includes/Deckblatt}
@@ -1788,9 +1791,9 @@ After this, all functions in the \apkg{BoltzmannMachines} package are available 
 rbm = BMs$fitrbm(x)
 dbm = BMs$fitdbm(x)
 \end{lstlisting}
-
-It is 
-Translating the code in Listing \ref{lst:partdbm} (p.~\pageref{lst:partdbm}) to R results in the following code
+ 
+Partitioned architectures can also be built via specifying the arguments for the different parts via \inlinecode{TrainLayer} objects.
+Translating the code in Listing \ref{lst:partdbm} (p.~\pageref{lst:partdbm}) to R results in the following code:
 
 \begin{lstlisting}[language=R,caption={Fitting a partitioned DBM in R via the \apkg{JuliaConnectoR}},label={lst:partdbmr}, float=!h]
 dbm <- BMs$fitdbm(x, pretraining = list(
@@ -1801,14 +1804,16 @@ dbm <- BMs$fitdbm(x, pretraining = list(
           BMs$TrainLayer(nhidden = 2L)))
 \end{lstlisting}
 
-\begin{lstlisting}[language=R, float = !h]
-BMs$samples(dbm, 500L, 
-    conditions = juliaEval("[1 => 1.0; 2 => 0.0; 3 => 1.0]"))
-\end{lstlisting}
+The functions of the \apkg{BoltzmannMachines} package are strict concerning the argument types and it is required that the numbers have the correct types.
+For passing a vector of complex objects to Julia, such as the vector of objects in the \inlinecode{pretraining} argument, R lists can be used.
+These are translated to vectors with the most specific type that can be inferred from the arguments.
+In this case, the inferred type of the vector is \inlinecode{Array\{AbstractTrainLayer,1\}} as the common supertype of \inlinecode{TrainLayer} and \inlinecode{TrainPartitionedLayer} is \inlinecode{AbstractTrainLayer}.
 
-Analogously to Listing \ref{lst:monfitdbm} (p.~\pageref{lst:monfitdbm}) is Listing \ref{lst:monfitdbmr}:
+To use monitoring during DBM training, the easiest way is to use the \inlinecode{monitored\_fitdbm} function (see p.~\pageref{bms_monitored_fitdbm}).
+The usage of this function has previously been exemplified in Listing \ref{lst:monfitdbm} (p.~\pageref{lst:monfitdbm}).
+The translation to R can be found in Listing \ref{lst:monfitdbmr}.
 
-\begin{lstlisting}[language=R,caption={Monitoring pre-training and fine-tuning}, label={lst:monfitdbmr}, float = !h]
+\begin{lstlisting}[language=R,caption={Monitoring pre-training and fine-tuning}, label={lst:monfitdbmr}, float = !h, numbers=left,style=rlststyle]
 xtrain_xtest <- BMs$splitdata(x, 0.1)
 xtrain <- xtrain_xtest[[1]]
 xtest <- xtrain_xtest[[2]]
@@ -1818,12 +1823,18 @@ datadict <- juliaLet('BoltzmannMachines.DataDict(
                      xtrain = xtrain, xtest = xtest)
 monitors_dbm <- BMs$monitored_fitdbm(x, nhiddens = c(6L,2L),
       epochs = 20L, learningrate = 0.05,
-      monitoringpretraining = BMs$`monitorreconstructionerror!`,
-      monitoring = BMs$`monitorlogproblowerbound!`,
+      monitoringpretraining = BMs$@\backtick@monitorreconstructionerror!@\backtick@,
+      monitoring = BMs$@\backtick@monitorlogproblowerbound!@\backtick@,
       monitoringdata = datadict)
 monitors <- monitors_dbm[[1]]
 dbm <- monitors_dbm[[2]]
 \end{lstlisting}
+
+For monitoring the data is split into training and test data before the training (lines 1-3 in Listing \ref{lst:monfitdbmr}).
+In contrast to Julia, R cannot assign two variables in one statement.
+To have two different variables for training and test data, the return value of \inlinecode{BMs\$splitdata}, which is a proxy object for a \inlinecode{Tuple} of Julia objects, has to be disjoined.
+This can be done by indexing the proxy object (lines 2-3).
+(For more information on indexing proxy objects, see p.~\pageref{rdokitem_AccessMutate.JuliaProxy}.)
 
 TODO BoltzmannMachinesPlots\footnote{\url{https://github.com/stefan-m-lenz/BoltzmannMachinesRPlots}}.
 
