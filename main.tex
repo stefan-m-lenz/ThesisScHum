@@ -1727,12 +1727,21 @@ There, stability and ways to get feedback from long-running tasks become more im
 
 \subsubsection{Features for interactive use}
 
-The \apkg{JuliaConnectoR}
+When developing new code or experimenting with existing solutions, it is essential to gain insights into the behavior of the software and to be able to influence it easily.
+This includes the possibility to interrupt a running program or inspecting intermediate output.
+Accordingly, the \apkg{JuliaConnectoR} supports these features.
 
 \paragraph{Interrupting}\label{juliaconnectorinterrupting}
 
-As training a deep learning model may take a long time and the hyperparameters have a strong influence on the execution times of an algorithm, it can be desired to stop the execution of a function call.
+Some training hyperparameters have a strong influence on the execution times of deep learning algorithms.
+When experimenting with different hyperparameters, it can be desired to stop the execution of a function call if the remaining time seems too long.
+When working with the \apkg{JuliaConnectoR}, this becomes viable.
+Calls to Julia via \apkg{JuliaConnectoR} can be interrupted in the same way as R function calls.
+When using \apkg{XRJulia}, interrupting calls to Julia is also possible.
+This is not very stable, however, and it can happen that it is needed to restart the R session because the connection to Julia cannot be established anymore.
+Attempting to interrupt a call to Julia via \apkg{JuliaCall} does not work or results or in a crash of the R session.
 
+This behavior can be tested, e.g., by executing \inlinecode{juliaEval('while true; end')} for the \apkg{JuliaConnectoR} and \apkg{XRJulia}, or \inlinecode{julia\_eval('while true; end')} for \apkg{JuliaCall}.
 
 \paragraph{Output redirection}\label{juliaconnectorOutput}
 
@@ -1745,7 +1754,7 @@ Moreover, when developing own algorithms, printing information and having access
 Therefore, the redirection of standard output and standard error output is an important feature for a language bridge that is used in an interactive way.
 
 The \apkg{JuliaConnectoR} displays the standard output and the standard error output from Julia on the R command line.
-The output is redirected in an asynchronous way.
+The Julia output is redirected to R in an asynchronous way.
 This allows that the output is displayed before the function returns, which is important for the reporting of progress.
 \apkg{XRJulia} can also do this. Standard output or standard error output is not visible when using \apkg{JuliaCall}.
 
