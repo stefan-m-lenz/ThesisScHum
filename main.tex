@@ -1763,21 +1763,36 @@ This allows that the output is displayed before the function returns, which is i
 
 
 \subsection{Using \apkg{BoltzmannMachines} in R via the \apkg{JuliaConnector}}\label{juliaconnectorDbmexample}
-TODO After this overview over the features, which had small examples for showing the principle, here a more comprehensive example shall be given for using DBMs in R.
-
-As mentioned in Section \ref{BMfeatures}, there is currently no R package that implements deep Boltzmann machines.
+The previous examples for using the \apkg{JuliaConnectoR} were kept minimal to demonstrate the basic features of the package in a compact way.
+The next examples show how easy it becomes to translate Julia code to R code that calls Julia behind the scenes.
+For this purpose some examples from using the \apkg{BoltzmannMachines} package, shown in \ref{bmusage}, are translated to R.
+Additionally, these examples shows how DBMs can be trained in R via the \apkg{BoltzmannMachines} package.
+As mentioned in \ref{BMfeatures}, there is currently no R package that implements deep Boltzmann machines.
 But via the \apkg{JuliaConnectoR}, all features of the \apkg{BoltzmannMachines} package become conveniently usable in R.
-This can be demonstrated by some examples, which show how easy it becomes to translate Julia code for training and evaluating deep and restricted Boltzmann machines to R code that calls the \apkg{BoltzmannMachines} Julia package via the \apkg{JuliaConnectoR} behind the scenes.
 
+It is assumed in the following that the variable \inlinecode{x} is a double matrix in R that contains values of 0.0 and 1.0.
+The rows of \inlinecode{x} contain the different samples and the columns the values for different variables.
 
-Analogously to \ref{bmusage}, it is assumed here that the variable \inlinecode{x} is a double matrix in R that contains values of 0.0 and 1.0.
+At first, the \apkg{BoltzmannMachines} package needs to be installed in Julia and imported into R in the same way as demonstrated with the \apkg{Flux} package in Listing \ref{fluximportR} (p.~\pageref{fluximportR}):
+
+\begin{lstlisting}[language=R, float=!h]
+library(JuliaConnectoR)
+Pkg <- juliaImport("Pkg")
+Pkg$add("BoltzmannMachines")
+BMs <- juliaImport("BoltzmannMachines")
+\end{lstlisting}
+
+After this, all functions in the \apkg{BoltzmannMachines} package are available via the variable \inlinecode{BMs} and fitting DBMs and RBMs is possible.
+
+\begin{lstlisting}[language=R, float=!h]
+rbm = BMs$fitrbm(x)
+dbm = BMs$fitdbm(x)
+\end{lstlisting}
+
+It is 
 Translating the code in Listing \ref{lst:partdbm} (p.~\pageref{lst:partdbm}) to R results in the following code
 
-TODO install BoltzmannMachines
-
-
 \begin{lstlisting}[language=R,caption={Fitting a partitioned DBM in R via the \apkg{JuliaConnectoR}},label={lst:partdbmr}, float=!h]
-BMs <- juliaImport("BoltzmannMachines")
 dbm <- BMs$fitdbm(x, pretraining = list(
           BMs$TrainPartitionedLayer(list(
              BMs$TrainLayer(nvisible = 3L, nhidden = 3L),
@@ -1786,7 +1801,7 @@ dbm <- BMs$fitdbm(x, pretraining = list(
           BMs$TrainLayer(nhidden = 2L)))
 \end{lstlisting}
 
-\begin{lstlisting}[language=R]
+\begin{lstlisting}[language=R, float = !h]
 BMs$samples(dbm, 500L, 
     conditions = juliaEval("[1 => 1.0; 2 => 0.0; 3 => 1.0]"))
 \end{lstlisting}
@@ -1801,7 +1816,7 @@ datadict <- juliaLet('BoltzmannMachines.DataDict(
                         "Training data" => xtrain,
                         "Test data" => xtest)',
                      xtrain = xtrain, xtest = xtest)
-monitors_dbm = BMs$monitored_fitdbm(x, nhiddens = c(6L,2L),
+monitors_dbm <- BMs$monitored_fitdbm(x, nhiddens = c(6L,2L),
       epochs = 20L, learningrate = 0.05,
       monitoringpretraining = BMs$`monitorreconstructionerror!`,
       monitoring = BMs$`monitorlogproblowerbound!`,
@@ -1812,9 +1827,22 @@ dbm <- monitors_dbm[[2]]
 
 TODO BoltzmannMachinesPlots\footnote{\url{https://github.com/stefan-m-lenz/BoltzmannMachinesRPlots}}.
 
-\begin{lstlisting}[language=R]
+\begin{lstlisting}[language=R, float = !h]
 library(BoltzmannMachinesRPlots)
 plotMonitoring(monitors)
+\end{lstlisting}
+
+\begin{lstlisting}[language=R, float = !h]
+plotValVsEpoch <- function(epoch, val) {
+   if (epoch == 1) {
+      ymax <- max(val)
+      plot(x = 1, y = val,
+           xlim = c(0, epochs), ylim = c(0, ymax*1.1),
+           xlab = "Epoch", ylab = "Value")
+   } else {
+      points(x = epoch, y = val)
+   }
+}
 \end{lstlisting}
 
 
@@ -2327,7 +2355,7 @@ As indicated in Figure \ref{fig:examplaryworkflow}, the software consists of a c
 These are implemented in two separate R packages, \apkg{dsBoltzmannMachinesClient}\footnote{\url{https://github.com/stefan-m-lenz/dsBoltzmannMachinesClient}} and \apkg{dsBoltzmannMachines}\footnote{\url{https://github.com/stefan-m-lenz/dsBoltzmannMachines}}.
 The dependencies of all the parts are shown in Figure \ref{fig:dsBoltzmann_dependencies}.
 Plots from the monitoring data are produced by a separate package, \apkg{BoltzmannMachinesRPlots}\footnote{\url{https://github.com/stefan-m-lenz/BoltzmannMachinesRPlots}}, which utilizes the \apkg{ggplot2} \citep{ggplot2} package.
-Separating this functionality has the advantage that this package can also be used directly with the \apkg{BoltzmannMachines} Julia package in R via the \apkg{JuliaConnectoR} without DataSHIELD (see TODO JuliaConnectoR-part).
+Separating this functionality has the advantage that this package can also be used directly with the \apkg{BoltzmannMachines} Julia package in R via the \apkg{JuliaConnectoR} without DataSHIELD (see Section \ref{juliaconnectorDbmexample}).
 For the communication with the Opal server, the Opal R client package is used, which can access functions that have been installed in a remote Opal server.
 The functions on the server side are packaged in the \apkg{dsBoltzmannMachines} package.
 These wrap the functionality of the \apkg{BoltzmannMachines} Julia package via the \apkg{JuliaConnectoR}.
