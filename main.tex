@@ -1197,7 +1197,7 @@ The \inlinecode{PartitionedRBM} is used as a brace around RBMs in a layer such t
 
 
 
-\subsubsection{Usage examples}
+\subsubsection{Usage examples}\label{bmusage}
 The \apkg{BoltzmannMachines} package has been registered in the official Julia package repository. It can be installed via the following Julia code:
 
 \begin{lstlisting}[language=Julia]
@@ -1239,6 +1239,8 @@ Analogously to how RBMs are arranged as building blocks in DBMs (see Figure \ref
 Objects of type \inlinecode{TrainLayer} are then translated to RBMs and objects of type \inlinecode{TrainPartitionedLayer} to partitioned RBMs.
 For illustrating this, let us assume here that \inlinecode{x} has only 6 variables.
 Then the code in Listing \ref{lst:partdbm} results in a model shown in Figure \ref{fig:smallpartitioneddbm}.
+Each \inlinecode{TrainLayer} object is translated to train an RBM layer.
+Via a call to \inlinecode{TrainPartitionedLayer}, the RBMs resulting from the contained \inlinecode{TrainLayer} objects are put next to each other on the same layer (see also Figure \ref{mdbmimplasstack}).
 
 \begin{figure}[h]
    \centering
@@ -1768,10 +1770,60 @@ But via the \apkg{JuliaConnectoR}, all features of the \apkg{BoltzmannMachines} 
 This can be demonstrated by some examples, which show how easy it becomes to translate Julia code for training and evaluating deep and restricted Boltzmann machines to R code that calls the \apkg{BoltzmannMachines} Julia package via the \apkg{JuliaConnectoR} behind the scenes.
 
 
+Analogously to \ref{bmusage}, it is assumed here that the variable \inlinecode{x} is a double matrix in R that contains values of 0.0 and 1.0.
+Translating the code in Listing \ref{lst:partdbm} (p.~\pageref{lst:partdbm}) to R results in the following code
+
+TODO install BoltzmannMachines
+
+
+\begin{lstlisting}[language=R,caption={Fitting a partitioned DBM in R via the \apkg{JuliaConnectoR}},label={lst:partdbmr}, float=!h]
+BMs <- juliaImport("BoltzmannMachines")
+dbm <- BMs$fitdbm(x, pretraining = list(
+          BMs$TrainPartitionedLayer(list(
+             BMs$TrainLayer(nvisible = 3L, nhidden = 3L),
+             BMs$TrainLayer(nhidden = 3L))),
+          BMs$TrainLayer(nhidden = 4L),
+          BMs$TrainLayer(nhidden = 2L)))
+\end{lstlisting}
+
+\begin{lstlisting}[language=R]
+BMs$samples(dbm, 500L, 
+    conditions = juliaEval("[1 => 1.0; 2 => 0.0; 3 => 1.0]"))
+\end{lstlisting}
+
+Analogously to Listing \ref{lst:monfitdbm} (p.~\pageref{lst:monfitdbm}) is Listing \ref{lst:monfitdbmr}:
+
+\begin{lstlisting}[language=R,caption={Monitoring pre-training and fine-tuning}, label={lst:monfitdbmr}, float = !h]
+xtrain_xtest <- BMs$splitdata(x, 0.1)
+xtrain <- xtrain_xtest[[1]]
+xtest <- xtrain_xtest[[2]]
+datadict <- juliaLet('BoltzmannMachines.DataDict(
+                        "Training data" => xtrain,
+                        "Test data" => xtest)',
+                     xtrain = xtrain, xtest = xtest)
+monitors_dbm = BMs$monitored_fitdbm(x, nhiddens = c(6L,2L),
+      epochs = 20L, learningrate = 0.05,
+      monitoringpretraining = BMs$`monitorreconstructionerror!`,
+      monitoring = BMs$`monitorlogproblowerbound!`,
+      monitoringdata = datadict)
+monitors <- monitors_dbm[[1]]
+dbm <- monitors_dbm[[2]]
+\end{lstlisting}
+
+TODO BoltzmannMachinesPlots\footnote{\url{https://github.com/stefan-m-lenz/BoltzmannMachinesRPlots}}.
+
+\begin{lstlisting}[language=R]
+library(BoltzmannMachinesRPlots)
+plotMonitoring(monitors)
+\end{lstlisting}
+
+
 
 example with juliaGet
 The \apkg{JuliaConnectoR} allows to translate models into R objects and serialize them as R objects.
 This is e.g. used in TODO BoltzmannMachinesRPlots
+
+TODO callback
 
 This is used later in
 
