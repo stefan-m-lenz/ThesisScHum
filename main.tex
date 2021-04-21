@@ -1834,13 +1834,27 @@ For monitoring the data is split into training and test data before the training
 In contrast to Julia, R cannot assign two variables in one statement.
 To have two different variables for training and test data, the return value of \inlinecode{BMs\$splitdata}, which is a proxy object for a \inlinecode{Tuple} of Julia objects, has to be disjoined.
 This can be done by indexing the proxy object (lines 2-3).
-(For more information on indexing proxy objects, see p.~\pageref{rdokitem_AccessMutate.JuliaProxy}.)
+(For more information on indexing proxy objects, see p.~\pageref{rdokitem_AccessMutate.JuliaProxy}ff.)
+
+Then the \inlinecode{DataDict} can be created (lines 4-7 in Listing \ref{lst:monfitdbmr}), which will be passed to the monitoring functions.
+The straightforward way to create a dictionary in Julia uses syntax that is not available in R.
+A convenient way to construct objects involving complex Julia syntax via the \apkg{JuliaConnectoR} is to use the \inlinecode{juliaLet} function (see p.~\pageref{rdokitem_juliaLet}ff.).
+
+After this preparation of the data that is used for monitoring, the training is performed via calling \inlinecode{monitored\_fitdbm} in lines 8-12 in Listing \ref{lst:monfitdbmr}.
+The monitoring functions of the \apkg{BoltzmannMachines} package can be passed as arguments via R.
+The names of these functions end with exclamation marks, as it is the convention for Julia functions that mutate their arguments.
+For the use in R, the function names need to be enclosed with backticks (lines 10-11).
+
+The \apkg{JuliaConnectoR} allows to translate models into R objects and serialize them as R objects.
+TODO juliaGet
+
+This is e.g. used in TODO BoltzmannMachinesRPlots
 
 TODO BoltzmannMachinesPlots\footnote{\url{https://github.com/stefan-m-lenz/BoltzmannMachinesRPlots}}.
 
 \begin{lstlisting}[language=R, float = !h]
 library(BoltzmannMachinesRPlots)
-plotMonitoring(monitors)
+plotMonitoring(juliaGet(monitors))
 \end{lstlisting}
 
 \begin{lstlisting}[language=R, float = !h]
@@ -1858,9 +1872,7 @@ plotValVsEpoch <- function(epoch, val) {
 
 
 
-example with juliaGet
-The \apkg{JuliaConnectoR} allows to translate models into R objects and serialize them as R objects.
-This is e.g. used in TODO BoltzmannMachinesRPlots
+
 
 TODO callback
 
