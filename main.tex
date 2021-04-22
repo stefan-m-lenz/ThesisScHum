@@ -1427,20 +1427,18 @@ It creates a scatter plot of the logit-transformed mean-field activation in the 
 \clearpage
 \section{Connecting R and Julia with the \apkg{JuliaConnectoR}}
 
-With R being a popular language in bioinformatics and biostatistics, a flexible solution that allows a convenient interactive use and can make DBMs and other deep learning techniques more attractive for biomedical research.
+R is a very popular language in bioinformatics and biostatistics \citep{bioconductor}.
+Making algorithms written in Julia also available in R enlarges the group of possible users, particularly in the field of life sciences.
+To access functionality from other programming languages, a language bridge is needed.
+In this particular case, the language bridge was needed to integrate the functionality of the \apkg{BoltzmannMachines} package into the DataSHIELD infrastructure for distributed privacy-preserving analyses \citep{gaye_datashield}, which is based on R.
+For this purpose, a new approach was chosen, resulting in the creation of the \apkg{JuliaConnectoR} R package, which has been published in the Comprehensive R Archive Network.\footnote{\url{https://cran.r-project.org/package=JuliaConnectoR}}
 
-
-One of the unique features of the JuliaConnectoR is the ability to import arbitrary Julia packages in R such that all functions are callable directly as R functions.
-Also handling Julia objects becomes conveniently possible in R by either translating them to R or by accessing them via implicitly created proxy objects in R, which can be used in place of the original Julia objects.
-This way, Julia packages in general can be used in a straightforward and stable manner in R.
-
-\apkg{JuliaCall} tighter integration but unstable.
-\apkg{XRJulia} inefficient and did not exploit all parallels enough because it is a multiple language bridge.
-A new start made it also possible to design clean interface and to bring several other features for convenient interactive use, such as displaying standard output
-
-TODO A usage scenario is to perform deep learning in R and at the same time 
-DBMs and deep learning in general is 
-Using DBMs
+There are two other R packages for calling Julia from R, namely \apkg{JuliaCall} \citep{JuliaCallPaper} and \apkg{XRJulia} \citep{chambersExtendingR}, which predate the \apkg{JuliaConnectoR}.
+The main reason for developing a new software was that the other packages did not work reliably.
+One issue was run-time stability, which is important for a software that needs to be deployed across a number of different sites and that has to function without human intervention.
+Of course, also during local development, crashes are not desirable.
+Other issues were the incompatibilities with some R and Julia versions and a lack of documentation.
+The fresh start allowed to design a clean interface and to develop several new and unique features.
 
 \subsection{Feature overview and comparison to existing solutions}
 A user-friendly design was the most important concern when developing the \apkg{JuliaConnectoR}.
@@ -1473,19 +1471,19 @@ Reversible translation from Julia to R & Yes
 \ref{juliaconnectordataframes} \\
 Missing values & Yes & Yes & No & \ref{juliaconnectorMissings} \\
 Callbacks & Yes & Yes & No & \ref{juliaconnectorcallbacks} \\
-Interruptible & Yes & No & Yes & \ref{juliaconnectorinterrupting} \\
+Interruptible & Yes & No & (Yes) & \ref{juliaconnectorinterrupting} \\
 Show standard (error) output & Yes & No & Yes &
 \ref{juliaconnectorOutput} \\
-\\[-2\medskipamount]
 Let-syntax & Yes & No & No & \ref{juliaconnectorDbmexample} \\
+\\[-2\medskipamount]
 \hline
 \end{tabular}
 \end{table}
 
 In the following, these features and the differences between the packages are detailed.
-Afterwards, in \ref{juliaconnectorDbmexample}, it is demonstrated how these features help to train and evaluate DBMs in R.
+Subsequently, in \ref{juliaconnectorDbmexample}, it is demonstrated how these features help to train and evaluate DBMs in R.
 In appendix \ref{JuliaConnectoRDoku}, the documentation of the \apkg{JuliaConnectoR} package can be found.
-There, the features are described in greater detail from a user perspective.
+There, the usage of the different functions is described in greater detail from a user perspective.
 
 \subsubsection{Communication protocol}\label{juliaconnectorCommuncation}
 
@@ -1860,10 +1858,18 @@ plotMonitoring(juliaGet(monitors))
 The plotting functionality is based on the \apkg{ggplot2} package \citep{ggplot2}  and the \apkg{gridExtra} package \citep{gridExtra} for displaying all information conveniently in one plot.
 The resulting plots are similar to ones shown in Figure \ref{fig:monitoring_bmplots} (p.~\pageref{fig:monitoring_bmplots}).
 
-It is also possible to produce plots already during the training by utilizing R callback functions (see \ref{juliaconnectorcallbacks}).
+It is also possible to produce plots already during the training by utilizing R callback functions (see also \ref{juliaconnectorcallbacks}).
 A simple example for this is shown in Listing \ref{callbackexample}.
 The corresponding plot is shown in Figure \ref{fig:callbackplot}.
 
+The function \inlinecode{plotValVsEpoch} (lines 8-18 in Listing \ref{callbackexample}) creates a new plot evaluates the model and adds the result of the evaluation to the plot in subsequent epochs.
+This can, e.g., be passed to \inlinecode{fitrbm} as \inlinecode{monitoring} argument (line 21). (For the arguments of \inlinecode{fitrbm}, see p.~\pageref{bms_fitrbm}).
+Callback functions can also be used for monitoring DBMs via the \inlinecode{monitoring} argument of \inlinecode{TrainLayer} (see p.~\pageref{bms_TrainLayer}) or the \inlinecode{monitoring} argument of \inlinecode{fitdbm} (see p.~\pageref{bms_fitdbm}).
+
+The evaluation used here is the euclidean distance between the covariance matrix of synthetic samples, which are generated by the RBM or DBM model, and the covariance matrix of the original data (lines 1-4 in Listing \ref{callbackexample}).
+The implementation of \inlinecode{covDistSamples} is not very efficient because it calls again back to Julia to generate the samples and then calculates the distance in R.
+However, this shows the flexibility of customizing the monitoring.
+The example in Listing \ref{callbackexample} also demonstrates the possibility of getting live feedback about the training, which is particularly relevant when the training takes a long time.
 
 \noindent\begin{minipage}{\linewidth}
 \captionsetup{type=listing}
@@ -1899,19 +1905,6 @@ rbm <- BMs$fitrbm(x, epochs = epochs, learningrate = 0.01,
 \end{minipage}
 \clearpage
 
-The function \inlinecode{plotValVsEpoch} (lines 8-18 in Listing \ref{callbackexample}) evaluates the model and adds the value of the evaluation to the plot in subsequent epochs.
-This can, e.g., be passed to \inlinecode{fitrbm} as \inlinecode{monitoring} argument (line 21). (For the arguments of \inlinecode{fitrbm}, see p.~\pageref{bms_fitrbm}).
-Callback functions can also be used for monitoring DBMs via the \inlinecode{monitoring} argument of \inlinecode{TrainLayer} (see p.~\pageref{bms_TrainLayer}) or the \inlinecode{monitoring} argument of \inlinecode{fitdbm} (see p.~\pageref{bms_fitdbm}).
-
-The evaluation used here is the euclidean distance between the covariance matrix of synthetic samples, which are generated by the RBM or DBM model, and the covariance matrix of the original data (lines 1-4 in Listing \ref{callbackexample}).
-The implementation of \inlinecode{covDistSamples} is not very efficient because it calls again back to Julia to generate the samples and then calculates the distance in R.
-However, this shows the flexibility of customizing the monitoring.
-The example in Listing \ref{callbackexample} also demonstrates the possibility of getting live feedback about the training, which is particularly relevant when the training takes a long time.
-
-
-This is used later in TODO DataSHIELD vorgreifen.
-
- The Julia part of the software runs a server that 
 
 
 

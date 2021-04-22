@@ -176,6 +176,11 @@ Carreira-Perpinan, M.~A. \harvardand\ Hinton, G.~E.  \harvardyearleft
   2005\harvardyearright , On contrastive divergence learning, {\em in}
   `{AISTATS}', Vol.~10, Citeseer, pp.~33--40.
 
+\harvarditem{Chambers}{2016}{chambersExtendingR}
+Chambers, J.~M.  \harvardyearleft 2016\harvardyearright , {\em The {XR}
+  Structure for Interfaces}, CRC Press, Boca Raton, Florida, chapter~13,
+  pp.~259--301.
+
 \harvarditem[Chan et~al.]{Chan, Sahiner, Wagner \harvardand\
   Petrick}{1999}{chan_classifier_1999}
 Chan, H.-P., Sahiner, B., Wagner, R.~F. \harvardand\ Petrick, N.
@@ -454,6 +459,19 @@ Howie, B.~N., Donnelly, P. \harvardand\ Marchini, J.  \harvardyearleft
   {\bf 5}(6),~e1000529.
 \newblock Publisher: Public Library of Science.
 
+\harvarditem[Huber et~al.]{Huber, Carey, Gentleman, Anders, Carlson, Carvalho,
+  Bravo, Davis, Gatto, Girke, Gottardo, Hahne, Hansen, Irizarry, Lawrence,
+  Love, MacDonald, Obenchain, {Ole's}, {Pag`es}, Reyes, Shannon, Smyth,
+  Tenenbaum, Waldron \harvardand\ Morgan}{2015}{bioconductor}
+Huber, W., Carey, V.~J., Gentleman, R., Anders, S., Carlson, M., Carvalho,
+  B.~S., Bravo, H.~C., Davis, S., Gatto, L., Girke, T., Gottardo, R., Hahne,
+  F., Hansen, K.~D., Irizarry, R.~A., Lawrence, M., Love, M.~I., MacDonald, J.,
+  Obenchain, V., {Ole's}, A.~K., {Pag`es}, H., Reyes, A., Shannon, P., Smyth,
+  G.~K., Tenenbaum, D., Waldron, L. \harvardand\ Morgan, M.  \harvardyearleft
+  2015\harvardyearright , `{O}rchestrating high-throughput genomic analysis
+  with {B}ioconductor', {\em Nature Methods} {\bf 12}(2),~115--121.
+\newline\harvardurl{\url{https://doi.org/10.1038/nmeth.3252}}
+
 \harvarditem{IEEE}{1985}{floatingpointstandard}
 IEEE  \harvardyearleft 1985\harvardyearright , `{IEEE} standard for binary
   floating-point arithmetic', {\em ANSI/IEEE Std 754-1985} pp.~1--20.
@@ -557,6 +575,12 @@ Lenz, S., Hess, M. \harvardand\ Binder, H.  \harvardyearleft
   2021\harvardyearright , `Deep generative models in {DataSHIELD}', {\em BMC
   Medical Research Methodology} {\bf 21}(1),~64.
 \newline\harvardurl{\url{https://doi.org/10.1186/s12874-021-01237-6}}
+
+\harvarditem{Li}{2019}{JuliaCallPaper}
+Li, C.  \harvardyearleft 2019\harvardyearright , `{JuliaCall}: an \proglang{R}
+  package for seamless integration between \proglang{R} and \proglang{Julia}',
+  {\em Journal of Open Source Software} {\bf 4}(35),~1284.
+\newline\harvardurl{\url{https://doi.org/10.21105/joss.01284}}
 
 \harvarditem[Li et~al.]{Li, Li \harvardand\
   Venkatasubramanian}{2007}{li_t-closeness:_2007}
