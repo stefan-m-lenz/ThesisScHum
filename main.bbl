@@ -44,6 +44,12 @@ Arnold, K., Gosling, J. \harvardand\ Holmes, D.  \harvardyearleft
   2005\harvardyearright , {\em The Java programming language}, Addison Wesley
   Professional.
 
+\harvarditem{Auguie}{2017}{gridExtra}
+Auguie, B.  \harvardyearleft 2017\harvardyearright , {\em gridExtra:
+  Miscellaneous Functions for "Grid" Graphics}.
+\newblock R package version 2.3.
+\newline\harvardurl{\url{https://CRAN.R-project.org/package=gridExtra}}
+
 \harvarditem[Azur et~al.]{Azur, Stuart, Frangakis \harvardand\
   Leaf}{2011}{mice}
 Azur, M.~J., Stuart, E.~A., Frangakis, C. \harvardand\ Leaf, P.~J.

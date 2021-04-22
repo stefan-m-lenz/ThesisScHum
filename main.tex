@@ -1642,9 +1642,11 @@ Its design is inspired by the R package \apkg{dplyr} \citep{dplyr} and the Pytho
 There are also other packages supporting tabular structures that do not build on the \apkg{DataFrames} package.
 To unify the different approaches, the \apkg{Tables} package was created, which defines an minimal common interface.
 This interface is used by the \apkg{DataFrames} package and also by many other packages, e.g., by the \apkg{CSV} \citep{juliacsvGithub} package for reading CSV files and the \apkg{JuliaDB} package \citep{juliadbGithub} for working with large persistent data sets.
-Due to the broader goal of the \apkg{DataFrames} Julia package, it has not reached version 1.0 yet and there have been many breaking changes in the course of the development.
-Because the interface of the \apkg{Tables} can be considered as stable now, with version 1.0 released in February 2020, and because of its lightweight implementation, the \apkg{Tables} package was used as the basis for the support of tabular structures in the \apkg{JuliaConnectoR}.
-In contrast, \apkg{JuliaCall} depends on the \apkg{DataFrames} package and translates R data frames to Julia objects of type \inlinecode{DataFrames.DataFrame}.
+Due to the broader goal of the \apkg{DataFrames} Julia package, it has reached version 1.0 only very recently (April 21st 2021) and there have been many breaking changes in the course of the development.
+Because the interface of the \apkg{Tables} has been stable for a longer time, with version 1.0 released in February 2020, and because of its lightweight implementation, the \apkg{Tables} package was used as the basis for the support of tabular structures in the \apkg{JuliaConnectoR}.
+The minimal interface of the \apkg{Tables} interface also allows to use the translated data structures in Julia without applying additional transformations, which would be required to create a \inlinecode{DataFrames.DataFrame}.
+
+\apkg{JuliaCall} depends on the \apkg{DataFrames} package and translates R data frames to Julia objects of type \inlinecode{DataFrames.DataFrame}.
 \apkg{XRJulia} translates R data frames to Julia objects of type \inlinecode{Dict\{String, Any\}}.
 This is not compatible to the \apkg{Tables} interface, which regards only dictionaries with keys of type {Symbol} as tables.
 Moreover, the order of the columns is lost by the translation to a dictionary.
@@ -1845,20 +1847,36 @@ The monitoring functions of the \apkg{BoltzmannMachines} package can be passed a
 The names of these functions end with exclamation marks, as it is the convention for Julia functions that mutate their arguments.
 For the use in R, the function names need to be enclosed with backticks (lines 10-11).
 
-The \apkg{JuliaConnectoR} allows to translate models into R objects and serialize them as R objects.
-TODO juliaGet
-
-This is e.g. used in TODO BoltzmannMachinesRPlots
-
-TODO BoltzmannMachinesPlots\footnote{\url{https://github.com/stefan-m-lenz/BoltzmannMachinesRPlots}}.
+The \apkg{JuliaConnectoR} allows to fully translate Julia objects into R objects.
+This can be used to translate a DBM to an R object and serialize it with the R session.
+It can also be used to bring the monitoring information in R for plotting it there.
+The \apkg{BoltzmannMachinesRPlots} package\footnote{\url{https://github.com/stefan-m-lenz/BoltzmannMachinesRPlots}} can create plots from monitoring information that is available in R.
 
 \begin{lstlisting}[language=R, float = !h]
 library(BoltzmannMachinesRPlots)
 plotMonitoring(juliaGet(monitors))
 \end{lstlisting}
 
-\begin{lstlisting}[language=R, float = !h]
-plotValVsEpoch <- function(epoch, val) {
+The plotting functionality is based on the \apkg{ggplot2} package \citep{ggplot2}  and the \apkg{gridExtra} package \citep{gridExtra} for displaying all information conveniently in one plot.
+The resulting plots are similar to ones shown in Figure \ref{fig:monitoring_bmplots} (p.~\pageref{fig:monitoring_bmplots}).
+
+It is also possible to produce plots already during the training by utilizing R callback functions (see \ref{juliaconnectorcallbacks}).
+A simple example for this is shown in Listing \ref{callbackexample}.
+The corresponding plot is shown in Figure \ref{fig:callbackplot}.
+
+
+\noindent\begin{minipage}{\linewidth}
+\captionsetup{type=listing}
+\begin{lstlisting}[language=R, caption={Using an R function as a callback function during RBM training}, label={callbackexample}, numbers = left]
+covx <- cov(x)
+covDistSamples <- function(bm) {
+   norm(cov(BMs$samples(bm, 2000L)) - covx, type = "2")
+}
+
+epochs <- 70L
+
+plotValVsEpoch <- function(bm, epoch) {
+   val <- covDistSamples(bm)
    if (epoch == 1) {
       ymax <- max(val)
       plot(x = 1, y = val,
@@ -1868,17 +1886,34 @@ plotValVsEpoch <- function(epoch, val) {
       points(x = epoch, y = val)
    }
 }
+
+rbm <- BMs$fitrbm(x, epochs = epochs, learningrate = 0.01,
+                  monitoring = plotValVsEpoch)
 \end{lstlisting}
 
+\captionsetup{type=figure}
+   \centering
+   \includegraphics[scale=.95,trim={0cm 0.5cm 0cm 0cm}]{images/callbackplot.pdf}
+   \caption{Exemplary plot created via the code in Listing \ref{callbackexample}}
+\label{fig:callbackplot}
+\end{minipage}
+\clearpage
+
+The function \inlinecode{plotValVsEpoch} (lines 8-18 in Listing \ref{callbackexample}) evaluates the model and adds the value of the evaluation to the plot in subsequent epochs.
+This can, e.g., be passed to \inlinecode{fitrbm} as \inlinecode{monitoring} argument (line 21). (For the arguments of \inlinecode{fitrbm}, see p.~\pageref{bms_fitrbm}).
+Callback functions can also be used for monitoring DBMs via the \inlinecode{monitoring} argument of \inlinecode{TrainLayer} (see p.~\pageref{bms_TrainLayer}) or the \inlinecode{monitoring} argument of \inlinecode{fitdbm} (see p.~\pageref{bms_fitdbm}).
+
+The evaluation used here is the euclidean distance between the covariance matrix of synthetic samples, which are generated by the RBM or DBM model, and the covariance matrix of the original data (lines 1-4 in Listing \ref{callbackexample}).
+The implementation of \inlinecode{covDistSamples} is not very efficient because it calls again back to Julia to generate the samples and then calculates the distance in R.
+However, this shows the flexibility of customizing the monitoring.
+The example in Listing \ref{callbackexample} also demonstrates the possibility of getting live feedback about the training, which is particularly relevant when the training takes a long time.
 
 
-
-
-TODO callback
-
-This is used later in
+This is used later in TODO DataSHIELD vorgreifen.
 
  The Julia part of the software runs a server that 
+
+
 
 %\subsection{Implementation details}
 %\begin{table}
