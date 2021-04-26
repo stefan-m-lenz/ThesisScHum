@@ -271,7 +271,7 @@ If the partition function $Z$ is given, the log-likelihood
 can therefore be calculated efficiently using the free energy. The free energy is also used for calculating unnormalized probabilities $p^*(v) = e^{-F(v)}$, which is, e.g., used in the annealed importance sampling algorithm (see \ref{methodAIS}) for estimating the partition function via a stochastic algorithm.
 
 With these basic properties defined, we can go further to take a look at the details of specific types of Boltzmann machines.
-Here we only consider the special cases of restricted Boltzmann machines and (multimodal) deep Boltzmann machines.
+Here only the special cases of restricted Boltzmann machines and (multimodal) deep Boltzmann machines are considered.
 These models have restrictions on their parameterization compared to a general Boltzmann machine.
 The restrictions correspond to a layered design of their graphs.
 For an intuitive overview of the architectures of the different types that are considered here, see Figure \ref{fig:bmsoverview}.
@@ -291,8 +291,10 @@ For an intuitive overview of the architectures of the different types that are c
 \subsubsection{Basic properties of restricted Boltzmann machines}\label{rbmtypes}
 
 \emph{Restricted Boltzmann machines} \citep{smolensky1986foundations}, or RBMs,  consist of two layers, a visible layer $v$, which receives the input data, and a hidden layer $h$, which encodes latent features of the data. For a graphical depiction, see Figure \ref{fig:bmsoverview}B.
-The nodes inside the same layer are not connected to each other, and therefore, the network has the form of a bipartite graph.
-Although other distributions are also possible for the hidden nodes \citep{hinton_practical_2012}, we only consider RBMs with Bernoulli distributed hidden nodes, and therefore only consider data representations via discrete features.
+The nodes, also called ``units'' in neural network terminology, play the role of neurons.
+The nodes are divided into several layers.
+The nodes inside the same layer are not connected to each other, and therefore, the network has the form of a bipartite graph \citep{diestelgraph}.
+Although other distributions are also possible for the hidden nodes \citep{hinton_practical_2012}, only RBMs with binary hidden nodes following a Bernoulli distribution are considered here.
 The types of RBMs presented in the following may, however, differ in the distribution of their visible nodes, which makes them suitable for modeling different types of input data.
 
 \paragraph{Bernoulli distributed visible nodes}
@@ -301,9 +303,9 @@ The most basic model in this class of models are restricted Boltzmann machines w
    E(v,h) = - a^T v - b^T h - v^T W h. \label{eqn:energyformularbm}
 \end{equation}
 
-The parameters of the model are $\Theta = (W, a, b)$ with \emph{weight matrix} $W$, vector $a$ as the \emph{visible bias}, and $b$ as the \emph{hidden bias}.
+The parameters of the model are $\theta = (W, a, b)$ with \emph{weight matrix} $W$, vector $a$ as the \emph{visible bias}, and $b$ as the \emph{hidden bias}.
 The weights correspond to the connections between the visible and hidden units in a weighted graph, as shown in Figure \ref{fig:bmsoverview}.
-The bias variables are usually not depicted in graph views of neural networks, but they are equivalent to adding additional nodes to the model that always have the value one. The visible bias corresponds to the weights on the connections to an additional node that is connected to all nodes of the visible layer, and the hidden bias corresponds to the weights on the connections to an additional node that is connected to all nodes of the hidden layer. The bias variables serve to set a basic level of activation of the nodes, which is then modified by the input from the connected units.
+The bias variables are usually not depicted in graph views of neural networks, but they are equivalent to adding nodes to the model that always have the value one. The visible bias corresponds to the weights of the connections to an additional node that is connected to all nodes of the visible layer, and the hidden bias corresponds to the weights of the connections to an additional node that is connected to all nodes of the hidden layer. The bias variables serve to set a basic level of activation of the nodes, which is then modified by the input from the connected units.
 To see the mapping from the parameters in the formula to the network view, see Figure \ref{fig:rbmweights}.
 
 \begin{figure}[h]
@@ -314,6 +316,7 @@ To see the mapping from the parameters in the formula to the network view, see F
  \end{figure}
 
 
+The formulas for the conditional distributions $p(h | v)$ and $p(v | h)$ can be derived from (\ref{eqn:energyformularbm}). (For a detailed derivation see, e.g., \cite{krizhevsky2009tinyimagesthesis}, Section 1.4).
 Employing the sigmoid function $\sigm(x) = \frac{1}{1+ e^{-x}}$, the resulting conditional distributions can be written as
 \begin{equation}
 p(v_i | h) = \sigm ((a + W h)_i)
@@ -332,26 +335,26 @@ The trick for deriving the formula of the free energy is to ``analytically sum o
 The master thesis of \cite{krizhevsky2009tinyimagesthesis} is a very good resource for looking up the complete derivations of these formulas. This holds not only for the theory of RBMs with Bernoulli distributed nodes but also in particular for RBMs with Gaussian distributed visible nodes, which are presented next.
 
 \paragraph{Gaussian distributed visible nodes}\label{gaussianrbm}
-One approach for modeling continuous values for $v$ are restricted Boltzmann machines with Gaussian distribution of the visible variables and Bernoulli distributed hidden variables. The energy of the model is defined as
+One approach for modeling continuous values for $v$ are restricted Boltzmann machines with Gaussian distributions of the visible variables and Bernoulli distributed hidden variables. \cite{krizhevsky2009tinyimagesthesis} defines the energy of the model  as:
 \begin{equation}
-   E(v,h) = \sum_{i=1}^{n_V}\frac{(v_i - a_i)^2}{2\sigma_i^2} - b^T h - \sum_{i=1}^{n_V} \frac{(Wh)_i}{\sigma_i}
+   E(v,h) = \sum_{i=1}^{n_V}\frac{(v_i - a_i)^2}{2\sigma_i^2} - b^T h - \sum_{i=1}^{n_V} \sum_{j=1}^{n_H} \frac{v_i w_{ij} h_j}{\sigma_i}
    \label{eqn:energyformulagbrbm}
 \end{equation}
 
-The number of visible and hidden nodes is denoted as $n_V$ and $n_H$, respectively. The parameters of this model are $\Theta = (W, a, b, \sigma)$ with weight matrix $W$, visible bias $a$ hidden bias $b$ and standard deviation $\sigma$. The role of $\sigma$ as standard deviation becomes clearer by looking at the conditional distributions of the $v_i$ given $h$, which are distributed according to the normal distribution $\mathcal{N}(a_i + \sigma_i(Wh)_i, \sigma_i^2)$. For the hidden nodes, $p(h_j | v) = \sigm \left (b_j + \sum_{i=1}^{n_V} w_{ij} \frac{v_i}{\sigma_i} \right )$.
+The number of visible and hidden nodes is denoted as $n_V$ and $n_H$, respectively. The parameters of this model are $\theta = (W, a, b, \sigma)$ with weight matrix $W$, visible bias $a$ hidden bias $b$ and standard deviation $\sigma$. The role of $\sigma$ as standard deviation becomes clearer by looking at the conditional distributions of the $v_i$ given $h$, which are distributed according to the normal distribution $\mathcal{N}(a_i + \sigma_i(Wh)_i, \sigma_i^2)$. For the hidden nodes, one can show that $p(h_j | v) = \sigm \left (b_j + \sum_{i=1}^{n_V} w_{ij} \frac{v_i}{\sigma_i} \right )$.
 The free energy is
 \begin{equation}
    F(v) = \sum_{i=1}^{n_V}\frac{(v_i - a_i)^2}{2\sigma_i^2} + \sum_{j=1}^{n_H} \log \left (1 + e^{b_j + \sum_{i=1}^{n_V} \frac{v_i}{\sigma_i} w_{ij}} \right)
 \label{eqn:freenergy_gbrbm}
 \end{equation}
-\citep{krizhevsky2009tinyimages}.
+\citep{krizhevsky2009tinyimagesthesis}.
 
-Cho et al. \citep{cho2011improved} proposed a different parameterization for the energy function:
+\cite{cho2011improved} proposed a different parameterization for the energy function to improve the training of RBMs with Gaussian visible nodes:
 \begin{equation}
-   E(v,h) = \sum_{i=1}^{n_V}\frac{(v_i - a_i)^2}{2\sigma_i^2} - b^T h - \sum_{i=1}^{n_V} \frac{(Wh)_i}{\sigma_i^2}
+   E(v,h) = \sum_{i=1}^{n_V}\frac{(v_i - a_i)^2}{2\sigma_i^2} - b^T h - \sum_{i=1}^{n_V} \sum_{j=1}^{n_H} \frac{v_i w_{ij} h_j}{\sigma_i^2}
    \label{eqn:energyformulagbrbm2}
 \end{equation}
-In this model the distribution of the visible nodes is the multimodal normal distribution $\mathcal{N}(a + Wh, \sigma^2)$.
+In this model the distribution of the visible nodes $v$ conditioned on the hidden nodes $h$ is the multimodal normal distribution $\mathcal{N}(a + Wh, \sigma^2)$.
 The conditional distribution of the hidden nodes is $p(h_j | v) = \sigm \left (b_j + \sum_{i=1}^{n_V} w_{ij} \frac{v_i}{\sigma_i^2} \right )$, and the free energy is
 \begin{equation*}
    F(v) = \sum_{i=1}^{n_V}\frac{(v_i - a_i)^2}{2\sigma_i^2} + \sum_{j=1}^{n_H} \log \left (1 + e^{b_j + \sum_{i=1}^{n_V} \frac{v_i}{\sigma_i^2} w_{ij}} \right).
@@ -405,16 +408,16 @@ $\widetilde{v} $ with respect to the parameter set $\Theta$ is
 &=  \frac{\sum_h e^{-E(\widetilde{v}, h)} \nabla_{\!\Theta} (-E(\widetilde{v}, h))} {\sum_h e^{-E(\widetilde{v}, h)}} - \frac{\sum_v \sum_h e^{-E(v, h)} \nabla_{\!\Theta} (-E(v, h))}{\sum_v \sum_h e^{-E(v, h)}} \label{eqn:derivedexp}\\
 &=  \EX_{P_\text{data}} \nabla_{\!\Theta} (- E(\widetilde{v},h)) - \EX_{P_\text{model}} \nabla_{\!\Theta} (-E(v,h)) \label{eqn:nablaresult}
 \end{align}
-In (\ref{eqn:derivedlog}) and (\ref{eqn:derivedexp}), the chain rule is used, together with the derivative of the logarithm and the exponential function, respectively. The resulting terms can be rewritten in equation (\ref{eqn:nablaresult}) as the expectation of the gradient given the distribution of the data and the expectation of the gradient given the distribution of the model.
+In (\ref{eqn:derivedlog}) and (\ref{eqn:derivedexp}), the chain rule is used, together with the derivative of the logarithm and the exponential function, respectively. The resulting terms can be rewritten in (\ref{eqn:nablaresult}) as the expectation of the gradient given the distribution of the data and the expectation of the gradient given the distribution of the model.
 
-As can be seen in equation (\ref{eqn:derivedexp}), the calculation of the gradient involves sums over lots of possible combinations of activations of nodes.
+As can be seen in Equation (\ref{eqn:derivedexp}), the calculation of the gradient involves sums over lots of possible combinations of activations of nodes.
 The first term can be calculated in the types of RBMs that have been introducted here.
 For this, one can use the expected value of the conditional probability $p(h\mid\widetilde{v})$ and plug it in:
 \begin{equation}
 \EX_{P_\text{data}} \nabla_{\!\Theta} E(\widetilde{v},h) =  \nabla_{\!\Theta} E(\widetilde{v}, \EX(p(h \mid \widetilde{v}))
 \label{eqn:plugexpectedh}
 \end{equation}
-In the second term of equation (\ref{eqn:nablaresult}), the sum goes over all nodes in the network.
+In the second term of Equation (\ref{eqn:nablaresult}), the sum goes over all nodes in the network.
 Calculating this term is technically not feasible in normal cases, as the number of summands grows exponentially with the number of nodes.
 This means that it is not possible to simply equate the gradient of the log-likelihood with zero and solve the equation to get an optimum. Also finding an optimum with gradient descent \citep{gradientdescent}, walking with small steps in the direction of the gradient to find an optimum, is not possible directly, because this would as well require the calculation of the whole gradient in each iteration step.
 Via Gibbs sampling (see Section \ref{gibbssamplingrbm}), however, the term can be estimated.
@@ -457,7 +460,7 @@ Similar to CD, this procedure also uses only very few steps. Here, the state of 
 
 \paragraph{Gradients for different types of restricted Boltzmann machines}\label{rbmgradients}
 
-In an RBM with Bernoulli distributed nodes, equation (\ref{eqn:nablaresult}) leads to the following formulas for the gradients for the weights and biases:
+In an RBM with Bernoulli distributed nodes, Equation (\ref{eqn:nablaresult}) leads to the following formulas for the gradients for the weights and biases:
 \begin{align*}
 \frac{\partial}{\partial W}  \log p(\widetilde{v}) &= \EX_{P_\text{data}}  \widetilde{v}^T h - \EX_{P_\text{model}} v^T h \\
 \frac{\partial}{\partial a}  \log p(\widetilde{v}) &=  \EX_{P_\text{data}}
@@ -965,7 +968,7 @@ AIS for DBMs & Yes & No & No & Yes & No & No \\
 
 The \apkg{deepbelief} package \citep{deepbelief_github} provides an object-oriented implementation of RBMs and DBNs in Python, and employs the linear algebra library \apkg{NumPy} \citep{numpy} for the matrix operations.
 It provides an implementation of an estimator of the likelihood of DBNs that is described in the corresponding publication \citep{theis2011deepbelief}.
-It also allows training binary RBMs and Gaussian RBMs as described by \cite{krizhevsky2009tinyimages}, and it implements the AIS algorithm for estimating the likelihood for the two types of RBMs.
+It also allows training binary RBMs and Gaussian RBMs as described by \cite{krizhevsky2009tinyimagesthesis}, and it implements the AIS algorithm for estimating the likelihood for the two types of RBMs.
 It served as a reference for parts of the implementation of AIS in RBMs in the \apkg{BoltzmannMachines} package.
 
 The Julia package \apkg{Boltzmann} implements algorithms for training RBMs and DBNs.

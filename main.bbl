@@ -6,6 +6,7 @@ Abadi, M., Barham, P., Chen, J., Chen, Z., Davis, A., Dean, J., Devin, M.,
   Ghemawat, S., Irving, G., Isard, M. et~al.  \harvardyearleft
   2016\harvardyearright , {TensorFlow}: A system for large-scale machine
   learning., {\em in} `OSDI', Vol.~16, pp.~265--283.
+\newline\harvardurl{\url{https://www.usenix.org/conference/osdi16/technical-sessions/presentation/abadi}}
 
 \harvarditem{Abadi, Chu, Goodfellow, McMahan, Mironov, Talwar \harvardand\
   Zhang}{2016}{abadi_deep_2016}
@@ -218,6 +219,7 @@ Cho, K., Ilin, A. \harvardand\ Raiko, T.  \harvardyearleft
   2011\harvardyearright , `Improved learning of {Gaussian-Bernoulli} restricted
   {Boltzmann} machines', {\em Artificial Neural Networks and Machine
   Learning--ICANN 2011} pp.~10--17.
+\newline\harvardurl{\url{https://doi.org/10.1007/978-3-642-21735-7_2}}
 
 \harvarditem[Choi et~al.]{Choi, Biswal, Malin, Duke, Stewart \harvardand\
   Sun}{2017}{choi_generating_2017}
@@ -237,6 +239,10 @@ Curry, H.~B.  \harvardyearleft 1944\harvardyearright , `The method of steepest
   descent for non-linear minimization problems', {\em Quarterly of Applied
   Mathematics} {\bf 2}(3),~258--261.
 \newline\harvardurl{\url{https://doi.org/10.1090/qam/10667}}
+
+\harvarditem{Diestel}{2016}{diestelgraph}
+Diestel, R.  \harvardyearleft 2016\harvardyearright , {\em Graph Theory}, 5
+  edn, Springer-Verlag, Heidelberg, Germany.
 
 \harvarditem[Ding et~al.]{Ding, Condon \harvardand\
   Shah}{2018}{ding_interpretable_2018}
@@ -347,6 +353,7 @@ Goncalves, A., Ray, P., Soper, B., Stevens, J., Coyle, L. \harvardand\ Sales,
   synthetic patient data', {\em BMC Medical Research Methodology} {\bf
   20},~1--40.
 \newblock Publisher: Springer.
+\newline\harvardurl{\url{https://doi.org/10.1186/s12874-020-00977-1}}
 
 \harvarditem[Goodfellow et~al.]{Goodfellow, Bengio \harvardand\
   Courville}{2016}{goodfellow_deep_2016}
@@ -433,6 +440,7 @@ Hinton, G.~E.  \harvardyearleft 2012\harvardyearright , A practical guide to
   training restricted {Boltzmann} machines, {\em in} G.~Montavon, G.~B. Orr
   \harvardand\ K.-R. Müller, eds, `Neural {Networks}: {Tricks} of the {Trade}:
   {Second} {Edition}', Springer Nature, pp.~599--619.
+\newline\harvardurl{\url{https://doi.org/10.1007/978-3-642-35289-8_32}}
 
 \harvarditem{Hinton \harvardand\ Salakhutdinov}{2006}{hinton_reducing_2006}
 Hinton, G.~E. \harvardand\ Salakhutdinov, R.~R.  \harvardyearleft
@@ -537,11 +545,7 @@ Knuth, D.~E.  \harvardyearleft 1974\harvardyearright , `Computer programming as
 Krizhevsky, A.  \harvardyearleft 2009\harvardyearright , Learning multiple
   layers of features from tiny images, Master's thesis, University of Toronto,
   Canada.
-
-\harvarditem{Krizhevsky \harvardand\ Hinton}{2009}{krizhevsky2009tinyimages}
-Krizhevsky, A. \harvardand\ Hinton, G.  \harvardyearleft 2009\harvardyearright
-  , `Learning multiple layers of features from tiny images', {\em Technical
-  report, University of Toronto} .
+\newline\harvardurl{\url{https://www.cs.utoronto.ca/~kriz/learning-features-2009-TR.pdf}}
 
 \harvarditem{LeCun}{2019{\em a}}{lecun_dlhardware}
 LeCun, Y.  \harvardyearleft 2019{\em a}\harvardyearright , 1.1 {Deep}
@@ -879,16 +883,19 @@ Salakhutdinov, R.  \harvardyearleft 2008\harvardyearright , Learning and
 Salakhutdinov, R.  \harvardyearleft 2015\harvardyearright , `Learning deep
   generative models', {\em Annual Review of Statistics and Its Application}
   {\bf 2},~361--385.
+\newline\harvardurl{\url{https://doi.org/10.1146/annurev-statistics-010814-020120}}
 
 \harvarditem{Salakhutdinov \harvardand\ Hinton}{2009}{salakhutdinov2009DBMs}
 Salakhutdinov, R. \harvardand\ Hinton, G.  \harvardyearleft
   2009\harvardyearright , Deep {Boltzmann} machines, {\em in} `Artificial
   Intelligence and Statistics', pp.~448--455.
+\newline\harvardurl{\url{http://proceedings.mlr.press/v5/salakhutdinov09a.html}}
 
 \harvarditem{Salakhutdinov \harvardand\ Hinton}{2012}{sala2012anefficient}
 Salakhutdinov, R. \harvardand\ Hinton, G.  \harvardyearleft
   2012\harvardyearright , `An efficient learning procedure for deep {Boltzmann}
   machines', {\em Neural Computation} {\bf 24}(8),~1967--2006.
+\newline\harvardurl{\url{http://doi.org/10.1162/NECO\_a\_00311}}
 
 \harvarditem{Sammut \harvardand\ Webb}{2010}{ml_encyclopedia}
 Sammut, C. \harvardand\ Webb, G.~I.  \harvardyearleft 2010\harvardyearright ,
@@ -1048,6 +1055,7 @@ Zappa~Nardelli, F., Belyakova, J., Pelenitsyn, A., Chung, B., Bezanson, J.
   \harvardand\ Vitek, J.  \harvardyearleft 2018\harvardyearright , `Julia
   subtyping: a rational reconstruction', {\em Proceedings of the ACM on
   Programming Languages} {\bf 2}(OOPSLA),~113:1--113:27.
+\newline\harvardurl{\url{https://doi.org/10.1145/3276483}}
 
 \harvarditem{Zhang}{2018}{mochajl}
 Zhang, C.  \harvardyearleft 2018\harvardyearright , `{Mocha.jl} - deep learning
