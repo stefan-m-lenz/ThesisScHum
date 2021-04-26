@@ -209,16 +209,16 @@ As the success of the learning depends critically on good hyperparameters, a spe
 
 This work aims to investigate how DBMs can be used to tackle the challenges for deep learning on biomedical data. Furthermore, it strives to make DBMs accessible in form of user-friendly software.
 
-In a first step, the algorithms for training and evaluating DBMs need to be implemented in a way that is suitable for experimentation.
-This implementation can then be used to examine the hypothesis that DBMs can produce useful synthetic data in scenarios with small sample size and also with distributed data.
+In a first step, the algorithms for training and evaluating DBMs need to be implemented in a way that is suitable for experimentation (Section \ref{bmpart}).
+This implementation can then be used to examine the hypothesis that DBMs can produce useful synthetic data in scenarios with small sample size and also with distributed data (Section \ref{simuexp} and Section \ref{realexp}).
 For employing DBMs in settings with sensitive health information, the disclosure risk of synthetic data created by DBMs must be investigated as well.
 After this, DBMs can be considered for generating synthetic data in the DataSHIELD infrastructure.
-Since DataSHIELD is based on the R programming language, the algorithms for training and evaluating DBMs must also be made available in R.
-Finally, a solution for applying DBMs via DataSHIELD can be provided.
+Since DataSHIELD is based on the R programming language, the algorithms for training and evaluating DBMs must also be made available in R (Section \ref{juliaconnectorpart}).
+Finally, a solution for applying DBMs via DataSHIELD can be provided (Section \ref{dsBoltzmannMachinesImpl}).
 
 
 \clearpage
-\section{Deep Boltzmann machines}
+\section{Deep Boltzmann machines}\label{bmpart}
 \subsection{Theoretical background}\label{bmtheory}
 
 Boltzmann machines \citep{ackley_boltzmann_1985} are a special kind of neural networks.
@@ -1425,7 +1425,7 @@ It creates a scatter plot of the logit-transformed mean-field activation in the 
 
 \FloatBarrier
 \clearpage
-\section{Connecting R and Julia with the \apkg{JuliaConnectoR}}
+\section{Connecting R and Julia with the \apkg{JuliaConnectoR}}\label{juliaconnectorpart}
 
 R is a very popular language in bioinformatics and biostatistics \citep{bioconductor}.
 Making algorithms written in Julia also available in R enlarges the group of possible users, particularly in the field of life sciences.
@@ -2771,13 +2771,13 @@ I then developed the Julia code further and made the training more flexible, add
 Moritz Hess contributed by providing the perspective of the application on omics data.
 
 \item
-I developed the design of the \apkg{JuliaConnectoR} package and implemented it.
+I devised the design of the \apkg{JuliaConnectoR} package and implemented it.
 Harald Binder contributed by requesting features for convenient interactive use, thereby steering the software design into this direction.
 Maren Hackenberg contributed the example for using neural differential equations in the article. 
 This example is not included in the thesis.
 
 \item
-Harald Binder and I developed the concept for the analysis and the simulation design. I designed and implemented the software and conducted the analyses. Moritz Hess contributed to  the experiment for comparing the different generative models on genetic variant data by preparing the data and giving advice for the model training.
+I developed the concept for the analysis and the simulation design with the advice of Harald Binder. I designed and implemented the software and conducted the analyses. Moritz Hess contributed to  the experiment for comparing the different generative models on genetic variant data by preparing the data and giving advice for the model training.
 \end{enumerate}
 
 
