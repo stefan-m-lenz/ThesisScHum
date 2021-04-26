@@ -632,6 +632,16 @@ Manrique‐Vallier, D. \harvardand\ Hu, J.  \harvardyearleft
   Society)} {\bf 181}(3),~635--647.
 \newline\harvardurl{\url{https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/rssa.12352}}
 
+\harvarditem[Martens et~al.]{Martens, Chattopadhya, Pitassi \harvardand\
+  Zemel}{2013}{martens_representational_2013}
+Martens, J., Chattopadhya, A., Pitassi, T. \harvardand\ Zemel, R.
+  \harvardyearleft 2013\harvardyearright , On the {Representational}
+  {Efficiency} of {Restricted} {Boltzmann} {Machines}, {\em in} C.~J.~C.
+  Burges, L.~Bottou, M.~Welling, Z.~Ghahramani \harvardand\ K.~Q. Weinberger,
+  eds, `Advances in {Neural} {Information} {Processing} {Systems}', Vol.~26,
+  Curran Associates, Inc.
+\newline\harvardurl{\url{https://proceedings.neurips.cc/paper/2013/file/7bb060764a818184ebb1cc0d43d382aa-Paper.pdf}}
+
 \harvarditem{{Massachusetts Institute of Technology}}{n.d.}{mitlicense}
 {Massachusetts Institute of Technology}  \harvardyearleft n.d.\harvardyearright
   , `{MIT} license'.
@@ -646,6 +656,12 @@ Masters, D. \harvardand\ Luschi, C.  \harvardyearleft 2018\harvardyearright ,
 \harvarditem{McCoy \harvardand\ Wu}{2014}{isingmodel}
 McCoy, B.~M. \harvardand\ Wu, T.~T.  \harvardyearleft 2014\harvardyearright ,
   {\em The Two-Dimensional {Ising} Model}, 2 edn, Courier Corporation.
+
+\harvarditem{McCulloch \harvardand\ Pitts}{1943}{mcculloch_logical_1943}
+McCulloch, W.~S. \harvardand\ Pitts, W.  \harvardyearleft 1943\harvardyearright
+  , `A logical calculus of the ideas immanent in nervous activity', {\em The
+  bulletin of mathematical biophysics} {\bf 5}(4),~115--133.
+\newline\harvardurl{\url{https://doi.org/10.1007/BF02478259}}
 
 \harvarditem{{M}c{K}inney}{2010}{pandas}
 {M}c{K}inney, W.  \harvardyearleft 2010\harvardyearright , {D}ata {S}tructures

@@ -222,43 +222,46 @@ Finally, a solution for applying DBMs via DataSHIELD can be provided (Section \r
 \subsection{Theoretical background}\label{bmtheory}
 
 Boltzmann machines \citep{ackley_boltzmann_1985} are a special kind of neural networks.
-They have been derived from models in statistical physics.
-There, Ising models aim at modeling the magnetic spin in lattices of atoms or molecules in ferromagnetic crystals \citep{isingmodel}.
+Artificial neural networks have been developed for solving complex problems by imitating structures of the nervous system of humans and animals \citep{mcculloch_logical_1943}.
+Boltzmann machines have been derived from models in statistical physics, which have some interesting parallels with networks of neurons.
+
+In physics, Ising models aim at modeling the magnetic spin in lattices of atoms or molecules in ferromagnetic crystals \citep{isingmodel}.
 In Ising models models the probability of the magnetic spin of molecules in a lattice of molecules is determined by an energy function that assigns an energy to each possible configuration of magnetic spins in the lattice.
 Configurations with a lower energy have a higher probability of occurring.
 This connection between energy and and probability holds also for Boltzmann machines.
 It makes Boltzmann machines a type of so-called ``energy-based" models \citep{ranzato_ebm}.
 
-The analogy of lattices of molecules with magnetic spin are networks of neurons, where each cell may have a neural activation.
+The analogy of lattices of molecules with magnetic spin are networks of neurons in the nervous system, where each cell may have a neural activation.
 The analogy goes further.
 Neural networks receive input from data in special nodes.
 The information about the data can then be learned by the network.
 In the physics analogue, this corresponds to parts of the lattice that are influenced by an external magnetic field.
 In both cases, the information about the input is encapsulated in the parameters of the model, which influence the energy function and thereby determine the probability of the activations in the network.
-With the information contained in the model parameters, a trained Boltzmann machine is then able to draw new samples according to the distribution that has been learned from the original data.
-With this ability, Boltzmann machines can be employed as ``generative models".
+With the information contained in the model parameters, a trained Boltzmann machine can be used for generating new samples according to the distribution that the model has learned from the original data.
+With this ability, Boltzmann machines can be employed as {\em generative models}.
 
 The following parts of this section give an overview of the mathematical definitions surrounding Boltzmann machines that will be necessary to understand how Boltzmann machines can be trained and used.
 This also includes the definition of some terminology that is commonly used in the literature about Boltzmann machines.
 
 \subsubsection{Definition of Boltzmann machines}\label{basicbmproperties}
 
-A Boltzmann machine model with parameters $\Theta$ defines a probability distribution $p(x)$ for a random variable $x = (v, h)$ in a probability space $\Omega$ via the energy function $E(v, h; \Theta)$:
+A Boltzmann machine model with parameters $\Theta$ defines a probability distribution $p(x)$ for a random variable $x = (v, h)$ on a probability space $\Omega$ via the energy function $E(v, h; \Theta)$:
 \begin{equation}
    p(x) = p(v, h) = \frac{e^{-E(v,h)}}{Z}.
    \label{eqn:probbm}
 \end{equation}
-The normalizing factor $Z$, the so called \emph{partition function}, is defined as $Z = \int_{\Omega} e^{-E(x)} dx$. In case of a discrete probability distribution, this can be written as $Z = \sum_{v,h}e^{-E(v,h)}$ where the sum goes over all possible combinations of $v$ and $h$.
+The normalizing factor $Z$, the so called \emph{partition function}, is defined as $Z = \int_{\Omega} e^{-E(x)} dx$.
+In case of a discrete probability distribution, this can be written as $Z = \sum_{v,h}e^{-E(v,h)}$ where the sum goes over all possible realizations of $v$ and $h$.
 The term in the denominator $p^*(v,h) = e^{-E(v,h)}$ is called \emph{unnormalized probability}.
-The probability space is divided into dimensions of observed variables (subsumed in vector $v$) and hidden/latent variables (in $h$), corresponding to visible and hidden nodes in the graphical representation, see Figure \ref{fig:bmsoverview}.
+The probability space can be divided into dimensions of observed variables (subsumed in vector $v$) and hidden/latent variables (in $h$), corresponding to visible and hidden nodes in the graphical representation, see Figure \ref{fig:bmsoverview}.
 
 The so called \emph{free energy}, a notation also inspired by physics, is defined as
 \[
    F(v) = - \log \sum_h e^{-E(v, h)}.
 \]
 With this definition, we can rewrite the formula of the partition function as $Z = \sum_v e^{-F(v)}$.
-That is useful because the formula for the free energy of restricted Boltzmann machines can be simplified by using the layerwise structure.
-Thus the complexity of calculating the free energy becomes linear in the number of hidden nodes. (This can be seen in the formulas for the free energy in the different types of models that are described below.)
+That is useful because the formula for the free energy of restricted Boltzmann machines can be simplified by using the layerwise structure (see e.g.~\cite{martens_representational_2013}, appendix A.1).
+Thus the complexity of calculating the free energy becomes linear in the number of hidden nodes, as can be seen in the formulas for the free energy in the different types of models that are described below.
 If the partition function $Z$ is given, the log-likelihood
 \begin{equation}
    \log p(v) = - F(v) - \log Z
