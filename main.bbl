@@ -139,6 +139,12 @@ Bray, T.  \harvardyearleft 2017\harvardyearright , {\em The {JavaScript}
 \newblock Library Catalog: tools.ietf.org.
 \newline\harvardurl{\url{https://tools.ietf.org/html/rfc8259}}
 
+\harvarditem[Brooks et~al.]{Brooks, Gelman, Jones \harvardand\
+  Meng}{2011}{mcmc_handbook_2011}
+Brooks, S., Gelman, A., Jones, G. \harvardand\ Meng, X.-L.  \harvardyearleft
+  2011\harvardyearright , {\em Handbook of Markov Chain Monte Carlo}, CRC
+  Press.
+
 \harvarditem[Brown et~al.]{Brown, Mann, Ryder, Subbiah, Kaplan, Dhariwal,
   Neelakantan, Shyam, Sastry, Askell, Agarwal, Herbert-Voss, Krueger, Henighan,
   Child, Ramesh, Ziegler, Wu, Winter, Hesse, Chen, Sigler, Litwin, Gray, Chess,
@@ -341,6 +347,7 @@ Geman, S. \harvardand\ Geman, D.  \harvardyearleft 1984\harvardyearright ,
   Intelligence} {\bf PAMI-6}(6),~721--741.
 \newblock Conference Name: IEEE Transactions on Pattern Analysis and Machine
   Intelligence.
+\newline\harvardurl{\url{https://doi.org/10.1109/TPAMI.1984.4767596}}
 
 \harvarditem{{\em GNU General Public License}}{2007}{gplv3}
 {\em GNU General Public License}  \harvardyearleft 2007\harvardyearright .

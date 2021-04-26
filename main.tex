@@ -245,7 +245,7 @@ This also includes the definition of some terminology that is commonly used in t
 
 \subsubsection{Definition of Boltzmann machines}\label{basicbmproperties}
 
-A Boltzmann machine model with parameters $\Theta$ defines a probability distribution $p(x)$ for a random variable $x = (v, h)$ on a probability space $\Omega$ via the energy function $E(v, h; \Theta)$:
+A Boltzmann machine model with parameters $\theta$ defines a probability distribution $p(x)$ for a random variable $x = (v, h)$ on a probability space $\Omega$ via the energy function $E(v, h; \theta)$:
 \begin{equation}
    p(x) = p(v, h) = \frac{e^{-E(v,h)}}{Z}.
    \label{eqn:probbm}
@@ -292,6 +292,7 @@ For an intuitive overview of the architectures of the different types that are c
 
 \emph{Restricted Boltzmann machines} \citep{smolensky1986foundations}, or RBMs,  consist of two layers, a visible layer $v$, which receives the input data, and a hidden layer $h$, which encodes latent features of the data. For a graphical depiction, see Figure \ref{fig:bmsoverview}B.
 The nodes, also called ``units'' in neural network terminology, play the role of neurons.
+The values of the nodes correspond to the activation of neurons.
 The nodes are divided into several layers.
 The nodes inside the same layer are not connected to each other, and therefore, the network has the form of a bipartite graph \citep{diestelgraph}.
 Although other distributions are also possible for the hidden nodes \citep{hinton_practical_2012}, only RBMs with binary hidden nodes following a Bernoulli distribution are considered here.
@@ -360,9 +361,9 @@ The conditional distribution of the hidden nodes is $p(h_j | v) = \sigm \left (b
    F(v) = \sum_{i=1}^{n_V}\frac{(v_i - a_i)^2}{2\sigma_i^2} + \sum_{j=1}^{n_H} \log \left (1 + e^{b_j + \sum_{i=1}^{n_V} \frac{v_i}{\sigma_i^2} w_{ij}} \right).
 \end{equation*}
 
-%TODO cite:
+% _maybe cite:
 %\citep{melchior_gbrbm}, \citep{cho_gaussiandbm}
-% TODO mention alternative: use continuous as Gaussian hard., verweis auf entsprechenden results teil
+% _maybe mention alternative: use continuous as Gaussian hard., verweis auf entsprechenden results teil
 
 
 \subsubsection{Gibbs sampling in restricted Boltzmann machines}\label{gibbssamplingrbm}
@@ -370,7 +371,7 @@ In the previous sections concerning RBMs with different input distributions, one
 However, the formula for the simple probability $p(v)$ of a sample $v$ requires calculating the partition function $Z$ (see formula (\ref{eqn:probbm})), and calculating $Z$ is not feasible for most practical scenarios, as the number of summands in $Z$ grows exponentially with the number of nodes in the model (see also later in \ref{methodExactloglik}).
 This means that using RBMs as generative models, i.e. drawing samples according to the distribution captured in its parameters, is not as straightforward as calculating $p(v)$ and sampling according to the distribution.
 
-But because of the layered structure of RBMs and the closed form of the conditional distributions $p(v \mid h)$ and $p(h \mid v)$, which is fast to evaluate, it becomes possible to efficiently apply a Markov chain Monte Carlo technique called \emph{Gibbs sampling} \citep{gibbssamplingorig} for approximating the distribution of the RBM.
+But because of the layered structure of RBMs and the closed form (\ref{eqn:condprobrbm}) of the conditional distributions $p(v \mid h)$ and $p(h \mid v)$, which is fast to evaluate, it becomes possible to efficiently apply a Markov chain Monte Carlo technique \citep{mcmc_handbook_2011} called \emph{Gibbs sampling} \citep{gibbssamplingorig} for approximating the distribution of the RBM.
 The Gibbs sampling  algorithm for RBMs can be formulated as follows:
 
 \begin{enumerate}
@@ -385,36 +386,40 @@ This works because the iteration forms a Markov chain that has the distribution 
 
 \paragraph{Conditional sampling}\label{condsamplingrbm}
 The Gibbs sampling algorithm can also be easily modified for sampling conditionally on the activations of input nodes by clamping the activations of the nodes that are to be conditioned on and running the Gibbs sampling algorithm in the rest of the network.
-Put more formally, to draw from the probability $p(v, h \mid \tilde{v}_C)$ that is conditioned on the activations $\tilde{v}_C$ of a set $C$ of visible nodes, the Gibbs sampling algorithm above can be run with $v_C$ set to $\tilde{v}_C$ in step 1 and after each sampling step 3.
+More formally, to draw from the probability $p(v, h \mid \tilde{v}_C)$ that is conditioned on the activations $\tilde{v}_C$ of a set $C$ of visible nodes, the Gibbs sampling algorithm above can be run with $v_C$ set to $\tilde{v}_C$ in step 1 and after each sampling step 3.
 This, of course, works analogously for hidden nodes as conditions.
 
 
 \subsubsection{Training of restricted Boltzmann machines}\label{rbmtraining}
-Goal of the training procedure of restricted Boltzmann machines is to maximize the likelihood $\prod_{k=1}^n p(\widetilde{v}^{(k)})$ for a given data set $(\widetilde{v}^{(1)}, \dots, \widetilde{v}^{(n)})$.
-Maximizing the likelihood is equal to maximizing the log-likelihood
-\[
-\sum_{k=1}^{n}  \log p(\widetilde{v}^{(i)}) = \sum_{k=1}^{n} \left( \log \sum_h e^{-E(\widetilde{v}^{(k)}, h)} - \log \sum_v \sum_h e^{-E(v, h)} \right).
-\]
+The goal of the training procedure of restricted Boltzmann machines is to maximize the likelihood $\prod_{k=1}^n p(\tilde{v}^{(k)})$ for a given data set $(\tilde{v}^{(1)}, \dots, \tilde{v}^{(n)})$.
+(The tilde over the variable is used here and in the following to denote that the variable stands for a concrete realization and not a random variable.)
 
+Maximizing the likelihood with respect to the parameters $\theta$ is equal to maximizing the log-likelihood
+\[
+\sum_{k=1}^{n}  \log p_\theta(\tilde{v}^{(i)}) = \sum_{k=1}^{n} \left( \log \sum_h e^{-E_\theta(\tilde{v}^{(k)}, h)} - \log \sum_v \sum_h e^{-E_\theta(v, h)} \right)
+\]
+with respect to $\theta$.
+In the next steps, it is examined how this function of $\theta$ can be optimized.
+For simplicity of notation, the $\theta$ is left out from $p_\theta$ and $E_\theta$ in the following derivations.
 
 \paragraph{Deriving the gradient of the log-likelihood}
 
-For finding an optimum for $\sum_{k=1}^{n}  \log p_\Theta(\widetilde{v}^{(k)})$, the gradient $\nabla_\Theta \sum_{k=1}^{n}  \log p_\Theta(\widetilde{v}^{(k)})$ needs to be determined.
+For finding an optimum of $\sum_{k=1}^{n}  \log p_\theta(\tilde{v}^{(k)})$, the gradient $\nabla_\theta \sum_{k=1}^{n}  \log p_\theta(\tilde{v}^{(k)})$ needs to be determined.
 The gradient of the log-likelihood for a single observation
-$\widetilde{v} $ with respect to the parameter set $\Theta$ is
+$\tilde{v} $ with respect to the parameter set $\theta$ is given by
 \begin{align}
-\nabla_{\!\Theta}  \log p(\widetilde{v}) &= \nabla_{\!\Theta}   \log \sum_h e^{-E(\widetilde{v}, h)} - \log \sum_v \sum_h e^{-E(v, h)} \nonumber \\
- &= \frac{\nabla_{\!\Theta} \sum_h e^{-E(\widetilde{v}, h)}}{\sum_h e ^{-E(\widetilde{v}, h)}} - \frac{\nabla_{\!\Theta} \sum_v \sum_h e^{-E(v,h)}}{\sum_v \sum_h e^{-E(v,h)}} \label{eqn:derivedlog}\\
-&=  \frac{\sum_h e^{-E(\widetilde{v}, h)} \nabla_{\!\Theta} (-E(\widetilde{v}, h))} {\sum_h e^{-E(\widetilde{v}, h)}} - \frac{\sum_v \sum_h e^{-E(v, h)} \nabla_{\!\Theta} (-E(v, h))}{\sum_v \sum_h e^{-E(v, h)}} \label{eqn:derivedexp}\\
-&=  \EX_{P_\text{data}} \nabla_{\!\Theta} (- E(\widetilde{v},h)) - \EX_{P_\text{model}} \nabla_{\!\Theta} (-E(v,h)) \label{eqn:nablaresult}
+\nabla_{\!\theta}  \log p(\tilde{v}) &= \nabla_{\!\theta}   \log \sum_h e^{-E(\tilde{v}, h)} - \log \sum_v \sum_h e^{-E(v, h)} \nonumber \\
+ &= \frac{\nabla_{\!\theta} \sum_h e^{-E(\tilde{v}, h)}}{\sum_h e ^{-E(\tilde{v}, h)}} - \frac{\nabla_{\!\theta} \sum_v \sum_h e^{-E(v,h)}}{\sum_v \sum_h e^{-E(v,h)}} \label{eqn:derivedlog}\\
+&=  \frac{\sum_h e^{-E(\tilde{v}, h)} \nabla_{\!\theta} (-E(\tilde{v}, h))} {\sum_h e^{-E(\tilde{v}, h)}} - \frac{\sum_v \sum_h e^{-E(v, h)} \nabla_{\!\theta} (-E(v, h))}{\sum_v \sum_h e^{-E(v, h)}} \label{eqn:derivedexp}\\
+&=  \EX_{P_\text{data}} \nabla_{\!\theta} (- E(\tilde{v},h)) - \EX_{P_\text{model}} \nabla_{\!\theta} (-E(v,h)) \label{eqn:nablaresult}
 \end{align}
 In (\ref{eqn:derivedlog}) and (\ref{eqn:derivedexp}), the chain rule is used, together with the derivative of the logarithm and the exponential function, respectively. The resulting terms can be rewritten in (\ref{eqn:nablaresult}) as the expectation of the gradient given the distribution of the data and the expectation of the gradient given the distribution of the model.
 
 As can be seen in Equation (\ref{eqn:derivedexp}), the calculation of the gradient involves sums over lots of possible combinations of activations of nodes.
 The first term can be calculated in the types of RBMs that have been introducted here.
-For this, one can use the expected value of the conditional probability $p(h\mid\widetilde{v})$ and plug it in:
+For this, one can use the expected value of the conditional probability $p(h\mid\tilde{v})$ and plug it in:
 \begin{equation}
-\EX_{P_\text{data}} \nabla_{\!\Theta} E(\widetilde{v},h) =  \nabla_{\!\Theta} E(\widetilde{v}, \EX(p(h \mid \widetilde{v}))
+\EX_{P_\text{data}} \nabla_{\!\theta} E(\tilde{v},h) =  \nabla_{\!\theta} E(\tilde{v}, \EX(p(h \mid \tilde{v}))
 \label{eqn:plugexpectedh}
 \end{equation}
 In the second term of Equation (\ref{eqn:nablaresult}), the sum goes over all nodes in the network.
@@ -425,12 +430,12 @@ With this, it becomes possible to use the estimated gradients in gradient descen
 
 \paragraph{Batch gradient optimization and the role of mini-batches}
 
-For the practical implementation, another stochastic approximation of the gradient for the full data set $\sum_{k=1}^n \log p(\widetilde{v}^{(k)})$ is used.
+For the practical implementation, another stochastic approximation of the gradient for the full data set $\sum_{k=1}^n \log p(\tilde{v}^{(k)})$ is used.
 Usually a form of {\em batch gradient optimization} \citep{bottou_optimization_2018} is performed.
 For this, the samples are split into batches $B_l$, usually of approximately equal sizes $b_l$.
 In each optimization step $t$, the parameters are updated as follows:
 \[
-\Theta^{(t+1)} = \Theta^{(t)} + \frac{\epsilon}{b_l} \sum_{\widetilde{v} \in B_l} \nabla_{\!\Theta^{(t)}} \log p(\widetilde{v})
+\theta^{(t+1)} = \theta^{(t)} + \frac{\epsilon}{b_l} \sum_{\tilde{v} \in B_l} \left ( \nabla_{\!\theta} \log p_{\theta} \left( \tilde{v}\right) \right ) \left (\theta^{(t)}\right)
 \]
 
 The step size is determined by the {\em learning rate} $\epsilon$.
@@ -440,8 +445,6 @@ The number of steps after all samples/mini-batches are used for updating the par
 (In the formula above one training epoch is over if $t = \sum_l b_l$.)
 Training usually consists of many epochs and the step size is kept small, e.g. a hundred epochs and a learning rate of 0.001 could be a viable combination.
 The number of epochs and the learning rate are the most important hyperparameters for the training.
-
-%TODO optional: hier könnte man mehr schreiben über zusammenspiel von learning rate und epochs, außerdem steps auf oberfläche beschreiben und learning rate decay
 
 Mini-batches were at first introduced for performance reasons.
 It is not necessary to have the exact gradient for walking only small steps into the direction of it.
@@ -453,7 +456,7 @@ Using mini-batches can also be advantageous because of another reason: The varia
 For performing batch gradient optimization, the Gibbs sampling procedure is also modified for RBM training to speed up the learning process.
 In other applications, thousands of iterations are used for Gibbs sampling  \citep{gibbssamplingorig}. For training RBMs, a shortcut is used, which is called {\em contrastive divergence} (CD) \citep{cdorig, perpinan_contrastive_2005}.
 In CD, the number of Gibbs sampling steps is reduced drastically. In most cases, even only one step is used, which is denoted with $\text{CD}_1$ \citep{hinton_practical_2012}.
-Instead of using a random starting point, CD uses the original sample $\widetilde{v}$, for which the gradient shall be computed, as starting point $v_1$ of the sampling procedure. This should ensure that the starting point is already close to the desired distribution.
+Instead of using a random starting point, CD uses the original sample $\tilde{v}$, for which the gradient shall be computed, as starting point $v_1$ of the sampling procedure. This should ensure that the starting point is already close to the desired distribution.
 
 Another modification of the Gibbs sampling procedure used for training of RBMs is {\em persistent contrastive divergence} (PCD).
 Similar to CD, this procedure also uses only very few steps. Here, the state of the Gibbs sampling chain for calculating the last update is reused and used as starting point. \cite{hinton_practical_2012} recommends PCD over $\text{CD}_1$ or even $\text{CD}_{10}$.
@@ -462,26 +465,26 @@ Similar to CD, this procedure also uses only very few steps. Here, the state of 
 
 In an RBM with Bernoulli distributed nodes, Equation (\ref{eqn:nablaresult}) leads to the following formulas for the gradients for the weights and biases:
 \begin{align*}
-\frac{\partial}{\partial W}  \log p(\widetilde{v}) &= \EX_{P_\text{data}}  \widetilde{v}^T h - \EX_{P_\text{model}} v^T h \\
-\frac{\partial}{\partial a}  \log p(\widetilde{v}) &=  \EX_{P_\text{data}}
-\widetilde{v} - \EX_{P_\text{model}}  v = \widetilde{v} - \EX_{P_\text{model}} v\\
-\frac{\partial}{\partial b}  \log p(\widetilde{v}) &=  \EX_{P_\text{data}} h - \EX_{P_\text{model}} h
+\frac{\partial}{\partial W}  \log p(\tilde{v}) &= \EX_{P_\text{data}}  \tilde{v}^T h - \EX_{P_\text{model}} v^T h \\
+\frac{\partial}{\partial a}  \log p(\tilde{v}) &=  \EX_{P_\text{data}}
+\tilde{v} - \EX_{P_\text{model}}  v = \tilde{v} - \EX_{P_\text{model}} v\\
+\frac{\partial}{\partial b}  \log p(\tilde{v}) &=  \EX_{P_\text{data}} h - \EX_{P_\text{model}} h
 \end{align*}
 
 In an RBM with Gaussian visible nodes \citep{krizhevsky2009tinyimagesthesis}, the  gradients are:
 \begin{align*}
-\frac{\partial}{\partial W} \log p(\widetilde{v}) &= \frac{1}{\sigma_i} \left ( \EX_{P_\text{data}} \widetilde{v}^T h - \EX_{P_\text{model}} v^T h \right) \\
-\frac{\partial}{\partial a} \log p(\widetilde{v}) &= \frac{1}{\sigma_i^2} \left(\widetilde{v} - \EX_{P_\text{model}} v \right)\\
-\frac{\partial}{\partial b} \log p(\widetilde{v}) &= \EX_{P_\text{data}} h - \EX_{P_\text{model}} h \\
-\frac{\partial}{\partial \sigma_{i}} \log p(\widetilde{v}) &= \EX_{P_\text{data}} \left( \frac{(\widetilde{v}_i - a_i)^2}{\sigma_i^3} - \sum_{j=1}^{n_H} h_j \frac{w_{ij} \widetilde{v}_i}{\sigma_i^2}\right) \\ & \quad \quad - \EX_{P_\text{model}} \left(\frac{(v_i - a_i)^2}{\sigma_i^3} -\sum_{j=1}^{n_H} h_j \frac{w_{ij} v_i}{\sigma_i^2} \right)
+\frac{\partial}{\partial W} \log p(\tilde{v}) &= \frac{1}{\sigma_i} \left ( \EX_{P_\text{data}} \tilde{v}^T h - \EX_{P_\text{model}} v^T h \right) \\
+\frac{\partial}{\partial a} \log p(\tilde{v}) &= \frac{1}{\sigma_i^2} \left(\tilde{v} - \EX_{P_\text{model}} v \right)\\
+\frac{\partial}{\partial b} \log p(\tilde{v}) &= \EX_{P_\text{data}} h - \EX_{P_\text{model}} h \\
+\frac{\partial}{\partial \sigma_{i}} \log p(\tilde{v}) &= \EX_{P_\text{data}} \left( \frac{(\tilde{v}_i - a_i)^2}{\sigma_i^3} - \sum_{j=1}^{n_H} h_j \frac{w_{ij} \tilde{v}_i}{\sigma_i^2}\right) \\ & \quad \quad - \EX_{P_\text{model}} \left(\frac{(v_i - a_i)^2}{\sigma_i^3} -\sum_{j=1}^{n_H} h_j \frac{w_{ij} v_i}{\sigma_i^2} \right)
 \end{align*}
 
 In the alternative formulation of \cite{cho2011improved}, the gradients are:
 \begin{align*}
-\frac{\partial}{\partial W} \log p(\widetilde{v}) &= \frac{1}{\sigma_i^2} \left ( \EX_{P_\text{data}} \widetilde{v}^T h - \EX_{P_\text{model}} v^T h \right) \\
-\frac{\partial}{\partial a} \log p(\widetilde{v}) &= \frac{1}{\sigma_i^2} \left(\widetilde{v} - \EX_{P_\text{model}} v \right)\\
-\frac{\partial}{\partial b} \log p(\widetilde{v}) &= \EX_{P_\text{data}} h - \EX_{P_\text{model}} h \\
-\frac{\partial}{\partial \sigma_{i}} \log p(\widetilde{v}) &=  \frac{1}{\sigma_i^3} \Bigg( \EX_{P_\text{data}} \left( (\widetilde{v}_i - a_i)^2 - 2\sum_{j=1}^{n_H} h_j w_{ij} \widetilde{v}_i  \right) \\ & \quad \quad - \EX_{P_\text{model}} \left((v_i - a_i)^2 -2\sum_{j=1}^{n_H} h_j w_{ij} v_i \right) \Bigg)
+\frac{\partial}{\partial W} \log p(\tilde{v}) &= \frac{1}{\sigma_i^2} \left ( \EX_{P_\text{data}} \tilde{v}^T h - \EX_{P_\text{model}} v^T h \right) \\
+\frac{\partial}{\partial a} \log p(\tilde{v}) &= \frac{1}{\sigma_i^2} \left(\tilde{v} - \EX_{P_\text{model}} v \right)\\
+\frac{\partial}{\partial b} \log p(\tilde{v}) &= \EX_{P_\text{data}} h - \EX_{P_\text{model}} h \\
+\frac{\partial}{\partial \sigma_{i}} \log p(\tilde{v}) &=  \frac{1}{\sigma_i^3} \Bigg( \EX_{P_\text{data}} \left( (\tilde{v}_i - a_i)^2 - 2\sum_{j=1}^{n_H} h_j w_{ij} \tilde{v}_i  \right) \\ & \quad \quad - \EX_{P_\text{model}} \left((v_i - a_i)^2 -2\sum_{j=1}^{n_H} h_j w_{ij} v_i \right) \Bigg)
 \end{align*}
 
 In the RBM with the dummy variables for encoding categorical variables, the gradients are the same as in the one with Bernoulli distributed variables.
@@ -515,7 +518,7 @@ The ability to generate data from complex distributions is furthermore reduced i
 If the network architecture of a DBN is treated as a Boltzmann machine, we get a \emph{deep Boltzmann machine}, where the complete network can be utilized for generating samples.
 A deep Boltzmann machine, as defined by \cite{salakhutdinov2009DBMs}, with $n_L$ number of hidden layers has parameters
 \[
-\Theta = \left (W^{(1)}, \dots, W^{(n_L)}, a, b^{(1)}, \dots, b^{(n_L)} \right).
+\theta = \left (W^{(1)}, \dots, W^{(n_L)}, a, b^{(1)}, \dots, b^{(n_L)} \right).
 \]
 The energy is defined as
 \[
@@ -567,7 +570,7 @@ Using the pre-trained DBM as starting point, the fine-tuning of the weights can 
 \citep{salakhutdinov2009DBMs, salakhutdinov2015generativemodels}.
 This algorithm is also based on gradient descent.
 In RBMs it is possible to calculate $p(h | v)$ because all the hidden nodes are only depending on the visible nodes.
-This allowed to calculate $\EX_{P_{\text{data}}} \nabla_{\!\Theta} E(\tilde{v},h)$ from $\EX p(h | \tilde{v})$ (see formula (\ref{eqn:plugexpectedh})).
+This allowed to calculate $\EX_{P_{\text{data}}} \nabla_{\!\theta} E(\tilde{v},h)$ from $\EX p(h | \tilde{v})$ (see formula (\ref{eqn:plugexpectedh})).
 In DBMs this is not possible any more as the hidden layers are connected with each other and therefore no simple formula for $p(h | v)$ can be derived.
 This means that calculating the derivative of the log-likelihood in deep Boltzmann machines needs an additional technique.
 \cite{salakhutdinov2009DBMs} propose a variational approach for this.
@@ -599,14 +602,14 @@ As a starting value for $\mu$, activation in the network is induced by the input
 
 Analogously to equation (\ref{eqn:nablaresult}) for calculating the gradient of the log-likelihood in RBMs, the gradient of the variational lower bound of the log-likelihood can be calculated as
 \begin{align*}
-\nabla_{\Theta} \ELBO(v, \mu) &= \nabla_{\Theta} ( - E(\tilde{v}, \mu) - \log Z ) \\
- &= \nabla_{\Theta} (- E(\tilde{v}, \mu)) - \EX_{P_\text{model}} \nabla_{\Theta} (-E(v, h)).
+\nabla_{\theta} \ELBO(v, \mu) &= \nabla_{\theta} ( - E(\tilde{v}, \mu) - \log Z ) \\
+ &= \nabla_{\theta} (- E(\tilde{v}, \mu)) - \EX_{P_\text{model}} \nabla_{\theta} (-E(v, h)).
 \end{align*}
 This results in the following gradients for the different types of model parameters:
 \begin{align*}
-\frac{\partial}{\partial W^{(1)}} \ELBO(\tilde{v}, \mu) &= \widetilde{v}^T \mu - \EX_{P_\text{model}} v^T h^{(1)} \\
+\frac{\partial}{\partial W^{(1)}} \ELBO(\tilde{v}, \mu) &= \tilde{v}^T \mu - \EX_{P_\text{model}} v^T h^{(1)} \\
 \frac{\partial}{\partial W^{(k)}} \ELBO(\tilde{v}, \mu) &= (\mu^{(k-1)})^T \mu^{(k)}  - \EX_{P_\text{model}} (h^{(k-1)})^T h^{(k)} &\quad(k = 1, \dots, n_L)\\
-\frac{\partial}{\partial a}  \ELBO(\tilde{v}, \mu) &=  \widetilde{v} - \EX_{P_\text{model}}  v \\
+\frac{\partial}{\partial a}  \ELBO(\tilde{v}, \mu) &=  \tilde{v} - \EX_{P_\text{model}}  v \\
 \frac{\partial}{\partial b^{(k)}}  \ELBO(\tilde{v}, \mu) &=  \mu^{(k)} - \EX_{P_\text{model}} h^{(k)}  &\quad ( k = 1, \dots, n_L)
 \end{align*}
 
@@ -736,8 +739,8 @@ One application for this is monitoring the overfitting by comparing the training
 \label{reconstructionerror}
 Another popular statistics, which behaves similar to the likelihood in RBMs in most cases, is the {\em reconstruction error} \citep{hinton_practical_2012}.
 For defining this, one needs at first to define the term {\em reconstruction} in an RBM.
-The reconstruction \citep{hinton_practical_2012} for a sample $\widetilde{v}$ is calculated by using the conditional probabilities as deterministic ``activation potential".
-With $f_h(h) := \EX_v p(h|v)$ and $f_v(h) := \EX_h p(v|h)$, the reconstruction $r(v)$ can be defined as $r(\widetilde{v}) := f_v(f_h(\widetilde{v}))$. The reconstruction error is then the distance between the sample $\widetilde{v}$ and its reconstruction $r(\widetilde{v})$, e.g. measured as absolute distance or quadratic distance.
+The reconstruction \citep{hinton_practical_2012} for a sample $\tilde{v}$ is calculated by using the conditional probabilities as deterministic ``activation potential".
+With $f_h(h) := \EX_v p(h|v)$ and $f_v(h) := \EX_h p(v|h)$, the reconstruction $r(v)$ can be defined as $r(\tilde{v}) := f_v(f_h(\tilde{v}))$. The reconstruction error is then the distance between the sample $\tilde{v}$ and its reconstruction $r(\tilde{v})$, e.g. measured as absolute distance or quadratic distance.
 
 Calculating the reconstruction error  is a very fast and simple technique for monitoring the training progress for RBMs, DBNs and for greedy layer-wise pre-training of DBMs.
 Although the reconstruction error can serve as a rough proxy statistic for the likelihood, it does not replace the likelihood entirely, as it is not the actual optimization target, and it is strongly influenced by the {\em mixing rate} of the Markov chain for Gibbs sampling, i. e. how fast the Markov chain reaches its equilibrium distribution. If the distribution in the Markov chain changes very slowly, the reconstruction error will be low, even if the distributions of the samples and the model differ much \citep{hinton_practical_2012}.
