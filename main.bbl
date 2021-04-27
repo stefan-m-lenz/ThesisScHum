@@ -31,6 +31,7 @@ Ackley, D.~H., Hinton, G.~E. \harvardand\ Sejnowski, T.~J.  \harvardyearleft
   1985\harvardyearright , `A learning algorithm for {Boltzmann} machines', {\em
   Cognitive science} {\bf 9}(1),~147--169.
 \newblock Publisher: Elsevier.
+\newline\harvardurl{\url{https://doi.org/10.1016/S0364-0213(85)80012-4}}
 
 \harvarditem[Aiello et~al.]{Aiello, Eckstrand, Fu, Landry \harvardand\
   Aboyoun}{2018}{h2o}
@@ -81,8 +82,10 @@ Bates, D., Lai, R., Byrne, S. \harvardand\ contributors  \harvardyearleft
 
 \harvarditem{Bengio}{2012}{bengio2012practical}
 Bengio, Y.  \harvardyearleft 2012\harvardyearright , Practical recommendations
-  for gradient-based training of deep architectures, {\em in} `Neural networks:
-  Tricks of the trade', Springer, pp.~437--478.
+  for gradient-based training of deep architectures, {\em in} G.~Montavon,
+  G.~B. Orr \harvardand\ K.-R. M{\"u}ller, eds, `Neural networks: Tricks of the
+  trade', Springer, Berlin, Heidelberg, pp.~437--478.
+\newline\harvardurl{\url{https://doi.org/10.1007/978-3-642-35289-8\_26}}
 
 \harvarditem[Bergstra et~al.]{Bergstra, Bardenet, Bengio \harvardand\
   Kégl}{2011}{bergstra_algorithms_2011}

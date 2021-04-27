@@ -727,21 +727,23 @@ For a restricted Boltzmann machine, the likelihood can be calculated using formu
 Estimating the likelihood of DBMs is possible using AIS by constructing a smaller DBM for each sample and estimating its partition function.
 The smaller DBM is constructed by removing the visible layer, and incorporating contribution of the sample to the energy of the first RBM - consisting only of visible and first hidden layer - into the bias of the new visible layer which was the first hidden layer of the original model.
 The partition function of this smaller model is then the unnormalized probability of the sample in the original model.
-In a setting with very large sample size, the cost of estimating the actual likelihood with this procedure is too expensive. But if the sample size is small enough, it is affordable to estimate the likelihood and not fall back on the lower bound.
+In a setting with very large sample size, the cost of estimating the actual likelihood with this procedure may be too expensive. But if the sample size is small enough, can be affordable to estimate the likelihood and not fall back on the lower bound.
 
-\paragraph{Alternatives to the likelihood for RBMs}
+\paragraph{Alternative criteria for monitoring the training of RBMs}
 The AIS algorithm is very complex to implement.
-It is also compute-intensive, depending on the required exactness of the estimation.
-So often there are other statistics used for checking the training progress.
+Although it becomes possible to estimate the true optimization criterion with AIS in reasonable time, it is still compute-intensive, depending on the required exactness of the estimation.
+Thus, often there are other statistics used for quickly checking the training progress.
 
 The free energy cannot be used for comparing different models because it does not include the normalization by $Z$.
 It can, however, be used to compare how well the same model fits different data sets.
 One application for this is monitoring the overfitting by comparing the training data set and a test data set \citep{hinton_practical_2012}.
 \label{reconstructionerror}
 Another popular statistics, which behaves similar to the likelihood in RBMs in most cases, is the {\em reconstruction error} \citep{hinton_practical_2012}.
-For defining this, one needs at first to define the term {\em reconstruction} in an RBM.
-The reconstruction \citep{hinton_practical_2012} for a sample $\tilde{v}$ is calculated by using the conditional probabilities as deterministic ``activation potential".
-With $f_h(h) := \EX_v p(h|v)$ and $f_v(h) := \EX_h p(v|h)$, the reconstruction $r(v)$ can be defined as $r(\tilde{v}) := f_v(f_h(\tilde{v}))$. The reconstruction error is then the distance between the sample $\tilde{v}$ and its reconstruction $r(\tilde{v})$, e.g. measured as absolute distance or quadratic distance.
+For defining this, one first needs to define the term {\em reconstruction} in an RBM.
+The reconstruction \citep{hinton_practical_2012} for a sample $\tilde{v}$ in an RBM is calculated by using the conditional probabilities as deterministic ``activation potential".
+With $f_{hidden}(\tilde{v}) := p(h|\tilde{v})$ and $f_{visible}(\tilde{h}) :=  p(v|\tilde{h})$, the reconstruction $r(v)$ can be defined as $r(\tilde{v}) := f_{visible}(f_{hidden}(\tilde{v}))$.
+(For continuously valued variables, the expected value can be used instead of the probability.)
+The reconstruction error is then the distance between the sample $\tilde{v}$ and its reconstruction $r(\tilde{v})$, e.g., measured as absolute distance or quadratic distance.
 
 Calculating the reconstruction error  is a very fast and simple technique for monitoring the training progress for RBMs, DBNs and for greedy layer-wise pre-training of DBMs.
 Although the reconstruction error can serve as a rough proxy statistic for the likelihood, it does not replace the likelihood entirely, as it is not the actual optimization target, and it is strongly influenced by the {\em mixing rate} of the Markov chain for Gibbs sampling, i. e. how fast the Markov chain reaches its equilibrium distribution. If the distribution in the Markov chain changes very slowly, the reconstruction error will be low, even if the distributions of the samples and the model differ much \citep{hinton_practical_2012}.
@@ -767,8 +769,8 @@ Another important statistical data type that needs to be handled when dealing wi
 For most applications in machine learning, categorical data is usually encoded in dummy variables \citep{hastie_elements}.
 It would be possible to use the binary dummy variables as input to a restricted or deep Boltzmann machine with Bernoulli distributed visible units as well.
 But when sampling from such a Boltzmann machine model all combinations of visible nodes have a positive probability. This can be seen from the formula of the conditional probability (\ref{eqn:condprobrbm}) and the fact that the values of the sigmoid function are strictly positive.
-Therefore, the resulting data is not properly encoded in general  because illegal combinations of dummy variables can occur. With that, sampled values cannot be mapped to the original categories any more.
-Using dummy variables as input to Boltzmann machines with Bernoulli distributed variables makes it also more difficult to learn higher level patterns, as the Boltzmann machine has at first to learn the pattern that results from the dummy encoding  by itself. Hence it is advised to use a Boltzmann machine that has the knowledge about the encoding built into its energy function and probability distribution.
+Therefore, the resulting data is not properly encoded in general  because illegal combinations of the values of dummy variables can occur. With that, sampled values cannot be mapped to the original categories any more.
+Using dummy variables as input to Boltzmann machines with Bernoulli distributed variables makes it also more difficult to learn higher level patterns, as the Boltzmann machine has at first to learn the pattern that results from the dummy encoding  by itself. Hence it is advised to use a Boltzmann machine that has the knowledge about the encoding built into its energy function and probability distribution like described in the following.
 
 
 For encoding categorical variables, the most popular encoding used by the machine learning frameworks \apkg{TensorFlow} \citep{tensorflow}, \apkg{scikit-learn} \citep{scikit-learn} or \apkg{Flux} \citep{flux} is the so-called ``one-hot encoding", which encodes a variable with $k$ categories in a binary vector of $k$ components, where exactly one component is one and all others are zero.
@@ -801,20 +803,22 @@ The energy function $E$ for RBMs with categorical data is the same as for Bernou
 The difference is that not all combinations of visible nodes are allowed. Thus the partition function $Z = \sum_{v} \sum_{h} e^{-E(v,h)}$ and the probability
 $p(v) = \frac{\sum_h e^{-E(v,h)}}{Z}$ change because the sum over all possible states of $v$ in the formula for $Z$ contains less summands than in the case with a Bernoulli distribution, where all combinations of activations are possible.
 
-For deriving the formulas for an RBM that handles the dummy encoding like exemplified in Table \ref{dummenc}, let us denote with $C_k$ the set of dummy variables that the dummy variable $k$ belongs to.
+For deriving the formulas for an RBM that handles the dummy encoding as exemplified in Table \ref{dummenc}, let us denote with $C_k$ the set of dummy variables that the dummy variable $k$ belongs to.
 The visible nodes of the RBM can cover multiple categorical variables and multiple sets of dummy variables, which may differ in the number of categories.
 If the number of categories equals two for all categorical variables, this model is the same as an RBM with Bernoulli distributed nodes.
 
-Like \cite{krizhevsky2009tinyimagesthesis} let us write $E(v_k = 1, v_{i \neq k}, h)$ for the energy of the combination of a visible vector $v$ with $v_k = 1$ and a hidden vector $h$. Similarly, let us define $E(v_{i \in C_k} = 0, v_{i \notin C_k}, h)$ for the energy of the combination of a visible vector $v$ that is zero in all dummy variables that belong to $C_k$ and a hidden vector $h$.
+Following the notation in \cite{krizhevsky2009tinyimagesthesis}, let us write $E(v_k = 1, v_{i \neq k}, h)$ for the energy of the combination of a visible vector $v$ with $v_k = 1$ and a hidden vector $h$. Similarly, let us define $E(v_{i \in C_k} = 0, v_{i \notin C_k}, h)$ for the energy of a hidden vector $h$ and a visible vector $v$ where all dummy variables that belong to $C_k$ have the value zero.
 
 From the previously defined dummy encoding results that if one dummy variable in the set is one, all others in the set are zero.
-The sum over all possible combinations of $v$ can therefore be split into those parts where a dummy variable $k$ is zero and one part where all others in the corresponding set of dummy variables are one, because these covers all allowed combinations.
-This allows to split the formula for the unnormalized probability of the hidden nodes into the following sum:
+The sum over all possible combinations of $v$ can therefore be split into those parts where the value of the dummy variable $k$ is zero and one part where the value is one, which means that all others in the corresponding set of dummy variables are zero.
+This allows to split the formula for the unnormalized probability of the hidden nodes into the following sums:
 \begin{align}
 p^*(h) &= \sum_v  \exp (-E(v,h)) \nonumber \\
 &= \sum_{v_{i \notin C_k}} \exp (-E(v_{i \in C_k} = 0, v_{i \notin C_k}, h)) + \sum_{c \in C_k} \sum_{v_{i \notin C_k}} \exp ( - E(v_c = 1, v_{i \notin C_k},  h))
 %E(v_k=1, v_{i\neq k}, h) = E(v_k = 1, v_{i \notin C_k}, h).
 \end{align}
+
+The notation $\sum_{v_{i \notin C_k}}$ here indicates that the sum goes over all possible combinations of values for the visible nodes that do not belong to $C_k$.
 
 The input from the hidden nodes can further be extracted from $ \sum_{v_{i \notin C_k}} e^{-E(v_{k=1}, v_{i \neq k}, h)}$ by regrouping the summands:
 \begin{align}
