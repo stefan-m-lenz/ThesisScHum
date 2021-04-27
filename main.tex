@@ -281,7 +281,7 @@ For an intuitive overview of the architectures of the different types that are c
    \centering
    \includegraphics[scale=3.]{images/BMsOverview.eps}
    \caption{Graph view on different types of Boltzmann machines. Visible units (i. e. input units) are depicted as nodes with doubled circle lines. Hidden units are simple circles.
- {\bf A}: General Boltzmann machine, with all nodes connected to each other. {\bf B}: Restricted Boltzmann machine (RBM). Each of the lines corresponds to a weight, i.e. an entry in the weight matrix $W$, like in formulas (\ref{eqn:energyformularbm}) and (\ref{eqn:energyformulagbrbm}).
+ {\bf A}: General Boltzmann machine, with all nodes connected to each other. {\bf B}: Restricted Boltzmann machine (RBM). Each of the lines corresponds to a weight, i.e. an entry in the weight matrix $W$, like in Equations (\ref{eqn:energyformularbm}) and (\ref{eqn:energyformulagbrbm}).
 {\bf C}: Deep Boltzmann machine. From a graph perspective, this is simply a stack of RBMs.
 {\bf D} and {\bf E}: Multimodal/partitioned deep Boltzmann machines. In a multimodal DBM, the different partitions of the visible nodes may also have different distributions.}
    \label{fig:bmsoverview}
@@ -571,10 +571,10 @@ Using the pre-trained DBM as starting point, the fine-tuning of the weights can 
 \citep{salakhutdinov2009DBMs, salakhutdinov2015generativemodels}.
 This algorithm is also based on gradient descent.
 In RBMs it is possible to calculate $p(h | v)$ because all the hidden nodes are only depending on the visible nodes.
-This allowed to calculate $\EX_{P_{\text{data}}} \nabla_{\!\theta} E(\tilde{v},h)$ from $\EX p(h | \tilde{v})$ (see formula (\ref{eqn:plugexpectedh})).
-In DBMs this is not possible any more as the hidden layers are connected with each other and therefore no simple formula for $p(h | v)$ can be derived.
+This allowed to calculate $\EX_{P_{\text{data}}} \nabla_{\!\theta} E(\tilde{v},h)$ from $\EX p(h | \tilde{v})$ (see Equation (\ref{eqn:plugexpectedh})).
+In DBMs this is not possible anymore as the hidden layers are connected with each other and therefore no simple formula for $p(h | v)$ can be derived.
 This means that calculating the derivative of the log-likelihood in deep Boltzmann machines needs an additional technique.
-\cite{salakhutdinov2009DBMs} propose a variational approach for this.
+\cite{salakhutdinov2009DBMs} proposed a variational approach for this.
 The true distribution $p(h|v)$  is replaced with an approximation $q(h|v)$.
 Instead of optimizing the log-likelihood, a lower bound is optimized, for which the gradient can be computed.
 This \emph{variational lower bound} or \emph{evidence lower bound} (ELBO) \citep{blei_variational_2017} for the likelihood is
@@ -583,15 +583,15 @@ This \emph{variational lower bound} or \emph{evidence lower bound} (ELBO) \citep
 \]
 $\mathcal{H}(q)$ denotes the entropy of the distribution $q$.
 Here a ``mean-field approximation" $q$ is used, where all hidden nodes are assumed to be independent.
-The distribution is then $q(h) = \prod_{k=1}^{n_L} \prod_j^{n_{H,k}} q(h_i^{(k)})$ with $q(h_i^{(k)} = 1) = \mu_i^{(k)}$ for some fixed values $\mu_i^{(k)}$ for each  node $i$ in a hidden layer $k$.
+The distribution $q$ for this approach is given by $q(h) = \prod_{k=1}^{n_L} \prod_j^{n_{H,k}} q(h_j^{(k)})$ with $q(h_j^{(k)} = 1) = \mu_j^{(k)}$ for some fixed values $\mu_j^{(k)}$ for each  node $j$ in a hidden layer $k$.
 ($n_L$ denotes the number of hidden layers and $n_{H,k}$ the number of nodes in hidden layer $k$.)
-This leads to the lower bound of the log-likelihood, which will be optimized in the fine-tuning algorithm: %TODO ableiten? steht in sala learning deep generative models Equation 36
+This leads to the lower bound of the log-likelihood, which will be optimized in the fine-tuning algorithm:
 \[
    \log p(v) \geq - E(v, \mu) - \log Z + \mathcal{H}(q) =: \ELBO(v, \mu)
 \]
 $E$ is the energy in the DBM and $\mathcal{H}(q) = \sum_j \left( \mu_j \log \mu_j + (1- \mu_j) \log ( 1- \mu_j) \right)$ is the entropy of $q$ \citep{sala2012anefficient, salakhutdinov2015generativemodels}.
 
-To calculate $\mu$ for a given data vector $\tilde{v}$, the following equations for a fix-point iteration can be used, which are analogous to formulas (\ref{dbmcondprobfirsthidden}) and (\ref{dbmcondprobintermediate}).
+To calculate $\mu$ for a given data vector $\tilde{v}$, the following equations for a fix-point iteration can be used, which are analogous to (\ref{dbmcondprobfirsthidden}) and (\ref{dbmcondprobintermediate}).
 \begin{align*}
 \mu^{(1)}(t+1)&= \sigm \bigg( b^{(1)} + (W^{(1)})^T \tilde{v} + W^{(2)} \mu ^{(2)}(t) \bigg) \\
 \mu^{(k)}(t+1) &= \sigm \bigg( b^{(k)} + (W^{(k)})^T \mu^{(k-1)}(t) + W^{(k+1)} \mu^{(k+1)}(t) \bigg) \\
@@ -629,20 +629,20 @@ A special challenge for unsupervised learning on non-image data in general is th
 In supervised training, the classification accuracy is the natural evaluation criterion, which is also easy to implement.
 In unsupervised training with a well investigated class of data such as images, there is already much experience available for choosing the model architecture and the hyperparameters. If models are to be trained on very diverse data, the problem of finding good hyperparameters is exacerbated as parameter tuning can pose a different challenge for each data set.
 
-Thus the need for having an objective evaluation criterion as a basis for choosing the hyperparameters and monitoring the training becomes very important.
+For finding good hyperparameters, an objective evaluation criterion is needed.
 In case of images or natural language, the generative abilities of a model can be tested by simply looking at the generated images or sentences to see whether these are proper samples. In the case of data from a patient record or genetic data, this approach is not feasible.
 
-If there are no other evaluation criteria, one indicator for successful learning in Boltzmann machines remains the model likelihood, which is an inherent property of the model and is therefore applicable in all cases of data. The difficulty for calculating the likelihood is its dependency on the partition function (see formula (\ref{eqn:probbm})).
+If there are no other evaluation criteria, one indicator for successful learning in Boltzmann machines remains the model likelihood, which is an inherent property of the model and is therefore applicable in all cases of data. The difficulty of calculating the likelihood lies in its dependency on the partition function (see Equation (\ref{eqn:probbm})).
 In most cases, the likelihood cannot be calculated exactly but it can only be estimated by stochastic algorithms like annealed importance sampling (AIS).
 % So we also want to detail the extension of AIS on multimodal deep Boltzmann machines in this article.
 
 \paragraph{Exact calculation of the partition function}
 \label{methodExactloglik}
-As mentioned in Section \ref{rbmtraining}, the exact calculation of partition functions is only computationally feasible for very small models as its complexity grows exponentially. Exploiting the layerwise structure allows a faster exact calculation of $Z$ such that the computation time does not grow exponentially with the number of all nodes but only grows exponentially with the number of elements in a subset of the nodes. It is possible to utilize the formula for the free energy in restricted Boltzmann machines (see formulas (\ref{eqn:freenergy_rbm}) and (\ref{eqn:freenergy_gbrbm})), where the hidden layer is summed out analytically.
+As mentioned in Section \ref{rbmtraining}, the exact calculation of partition functions is only computationally feasible for very small models as its complexity grows exponentially. Exploiting the layerwise structure allows a faster exact calculation of $Z$ such that the computation time does not grow exponentially with the number of all nodes but only grows exponentially with the number of elements in a subset of the nodes. It is possible to utilize the formula for the free energy in restricted Boltzmann machines (see (\ref{eqn:freenergy_rbm}) and (\ref{eqn:freenergy_gbrbm})), where the hidden layer is summed out analytically.
 With this it is possible to reduce the number of summands.
 The complexity for calculating the partition function for all the different types of  models described here is then still $\mathcal{O}(2^n)$, but with an $n$ smaller than the number of nodes:
 
-By using the formulas for the free energy and the symmetry of restricted Boltzmann with binary nodes, $n = \min(n_V, n_H)$ with $n_V$.
+By using the formulas for the free energy and the symmetry of restricted Boltzmann with binary nodes, $n = \min(n_V, n_H)$ with $n_V$ and $n_H$ being the number of visible/hidden nodes, respectively.
 In RBMs with one of layer Gaussian nodes and one layer of binary nodes, $n$ is the number of binary nodes, since the contribution of the Gaussian nodes can be integrated analytically.
 In case of a deep Boltzmann machine, it is possible to sum out each second layer, similar to the calculation of the free energy in restricted Boltzmann machines. So for DBMs, $n$ can be reduced to the number of nodes in each second layer, see Figure \ref{aissummingout}.
 
@@ -854,7 +854,7 @@ p^*(h) = e^{b^T h} \prod_j (1+ \exp((a + W h)_j))
 \]
 for the unnormalized probability of the hidden units in the RBM at the input layer.
 Due to the symmetry of hidden and visible nodes in a RBM with only Bernoulli distributed nodes, this formula for $p^*(h)$ can be derived analogously to the free energy $F(v) = - \log p^*(v)$.
-To get a formula like formula (\ref{eqn:aisunnormalizedprob}) for a multimodal DBM, the formulas for the unnormalized probabilities $p^*(h)$ of the different RBMs at the input layer of the multimodal DBM need to be derived.
+To get a formula like (\ref{eqn:aisunnormalizedprob}) for a multimodal DBM, the formulas for the unnormalized probabilities $p^*(h)$ of the different RBMs at the input layer of the multimodal DBM need to be derived.
 To change the type of the input layer, these formulas can then be used in place of the first line in formula (\ref{eqn:aisunnormalizedprob}).
 
 
