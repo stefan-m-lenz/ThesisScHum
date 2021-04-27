@@ -438,7 +438,7 @@ In each optimization step $t$, the parameters are updated as follows:
 \theta^{(t+1)} = \theta^{(t)} + \frac{\epsilon}{b_l} \sum_{\tilde{v} \in B_l} \nabla_{\!\theta} \log p ( \tilde{v}; \theta^{(t)}) 
 \]
 
-The step size is determined by the {\em learning rate} $\epsilon$.
+The step size is determined by the {\em learning rate} $\epsilon > 0$.
 Each iteration $t$ calculates the gradient of a different batch $B_l$ until all samples have been used.
 The mini-batches are usually reused multiple times for the learning.
 The process of using all samples/mini-batches once for updating the parameters is called a {\em (training) epoch}.
@@ -494,7 +494,7 @@ Using the gradients specified above, it is possible to run the gradient optimiza
 
 \subsubsection{Deep belief networks}\label{dbns}
 
-The next step in the evolution deep Boltzmann machines are deep belief networks (DBNs) \citep{hinton_reducing_2006}, which have been invented to make better use of RBMs for dimensionality reduction.
+The next step in the evolution of deep Boltzmann machines are deep belief networks (DBNs) \citep{hinton_reducing_2006}, which have been invented to make better use of RBMs for dimensionality reduction.
 Detecting higher level features in data is hard using shallow networks such as RBMs.
 The idea of DBNs is to stack RBMs on top of each other (see Figure \ref{fig:dbn}) to be able to model features of increasing complexity with an increased depth of the network.
 
@@ -858,39 +858,39 @@ p^*(h) = e^{b^T h} \prod_j (1+ \exp((a + W h)_j))
 \]
 for the unnormalized probability of the hidden units in the RBM at the input layer.
 Due to the symmetry of hidden and visible nodes in a RBM with only Bernoulli distributed nodes, this formula for $p^*(h)$ can be derived analogously to the free energy $F(v) = - \log p^*(v)$.
-To get a formula like (\ref{eqn:aisunnormalizedprob}) for a multimodal DBM, the formulas for the unnormalized probabilities $p^*(h)$ of the different RBMs at the input layer of the multimodal DBM need to be derived.
+To adapt Equation (\ref{eqn:aisunnormalizedprob}) to a multimodal DBM, the formulas for the unnormalized probabilities $p^*(h)$ of the different RBMs at the input layer of the multimodal DBM need to be derived.
 To change the type of the input layer, these formulas can then be used in place of the first line in formula (\ref{eqn:aisunnormalizedprob}).
 
 
-Since I have not found formulas for the unnormalized probability of the hidden nodes in RBMs with Gaussian visible nodes in the literature, I derive it here in detail.
+Since I have not found formulas for the unnormalized probability of the hidden nodes in RBMs with Gaussian visible nodes in the literature, I derive them here in detail.
 The derivations for $p^*(h)$ for RBMs with Gaussian visible nodes use the fact that the integral over the density function of a normal distribution $\mathcal{N}(\mu, \sigma^2)$ is equal to one:
-\begin{equation} \int \frac{1}{\sqrt{2 \pi \sigma^2}} e^{ -\frac{(x - \mu)^2}{2 \sigma^2}} = 1
+\begin{equation} \int_{-\infty}^\infty \frac{1}{\sqrt{2 \pi \sigma^2}} e^{ -\frac{(x - \mu)^2}{2 \sigma^2}} dx = 1
 \label{eqn:densitynormal}
 \end{equation}
-
-With that, the unnormalized probability of the hidden nodes in a {\bf Gaussian RBM with original parameterization} (see formula (\ref{eqn:energyformulagbrbm})) can be calculated as
+ 
+With that, the unnormalized probability of the hidden nodes in a {\bf Gaussian RBM with original parameterization} (see Equation (\ref{eqn:energyformulagbrbm})) can be calculated as
 
 \begin{align*}
-   p^*(h) &= \int e^{-E \left(v,h \right)} dv \\
-   &= \int \exp \left( -\sum_{i=1}^{n_V}\frac{(v_i - a_i)^2}{2\sigma_i^2} + b^T h + \sum_{i=1}^{n_V} \sum_{j=1}^{n_H} \frac{v_i}{\sigma_i}h_j w_{ij} \right) dv\\
-   &= e^{b^T h} \int \exp \left( \frac{v_i^2 -2 a_i v_i + a_i^2 - 2 v_i (Wh)_i \sigma_i}{2 \sigma_i^2} \right) dv \\
-   &= e^{b^T h} \int \exp \left(
+   p^*(h) &= \int_{-\infty}^\infty e^{-E \left(v,h \right)} dv \\
+   &= \int_{-\infty}^\infty \exp \left( -\sum_{i=1}^{n_V}\frac{(v_i - a_i)^2}{2\sigma_i^2} + b^T h + \sum_{i=1}^{n_V} \sum_{j=1}^{n_H} \frac{v_i}{\sigma_i}h_j w_{ij} \right) dv\\
+   &= e^{b^T h} \int_{-\infty}^\infty \exp \left( \frac{v_i^2 -2 a_i v_i + a_i^2 - 2 v_i (Wh)_i \sigma_i}{2 \sigma_i^2} \right) dv \\
+   &= e^{b^T h} \int_{-\infty}^\infty \exp \left(
       - \sum_{i=1}^{n_V} \frac{{\left( v_i - \left( (Wh)_i \sigma_i + a_i \right) \right)}^2}{2\sigma_i^2} + \frac{1}{2}(Wh)_i^2 + (Wh)_i \frac{a_i}{\sigma_i} \right ) dv \\
    \begin{split}
       &= \exp \left(b^T h + \sum_{i=1}^{n_V} \frac{1}{2}(Wh)_i^2 + (Wh)_i \frac{a_i}{\sigma_i} \right ) \cdot \\
-      & \quad \quad \int \exp \left ( - \sum_{i=1}^{n_V} \frac{{\left( v_i - ((Wh)_i \sigma_i + a_i) \right)}^2}{2\sigma_i^2} \right) dv
+      & \quad \quad \int_{-\infty}^\infty \exp \left ( - \sum_{i=1}^{n_V} \frac{{\left( v_i - ((Wh)_i \sigma_i + a_i) \right)}^2}{2\sigma_i^2} \right) dv
    \end{split} \\
    & \stackrel{(\ref{eqn:densitynormal})}{=} \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{1}{2}(Wh)_i^2 + (Wh)_i \frac{a_i}{\sigma_i} \right ) \prod_{i=1}^{n_V}\left(\sqrt{2\pi} \sigma_i\right). \\
 \end{align*}
 
 For {\bf Cho's alternative parameterization} (see formula (\ref{eqn:energyformulagbrbm2})), the unnormalized probability calculates analogously as
 \begin{align*}
-   p^*(h) &= \int e^{-E \left(v,h \right)} dv \\
-   &= \int \exp \left( - \sum_{i=1}^{n_V} \frac{(v_i - a_i)^2}{2\sigma_i^2} + \sum_{i=1}^{n_V} \sum_{j=1}^{n_H} h_j w_{ij} \frac{v_i}{\sigma_i^2} - \sum_{i=1}^{n_H} b_j h_j \right) dv \\
-   &= e^{b^T h} \int \exp\left( - \sum_{i=1}^{n_V} \frac{(v_i - a_i)^2 - 2 v_i (Wh)_i}{2 \sigma_i^2} \right) dv \\
-   &= e^{b^T h} \int \exp \left( - \sum_{i=1}^{n_V} \frac{\left((v_i - ((Wh)_i + a_i) \right)^2}{2 \sigma_i^2}  + \sum_{i=1}^{n_V} \frac{(Wh)_i^2 + 2 a_i (Wh)_i}{2\sigma_i^2} \right) dv\\
+   p^*(h) &= \int_{-\infty}^\infty e^{-E \left(v,h \right)} dv \\
+   &= \int_{-\infty}^\infty \exp \left( - \sum_{i=1}^{n_V} \frac{(v_i - a_i)^2}{2\sigma_i^2} + \sum_{i=1}^{n_V} \sum_{j=1}^{n_H} h_j w_{ij} \frac{v_i}{\sigma_i^2} - \sum_{i=1}^{n_H} b_j h_j \right) dv \\
+   &= e^{b^T h} \int_{-\infty}^\infty \exp\left( - \sum_{i=1}^{n_V} \frac{(v_i - a_i)^2 - 2 v_i (Wh)_i}{2 \sigma_i^2} \right) dv \\
+   &= e^{b^T h} \int_{-\infty}^\infty \exp \left( - \sum_{i=1}^{n_V} \frac{\left((v_i - ((Wh)_i + a_i) \right)^2}{2 \sigma_i^2}  + \sum_{i=1}^{n_V} \frac{(Wh)_i^2 + 2 a_i (Wh)_i}{2\sigma_i^2} \right) dv\\
    &= \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{(Wh)_i^2 + 2 a_i (Wh)_i}{2\sigma_i^2} \right) \cdot \\
-   & \quad \quad \int \exp \left(- \sum_{i=1}^{n_V} \frac{\left((v_i - ((Wh)_i + a_i) \right)^2}{2 \sigma_i^2} \right) dv\\
+   & \quad \quad \int_{-\infty}^\infty \exp \left(- \sum_{i=1}^{n_V} \frac{\left((v_i - ((Wh)_i + a_i) \right)^2}{2 \sigma_i^2} \right) dv\\
    &\stackrel{(\ref{eqn:densitynormal})}{=} \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{\frac{1}{2}(Wh)_i^2 + (Wh)_i a_i}{\sigma_i^2} \right ) \prod_{i=1}^{n_V}\left(\sqrt{2\pi} \sigma_i \right).
 \end{align*}
 
