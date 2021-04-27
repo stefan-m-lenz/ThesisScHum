@@ -103,6 +103,7 @@ Besard, T., Foket, C. \harvardand\ De~Sutter, B.  \harvardyearleft
 Bezanson, J., Edelman, A., Karpinski, S. \harvardand\ Shah, V.~B.
   \harvardyearleft 2017\harvardyearright , `Julia: A fresh approach to
   numerical computing', {\em SIAM Review} {\bf 59}(1),~65--98.
+\newline\harvardurl{\url{http://doi.org/10.1137/141000671}}
 
 \harvarditem{Bland \harvardand\ Altman}{2000}{blandaltmannodds}
 Bland, J.~M. \harvardand\ Altman, D.~G.  \harvardyearleft 2000\harvardyearright
@@ -132,6 +133,7 @@ Bottou, L., Curtis, F.~E. \harvardand\ Nocedal, J.  \harvardyearleft
   2018\harvardyearright , `Optimization methods for large-scale machine
   learning', {\em Siam Review} {\bf 60}(2),~223--311.
 \newblock Publisher: SIAM.
+\newline\harvardurl{\url{https://doi.org/10.1137/16M1080173}}
 
 \harvarditem{Bray}{2017}{jsonspec1}
 Bray, T.  \harvardyearleft 2017\harvardyearright , {\em The {JavaScript}
@@ -560,6 +562,7 @@ LeCun, Y.  \harvardyearleft 2019{\em a}\harvardyearright , 1.1 {Deep}
   {International} {Solid}-{State} {Circuits} {Conference} - ({ISSCC})',
   pp.~12--19.
 \newblock ISSN: 2376-8606.
+\newline\harvardurl{\url{http://doi.org/10.1109/ISSCC.2019.8662396}}
 
 \harvarditem{LeCun}{2019{\em b}}{lecun_selfsupervised_2019}
 LeCun, Y.  \harvardyearleft 2019{\em b}\harvardyearright , `Facebook post about
@@ -774,10 +777,11 @@ Paszke, A., Gross, S., Massa, F., Lerer, A., Bradbury, J., Chanan, G., Killeen,
   T., Lin, Z., Gimelshein, N., Antiga, L., Desmaison, A., Kopf, A., Yang, E.,
   DeVito, Z., Raison, M., Tejani, A., Chilamkurthy, S., Steiner, B., Fang, L.,
   Bai, J. \harvardand\ Chintala, S.  \harvardyearleft 2019\harvardyearright ,
-  Pytorch: An imperative style, high-performance deep learning library, {\em
+  {PyTorch}: An imperative style, high-performance deep learning library, {\em
   in} H.~Wallach, H.~Larochelle, A.~Beygelzimer, F.~d\textquotesingle
   Alch\'{e}-Buc, E.~Fox \harvardand\ R.~Garnett, eds, `Advances in Neural
   Information Processing Systems 32', Curran Associates, Inc., pp.~8024--8035.
+\newline\harvardurl{\url{https://proceedings.neurips.cc/paper/2019/file/bdbca288fee7f92f2bfa9f7012727740-Paper.pdf}}
 
 \harvarditem[Pedregosa et~al.]{Pedregosa, Varoquaux, Gramfort, Michel, Thirion,
   Grisel, Blondel, Prettenhofer, Weiss, Dubourg, Vanderplas, Passos,
@@ -788,6 +792,7 @@ Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel,
   E.  \harvardyearleft 2011\harvardyearright , `Scikit-learn: Machine learning
   in {P}ython', {\em Journal of Machine Learning Research} {\bf
   12},~2825--2830.
+\newline\harvardurl{\url{http://jmlr.org/papers/v12/pedregosa11a.html}}
 
 \harvarditem{Postel}{1981}{tcpspec}
 Postel, J.  \harvardyearleft 1981\harvardyearright , {\em Transmission
@@ -928,7 +933,10 @@ Sohn, K., Lee, H. \harvardand\ Yan, X.  \harvardyearleft 2015\harvardyearright
   Salakhutdinov}{2012}{srivastava2012multimodal}
 Srivastava, N. \harvardand\ Salakhutdinov, R.~R.  \harvardyearleft
   2012\harvardyearright , Multimodal learning with deep {Boltzmann} machines,
-  {\em in} `Advances in neural information processing systems', pp.~2222--2230.
+  {\em in} F.~Pereira, C.~J.~C. Burges, L.~Bottou \harvardand\ K.~Q.
+  Weinberger, eds, `Advances in neural information processing systems',
+  Vol.~25, Curran Associates, Inc., pp.~2222--2230.
+\newline\harvardurl{\url{https://proceedings.neurips.cc/paper/2012/file/af21d0c97db2e27e13572cbf59eb343d-Paper.pdf}}
 
 \harvarditem{Sweeney}{2012}{sweeney_k_anonymity_2012}
 Sweeney, L.  \harvardyearleft 2012\harvardyearright , `{k}-anonymity: A model
@@ -1015,6 +1023,7 @@ Webster, R., Rabin, J., Simon, L. \harvardand\ Jurie, F.  \harvardyearleft
   on {Computer} {Vision} and {Pattern} {Recognition} ({CVPR})',
   pp.~11265--11274.
 \newblock ISSN: 2575-7075.
+\newline\harvardurl{\url{http://doi.org/10.1109/CVPR.2019.01153}}
 
 \harvarditem{Wickham}{2016}{ggplot2}
 Wickham, H.  \harvardyearleft 2016\harvardyearright , {\em ggplot2: Elegant

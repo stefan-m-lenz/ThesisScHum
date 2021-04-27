@@ -435,20 +435,21 @@ Usually a form of {\em batch gradient optimization} \citep{bottou_optimization_2
 For this, the samples are split into batches $B_l$, usually of approximately equal sizes $b_l$.
 In each optimization step $t$, the parameters are updated as follows:
 \[
-\theta^{(t+1)} = \theta^{(t)} + \frac{\epsilon}{b_l} \sum_{\tilde{v} \in B_l} \left ( \nabla_{\!\theta} \log p_{\theta} \left( \tilde{v}\right) \right ) \left (\theta^{(t)}\right)
+\theta^{(t+1)} = \theta^{(t)} + \frac{\epsilon}{b_l} \sum_{\tilde{v} \in B_l} \nabla_{\!\theta} \log p ( \tilde{v}; \theta^{(t)}) 
 \]
 
 The step size is determined by the {\em learning rate} $\epsilon$.
 Each iteration $t$ calculates the gradient of a different batch $B_l$ until all samples have been used.
 The mini-batches are usually reused multiple times for the learning.
-The number of steps after all samples/mini-batches are used for updating the parameters, is called a {\em (training) epoch}.
-(In the formula above one training epoch is over if $t = \sum_l b_l$.)
-Training usually consists of many epochs and the step size is kept small, e.g. a hundred epochs and a learning rate of 0.001 could be a viable combination.
+The process of using all samples/mini-batches once for updating the parameters is called a {\em (training) epoch}.
+(In the formula above, one training epoch is over if $t = \sum_l b_l$.)
+Training usually consists of many epochs and the step size is kept small.
+For example, a hundred epochs and a learning rate of 0.001 could be a viable combination.
 The number of epochs and the learning rate are the most important hyperparameters for the training.
 
 Mini-batches were at first introduced for performance reasons.
 It is not necessary to have the exact gradient for walking only small steps into the direction of it.
-So it is sufficient to calculate the gradient for small subsets of the data, which is noisy, but will be correct on average.
+So it is sufficient to calculate the gradient for small subsets of the data, which is noisy, but can still lead into the right direction.
 Using mini-batches can also be advantageous because of another reason: The variance of the steps becomes higher with a with a smaller batch size. This leads to exploring more of the surface of the likelihood function in the high-dimensional space and therefore can lead to finding better local optima in some scenarios \citep{bengio2012practical}.
 
 \paragraph{Contrastive divergence}
@@ -463,7 +464,7 @@ Similar to CD, this procedure also uses only very few steps. Here, the state of 
 
 \paragraph{Gradients for different types of restricted Boltzmann machines}\label{rbmgradients}
 
-In an RBM with Bernoulli distributed nodes, Equation (\ref{eqn:nablaresult}) leads to the following formulas for the gradients for the weights and biases:
+In an RBM with Bernoulli distributed nodes, Equation (\ref{eqn:nablaresult}) leads to the following formulas for the gradients with respect to the weights and biases:
 \begin{align*}
 \frac{\partial}{\partial W}  \log p(\tilde{v}) &= \EX_{P_\text{data}}  \tilde{v}^T h - \EX_{P_\text{model}} v^T h \\
 \frac{\partial}{\partial a}  \log p(\tilde{v}) &=  \EX_{P_\text{data}}
@@ -516,7 +517,7 @@ The ability to generate data from complex distributions is furthermore reduced i
 \subsubsection{Deep Boltzmann machines}\label{dbmprobs}
 
 If the network architecture of a DBN is treated as a Boltzmann machine, we get a \emph{deep Boltzmann machine}, where the complete network can be utilized for generating samples.
-A deep Boltzmann machine, as defined by \cite{salakhutdinov2009DBMs}, with $n_L$ number of hidden layers has parameters
+A deep Boltzmann machine, as defined by \cite{salakhutdinov2009DBMs}, with $n_L$ hidden layers has parameters
 \[
 \theta = \left (W^{(1)}, \dots, W^{(n_L)}, a, b^{(1)}, \dots, b^{(n_L)} \right).
 \]
@@ -534,10 +535,10 @@ For the connection between the formula and the resulting network architecture se
 
 A deep Boltzmann machine has Bernoulli distributed nodes.
 Due to the layer-wise structure, the conditional probability of the visible nodes $p(v \mid h) = p(v \mid h^{(1)})$ depends only on the first hidden layer and can be calculated like in an RBM with Bernoulli distributed nodes.
-The conditional probability of the final hidden layer $p \left( h^{n_L} \mid v, h^{(1)}, \dots, h^{(n_L -1)} \right) = p \left( h^{n_L} \mid h^{(n_L -1)} \right)$ can similarly be calculated by knowing only on $h^{(n_L-1)}$.
+The conditional probability of the final hidden layer $p \left( h^{n_L} \mid v, h^{(1)}, \dots, h^{(n_L -1)} \right) = p \left( h^{n_L} \mid h^{(n_L -1)} \right)$ can similarly be calculated by knowing only $h^{(n_L-1)}$.
 For the intermediate layers, the conditional probability can be calculated if the neighboring layers are given as
 \begin{equation}
-p\left(h^{(1)} \mid v, h^{(3)}\right) = \sigm \bigg( b^{(1)} + (W^{(1)})^T v + W^{(3)} h^{(3)} \bigg)
+p\left(h^{(1)} \mid v, h^{(2)}\right) = \sigm \bigg( b^{(1)} + (W^{(1)})^T v + W^{(2)} h^{(2)} \bigg)
 \label{dbmcondprobfirsthidden}
 \end{equation}
 for the first hidden layer and
@@ -562,7 +563,7 @@ These conditional probabilities can be used to perform Gibbs sampling in deep Bo
 
 In context of DBMs, the DBN learning algorithm (see \ref{dbns}) is called greedy layerwise pre-training.
 This pre-training helps the algorithm for training a general Boltzmann machine to find a better optimum.
-An intermediate layer in a DBM receives input from its neighboring layers (see formula (\ref{dbmcondprobintermediate}) and Figure \ref{fig:dbmsampling}), but during pre-training it only gets input from the layer below. To account for this, the DBN training is modified for training a DBM and the input from the visible layer ($ = (W^{(1)})^T v$) and from the last hidden layer (= $W^{(n_L-1)} h^{(n_L)}$) is doubled.
+An intermediate layer in a DBM receives input from its neighboring layers (see formula (\ref{dbmcondprobintermediate}) and Figure \ref{fig:dbmsampling}), but during pre-training it only gets input from the layer below. To account for this, the DBN training is modified for training a DBM and the input from the visible layer ($ = (W^{(1)})^T v$) and from the last hidden layer (= $W^{(n_L-1)} h^{(n_L)}$) is doubled
 \citep{salakhutdinov2009DBMs}.
 
 
@@ -584,7 +585,7 @@ $\mathcal{H}(q)$ denotes the entropy of the distribution $q$.
 Here a ``mean-field approximation" $q$ is used, where all hidden nodes are assumed to be independent.
 The distribution is then $q(h) = \prod_{k=1}^{n_L} \prod_j^{n_{H,k}} q(h_i^{(k)})$ with $q(h_i^{(k)} = 1) = \mu_i^{(k)}$ for some fixed values $\mu_i^{(k)}$ for each  node $i$ in a hidden layer $k$.
 ($n_L$ denotes the number of hidden layers and $n_{H,k}$ the number of nodes in hidden layer $k$.)
-This leads to the lower bound of the log-likelihood, which will be optimized in the fine-tuning algorithm: %TODO ableiten? steht in sala learning deep generative models equation 36
+This leads to the lower bound of the log-likelihood, which will be optimized in the fine-tuning algorithm: %TODO ableiten? steht in sala learning deep generative models Equation 36
 \[
    \log p(v) \geq - E(v, \mu) - \log Z + \mathcal{H}(q) =: \ELBO(v, \mu)
 \]
@@ -600,7 +601,7 @@ To calculate $\mu$ for a given data vector $\tilde{v}$, the following equations 
 For  $t \rightarrow \infty$, the series $\mu(t)$ converges to the value of $\mu$ that can be used for calculating the gradient for the lower bound.
 As a starting value for $\mu$, activation in the network is induced by the input using a single forward pass, treating the DBM as a DBN (see \ref{dbns}).
 
-Analogously to equation (\ref{eqn:nablaresult}) for calculating the gradient of the log-likelihood in RBMs, the gradient of the variational lower bound of the log-likelihood can be calculated as
+Analogously to Equation (\ref{eqn:nablaresult}) for calculating the gradient of the log-likelihood in RBMs, the gradient of the variational lower bound of the log-likelihood can be calculated as
 \begin{align*}
 \nabla_{\theta} \ELBO(v, \mu) &= \nabla_{\theta} ( - E(\tilde{v}, \mu) - \log Z ) \\
  &= \nabla_{\theta} (- E(\tilde{v}, \mu)) - \EX_{P_\text{model}} \nabla_{\theta} (-E(v, h)).
@@ -904,7 +905,7 @@ e^{-E(v,h)} &= \exp \left(\sum_j b_j h_j + \sum_{i,j} w_{ij} v_i h_j + \sum_i a_
 \end{array} \right.
 \end{equation*}
 
-When multiplying out the product below using equation (\ref{eqn:freeenergytrick}), it can be seen that $p^*(h)$ can be written as
+When multiplying out the product below using Equation (\ref{eqn:freeenergytrick}), it can be seen that $p^*(h)$ can be written as
 \begin{align*}
 p^*(h) &= \sum_v e^{-E(v,h)} \\
 &= e^{\sum_j b_j h_j} \prod_{C} \left( 1 + \sum_{i \in C} e^{\sum_j w_{ij} h_j + a_i} \right).
@@ -1195,7 +1196,7 @@ For each of these functions for sampling and calculating the activation potentia
 These variants are mostly used in the implementation as they allow to reuse allocated space, which makes the implementation much faster.
 
 The free energy of visible states $v$ in an RBM can be calculated via  \inlinecode{freeenergy(rbm, v)}.
-This is used for calculating the likelihood, as described in equation (\ref{eqn:pRBMfreeenergy}) if a value for the partition function is given.
+This is used for calculating the likelihood, as described in Equation (\ref{eqn:pRBMfreeenergy}) if a value for the partition function is given.
 The free energy can also be used to compare the model fit of one RBM on different data sets, e.g., to monitor the overfitting by comparing the free energy in training and test data.
 The \inlinecode{reconstructionerror} in RBMs (see \ref{reconstructionerror}) is also useful for monitoring, especially as a fast way to monitor the pre-training of DBMs.
 
