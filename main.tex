@@ -870,6 +870,8 @@ The derivations for $p^*(h)$ for RBMs with Gaussian visible nodes use the fact t
  
 With that, the unnormalized probability of the hidden nodes in a {\bf Gaussian RBM with original parameterization} (see Equation (\ref{eqn:energyformulagbrbm})) can be calculated as
 
+\begingroup
+\allowdisplaybreaks
 \begin{align*}
    p^*(h) &= \int_{-\infty}^\infty e^{-E \left(v,h \right)} dv \\
    &= \int_{-\infty}^\infty \exp \left( -\sum_{i=1}^{n_V}\frac{(v_i - a_i)^2}{2\sigma_i^2} + b^T h + \sum_{i=1}^{n_V} \sum_{j=1}^{n_H} \frac{v_i}{\sigma_i}h_j w_{ij} \right) dv\\
@@ -882,8 +884,11 @@ With that, the unnormalized probability of the hidden nodes in a {\bf Gaussian R
    \end{split} \\
    & \stackrel{(\ref{eqn:densitynormal})}{=} \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{1}{2}(Wh)_i^2 + (Wh)_i \frac{a_i}{\sigma_i} \right ) \prod_{i=1}^{n_V}\left(\sqrt{2\pi} \sigma_i\right). \\
 \end{align*}
+\endgroup
 
 For {\bf Cho's alternative parameterization} (see formula (\ref{eqn:energyformulagbrbm2})), the unnormalized probability calculates analogously as
+\begingroup
+\allowdisplaybreaks
 \begin{align*}
    p^*(h) &= \int_{-\infty}^\infty e^{-E \left(v,h \right)} dv \\
    &= \int_{-\infty}^\infty \exp \left( - \sum_{i=1}^{n_V} \frac{(v_i - a_i)^2}{2\sigma_i^2} + \sum_{i=1}^{n_V} \sum_{j=1}^{n_H} h_j w_{ij} \frac{v_i}{\sigma_i^2} - \sum_{i=1}^{n_H} b_j h_j \right) dv \\
@@ -893,6 +898,7 @@ For {\bf Cho's alternative parameterization} (see formula (\ref{eqn:energyformul
    & \quad \quad \int_{-\infty}^\infty \exp \left(- \sum_{i=1}^{n_V} \frac{\left((v_i - ((Wh)_i + a_i) \right)^2}{2 \sigma_i^2} \right) dv\\
    &\stackrel{(\ref{eqn:densitynormal})}{=} \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{\frac{1}{2}(Wh)_i^2 + (Wh)_i a_i}{\sigma_i^2} \right ) \prod_{i=1}^{n_V}\left(\sqrt{2\pi} \sigma_i \right).
 \end{align*}
+\endgroup
 
 For the RBM for {\bf categorical variables with the dummy encoding with reference level} from Section \ref{methodsoftmax0}, the unnormalized probability can be derived similar to the RBM with Bernoulli distributed nodes. At first, the energy function can be rewritten in the same way as with the RBM with Bernoulli distributed nodes:
 \begin{align}
@@ -925,7 +931,7 @@ It is also the only known published implementation of AIS on DBMs that works wit
 Much emphasis is also put on evaluating RBMs and DBMs and allowing an inspection of the learning process.
 For this purpose, there are many possibilities for a convenient and flexible monitoring of different criteria integrated in the functionality of the package.
 
-The package is registered in the official package repository of the Julia language and published as open source software on GitHub.
+The package is registered in the official package repository of the Julia language and it is also available as open source software from GitHub\footnote{\url{https://github.com/stefan-m-lenz/BoltzmannMachines.jl}}.
 A detailed documentation of the functions and data types can be found in appendix \ref{BMDoku}.
 
 
@@ -940,7 +946,7 @@ The new implementation was designed to be very flexible and extensible for explo
 This lead to the implementation of a range of features for experimenting with restricted and deep Boltzmann machines.
 
 This section describes the features and characteristics of the existing software implementations for training and evaluating RBMs, DBNs, and DBMs.
-Table \ref{tab:FeatureOverviewBoltzmann} summarizes the informations about the existing solutions and compares them with the features of the \apkg{BoltzmannMachines} package.
+Table \ref{tab:FeatureOverviewBoltzmann} summarizes the information about the existing solutions and compares them with the features of the \apkg{BoltzmannMachines} package.
 
 \begin{table}[h!]
 \centering
@@ -1040,13 +1046,13 @@ This way the computations can be performed on the CPU as well as on the GPU.
 The high parallelization in GPUs can bring far greater performance while at the same time it requires a high sophistication of the code to fully exploit the advantages of GPUs and port the algorithms to their SIMD (single instruction multiple data) architecture.
 In order to work with the abstraction, users must adapt this new programming style, and, e.g., define the algorithms via computational graphs.
 
-Julia also offers the possibility to use parallelization via parallel processes very easily, This works also across different computers in a compute cluster without requiring the developer to change the code to adapt to a setting with involving multiple computers.
+Julia also offers the possibility to use parallelization via parallel processes very easily. This works also across different computers in a compute cluster without requiring the developer to change the code to adapt to a setting involving multiple computers.
 Processes from the same or different computers can be added to a worker pool via the function \inlinecode{addprocs} and the inter-process communication is handled by Julia across the machines.
 This is particulary useful for optimizing hyperparameters.
 In grid search \citep{bergstra_algorithms_2011} for example, many models can be trained completely in parallel in Julia, e.g., via using the Julia function  \inlinecode{pmap}, and the execution time of the whole search can therefore be divided by the number of processes available in the compute cluster.
 
 Julia also offered and offers many different approaches for deep learning, namely the packages \apkg{Flux} \citep{flux}, \apkg{Knet} \citep{knetjl}, \apkg{Mocha} \citep{mochajl}, and \apkg{TensorFlow} \citep{tensorflowjl} among others.
-At the time of starting the work on the \apkg{BoltzmannMachines} package, the other solutions were also very young, often not very stable across different platforms, and their API changed often.
+At the time of starting the work on the \apkg{BoltzmannMachines} package, the other solutions were also very young, often not very stable across different platforms, and their API changed frequently.
 This rapid development can also be seen from the fact that the Julia packages \apkg{Mocha} and \apkg{TensorFlow} are now already officially deprecated or retired.
 The \apkg{BoltzmannMachines} package depends only on the API of Julia 1.0 and has no dependencies on other packages, which eliminates the main task for maintaining a package, which is to handle changes in dependencies.
 
@@ -1065,7 +1071,7 @@ With respect also to the biomedical data sets of rather small sample sizes, suff
 
 In the following, we take a closer look at how the \apkg{BoltzmannMachines} Julia package handles the different algorithms and all their different variants.
 An overview over the type relations can be found in Figure \ref{umlclassdiagram}.
-The diagram show the relations of the types in the \apkg{BoltzmannMachines} Julia package as a UML class diagram \citep{uml}.
+The diagram shows the relations of the types in the \apkg{BoltzmannMachines} Julia package as a UML class diagram \citep{uml}.
 Although the Julia language does not have the concept of classes and visibility, the diagram is suited well to show the connections of the types with the most important associated functions, even if only a subset of the expressiveness of UML is needed.
 Instead of using classical object oriented inheritance such as in Java or C++, inheritance relationships (triangle-shaped arrows in the UML diagram) can be implemented in Julia using {\em multiple dispatch} of functions.
 Multiple dispatch is one of the main design features of Julia.
@@ -1239,7 +1245,7 @@ rbm = fitrbm(x)
 dbm = fitdbm(x)
 \end{lstlisting}
 
-But as hyperparameter tuning is very important, and the choice of the hyper parameters highly depends on the data set, using the default parameters will most likely not get an optimal result.
+But as hyperparameter tuning is very important, and the choice of the hyper parameters highly depends on the data set, using the default parameters will most likely not yield a good result.
 The most important hyperparameters for RBMs and DBMs are the number of hidden nodes, the number of epochs and the learning rate.
 
 \begin{lstlisting}[language=Julia]
@@ -1285,7 +1291,7 @@ The gradients calculated from this input can be customized, e.g., for adding a r
 
 \paragraph{Different types of visible nodes}
 
-For training RBMs or DBMs types with other types of visible nodes, such as those for data with variables that have more than two categories, the type of the RBM can be specified as argument \inlinecode{rbmtype} for \inlinecode{fitrbm} function or in the \inlinecode{TrainLayer} object for training an RBM.
+For training RBMs or DBMs types with other types of visible nodes, such as those for data with variables that have more than two categories, the type of the RBM can be specified as argument \inlinecode{rbmtype} for the \inlinecode{fitrbm} function or in the \inlinecode{TrainLayer} object for training an RBM.
 Additional parameters, such as the specification of the number of categories for each categorical variable, can also be defined there.
 
 Let us assume that \inlinecode{xcat} contains eight categorical variables with values of 0.0 and 1.0 in the first four variables and values 0.0, 1.0, and 2.0 in the second four variables.
