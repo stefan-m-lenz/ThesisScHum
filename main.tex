@@ -284,7 +284,7 @@ For an intuitive overview of the architectures of the different types that are c
    \centering
    \includegraphics[scale=3.]{images/BMsOverview.eps}
    \caption{Graph view on different types of Boltzmann machines. Visible units (i. e. input units) are depicted as nodes with doubled circle lines. Hidden units are simple circles.
- {\bf A}: General Boltzmann machine, with all nodes connected to each other. {\bf B}: Restricted Boltzmann machine (RBM). Each of the lines corresponds to a weight, i.e. an entry in the weight matrix $W$, like in Equations (\ref{eqn:energyformularbm}) and (\ref{eqn:energyformulagbrbm}).
+ {\bf A}: General Boltzmann machine, with all nodes connected to each other. {\bf B}: Restricted Boltzmann machine (RBM). Each of the lines corresponds to a weight, i.e. an entry in the weight matrix $W$, like in the formulas in (\ref{eqn:energyformularbm})  and (\ref{eqn:energyformulagbrbm}).
 {\bf C}: Deep Boltzmann machine. From a graph perspective, this is simply a stack of RBMs.
 {\bf D} and {\bf E}: Multimodal/partitioned deep Boltzmann machines. In a multimodal DBM, the different partitions of the visible nodes may also have different distributions.}
    \label{fig:bmsoverview}
@@ -720,16 +720,16 @@ Here the visible layer $v$ and the second hidden layer $h^{(2)}$ have been summe
 %This trick can be used to fit AIS for GBRBMs in the same schema as RBMs with Bernoulli distributed nodes.
 
 
-It can be noted that the term in the first line of formula \ref{eqn:aisunnormalizedprob} is equal to the unnormalized probability of the hidden nodes in a RBM with Bernoulli distributed nodes.
+It can be noted that the term in the first line of Equation \ref{eqn:aisunnormalizedprob} is equal to the unnormalized probability of the hidden nodes in a RBM with Bernoulli distributed nodes.
 This procedure can be generalized for AIS on multimodal DBMs.
 If we have the unnormalized probability $p^*(h)$ for each type of RBM that receives the data input, it becomes possible to calculate the unnormalized probability of sampled hidden values in a multimodal DBM in the same way as for a standard DBM with only Bernoulli distributed nodes.
-The formula for the unnormalized probability for the respective RBM type (see Section \ref{unnormalizedprobsrbm}) can then be used for summing out the visible units in formula \ref{eqn:aisunnormalizedprob} by substituting the term in the first line with the product of the unnormalized probabilities for all RBMs in the visible layer.
+The formula for the unnormalized probability for the respective RBM type (see Section \ref{unnormalizedprobsrbm}) can then be used for summing out the visible units in Equation \ref{eqn:aisunnormalizedprob} by substituting the term in the first line with the product of the unnormalized probabilities for all RBMs in the visible layer.
 
 The formulas for $p^*(h)$ for each different type of RBM are derived next, also by analytically ``summing out", or in case of Gaussian RBMs, ``integrating out" the visible layer.
 
 
 \paragraph{Calculating or estimating likelihoods in deep Boltzmann machines}
-For a restricted Boltzmann machine, the likelihood can be calculated using formula (\ref{eqn:pRBMfreeenergy}) if the partition function is known. This is not so easily possible in a DBM, for which calculating the distribution of the hidden nodes is of exponential complexity.
+For a restricted Boltzmann machine, the likelihood can be calculated using Equation (\ref{eqn:pRBMfreeenergy}) if the partition function is known. This is not so easily possible in a DBM, for which calculating the distribution of the hidden nodes is of exponential complexity.
 Estimating the likelihood of DBMs is possible using AIS by constructing a smaller DBM for each sample and estimating its partition function.
 The smaller DBM is constructed by removing the visible layer, and incorporating contribution of the sample to the energy of the first RBM - consisting only of visible and first hidden layer - into the bias of the new visible layer which was the first hidden layer of the original model.
 The partition function of this smaller model is then the unnormalized probability of the sample in the original model.
@@ -805,7 +805,7 @@ As already pointed out in the introduction, this may therefore help with deep le
 Consider genetic variant data that contains values 0/1/2 for each of defined location on the human genome to encode that there is no deviation from the reference genome (0), a deviation on one chromosome (1) or a deviation on both chromosomes (2).
 An RBM receiving input with dummy encoding using the natural reference category 0 needs only two thirds of the parameters that an RBM needs which receives the same data in one-hot encoding.
 
-The energy function $E$ for RBMs with categorical data is the same as for Bernoulli distributed visible nodes (see formula \ref{eqn:energyformularbm}).
+The energy function $E$ for RBMs with categorical data is the same as for Bernoulli distributed visible nodes (see Equation \ref{eqn:energyformularbm}).
 The difference is that not all combinations of visible nodes are allowed. Thus the partition function $Z = \sum_{v} \sum_{h} e^{-E(v,h)}$ and the probability
 $p(v) = \frac{\sum_h e^{-E(v,h)}}{Z}$ change because the sum over all possible states of $v$ in the formula for $Z$ contains less summands than in the case with a Bernoulli distribution, where all combinations of activations are possible.
 
@@ -858,14 +858,14 @@ p(v_k = 1 \mid h) &= \frac{p(v_k = 1, h)}{p(h)} \\
 To generalize the evaluation of the lower bound of the likelihood in multimodal DBMs, the AIS algorithm for estimating the partition function via AIS can be generalized.
 This can be done by ``summing out" or ``integrating out" the different types of visible nodes (see Figure \ref{aissummingout} C).
 In Section \ref{methodAIS}, AIS for binary DBMs is described.
-In formula (\ref{eqn:aisunnormalizedprob}) the binary visible layer is summed out by using the formula
+In Equation (\ref{eqn:aisunnormalizedprob}) the binary visible layer is summed out by using the formula
 \[
 p^*(h) = e^{b^T h} \prod_j (1+ \exp((a + W h)_j))
 \]
 for the unnormalized probability of the hidden units in the RBM at the input layer.
 Due to the symmetry of hidden and visible nodes in a RBM with only Bernoulli distributed nodes, this formula for $p^*(h)$ can be derived analogously to the free energy $F(v) = - \log p^*(v)$.
 To adapt Equation (\ref{eqn:aisunnormalizedprob}) to a multimodal DBM, the formulas for the unnormalized probabilities $p^*(h)$ of the different RBMs at the input layer of the multimodal DBM need to be derived.
-To change the type of the input layer, these formulas can then be used in place of the first line in formula (\ref{eqn:aisunnormalizedprob}).
+To change the type of the input layer, these formulas can then be used in place of the first line in Equation (\ref{eqn:aisunnormalizedprob}).
 
 
 Since I have not found formulas for the unnormalized probability of the hidden nodes in RBMs with Gaussian visible nodes in the literature, I derive them here in detail.
@@ -892,7 +892,7 @@ With that, the unnormalized probability of the hidden nodes in a {\bf Gaussian R
 \end{align*}
 \endgroup
 
-For {\bf Cho's alternative parameterization} (see formula (\ref{eqn:energyformulagbrbm2})), the unnormalized probability calculates analogously as
+For {\bf Cho's alternative parameterization} (see Equation (\ref{eqn:energyformulagbrbm2})), the unnormalized probability calculates analogously as
 \begingroup
 \allowdisplaybreaks
 \begin{align*}
