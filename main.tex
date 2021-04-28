@@ -229,9 +229,9 @@ Artificial neural networks have been developed for solving complex problems by i
 Boltzmann machines have been derived from models in statistical physics, which have some interesting parallels with networks of neurons.
 
 In physics, Ising models aim at modeling the magnetic spin in lattices of atoms or molecules in ferromagnetic crystals \citep{isingmodel}.
-In Ising models models the probability of the magnetic spin of molecules in a lattice of molecules is determined by an energy function that assigns an energy to each possible configuration of magnetic spins in the lattice.
+In Ising models the probability of the magnetic spin of molecules in a lattice of molecules is determined by an energy function that assigns an energy to each possible configuration of magnetic spins in the lattice.
 Configurations with a lower energy have a higher probability of occurring.
-This connection between energy and and probability holds also for Boltzmann machines.
+This connection between energy and and probability also holds for Boltzmann machines.
 It makes Boltzmann machines a type of so-called ``energy-based" models \citep{ranzato_ebm}.
 
 The analogy of lattices of molecules with magnetic spin are networks of neurons in the nervous system, where each cell may have a neural activation.
@@ -372,7 +372,7 @@ The conditional distribution of the hidden nodes is $p(h_j | v) = \sigm \left (b
 \subsubsection{Gibbs sampling in restricted Boltzmann machines}\label{gibbssamplingrbm}
 In the previous sections concerning RBMs with different input distributions, one could see that it was possible to specify a formula for the conditional probability that has the same  algorithmic complexity of the matrix multiplication in all cases.
 However, the formula for the simple probability $p(v)$ of a sample $v$ requires calculating the partition function $Z$ (see formula (\ref{eqn:probbm})), and calculating $Z$ is not feasible for most practical scenarios, as the number of summands in $Z$ grows exponentially with the number of nodes in the model (see also later in \ref{methodExactloglik}).
-This means that using RBMs as generative models, i.e. drawing samples according to the distribution captured in its parameters, is not as straightforward as calculating $p(v)$ and sampling according to the distribution.
+This means that using RBMs as generative models, i.e., drawing samples according to the distribution captured in its parameters, is not as straightforward as calculating $p(v)$ and sampling according to the distribution.
 
 But because of the layered structure of RBMs and the closed form (\ref{eqn:condprobrbm}) of the conditional distributions $p(v \mid h)$ and $p(h \mid v)$, which is fast to evaluate, it becomes possible to efficiently apply a Markov chain Monte Carlo technique \citep{mcmc_handbook_2011} called \emph{Gibbs sampling} \citep{gibbssamplingorig} for approximating the distribution of the RBM.
 The Gibbs sampling  algorithm for RBMs can be formulated as follows:
@@ -388,7 +388,7 @@ The Gibbs sampling  algorithm for RBMs can be formulated as follows:
 This works because the iteration forms a Markov chain that has the distribution $p(v,h)$ of the model as its equilibrium distribution.
 
 \paragraph{Conditional sampling}\label{condsamplingrbm}
-The Gibbs sampling algorithm can also be easily modified for sampling conditionally on the activations of input nodes by clamping the activations of the nodes that are to be conditioned on and running the Gibbs sampling algorithm in the rest of the network.
+The Gibbs sampling algorithm can also be easily modified for sampling conditionally on the activations of input nodes by clamping the activations of the nodes that are to be conditioned on and running the Gibbs sampling algorithm in the rest of the network \citep{srivastava2012multimodal}.
 More formally, to draw from the probability $p(v, h \mid \tilde{v}_C)$ that is conditioned on the activations $\tilde{v}_C$ of a set $C$ of visible nodes, the Gibbs sampling algorithm above can be run with $v_C$ set to $\tilde{v}_C$ in step 1 and after each sampling step 3.
 This, of course, works analogously for hidden nodes as conditions.
 
@@ -452,7 +452,7 @@ The number of epochs and the learning rate are the most important hyperparameter
 
 Mini-batches were at first introduced for performance reasons.
 It is not necessary to have the exact gradient for walking only small steps into the direction of it.
-So it is sufficient to calculate the gradient for small subsets of the data, which is noisy, but can still lead into the right direction.
+Thus it is sufficient to calculate the gradient for small subsets of the data, which is noisy, but can still lead into the right direction.
 Using mini-batches can also be advantageous because of another reason: The variance of the steps becomes higher with a with a smaller batch size. This leads to exploring more of the surface of the likelihood function in the high-dimensional space and therefore can lead to finding better local optima in some scenarios \citep{bengio2012practical}.
 
 \paragraph{Contrastive divergence}
@@ -2616,7 +2616,7 @@ Calculates the log-likelihood for a RBM/DBM (exponential complexity)\\
 \section{Discussion}
 
 \subsection{Computational performance}
-For performing deep learning on large quantities of image and text data, the need for special hardware rises \citep{lecun_dlhardware}.
+For performing deep learning on large quantities of image and text data, the need for dedicated hardware rises \citep{lecun_dlhardware}.
 Major breakthroughs in language processing and image recognition such as the famous models {\em GPT-3} and \citep{gpt3} {\em ResNet} \citep{resnet} build on very deep architectures with many parameters.
 This may give the impression that immense amounts of data and computation are needed to make use of deep learning at all.
 The results of the experiments conducted here (see \ref{simuexpresults} and \ref{realexpresults}) show that deep learning can bring also benefits on a smaller scale, particularly in settings with lower sample sizes.
