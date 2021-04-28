@@ -825,6 +825,20 @@ Quick, H., Holan, S.~H. \harvardand\ Wikle, C.~K.  \harvardyearleft
   {\bf 181}(3),~649--661.
 \newline\harvardurl{\url{https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/rssa.12360}}
 
+\harvarditem[Quinn et~al.]{Quinn, Anthoff, Kamiński, Arakaki, Bouchet-Valat,
+  Papp, Arslan, ExpandingMan, Revels, Schouten, Robinson, Ferris, Oskin,
+  Sharma, Aluthge, Davies, Hanson, Kalybek, Lin, Dunn, Adenbaum, Day,
+  Calderón, {Julia TagBot}, Samuel, Vertechi, Zwitch, Huttunen \harvardand\
+  strickek}{2021}{tables.jl}
+Quinn, J., Anthoff, D., Kamiński, B., Arakaki, T., Bouchet-Valat, M., Papp,
+  T.~K., Arslan, A., ExpandingMan, Revels, J., Schouten, R., Robinson, N.,
+  Ferris, A., Oskin, A., Sharma, A., Aluthge, D., Davies, E., Hanson, E.,
+  Kalybek, E., Lin, I., Dunn, J., Adenbaum, J., Day, J., Calderón, J. B.~S.,
+  {Julia TagBot}, Samuel, O., Vertechi, P., Zwitch, R., Huttunen, A.
+  \harvardand\ strickek  \harvardyearleft 2021\harvardyearright ,
+  `{JuliaData/Tables.jl}: An interface for tables in julia'.
+\newline\harvardurl{\url{https://doi.org/10.5281/zenodo.4682614}}
+
 \harvarditem[Quinn et~al.]{Quinn, {{JuliaData} contributors} \harvardand\
   {Julia Computing, Inc.}}{2020}{juliacsvGithub}
 Quinn, J., {{JuliaData} contributors} \harvardand\ {Julia Computing, Inc.}
