@@ -142,19 +142,21 @@ More generally, this approach of wrapping external deep learning functionality p
 \clearpage
 \section{Introduction}
 
-Deep learning algorithms have revolutionized image and speech recognition \citep{goodfellow_deep_2016}, and are the state-of-the-art in many fields for prediction models.
-Also advances in bioinformatics have been made using deep learning.
-Yet, there are some challenges that prevent deep learning from being used in bioinformatics applications. 
+Deep learning algorithms have revolutionized image and speech recognition and are the state-of-the-art in many fields for prediction models \citep{goodfellow_deep_2016}.
+Also advances in bioinformatics have been made using deep learning \citep{min_deep_2017}.
+Yet, there are some challenges that prevent deep learning from being used in biomedical research. 
 
 One particularly big challenge is limited data \citep{min_deep_2017}.
 While the amount of data in fields such as image and speech recognition has been increased dramatically with the content available in the internet, the amount of usable genetic or medical data remains comparatively small.
 The problem of small sample sizes is particularly prevalent when dealing with genetic variant data
 because there is a high number of genetic variants, and, at the same time, the sequencing of genomes is still relatively expensive.
-This results in relatively few samples compared to the number of dimensions in data sets of genetic variants.
+Moreover, sharing genomic data can threaten the privacy of individuals because it can potentially be used for identifying individuals and their risks of diseases or for discovering other personal traits \citep{bonomi_privacy_2020}.
+Therefore, genomic data of humans is subject to data protection in many cases, and cannot be made available in a simple way.
+This results in data sets with relatively few samples compared to the number of dimensions in data sets of genetic variants.
 Also for clinical data, the availability of high-quality data is one of the key challenges \citep{machine_learning_review_nejm}.
 Although there is an abundance of routine care data, sample sizes are often small when it comes to curated data or data from clinical studies.
-Additionally, privacy restrictions make it difficult to use health information of humans for research and further limit the amount of accessible data.
-For example, the European General Data Protection Regulation (GDPR) requires an explicit consent for analyzing the health care data of individuals, which makes it hard to collect large amounts of data that can be used for various research purposes \citep{rumbold_effect_2017}.
+Additionally, general privacy restrictions make it difficult to use health information of humans for research and further limit the amount of accessible data.
+For example, the European General Data Protection Regulation (GDPR) requires an explicit consent for analyzing the health care data of individuals, which makes it hard to collect large amounts of data that can be used for various research purposes \citep{rumbold_effect_2017, shabani_re-identifiability_2019}.
 Thus, approaches that can yield good results with only a limited amount of data are needed in many cases when applying deep learning on biomedical data.
 
 Unsupervised learning is particularly interesting if there is not enough or no labeled data.
@@ -168,10 +170,10 @@ Besides generating data, DBMs and VAEs can be used for dimensionality reduction 
 This has, e.g., been applied to find patterns in gene expression data \citep{ding_interpretable_2018, hess_exploring_2020}.
 
 Another possible application of generative models is to create synthetic data for privacy-preserving analyses.
-Synthetic data is data that has similar properties to original data but that is not linked to individual samples of the original data.
+Synthetic data is data that has properties similar to original data but that is not linked to individual samples of the original data.
 In the same way as the previously mentioned generated paintings are not simply modified versions of original paintings but entirely new fabrications,
 synthetic patient data is not created from single patients but from the distribution of patient characteristics that have been learned by a generative model.
-The advantage of synthetic data is that it can be used with less data protection restrictions of the original data as it does not contain individual-level data.
+The advantage of synthetic data is that it can be used with less data protection restrictions of the original data as it does not contain individual-level data of real individuals.
 This can be useful in settings where data is distributed and sharing the data of individuals is prohibited due to privacy concerns.
 For example, in the MIRACUM consortium \citep{prokosch_miracum_2018}, which includes ten German University hospitals,
 one of the goals is to jointly analyze data that is distributed across multiple sites.
@@ -686,7 +688,7 @@ For this, only the ratio $\frac{Z_B}{Z_A}$ between two full models needs to be e
 There are two practical approaches for constructing intermediate models  for directly annealing from one full model to another full model (see also Figure \ref{figTwotypesais}, B and C):
 \begin{enumerate}
 \item Combining (adding) corresponding weights of two models of the same size to get an intermediate model of the same size.
-\item Constructing a larger model by putting the two models next to each other and connecting their nodes, increasing the energy in one part of the combined model while reducing it in the other part \citep{theis2011deepbelief}:
+\item Constructing a larger model by putting the two models next to each other and connecting their nodes, increasing the energy in one part of the combined model while reducing it in the other part \citep{theis2011deepbelief}.
 \end{enumerate}
 \begin{figure}[h!]
 \centering
@@ -705,7 +707,7 @@ But it requires sampling in a Boltzmann machine that has as many hidden nodes as
 In a DBM, it is possible to use only the states of each second layer from samples generated by running a Gibbs chain \citep{salakhutdinov2008learning}. The unnormalized probabilities of these states can be calculated by analytically summing out the other layers.
 For this, we can use the fact that the states in one layer are independent from the states of each non-adjacent layer to get the unnormalized probability $p_k^*(\tilde{h})$ for the subset $\tilde{h} = \left(h^{(1)}, h^{(3)}, \dots\right)$ of a generated sample $x = \left( v, h^{(1)}, h^{(2)}, \dots \right)$ in an intermediate model.
 The layers that can be analytically summed out are the same as the ones shown in Figure \ref{aissummingout}.
-To calculate the ratio $\frac{p_k^*(x_k)}{p_{k-1}^*(x_{k})}$, one can derive the formula for $p^*(\tilde{h})$ in a DBM similarly to the free energy $F(v) = - \log p^*(v)$ in RBMs \citep{sala2012anefficient}. For a DBM with three hidden layers, the formula is
+To calculate the ratio $\frac{p_k^*(x^{(k)})}{p_{k-1}^*(x^{(k)})}$, one can derive the formula for $p^*(\tilde{h})$ in a DBM similarly to the free energy $F(v) = - \log p^*(v)$ in RBMs \citep{sala2012anefficient}. For a DBM with three hidden layers, the formula is
 \begin{align}
 p^*( \tilde{h} ) =&  e^{(b^{(1)})^T h^{(1)}} \prod_j (1+ \exp((a + W^{(1)} h^{(1)})_j)) \; \cdot \nonumber \\
 &e^{(b^{(3)})^T h^{(3)}} \prod_{j}  \left( 1 + \exp \left( (b^{(2)} + (W^{(2)})^T h^{(1)} + W^{(3)} h^{(3)})_j \right) \right).

@@ -130,6 +130,13 @@ Bonofiglio, F., Schumacher, M. \harvardand\ Binder, H.  \harvardyearleft
   39}(8),~1183--1198.
 \newline\harvardurl{\url{https://onlinelibrary.wiley.com/doi/abs/10.1002/sim.8470}}
 
+\harvarditem[Bonomi et~al.]{Bonomi, Huang \harvardand\
+  Ohno-Machado}{2020}{bonomi_privacy_2020}
+Bonomi, L., Huang, Y. \harvardand\ Ohno-Machado, L.  \harvardyearleft
+  2020\harvardyearright , `Privacy challenges and research opportunities for
+  genomic data sharing', {\em Nature Genetics} {\bf 52}(7),~646--654.
+\newline\harvardurl{\url{https://doi.org/10.1038/s41588-020-0651-0}}
+
 \harvarditem[Bottou et~al.]{Bottou, Curtis \harvardand\
   Nocedal}{2018}{bottou_optimization_2018}
 Bottou, L., Curtis, F.~E. \harvardand\ Nocedal, J.  \harvardyearleft
@@ -836,7 +843,7 @@ Quinn, J., Anthoff, D., Kamiński, B., Arakaki, T., Bouchet-Valat, M., Papp,
   Kalybek, E., Lin, I., Dunn, J., Adenbaum, J., Day, J., Calderón, J. B.~S.,
   {Julia TagBot}, Samuel, O., Vertechi, P., Zwitch, R., Huttunen, A.
   \harvardand\ strickek  \harvardyearleft 2021\harvardyearright ,
-  `{JuliaData/Tables.jl}: An interface for tables in julia'.
+  `{JuliaData/Tables.jl}: An interface for tables in {Julia}'.
 \newline\harvardurl{\url{https://doi.org/10.5281/zenodo.4682614}}
 
 \harvarditem[Quinn et~al.]{Quinn, {{JuliaData} contributors} \harvardand\
@@ -930,6 +937,14 @@ Salakhutdinov, R. \harvardand\ Hinton, G.  \harvardyearleft
 Sammut, C. \harvardand\ Webb, G.~I.  \harvardyearleft 2010\harvardyearright ,
   {\em Encyclopedia of {Machine} {Learning}}, Springer Science \& Business
   Media.
+
+\harvarditem{Shabani \harvardand\
+  Marelli}{2019}{shabani_re-identifiability_2019}
+Shabani, M. \harvardand\ Marelli, L.  \harvardyearleft 2019\harvardyearright ,
+  `Re-identifiability of genomic data and the {GDPR}', {\em EMBO reports} {\bf
+  20}(6),~e48316.
+\newblock Publisher: John Wiley \& Sons, Ltd.
+\newline\harvardurl{\url{http://doi.org/10.15252/embr.201948316}}
 
 \harvarditem{Smolensky}{1986}{smolensky1986foundations}
 Smolensky, P.  \harvardyearleft 1986\harvardyearright , `Foundations of harmony
