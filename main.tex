@@ -35,6 +35,7 @@
 \usepackage{caption}
 \captionsetup[table]{skip=5pt}
 \usepackage[bottom]{footmisc}
+\usepackage{scalerel}
 
 \titleformat{\paragraph}
 {\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
@@ -55,6 +56,8 @@
 \DeclareMathOperator{\EX}{\mathbb{E}}
 
 \newcommand{\circlenum}[1]{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {#1}}}}
+
+\newcommand{\intrnv}{\int_{\mathbb{R}^{n_{\scaleto{V}{2.5pt}}}}}
 
 \lstdefinelanguage{Julia}
   {morekeywords={begin,abstract,break,catch,const,continue,do,else,elseif,
@@ -510,7 +513,7 @@ The idea of DBNs is to stack RBMs on top of each other (see Figure \ref{fig:dbn}
  \end{figure}
 
 For training a DBN, the first RBM is trained with the original data data vectors $\tilde{v}^{(i)}$ with $i = 1, \dots, n$.
-For training the higher layers, a deterministic activation $f_k(v) :=  \EX p_k(h|v)$, defined via the conditional probability in the $k$-th RBM model, is passed through the lower layers after they have been trained:
+For training the higher layers, a deterministic activation $f_k(v) :=  p_k(h|v)$, defined via the conditional probability in the $k$-th RBM model, is passed through the lower layers after they have been trained:
 The second RBM is trained with the data set of all $f_1(\tilde{v}^{(i)})$, the third RBM can then be trained with the data set $f_2(f_1(\tilde{v}^{(i)}))$, and so on.
 
 As shown in figure (\ref{fig:dbn}B), only the last RBM in the network can be used for sampling, which limits the generative capabilities of a DBN.
@@ -566,7 +569,7 @@ These conditional probabilities can be used to perform Gibbs sampling in deep Bo
 
 In context of DBMs, the DBN learning algorithm (see \ref{dbns}) is called greedy layerwise pre-training.
 This pre-training helps the algorithm for training a general Boltzmann machine to find a better optimum.
-An intermediate layer in a DBM receives input from its neighboring layers (see formula (\ref{dbmcondprobintermediate}) and Figure \ref{fig:dbmsampling}), but during pre-training it only gets input from the layer below. To account for this, the DBN training is modified for training a DBM and the input from the visible layer ($ = (W^{(1)})^T v$) and from the last hidden layer (= $W^{(n_L-1)} h^{(n_L)}$) is doubled
+An intermediate layer in a DBM receives input from its neighboring layers (see Equation (\ref{dbmcondprobintermediate}) and Figure \ref{fig:dbmsampling}), but during pre-training it only gets input from the layer below. To account for this, the DBN training is modified for training a DBM and the input from the visible layer ($ = (W^{(1)})^T v$) and from the last hidden layer (= $W^{(n_L-1)} h^{(n_L)}$) is doubled
 \citep{salakhutdinov2009DBMs}.
 
 
@@ -647,7 +650,7 @@ The complexity for calculating the partition function for all the different type
 
 By using the formulas for the free energy and the symmetry of restricted Boltzmann with binary nodes, $n = \min(n_V, n_H)$ with $n_V$ and $n_H$ being the number of visible/hidden nodes, respectively.
 In RBMs with one of layer Gaussian nodes and one layer of binary nodes, $n$ is the number of binary nodes, since the contribution of the Gaussian nodes can be integrated analytically.
-In case of a deep Boltzmann machine, it is possible to sum out each second layer, similar to the calculation of the free energy in restricted Boltzmann machines. So for DBMs, $n$ can be reduced to the number of nodes in each second layer, see Figure \ref{aissummingout}.
+In case of a deep Boltzmann machine, it is possible to sum out each second layer, similar to the calculation of the free energy in restricted Boltzmann machines. This way, $n$ can be reduced to the number of nodes in each second layer for DBMs, see Figure \ref{aissummingout}.
 
 \begin{figure}[h!]
 \centering
@@ -668,7 +671,7 @@ Each importance weight is determined via sampling a new chain of values $x^{(0)}
 Each of the importance weights is an estimator for $\frac{Z_B}{Z_A}$.
 The model for the distribution $p_B$ can be chosen in a way that the partition function $Z_B$ can be calculated exactly.
 This way, AIS can be used to estimate $Z_A$ by estimating the ratio $\frac{Z_B}{Z_A}$.
-To get an estimation of this fraction with less variance, the mean all the importance weights is used to estimate  $\frac{Z_B}{Z_A}$.
+To get an estimation of this fraction with less variance, the mean of all the importance weights is used to estimate  $\frac{Z_B}{Z_A}$.
 The $x^{(k)}$ are produced by iteratively performing Gibbs sampling. Starting with $x^{(0)}$ sampled from $p_0$, one obtains $x^{(k)}$ by sampling a Gibbs chain that is initialized with $x^{(k-1)}$ in an intermediate model with distribution $p_k$. An appropriate choice for the intermediate models are Boltzmann machines with the energy functions $E_k$ chosen such that
 \[
    E_k(x) = (1 - \beta_k) E_A(x) + \beta_k E_B(x)
@@ -694,7 +697,7 @@ There are two practical approaches for constructing intermediate models  for dir
 \centering
 \includegraphics[scale=3.5]{images/twotypesais.pdf}
 \caption{Different approaches for performing AIS.
-The ``tempered'' weights, i.e. the weights of the intermediate models, are shown in grey. Black lines correspond to the original weights of a model. No lines between nodes are equal to the weights being zero.
+The ``tempered'' weights, i.e., the weights of the intermediate models, are depicted in grey. Black lines correspond to the original weights of a model. No lines between nodes are equal to the weights being zero.
 {\bf A:} Annealing from a null model, where all weights are zero, to the full model.
 {\bf B:} Annealing from one RBM model with three visible nodes and two hidden nodes to another model of the same size.
 The weights of the first model are depicted as continuous lines, the weights of the second as dashed lines. Here, model one is gradually morphed into model two. {\bf C:}
@@ -725,14 +728,11 @@ This procedure can be generalized for AIS on multimodal DBMs.
 If we have the unnormalized probability $p^*(h)$ for each type of RBM that receives the data input, it becomes possible to calculate the unnormalized probability of sampled hidden values in a multimodal DBM in the same way as for a standard DBM with only Bernoulli distributed nodes.
 The formula for the unnormalized probability for the respective RBM type (see Section \ref{unnormalizedprobsrbm}) can then be used for summing out the visible units in Equation \ref{eqn:aisunnormalizedprob} by substituting the term in the first line with the product of the unnormalized probabilities for all RBMs in the visible layer.
 
-The formulas for $p^*(h)$ for each different type of RBM are derived next, also by analytically ``summing out", or in case of Gaussian RBMs, ``integrating out" the visible layer.
-
-
 \paragraph{Calculating or estimating likelihoods in deep Boltzmann machines}
 For a restricted Boltzmann machine, the likelihood can be calculated using Equation (\ref{eqn:pRBMfreeenergy}) if the partition function is known. This is not so easily possible in a DBM, for which calculating the distribution of the hidden nodes is of exponential complexity.
 Estimating the likelihood of DBMs is possible using AIS by constructing a smaller DBM for each sample and estimating its partition function.
 The smaller DBM is constructed by removing the visible layer, and incorporating contribution of the sample to the energy of the first RBM - consisting only of visible and first hidden layer - into the bias of the new visible layer which was the first hidden layer of the original model.
-The partition function of this smaller model is then the unnormalized probability of the sample in the original model.
+The partition function of this smaller model is then the unnormalized probability of the sample in the original model \citep{salakhutdinov2009DBMs}.
 In a setting with very large sample size, the cost of estimating the actual likelihood with this procedure may be too expensive. But if the sample size is small enough, can be affordable to estimate the likelihood and not fall back on the lower bound.
 
 \paragraph{Alternative criteria for monitoring the training of RBMs}
@@ -752,7 +752,7 @@ With $f_{hidden}(\tilde{v}) := p(h|\tilde{v})$ and $f_{visible}(\tilde{h}) :=  p
 The reconstruction error is then the distance between the sample $\tilde{v}$ and its reconstruction $r(\tilde{v})$, e.g., measured as absolute distance or quadratic distance.
 
 Calculating the reconstruction error  is a very fast and simple technique for monitoring the training progress for RBMs, DBNs and for greedy layer-wise pre-training of DBMs.
-Although the reconstruction error can serve as a rough proxy statistic for the likelihood, it does not replace the likelihood entirely, as it is not the actual optimization target, and it is strongly influenced by the {\em mixing rate} of the Markov chain for Gibbs sampling, i. e. how fast the Markov chain reaches its equilibrium distribution. If the distribution in the Markov chain changes very slowly, the reconstruction error will be low, even if the distributions of the samples and the model differ much \citep{hinton_practical_2012}.
+Although the reconstruction error can serve as a rough proxy statistic for the likelihood, it does not replace the likelihood entirely, as it is not the actual optimization target, and it is strongly influenced by the {\em mixing rate} of the Markov chain for Gibbs sampling, i.e., how fast the Markov chain reaches its equilibrium distribution. If the distribution in the Markov chain changes very slowly, the reconstruction error will be low, even if the distributions of the samples and the model differ much \citep{hinton_practical_2012}.
 
 \subsubsection{Multimodal deep Boltzmann machines}
 
@@ -770,12 +770,13 @@ Gibbs sampling can also be performed in the same way, using the conditional prob
 \subsection{Theoretical developments}\label{bmaddtheory}
 
 \subsubsection{A new approach for modeling categorical data}\label{methodsoftmax0}
-%TODO auch beschreiben, dass man bernoulli und categoriale variablen in einem haben kann
-Another important statistical data type that needs to be handled when dealing with biomedical data is data with categorical values.
+% _maybe auch beschreiben, dass man bernoulli und categoriale variablen in einem haben kann
+Categorical values are common in biomedical data.
 For most applications in machine learning, categorical data is usually encoded in dummy variables \citep{hastie_elements}.
 It would be possible to use the binary dummy variables as input to a restricted or deep Boltzmann machine with Bernoulli distributed visible units as well.
 But when sampling from such a Boltzmann machine model all combinations of visible nodes have a positive probability. This can be seen from the formula of the conditional probability (\ref{eqn:condprobrbm}) and the fact that the values of the sigmoid function are strictly positive.
-Therefore, the resulting data is not properly encoded in general  because illegal combinations of the values of dummy variables can occur. With that, sampled values cannot be mapped to the original categories any more.
+Therefore, the resulting data is not properly encoded in general  because illegal combinations of the values of dummy variables can occur.
+This means that sampled values cannot be mapped to the original categories any more.
 Using dummy variables as input to Boltzmann machines with Bernoulli distributed variables makes it also more difficult to learn higher level patterns, as the Boltzmann machine has at first to learn the pattern that results from the dummy encoding  by itself. Hence it is advised to use a Boltzmann machine that has the knowledge about the encoding built into its energy function and probability distribution like described in the following.
 
 
@@ -805,7 +806,7 @@ As already pointed out in the introduction, this may therefore help with deep le
 Consider genetic variant data that contains values 0/1/2 for each of defined location on the human genome to encode that there is no deviation from the reference genome (0), a deviation on one chromosome (1) or a deviation on both chromosomes (2).
 An RBM receiving input with dummy encoding using the natural reference category 0 needs only two thirds of the parameters that an RBM needs which receives the same data in one-hot encoding.
 
-The energy function $E$ for RBMs with categorical data is the same as for Bernoulli distributed visible nodes (see Equation \ref{eqn:energyformularbm}).
+The energy function $E$ for RBMs with categorical data is the same as for Bernoulli distributed visible nodes (see Equation (\ref{eqn:energyformularbm})).
 The difference is that not all combinations of visible nodes are allowed. Thus the partition function $Z = \sum_{v} \sum_{h} e^{-E(v,h)}$ and the probability
 $p(v) = \frac{\sum_h e^{-E(v,h)}}{Z}$ change because the sum over all possible states of $v$ in the formula for $Z$ contains less summands than in the case with a Bernoulli distribution, where all combinations of activations are possible.
 
@@ -879,29 +880,30 @@ With that, the unnormalized probability of the hidden nodes in a {\bf Gaussian R
 \begingroup
 \allowdisplaybreaks
 \begin{align*}
-   p^*(h) &= \int_{-\infty}^\infty e^{-E \left(v,h \right)} dv \\
-   &= \int_{-\infty}^\infty \exp \left( -\sum_{i=1}^{n_V}\frac{(v_i - a_i)^2}{2\sigma_i^2} + b^T h + \sum_{i=1}^{n_V} \sum_{j=1}^{n_H} \frac{v_i}{\sigma_i}h_j w_{ij} \right) dv\\
-   &= e^{b^T h} \int_{-\infty}^\infty \exp \left( \frac{v_i^2 -2 a_i v_i + a_i^2 - 2 v_i (Wh)_i \sigma_i}{2 \sigma_i^2} \right) dv \\
-   &= e^{b^T h} \int_{-\infty}^\infty \exp \left(
+   p^*(h) &= \intrnv e^{-E \left(v,h \right)} dv \\
+   &= \intrnv \exp \left( -\sum_{i=1}^{n_V}\frac{(v_i - a_i)^2}{2\sigma_i^2} + b^T h + \sum_{i=1}^{n_V} \sum_{j=1}^{n_H} \frac{v_i}{\sigma_i}h_j w_{ij} \right) dv\\
+   &= e^{b^T h} \intrnv \exp \left( \frac{v_i^2 -2 a_i v_i + a_i^2 - 2 v_i (Wh)_i \sigma_i}{2 \sigma_i^2} \right) dv \\
+   &= e^{b^T h} \intrnv \exp \left(
       - \sum_{i=1}^{n_V} \frac{{\left( v_i - \left( (Wh)_i \sigma_i + a_i \right) \right)}^2}{2\sigma_i^2} + \frac{1}{2}(Wh)_i^2 + (Wh)_i \frac{a_i}{\sigma_i} \right ) dv \\
    \begin{split}
       &= \exp \left(b^T h + \sum_{i=1}^{n_V} \frac{1}{2}(Wh)_i^2 + (Wh)_i \frac{a_i}{\sigma_i} \right ) \cdot \\
-      & \quad \quad \int_{-\infty}^\infty \exp \left ( - \sum_{i=1}^{n_V} \frac{{\left( v_i - ((Wh)_i \sigma_i + a_i) \right)}^2}{2\sigma_i^2} \right) dv
+      & \quad \quad \intrnv \exp \left ( - \sum_{i=1}^{n_V} \frac{{\left( v_i - ((Wh)_i \sigma_i + a_i) \right)}^2}{2\sigma_i^2} \right) dv
    \end{split} \\
    & \stackrel{(\ref{eqn:densitynormal})}{=} \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{1}{2}(Wh)_i^2 + (Wh)_i \frac{a_i}{\sigma_i} \right ) \prod_{i=1}^{n_V}\left(\sqrt{2\pi} \sigma_i\right). \\
 \end{align*}
 \endgroup
 
+
 For {\bf Cho's alternative parameterization} (see Equation (\ref{eqn:energyformulagbrbm2})), the unnormalized probability calculates analogously as
 \begingroup
 \allowdisplaybreaks
 \begin{align*}
-   p^*(h) &= \int_{-\infty}^\infty e^{-E \left(v,h \right)} dv \\
-   &= \int_{-\infty}^\infty \exp \left( - \sum_{i=1}^{n_V} \frac{(v_i - a_i)^2}{2\sigma_i^2} + \sum_{i=1}^{n_V} \sum_{j=1}^{n_H} h_j w_{ij} \frac{v_i}{\sigma_i^2} - \sum_{i=1}^{n_H} b_j h_j \right) dv \\
-   &= e^{b^T h} \int_{-\infty}^\infty \exp\left( - \sum_{i=1}^{n_V} \frac{(v_i - a_i)^2 - 2 v_i (Wh)_i}{2 \sigma_i^2} \right) dv \\
-   &= e^{b^T h} \int_{-\infty}^\infty \exp \left( - \sum_{i=1}^{n_V} \frac{\left((v_i - ((Wh)_i + a_i) \right)^2}{2 \sigma_i^2}  + \sum_{i=1}^{n_V} \frac{(Wh)_i^2 + 2 a_i (Wh)_i}{2\sigma_i^2} \right) dv\\
+   p^*(h) &= \intrnv e^{-E \left(v,h \right)} dv \\
+   &= \intrnv \exp \left( - \sum_{i=1}^{n_V} \frac{(v_i - a_i)^2}{2\sigma_i^2} + \sum_{i=1}^{n_V} \sum_{j=1}^{n_H} h_j w_{ij} \frac{v_i}{\sigma_i^2} - \sum_{i=1}^{n_H} b_j h_j \right) dv \\
+   &= e^{b^T h} \intrnv \exp\left( - \sum_{i=1}^{n_V} \frac{(v_i - a_i)^2 - 2 v_i (Wh)_i}{2 \sigma_i^2} \right) dv \\
+   &= e^{b^T h} \intrnv \exp \left( - \sum_{i=1}^{n_V} \frac{\left((v_i - ((Wh)_i + a_i) \right)^2}{2 \sigma_i^2}  + \sum_{i=1}^{n_V} \frac{(Wh)_i^2 + 2 a_i (Wh)_i}{2\sigma_i^2} \right) dv\\
    &= \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{(Wh)_i^2 + 2 a_i (Wh)_i}{2\sigma_i^2} \right) \cdot \\
-   & \quad \quad \int_{-\infty}^\infty \exp \left(- \sum_{i=1}^{n_V} \frac{\left((v_i - ((Wh)_i + a_i) \right)^2}{2 \sigma_i^2} \right) dv\\
+   & \quad \quad \intrnv \exp \left(- \sum_{i=1}^{n_V} \frac{\left((v_i - ((Wh)_i + a_i) \right)^2}{2 \sigma_i^2} \right) dv\\
    &\stackrel{(\ref{eqn:densitynormal})}{=} \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{\frac{1}{2}(Wh)_i^2 + (Wh)_i a_i}{\sigma_i^2} \right ) \prod_{i=1}^{n_V}\left(\sqrt{2\pi} \sigma_i \right).
 \end{align*}
 \endgroup
