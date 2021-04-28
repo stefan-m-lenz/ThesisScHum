@@ -617,7 +617,7 @@ This results in the following gradients for the different types of model paramet
 
 The expected values under the distribution of the model ($\EX_{P_\text{model}}$) are estimated like in the RBM by running a Gibbs sampler (see Figure \ref{fig:dbmsampling}).
 This Gibbs sampler is run with a number of parallel persistent chains, which are called ``fantasy particles" \citep{salakhutdinov2009DBMs}. The results are averaged over the number of fantasy particles to get better estimations for the expected values in the distribution of the model.
-For the convergence of the gradient optimization, it is necessary to decrease the learning rate $\epsilon_t$ over time such that the series $\sum_{k=1}^\infty \epsilon_t^2$ converges, e.g. $\epsilon_t = \frac{c}{d+t}$ with constants $c, d > 0$ \citep{sala2012anefficient}.
+For the convergence of the gradient optimization, it is necessary to decrease the learning rate $\epsilon_t$ over time such that the series $\sum_{k=1}^\infty \epsilon_t^2$ converges, e.g., $\epsilon_t = \frac{c}{d+t}$ with constants $c, d > 0$ \citep{sala2012anefficient}.
 
 Since the training procedure is very complex and depends on many hyperparameters, it is necessary to test whether the training works well by examining the training objective.
 Although the likelihood is not the best criterion for all kinds of applications \citep{theis_note_2015}, it is essential to have a way to get a value for the likelihood as primary optimization criterion.
@@ -658,13 +658,16 @@ In case of a deep Boltzmann machine, it is possible to sum out each second layer
 
 For annealed importance sampling we need a sequence of intermediate distributions
 $p_0, \dots p_K$ with
-$p_0 = p_A$ and $p_K = p_B$. The ratio $\frac{Z_B}{Z_A}$ is then estimated by the mean of a number of so called {\em importance weights} that are determined as
+$p_0 = p_A$ and $p_K = p_B$. The ratio $\frac{Z_B}{Z_A}$ is then estimated by the mean of a number of so called {\em importance weights}.
+Each importance weight is determined via sampling a new chain of values $x^{(0)}, \dots, x^{(k)}$ and then calculating the product of the ratios of unnormalized probabilities
 \[
    \prod_{k=1}^K \frac{p^*_k(x^{(k)})}{p^*_{k-1}(x^{(k)})}.
 \]
 Each of the importance weights is an estimator for $\frac{Z_B}{Z_A}$.
+The model for the distribution $p_B$ can be chosen in a way that the partition function $Z_B$ can be calculated exactly.
+This way, AIS can be used to estimate $Z_A$ by estimating the ratio $\frac{Z_B}{Z_A}$.
 To get an estimation of this fraction with less variance, the mean all the importance weights is used to estimate  $\frac{Z_B}{Z_A}$.
-The $x^{(k)}$ are produced by iteratively performing Gibbs sampling. Starting with $x_0$ sampled from $p_0$, one obtains $x^{(k)}$ by sampling a Gibbs chain that is initialized with $x^{(k-1)}$ in an intermediate model with distribution $p_k$. An appropriate choice for the intermediate models are Boltzmann machines with the energy functions $E_k$ chosen such that
+The $x^{(k)}$ are produced by iteratively performing Gibbs sampling. Starting with $x^{(0)}$ sampled from $p_0$, one obtains $x^{(k)}$ by sampling a Gibbs chain that is initialized with $x^{(k-1)}$ in an intermediate model with distribution $p_k$. An appropriate choice for the intermediate models are Boltzmann machines with the energy functions $E_k$ chosen such that
 \[
    E_k(x) = (1 - \beta_k) E_A(x) + \beta_k E_B(x)
 \]
@@ -689,7 +692,7 @@ There are two practical approaches for constructing intermediate models  for dir
 \centering
 \includegraphics[scale=3.5]{images/twotypesais.pdf}
 \caption{Different approaches for performing AIS.
-The tempered weights of the intermediate distributions are shown in grey. Black lines correspond to the original weights of a model. No lines between nodes are equal to the weights being zero.
+The ``tempered'' weights, i.e. the weights of the intermediate models, are shown in grey. Black lines correspond to the original weights of a model. No lines between nodes are equal to the weights being zero.
 {\bf A:} Annealing from a null model, where all weights are zero, to the full model.
 {\bf B:} Annealing from one RBM model with three visible nodes and two hidden nodes to another model of the same size.
 The weights of the first model are depicted as continuous lines, the weights of the second as dashed lines. Here, model one is gradually morphed into model two. {\bf C:}
@@ -1036,7 +1039,7 @@ It has been the main motivation behind the Julia programming language \citep{bez
 In contrast to MATLAB or R, in Julia it is possible to gradually optimize the speed of code.
 One particular optimization strategy is to minimize the amount of memory allocations by reusing allocated space as much as possible.
 Avoiding the costs of memory allocations and garbage collection greatly increased the speed in many parts of the code.
-Allocations for matrices can be avoided by using, e.g. the function \inlinecode{mul!} instead of the normal matrix multiplication operator (\inlinecode{*}).
+Allocations for matrices can be avoided by using, e.g., the function \inlinecode{mul!} instead of the normal matrix multiplication operator (\inlinecode{*}).
 This function performs matrix multiplication without allocating new space for the result.
 Instead it stores the result in a pre-existing matrix that is passed as argument.
 In MATLAB or R this is not possible without resorting to C because there matrices are language objects that cannot be modified.
