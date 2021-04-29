@@ -635,7 +635,7 @@ Being able to inspect the learning process is important for finding the best cho
 This leads us to the next section, where we want to take a closer look at methods for calculating and estimating the likelihood, and the lower bound of the likelihood, in case of DBMs.
 
 
-\subsubsection{Evaluating restricted and deep Boltzmann machines}
+\subsubsection{Evaluating restricted and deep Boltzmann machines}\label{evaluatingbms}
 A special challenge for unsupervised learning on non-image data in general is the lack of performance indicators.
 In supervised training, the classification accuracy is the natural evaluation criterion, which is also easy to implement.
 In unsupervised training with a well investigated class of data such as images, there is already much experience available for choosing the model architecture and the hyperparameters. If models are to be trained on very diverse data, the problem of finding good hyperparameters is exacerbated as parameter tuning can pose a different challenge for each data set.
@@ -740,7 +740,7 @@ The smaller DBM is constructed by removing the visible layer, and incorporating 
 The partition function of this smaller model is then the unnormalized probability of the sample in the original model \citep{salakhutdinov2009DBMs}.
 In a setting with very large sample size, the cost of estimating the actual likelihood with this procedure may be too expensive. But if the sample size is small enough, can be affordable to estimate the likelihood and not fall back on the lower bound.
 
-\paragraph{Alternative criteria for monitoring the training of RBMs}
+\paragraph{Alternative criteria for monitoring the training of RBMs}\label{alternativebmevaluations}
 The AIS algorithm is very complex to implement.
 Although it becomes possible to estimate the true optimization criterion with AIS in reasonable time, it is still compute-intensive, depending on the required exactness of the estimation.
 Thus, often there are other statistics used for quickly checking the training progress.
@@ -2627,26 +2627,31 @@ Calculates the log-likelihood for a RBM/DBM (exponential complexity)\\
 The \apkg{BoltzmannMachines} Julia package provides a user-friendly implementation of DBMs (see Section \ref{bmsjl}).
 It is registered in the official package repository for the Julia language and provides several unique features, which are not covered by other software (see Section \ref{BMfeatures}).
 
-It supports to create partitioned architectures, which can help to train models on data of high dimensionality \citep{hess2017partitioned}.
-The concept of multimodal DBMs in the package allows to train DBMs with partitioned layers conveniently.
-It is based on using restricted Boltzmann machines (RBMs) as building blocks.
-This makes it also easy to model different distributions at the visible layer.
-The \apkg{BoltzmannMachines} package implements several different types of RBMs that can be used for this, including a new approach for categorical data (see Section \ref{methodsoftmax0}).
-\cite{treppner_making_2020} exploited the possibility to customize the input layer, and constructed DBMs with input variables following negative binomial distributions for clustering single-cell sequencing data.
+One of these features is that one can easily create DBMs with partitioned architectures, which can help to train models on data of high dimensionality \citep{hess2017partitioned}.
+The concept of multimodal DBMs goes further and allows different input distributions at the visible layer. 
+This becomes possible by using restricted Boltzmann machines (RBMs) as simple building blocks, from which multimodal and partitioned architectures can be constructed.
+The \apkg{BoltzmannMachines} package implements several different types of RBMs that can be used, including a new approach for categorical data (see Section \ref{methodsoftmax0}).
+The possibility to customize the input layer has also been exploited by \cite{treppner_making_2020}, who constructed DBMs with input variables following negative binomial distributions for clustering single-cell sequencing data.
 
-Other unique features of the \apkg{BoltzmannMachines} package concern the evaluation of the likelihood of DBMs.
-The possibilities for evaluating the DBM training are used to ensure software quality with an extensive test suite and can be used for hyperparameter tuning.
-There are also for monitoring the training. TODO
+Other unique features of the \apkg{BoltzmannMachines} package concern the evaluation of the likelihood of DBMs and RBMs.
+The likelihood and the variational lower bound of the likelihood can be estimated via the annealed importance sampling (AIS, see Section \ref{evaluatingbms}). 
+The AIS algorithm can be generalized on multimodal DBMs (see Section \ref{unnormalizedprobsrbm}) and it is available for all types of Boltzmann machines that can be constructed with the \apkg{BoltzmannMachines} package.
+The exact calculation and the estimation of the likelihood of DBMs and RBMs are used to ensure the quality of the software via an extensive test suite.
+More importantly, evaluating the training of DBMs is necessary for finding good hyperparameters.
+Learning curves that can be generated from evaluating the models during the training.
+This monitoring information can help in the choice of hyperparameters (see Section \ref{monitoring}).
+In addition to standard evaluation metrics such as the (lower bound of the) likelihood or the reconstruction error (see Section \ref{alternativebmevaluations}), the monitoring of the training is fully customizable and can be used with any kind of evaluation (see e.g. Section \ref{juliaconnectorDbmexample}).
+This allows users to examine all possible aspects of RBM and DBM training.
 
-Via the \apkg{JuliaConnectoR} R package, the \apkg{BoltzmannMachines} package can also be conveniently used in R.
-With its flexible approach, it becomes possible (see Section \ref{juliaconnectorDbmexample}).
-R is a popular language for bioinformatics and biostatistics \citep{bioconductor}, 
+The \apkg{BoltzmannMachines} package can also be used conveniently in R via the the \apkg{Julia\-ConnectoR} R package (see Section \ref{juliaconnectorDbmexample}).
+R is a popular language for bioinformatics and biostatistics \citep{bioconductor}.
+Therefore it is an important asset if the algorithms are also available in R.
 The \apkg{JuliaConnectoR} package also provides a 
 The possibility for importing complete packages into R is a 
 
 
-For the use in a setting with distributed sensitive data, the \apkg{BoltzmannMachines} can be wrapped into an DataSHIELD R package.
-This is the first package to implement deep learning in DataSHIELD.
+For the use in a setting with distributed sensitive data, the \apkg{BoltzmannMachines} package can be wrapped into an DataSHIELD R package.
+The result is the first package to implement deep learning in DataSHIELD.
 This can be achieved via the \apkg{JuliaConnectoR}.
 
 
