@@ -415,7 +415,7 @@ For simplicity of notation, the $\theta$ is left out from $p_\theta$ and $E_\the
 
 \paragraph{Deriving the gradient of the log-likelihood}
 
-For finding an optimum of $\sum_{k=1}^{n}  \log p_\theta(\tilde{v}^{(k)})$, the gradient $\nabla_\theta \sum_{k=1}^{n}  \log p_\theta(\tilde{v}^{(k)})$ needs to be determined.
+For finding an optimum of $\sum_{k=1}^{n}  \log p_\theta(\tilde{v}^{(k)})$, the gradient $\nabla_{\!\theta} \sum_{k=1}^{n}  \log p_\theta(\tilde{v}^{(k)})$ needs to be determined.
 The gradient of the log-likelihood for a single observation
 $\tilde{v} $ with respect to the parameter set $\theta$ is given by
 \begin{align}
@@ -936,7 +936,7 @@ p^*(h) &= \sum_v e^{-E(v,h)} \\
 Here $C$ denotes the set of all index sets of the dummy variables, where each index set belongs to a categorical variable.
 \clearpage
 
-\subsection{The \apkg{BoltzmannMachines} Julia package}
+\subsection{The \apkg{BoltzmannMachines} Julia package}\label{bmsjl}
 For being able to experiment with the algorithms for training and evaluating deep Boltzmann machines, an accessible and easily customizable implementation was needed.
 The Julia package \apkg{BoltzmannMachines}, which is one of the main contributions of this thesis, serves this purpose.
 The package offers a thorough and well-tested implementation of the algorithms described in \ref{bmtheory} and \ref{bmaddtheory}, with several unique features that are not covered by other published software.
@@ -1948,7 +1948,7 @@ rbm <- BMs$fitrbm(x, epochs = epochs, learningrate = 0.01,
 %\hiderowcolors
 %\input{includes/ebnftable.tex}
 %\end{tabular}
-%\caption{Serialization grammar for the \apkg{JuliaConnectoR}. TODO: Tabelle aufteilen und erklären}
+%\caption{Serialization grammar for the \apkg{JuliaConnectoR}}
 %\end{table}
 %
 %EBNF syntax \citep{ebnf} für die Grammatik erklären
@@ -2622,6 +2622,23 @@ Calculates the log-likelihood for a RBM/DBM (exponential complexity)\\
 
 \section{Discussion}
 
+\subsection{Software features}
+
+The \apkg{BoltzmannMachines} Julia package provides a user-friendly implementation of DBMs (see Section \ref{bmsjl}).
+It is registered in the official package repository for the Julia language and provides several unique features, which are not covered by other software (see Section \ref{BMfeatures}).
+ TODO multimodal
+Other unique features concern the evaluation of the likelihood of DBMs.
+The possibilities for evaluating the DBM training are used to ensure software quality with an extensive test suite and can be used for hyperparameter tuning.
+There are also for monitoring the training.
+
+Via the \apkg{JuliaConnectoR} R package, the \apkg{BoltzmannMachines} package can also be conveniently used in R.
+With its flexible approach, it becomes possible (see Section \ref{juliaconnectorDbmexample}).
+R is a popular language for bioinformatics and biostatistics \citep{bioconductor}, 
+The \apkg{JuliaConnectoR} package also provides a 
+
+For the use in a setting with distributed sensitive data, the \apkg{BoltzmannMachines} can be wrapped into an DataSHIELD R package.
+This can be achieved via the \apkg{JuliaConnectoR}.
+
 \subsection{Computational performance}
 For performing deep learning on large quantities of image and text data, the need for dedicated hardware rises \citep{lecun_dlhardware}.
 Major breakthroughs in language processing and image recognition such as the famous models {\em GPT-3} and \citep{gpt3} {\em ResNet} \citep{resnet} build on very deep architectures with many parameters.
@@ -2704,7 +2721,6 @@ Summed up, the results strengthen the assumption that it is possible to use DBMs
 %one step for applying arbitrary tabular data.
 
 %dbms verbessern missing values, softmax evaluieren
-%TODO martin paper zitieren?
 %Privacy-consideration better use intensity values.
 
 
