@@ -213,12 +213,17 @@ An additional big challenge for deep learning on biomedical data is finding good
 Since biomedical data sets can be very diverse, default values for hyperparameters may often not be the best choice and the ability to determine good hyperparameters is especially important there.
 As the success of the learning depends critically on good hyperparameters, a special emphasis needs to be put on evaluating the learning.
 
-This work aims to investigate how DBMs can be used to tackle the challenges for deep learning on biomedical data. Furthermore, it strives to make DBMs accessible in form of user-friendly software.
+\subsection{Aims of thesis}
 
-In a first step, the algorithms for training and evaluating DBMs need to be implemented in a way that is suitable for experimentation (Section \ref{bmpart}).
+Small sample sizes and privacy restrictions are major obstacles for performing deep learning on biomedical data.
+Using synthetic data is a possibility for analyzing distributed data sets that cannot be pooled due to privacy restrictions.
+It is to be shown that DBMs can be used for creating synthetic data that captures the structure of the original data and does not disclose information about individuals.
+This work aims to investigate how DBMs can be used as generative models for deep learning on biomedical data and how they can become an accessible tool for this purpose.
+
+In a first step, the algorithms for training and evaluating DBMs need to be implemented in a way that they are easy to use and suitable for experimentation (Section \ref{bmpart}).
 This implementation can then be used to examine the hypothesis that DBMs can produce useful synthetic data in scenarios with small sample size and also with distributed data (Section \ref{simuexp} and Section \ref{realexp}).
 For employing DBMs in settings with sensitive health information, the disclosure risk of synthetic data created by DBMs must be investigated as well.
-After this, DBMs can be considered for generating synthetic data in the DataSHIELD infrastructure.
+After this, DBMs can be considered for generating synthetic data in the DataSHIELD infrastructure for distributed privacy-preserving analyses.
 Since DataSHIELD is based on the R programming language, the algorithms for training and evaluating DBMs must also be made available in R (Section \ref{juliaconnectorpart}).
 Finally, a solution for applying DBMs via DataSHIELD can be provided (Section \ref{dsBoltzmannMachinesImpl}).
 
