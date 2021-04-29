@@ -246,6 +246,7 @@ Choi, E., Biswal, S., Malin, B., Duke, J., Stewart, W.~F. \harvardand\ Sun, J.
   {Patient} {Records} using {Generative} {Adversarial} {Networks}, {\em in}
   `Proceedings of {Machine} {Learning} for {Healthcare} 2017', Northeastern
   University, Boston, Massachusetts, p.~21.
+\newline\harvardurl{\url{http://proceedings.mlr.press/v68/choi17a.html}}
 
 \harvarditem{Cohn}{2018}{cohn_ai_2018}
 Cohn, G.  \harvardyearleft 2018\harvardyearright , `{AI} {Art} at
@@ -296,6 +297,7 @@ Doiron, D., Marcon, Y., Fortier, I., Burton, P. \harvardand\ Ferretti, V.
   {Opal} and {Mica}: open-source software solutions for epidemiological data
   management, harmonization and dissemination', {\em International Journal of
   Epidemiology} {\bf 46}(5),~1372--1378.
+\newline\harvardurl{\url{https://doi.org/10.1093/ije/dyx180}}
 
 \harvarditem{Dowle \harvardand\ Srinivasan}{2020}{datatable}
 Dowle, M. \harvardand\ Srinivasan, A.  \harvardyearleft 2020\harvardyearright ,
@@ -313,6 +315,7 @@ Dwork, C.  \harvardyearleft 2008\harvardyearright , Differential {Privacy}: {A}
   {Survey} of {Results}, {\em in} M.~Agrawal, D.~Du, Z.~Duan \harvardand\
   A.~Li, eds, `Theory and {Applications} of {Models} of {Computation}', Lecture
   {Notes} in {Computer} {Science}, Springer, Berlin, Heidelberg, pp.~1--19.
+\newline\harvardurl{\url{https://doi.org/10.1007/978-3-540-79228-4_1}}
 
 \harvarditem[Eisen et~al.]{Eisen, Spellman, Brown \harvardand\
   Botstein}{1998}{eisen_cluster_1998}
@@ -389,6 +392,7 @@ Goodfellow, I., Pouget-Abadie, J., Mirza, M., Xu, B., Warde-Farley, D., Ozair,
   Z.~Ghahramani, M.~Welling, C.~Cortes, N.~D. Lawrence \harvardand\ K.~Q.
   Weinberger, eds, `Advances in {Neural} {Information} {Processing} {Systems}
   27', Curran Associates, Inc., pp.~2672--2680.
+\newline\harvardurl{\url{https://proceedings.neurips.cc/paper/2014/file/5ca3e9b122f61f8f06494c97b1afccf3-Paper.pdf}}
 
 \harvarditem[Gruendner et~al.]{Gruendner, Prokosch, Schindler, Lenz
   \harvardand\ Binder}{2019}{gruendner}
@@ -554,11 +558,7 @@ Kingma, D.~P. \harvardand\ Welling, M.  \harvardyearleft 2014\harvardyearright
   , Auto-encoding variational bayes, {\em in} Y.~Bengio \harvardand\ Y.~LeCun,
   eds, `2nd International Conference on Learning Representations ({ICLR}),
   Conference Track Proceedings'.
-
-\harvarditem{Knuth}{1974}{knuth_1974}
-Knuth, D.~E.  \harvardyearleft 1974\harvardyearright , `Computer programming as
-  an art', {\em Communications of the ACM} {\bf 17}(12),~667--673.
-\newline\harvardurl{\url{https://doi.org/10.1145/361604.361612}}
+\newline\harvardurl{\url{https://arxiv.org/abs/1312.6114}}
 
 \harvarditem{Krizhevsky}{2009}{krizhevsky2009tinyimagesthesis}
 Krizhevsky, A.  \harvardyearleft 2009\harvardyearright , Learning multiple

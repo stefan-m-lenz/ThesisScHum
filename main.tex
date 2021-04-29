@@ -2626,31 +2626,38 @@ Calculates the log-likelihood for a RBM/DBM (exponential complexity)\\
 
 The \apkg{BoltzmannMachines} Julia package provides a user-friendly implementation of DBMs (see Section \ref{bmsjl}).
 It is registered in the official package repository for the Julia language and provides several unique features, which are not covered by other software (see Section \ref{BMfeatures}).
- TODO multimodal
-Other unique features concern the evaluation of the likelihood of DBMs.
+
+It supports to create partitioned architectures, which can help to train models on data of high dimensionality \citep{hess2017partitioned}.
+The concept of multimodal DBMs in the package allows to train DBMs with partitioned layers conveniently.
+It is based on using restricted Boltzmann machines (RBMs) as building blocks.
+This makes it also easy to model different distributions at the visible layer.
+The \apkg{BoltzmannMachines} package implements several different types of RBMs that can be used for this, including a new approach for categorical data (see Section \ref{methodsoftmax0}).
+\cite{treppner_making_2020} exploited the possibility to customize the input layer, and constructed DBMs with input variables following negative binomial distributions for clustering single-cell sequencing data.
+
+Other unique features of the \apkg{BoltzmannMachines} package concern the evaluation of the likelihood of DBMs.
 The possibilities for evaluating the DBM training are used to ensure software quality with an extensive test suite and can be used for hyperparameter tuning.
-There are also for monitoring the training.
+There are also for monitoring the training. TODO
 
 Via the \apkg{JuliaConnectoR} R package, the \apkg{BoltzmannMachines} package can also be conveniently used in R.
 With its flexible approach, it becomes possible (see Section \ref{juliaconnectorDbmexample}).
 R is a popular language for bioinformatics and biostatistics \citep{bioconductor}, 
 The \apkg{JuliaConnectoR} package also provides a 
+The possibility for importing complete packages into R is a 
+
 
 For the use in a setting with distributed sensitive data, the \apkg{BoltzmannMachines} can be wrapped into an DataSHIELD R package.
+This is the first package to implement deep learning in DataSHIELD.
 This can be achieved via the \apkg{JuliaConnectoR}.
+
 
 \subsection{Computational performance}
 For performing deep learning on large quantities of image and text data, the need for dedicated hardware rises \citep{lecun_dlhardware}.
-Major breakthroughs in language processing and image recognition such as the famous models {\em GPT-3} and \citep{gpt3} {\em ResNet} \citep{resnet} build on very deep architectures with many parameters.
+Major breakthroughs in language processing and image recognition such as the famous models {\em GPT-3} \citep{gpt3} and {\em ResNet} \citep{resnet} build on very deep architectures with many parameters.
 This may give the impression that immense amounts of data and computation are needed to make use of deep learning at all.
 The results of the experiments conducted here (see \ref{simuexpresults} and \ref{realexpresults}) show that deep learning can bring also benefits on a smaller scale, particularly in settings with lower sample sizes.
 With the software employed here, the speed of the training was sufficient, even utilizing only standard hardware.
-This demonstrates that deep learning can also be feasible and beneficial without investments in dedicated hardware.
+This demonstrates that deep learning can also be feasible and beneficial without investments in special hardware.
 
-But, of course, performance improvements are worth considering.
-When optimizing software solutions, it must, however, always be taken into account that such changes cost time when implementing them, and they may cost additional time in the future if the flexibility to apply further changes is affected by the optimization.
-This dilemma has been addressed in the famous quote "premature optimization is the root of all evil" \citep{knuth_1974}.
-The dilemma exists also in research software development because the resulting software needs to be subject to experimentation.
 
 Julia was chosen as language for the implementation of deep Boltzmann machines here because it aims to hit the sweet spot in this dilemma with its attempt to solve the ``two-language problem'' \citep{bezanson2017julia}, i.e., having one scripting language, such as Python, for fast development and prototyping, and an additional low-level language, such as C or Fortran, for speeding up time-critical parts.
 With Julia aiming at the speed of C, there is no need to move parts of the implementation to a low-level language.
@@ -2682,12 +2689,7 @@ The networks considered in the experiments were densely connected.
 For modeling higher dimensional data, more parsimonious models may perform better \citep{nussberger_synthetic_2020}.
 More generally, saving parameters can aid in training models also with fewer data points per dimension \citep{chan_classifier_1999}.
 One approach for reducing the number of parameters in DBMs is to partition the layers.
-For genetic variant data, an approach using sparse regression for partitioning clusters of SNPs has been examined in DBMs \citep{hess2017partitioned} and lead to meaningful results.
-The implementation was also based on the \apkg{BoltzmannMachines} package.
-The concept of multimodal DBMs in the package allows to train DBMs with partitioned layers conveniently.
-It is based on using restricted Boltzmann machines (RBMs) as building blocks.
-This makes it also easy to model different distributions at the visible layer.
-\cite{treppner_making_2020} used this feature to construct DBMs with input variables following negative binomial distributions for clustering single-cell sequencing data.
+For genetic variant data, an approach using sparse regression for partitioning clusters of SNPs has been examined in DBMs \citep{hess2017partitioned}, which was also implemented using the \apkg{BoltzmannMachines} package, and lead to meaningful results.
 
 \subsection{Disclosure risk of synthetic data}
 In addition to evaluating the performance, the disclosure risk is regarded here as well, with a focus on membership disclosure \citep{li_membership_2013}.
@@ -2768,7 +2770,7 @@ It also offers convenient methods for evaluating the training.
 This is important for finding good hyperparameters, which is especially relevant when regarding the diversity of biomedical data sets, where default values for hyperparameters are often not sufficient.
 
 Algorithms and data structures from Julia can be accessed in R via the \apkg{JuliaConnectoR} R package.
-This allows wrapping the functionality of the \apkg{BoltzmannMachines} package into a DataSHIELD R package.
+This allows wrapping the functionality of the \apkg{BoltzmannMachines} package into a DataSHIELD R package for performing deep learning on distributed biomedical data under data protection constraints.
 With the same mechanism, VAEs or other complex generative models could be integrated in DataSHIELD for enabling distributed analyses based on synthetic data.
 
 \clearpage
