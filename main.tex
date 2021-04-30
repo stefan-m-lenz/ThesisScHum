@@ -277,7 +277,7 @@ The so called \emph{free energy}, a notation also inspired by physics, is define
    F(v) = - \log \sum_h e^{-E(v, h)}.
 \]
 With this definition, we can rewrite the formula of the partition function as $Z = \sum_v e^{-F(v)}$.
-That is useful because the formula for the free energy of restricted Boltzmann machines can be simplified by using the layerwise structure (see e.g.~\cite{martens_representational_2013}, appendix A.1).
+That is useful because the formula for the free energy of restricted Boltzmann machines can be simplified by using the layerwise structure (see e.g.~\cite{martens_representational_2013}, Appendix A.1).
 Thus the complexity of calculating the free energy becomes linear in the number of hidden nodes, as can be seen in the formulas for the free energy in the different types of models that are described below.
 If the partition function $Z$ is given, the log-likelihood
 \begin{equation}
@@ -952,7 +952,7 @@ Much emphasis is also put on evaluating RBMs and DBMs and allowing an inspection
 For this purpose, there are many possibilities for a convenient and flexible monitoring of different criteria integrated in the functionality of the package.
 
 The package is registered in the official package repository of the Julia language and it is also available as open source software from GitHub\footnote{\url{https://github.com/stefan-m-lenz/BoltzmannMachines.jl}}.
-A detailed documentation of the functions and data types can be found in appendix \ref{BMDoku}.
+A detailed documentation of the functions and data types can be found in Appendix \ref{BMDoku}.
 
 
 \subsubsection{Feature overview and comparison with existing implementations}\label{BMfeatures}
@@ -1524,7 +1524,7 @@ Let-syntax & Yes & No & No & \ref{juliaconnectorDbmexample} \\
 
 In the following, these features and the differences between the packages are detailed.
 Subsequently, in \ref{juliaconnectorDbmexample}, it is demonstrated how these features help to train and evaluate DBMs in R.
-In appendix \ref{JuliaConnectoRDoku}, the documentation of the \apkg{JuliaConnectoR} package can be found.
+In Appendix \ref{JuliaConnectoRDoku}, the documentation of the \apkg{JuliaConnectoR} package can be found.
 There, the usage of the different functions is described in greater detail from a user perspective.
 
 \subsubsection{Communication protocol}\label{juliaconnectorCommuncation}
@@ -1550,24 +1550,24 @@ With the high frequency of new Julia releases, the costs of maintaining a low-le
 Keeping complexity low is particularly important for creating sustainable open source software \citep{midha_improving_2010}.
 This aspect was kept in mind in the design of the \apkg{JuliaConnectoR}.
 As a result, the higher-level approach taken by the \apkg{JuliaConnectoR} is compatible with a wide range of R and Julia versions (tested on R 3.2-4.0 and Julia 1.0-1.6), requiring only minimal adaptions for keeping cross-version compatibility.
-Another disadvantage of the coupling via a C-interface is that this requires that R is built shared/dynamic library.
+As another disadvantage, the coupling via a C-interface requires that R is built as a shared/dynamic library.
 For using \apkg{RCall}, this is required\footnote{The option \inlinecode{-enable-R-shlib} is required when installing R, see installation instructions of \apkg{RCall}: \url{https://github.com/JuliaInterop/RCall.jl/blob/v0.13.4/docs/src/installation.md}}.
 In its default installation, R is not configured as shared/dynamic library because this can reduce the performance of R by 10-20\% \citep{rAdmin}.
 
 
 \apkg{XRJulia} also uses TCP as underlying communication mechanism but it transports the information via JSON messages.
 These messages can also contain vectors, matrices and complex nested objects.
-As JSON is text-based, numeric values have to be transformed to from their binary form into decimal values and their textual representation to be wrapped in a JSON message.
+As JSON is text-based, numeric values have to be transformed from their binary form into decimal values and their textual representation has to be wrapped in a JSON message.
 This additional overhead slows down the communication, in particular for larger matrices and vectors.
-Therefore, \apkg{XRJulia} escapes the strategy of using TCP for these cases.
+Therefore, \apkg{XRJulia} departs from the strategy of using TCP for these cases.
 Instead, large arrays are written to temporary binary files on the hard drive (see \inlinecode{largeVectors} documentation item in the manual of \apkg{XRJulia}).
 Yet, writing files to the hard disk involves additional costs compared to using TCP directly.
 Communication via local files also prevents using Julia as a server and R as a client on different machines.
-Although the mechanism for setting such a remote connection is not exposed in the \apkg{JuliaConnectoR}, the potential for this is there.
+Although the mechanism for setting up such a remote connection is not yet exposed in the \apkg{JuliaConnectoR}, the design supports an integration of this functionality.
 Security considerations are the main reason why this is not fully supported in the \apkg{JuliaConnectoR}.
 There is the possibility for securing TCP connections via Secure Shell (SSH) tunnels \citep{ylonen_ssh}.
 After an integration of SSH tunneling with the \apkg{JuliaConnectoR}, such a mechanism could allow to run Julia remotely and work locally in R.
-This may be used to employ remote servers that provide compute power but do not offer the same convenience as a local machine, e.g., if a integrated development environment such as RStudio \citep{rstudio} cannot be used on a remote server.
+This may be used to employ remote servers that provide compute power but do not offer the same convenience as a local machine, e.g., if an integrated development environment such as RStudio \citep{rstudio} cannot be used on a remote server.
 
 %Another usage scenario for remote TCP connections is when using container technology.
 %Wrapping software and the resources into containers can aid in creating software for reproducible research \citep{docker_reproducible}.
@@ -1576,15 +1576,15 @@ This may be used to employ remote servers that provide compute power but do not 
 
 \subsubsection{Automatic importing of packages and modules}\label{juliaconnectoRAutoimport}
 
-One of the main reasons for using a language bridge such as the \apkg{JuliaConnectoR} is to access functionality from packages in other languages while being able to do most of the work in a language that is more familiar or more suitable for the rest of the task.
+One of the main reasons for using a language bridge such as the \apkg{JuliaConnectoR} is to access functionality from packages in other languages while being able to do most of the work in a language that is more familiar to the user or more suitable for the rest of the task.
 An example for this can be to use deep learning in Julia but perform data preprocessing and plotting in R.
 
 The function \inlinecode{juliaImport} (see also on p.~\pageref{rdokitem_juliaImport}ff.) of the \apkg{JuliaConnectoR} can inspect a Julia package and then return all Julia functions, including type constructors, in the form of an environment that contains R functions that wrap the Julia functions.
-This approach helps to handle foreign packages in a simple way, and it aids in writing more concise code, as can be seen in the following.
+This approach helps to handle external packages in a simple way, and it aids in writing more concise code, as can be seen in the following.
 
 At first, a minimal example, employing the \apkg{Flux} Julia package in R, is shown in Listing \ref{fluximportJulia} and Listing \ref{fluximportR}.
 Later, in Section \ref{juliaconnectorDbmexample}, a more detailed example using DBMs and the \apkg{BoltzmannMachines} package is given.
-This should demonstrate that the \apkg{JuliaConnectoR} can be used for importing arbitrary packages.
+This demonstrates that the \apkg{JuliaConnectoR} can be used for importing arbitrary packages.
 In Listing \ref{fluximportJulia} and Listing \ref{fluximportR}, two different packages are involved.
 The first package that is imported into R is the Julia package \inlinecode{Pkg}.
 This package is contained in the Julia standard library.
@@ -1612,8 +1612,8 @@ model <- Flux$Chain(Flux$Dense(4L, 4L, Flux$relu),
                     Flux$Dense(4L, 1L))
 \end{lstlisting}
 
-An alternative to importing a package in this way is to address the functions via their name as strings via the \inlinecode{juliaCall} function. 
-For example, the lines 2 and 3 in Listing \ref{fluximportR} could be replaced with:
+An alternative to importing a package in this way is to address the functions via their name as strings with the \inlinecode{juliaCall} function. 
+For example, lines 2 and 3 in Listing \ref{fluximportR} could be replaced with:
 \begin{lstlisting}[language=R]
 juliaEval("import Pkg")
 juliaCall("Pkg.add", name = "Flux", version = "0.11") 
@@ -1625,8 +1625,8 @@ When considering the next lines, the advantage of the automatic importing become
 Replacing the imported functions with \inlinecode{juliaCall} there would deteriorate the legibility in a significant way.
 In case of the \inlinecode{relu} function, it is not possible to replace it with \inlinecode{juliaCall}, as the function is not called but only referenced.
 The activation function is specified via passing a function as an argument, which is here the \inlinecode{relu} function.
-In the R code in Listing \ref{fluximportR}, this becomes also possible because the \inlinecode{relu} function has been imported as a function object and the \apkg{JuliaConnectoR} recognizes imported functions and can translate them back to Julia functions.
-Passing functions as arguments to other functions is typical for a functionally oriented style.
+In the R code in Listing \ref{fluximportR}, this also becomes possible because the \inlinecode{relu} function has been imported as a function object and the \apkg{JuliaConnectoR} recognizes imported functions and can translate them back to Julia functions.
+Passing functions as arguments to other functions is typical for a functionally oriented programming style.
 Enabling functional programming was an important consideration in the design of the \apkg{JuliaConnectoR}.
 
 An additional nice side benefit of using \inlinecode{juliaImport} is that the auto-complete functionality in the R terminal or in RStudio can aid in typing and finding functions that are collected in the returned environment.
@@ -1637,14 +1637,14 @@ It is also possible to import such local Julia modules into R via \inlinecode{ju
 For examples, see the documentation of \inlinecode{juliaImport} (p.~\pageref{rdokitem_juliaImport}ff.).
 
 \subsubsection{Translation between Julia and R}\label{translatejuliar}
-Notable in Listing \ref{fluximportR} is that the numbers needed to be passed as integers (e.g., ``\inlinecode{4L}'' instead of simply ``4'').
+In Listing \ref{fluximportR} it can be noticed that the numbers are passed as integers (e.g., ``\inlinecode{4L}'' instead of simply ``4'').
 The \inlinecode{Dense} function of the \apkg{Flux} package is sensitive to the types of its input arguments and it is necessary here that the arguments are of type \inlinecode{Int} in Julia.
-If, e.g., floating point numbers of type \inlinecode{Float64} are passed, the \inlinecode{Dense} function would yield a different result.
+If, e.g., floating point numbers of type \inlinecode{Float64} were passed, the \inlinecode{Dense} function would yield a different result.
 This is because the multiple dispatch mechanism of Julia determines which specific method is chosen, dependent on the types of the input arguments.
 Using the exact type is not important in all cases because it is also possible to handle types in Julia in a more relaxed way by, e.g., specifying abstract types or not specifying types for arguments in the definition of functions.
 Examples for such abstract types are \inlinecode{Number}, or the type \inlinecode{Any}, which is most unspecific.
-It is also not possible to infer the type automatically, because it is possible that the results of different methods, which are invoked for different argument types, are completely different.
-Therefore, a \apkg{JuliaConnectoR} user must care about the types of the arguments exactly if the user also would need to care about them when using the functions directly in Julia.
+It is also not possible to infer the type automatically, because results of different methods of a specific function, which are invoked for different argument types, can be completely different.
+Therefore, a \apkg{JuliaConnectoR} user must care about the types of the arguments exactly if the user also needed to care about them when using the functions directly in Julia.
 
 Given that types are important in Julia, the translations of the types are clearly documented for the \apkg{JuliaConnectoR} (see p.~\pageref{juliaconnectordokutypetranslation}).
 Although the translation of the basic types is largely the same in \apkg{JuliaCall} and \apkg{XRJulia}, these packages lack a formal specification of the translations.
@@ -1675,15 +1675,15 @@ Data in tabular form is very common in data science. Most biomedical data sets c
 Therefore, it is important to deal with this kind of data in an interface between two languages that are used by data scientists.
 
 In R, data of tabular structure is kept in objects of the class \inlinecode{data.frame}.
-There are also additional packages such as \apkg{tibble} \citep{tibble} and \apkg{data.table} \citep{datatable} providing tabular data structures which are compatible with the R \inlinecode{data.frame} interface.
-In Julia, tabular structures are not part of the standard library but they are only available in separate packages.
-Additionally to defining a data type for holding tabular structure, the Julia package \apkg{DataFrames} \citep{juliaDataFramesGithub} offers tools for working with tabular data.
+There are also additional packages such as \apkg{tibble} \citep{tibble} and \apkg{data.table} \citep{datatable} providing tabular data structures, which are compatible with the R \inlinecode{data.frame} interface.
+In Julia, tabular structures are not part of the standard library but are only available in separate packages.
+In addition to defining a data type for holding tabular structure, the Julia package \apkg{DataFrames} \citep{juliaDataFramesGithub} offers tools for working with tabular data.
 Its design is inspired by the R package \apkg{dplyr} \citep{dplyr} and the Python package \apkg{pandas} \citep{pandas}, which aim to streamline data analysis by offering solutions for many common data analysis tasks.
 There are also other Julia packages supporting tabular structures that do not build on the \apkg{DataFrames} package.
 To unify the different approaches, the \apkg{Tables} package \citep{tables.jl} was created, which defines an minimal common interface.
 This interface is used by the \apkg{DataFrames} package and also by many other packages, e.g., by the \apkg{CSV} \citep{juliacsvGithub} package for reading CSV files and the \apkg{JuliaDB} package \citep{juliadbGithub} for working with large persistent data sets.
 Due to the broader goal of the \apkg{DataFrames} Julia package, it has reached version 1.0 only very recently (April 21st 2021) and there have been many breaking changes in the course of the development.
-Because the interface of the \apkg{Tables} has been stable for a longer time, with version 1.0 released in February 2020, and because of its lightweight implementation, the \apkg{Tables} package was used as the basis for the support of tabular structures in the \apkg{JuliaConnectoR}.
+Because the interface of the \apkg{Tables} package has been stable for a longer time, with version 1.0 released in February 2020, and because of its lightweight implementation, the \apkg{Tables} package was used as the basis for the support of tabular structures in the \apkg{JuliaConnectoR}.
 The minimal interface of the \apkg{Tables} interface also allows to use the translated data structures in Julia without applying additional transformations, which would be required to create a \inlinecode{DataFrames.DataFrame}.
 
 \apkg{JuliaCall} depends on the \apkg{DataFrames} Julia package and translates R data frames to Julia objects of type \inlinecode{DataFrames.DataFrame}.
@@ -1696,7 +1696,7 @@ The \apkg{JuliaConnectoR} does not translate structures satisfying the Julia \ap
 Firstly, it is better to avoid translating large amounts of data if it not necessary.
 It is also not possible to convert all Julia objects that are classified as Julia \apkg{Tables} to R data frames.
 For example, the \apkg{Tables} package regards all dictionaries with keys of type \inlinecode{Symbol} as tables.
-For example, the dictionary \inlinecode{Dict(:x => [[1,2],"a"])} is considered to be a table by \apkg{Tables} (version 1.3.1).
+This means, the dictionary \inlinecode{Dict(:x => [[1,2],"a"])} is considered to be a table by \apkg{Tables} (version 1.3.1).
 Yet, this data structure cannot be converted to an R data frame.
 Therefore, the translation to R data frames must be requested explicitly.
 This can be done with the function \inlinecode{as.data.frame}, which is specialized for Julia proxy objects (see p.~\pageref{rdokitem_as.data.frame.JuliaProxy}).
@@ -1775,7 +1775,7 @@ There, stability and ways to get feedback from long-running tasks become more im
 \subsubsection{Features for interactive use}
 
 When developing new code or experimenting with existing solutions, it is essential to gain insights into the behavior of the software and to be able to influence it easily.
-This includes the possibility to interrupt a running program or inspecting intermediate output.
+This includes the possibility to interrupt a running program or to inspect intermediate output.
 Accordingly, the \apkg{JuliaConnectoR} supports these features.
 
 \paragraph{Interrupting}\label{juliaconnectorinterrupting}
@@ -1834,7 +1834,7 @@ rbm = BMs$fitrbm(x)
 dbm = BMs$fitdbm(x)
 \end{lstlisting}
  
-Partitioned architectures can also be built via specifying the arguments for the different parts via \inlinecode{TrainLayer} objects.
+Partitioned architectures can also be built by specifying the arguments for the different parts via \inlinecode{TrainLayer} objects.
 Translating the code in Listing \ref{lst:partdbm} (p.~\pageref{lst:partdbm}) to R results in the code shown in Listing \ref{lst:partdbmr}.
 
 \begin{lstlisting}[language=R,caption={Fitting a partitioned DBM in R via the \apkg{JuliaConnectoR}},label={lst:partdbmr}, float=!h]
@@ -1846,7 +1846,7 @@ dbm <- BMs$fitdbm(x, pretraining = list(
           BMs$TrainLayer(nhidden = 2L)))
 \end{lstlisting}
 
-The functions of the \apkg{BoltzmannMachines} package are strict concerning the argument types and it is required that the numbers have the correct types.
+The functions of the \apkg{BoltzmannMachines} package are sensitive concerning the argument types and it is required that the numbers have the correct types.
 For passing a vector of complex objects to Julia, such as the vector of objects in the \inlinecode{pretraining} argument, R lists can be used.
 These are translated to vectors with the most specific type that can be inferred from the arguments.
 In this case, the inferred type of the vector is \inlinecode{Array\{AbstractTrainLayer,1\}} as the common supertype of \inlinecode{TrainLayer} and \inlinecode{TrainPartitionedLayer} is \inlinecode{AbstractTrainLayer}.
@@ -1872,7 +1872,7 @@ monitors <- monitors_dbm[[1]]
 dbm <- monitors_dbm[[2]]
 \end{lstlisting}
 
-The data is split into training and test data before the training (lines 1-3 in Listing \ref{lst:monfitdbmr}).
+Before the training, the data is split into training and test data (lines 1-3 in Listing \ref{lst:monfitdbmr}).
 In contrast to Julia, R cannot assign two variables in one statement.
 To have two different variables for training and test data, the return value of \inlinecode{BMs\$splitdata}, which is a proxy object for a \inlinecode{Tuple} of Julia objects, has to be disjoined.
 This can be done by indexing the proxy object (lines 2-3).
@@ -1882,7 +1882,7 @@ Then the \inlinecode{DataDict} can be created (lines 4-7 in Listing \ref{lst:mon
 The straightforward way to create a dictionary in Julia uses syntax that is not available in R.
 A convenient way to construct objects involving complex Julia syntax via the \apkg{JuliaConnectoR} is to use the \inlinecode{juliaLet} function (see p.~\pageref{rdokitem_juliaLet}ff.).
 
-After this preparation of the data that is used for monitoring, the training is performed via calling \inlinecode{monitored\_fitdbm} in lines 8-12 in Listing \ref{lst:monfitdbmr}.
+After this preparation of the data that is used later for monitoring, the training is performed via calling \inlinecode{monitored\_fitdbm} in lines 8-12 in Listing \ref{lst:monfitdbmr}.
 The monitoring functions of the \apkg{BoltzmannMachines} package can be passed as arguments via R.
 The names of these functions end with exclamation marks, as it is the convention for Julia functions that mutate their arguments.
 For the use in R, the function names need to be enclosed with backticks (lines 10-11).
@@ -2580,7 +2580,7 @@ The five subgroups of the cases and the control group (see also Section \ref{sim
 In addition to DBMs, it is also possible to train RBMs and DBNs like in the \apkg{BoltzmannMachines} Julia package.
 More complex partitioned architectures can be constructed as well by defining the parameters for individual layers via \inlinecode{ds.bm.defineLayer} and \inlinecode{ds.bm.definePartitionedLayer}.
 Table \ref{tab:dsBoltzmannFuns} provides a summary of the available functions.
-More detailed descriptions, including an explanation of the arguments, can be found in the documentation of the \apkg{dsBoltzmannMachinesClient} package, which is also reproduced in appendix \ref{dsbmsdoku}.
+More detailed descriptions, including an explanation of the arguments, can be found in the documentation of the \apkg{dsBoltzmannMachinesClient} package, which is also reproduced in Appendix \ref{dsbmsdoku}.
 
 \rowcolors{1}{gray!25}{white}
 \begin{table}[!htb]
@@ -2912,7 +2912,7 @@ Die Richtigkeit der vorstehenden Erklärungen bestätige ich. Die Bedeutung der 
 Ich versichere an Eides statt, dass ich nach bestem Wissen die reine Wahrheit erklärt und nichts verschwiegen habe.
 \vspace{2cm}
 
-Freiburg, den 02.05.2021 \hspace{3cm} Stefan Lenz
+Freiburg, den 03.05.2021 \hspace{3cm} Stefan Lenz
 %TODO Datum ggf. anpassen
 
 \clearpage
