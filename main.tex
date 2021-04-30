@@ -2636,7 +2636,7 @@ The \apkg{BoltzmannMachines} package implements several different types of RBMs 
 The possibility to customize the input layer has also been exploited by \cite{treppner_making_2020}, who constructed DBMs with input variables following negative binomial distributions for clustering single-cell sequencing data.
 
 Other unique features of the \apkg{BoltzmannMachines} package concern the evaluation of the likelihood of DBMs and RBMs.
-The likelihood and the variational lower bound of the likelihood can be estimated via the annealed importance sampling (AIS, see Section \ref{evaluatingbms}). 
+The likelihood and the variational lower bound of the likelihood can be estimated via annealed importance sampling (AIS, see Section \ref{evaluatingbms}). 
 The AIS algorithm can be generalized on multimodal DBMs (see Section \ref{unnormalizedprobsrbm}) and it is available for all types of Boltzmann machines that can be constructed with the \apkg{BoltzmannMachines} package.
 The exact calculation and the estimation of the likelihood of DBMs and RBMs are used to ensure the quality of the software via an extensive test suite.
 More importantly, evaluating the training of DBMs is necessary for finding good hyperparameters.
@@ -2647,14 +2647,18 @@ This allows users to examine all possible aspects of RBM and DBM training.
 
 The \apkg{BoltzmannMachines} package can also be used conveniently in R via the the \apkg{Julia\-ConnectoR} R package (see Section \ref{juliaconnectorDbmexample}).
 R is a popular language for bioinformatics and biostatistics \citep{bioconductor}.
-Therefore it is an important asset if the algorithms are also available in R.
-The \apkg{JuliaConnectoR} package also provides a 
-The possibility for importing complete packages into R is a 
+Therefore it is an important asset if the algorithms are also available to R users.
+The \apkg{JuliaConnectoR} offers a generic solution to import functionality from Julia packages into R (see Section \ref{juliaconnectoRAutoimport}), which is not limited to the \apkg{BoltzmannMachines} package.
+This ability to make the functions of complete Julia packages directly available in the form of R functions is one of the unique features that distinguishes the \apkg{JuliaConnectoR} from the other approaches for integrating Julia into R, namely \apkg{JuliaCall} \citep{JuliaCallPaper} and \apkg{XRJulia} \citep{chambersExtendingR}.
+Furthermore, the \apkg{Julia\-ConnectoR} facilitates the interactive use by allowing to interrupt call to Julia without threatening the stability of the R session.
+This is particularly important for experimenting with deep learning algorithms, which may sometimes need an unexpectedly long time to complete (see Section \ref{juliaconnectorinterrupting}).
+Another important feature for the interactive use is the redirection of output, which is also useful for getting feedback from long-running tasks (see Section \ref{juliaconnectorOutput}).
+The well-documented concept for the mapping between Julia and R types and objects (see \ref{translatejuliar} and Appendix \ref{JuliaConnectoRDoku}, p.~\pageref{juliaconnectordokutypetranslation}ff.) further helps to create cross-language code.
 
+Using the \apkg{JuliaConnectoR}, it is possible to wrap the  \apkg{Boltzmann\-Machines} package and make its functionality available in form of the DataSHIELD R package \apkg{dsBoltzmann\-Machines}.
+This allows to use create synthetic data for the use in a setting with distributed data that is subject to data protection constraints.
+The resulting solution is also the first approach that enables deep learning in DataSHIELD.
 
-For the use in a setting with distributed sensitive data, the \apkg{BoltzmannMachines} package can be wrapped into an DataSHIELD R package.
-The result is the first package to implement deep learning in DataSHIELD.
-This can be achieved via the \apkg{JuliaConnectoR}.
 
 
 \subsection{Computational performance}
