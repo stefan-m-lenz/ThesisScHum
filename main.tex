@@ -153,12 +153,13 @@ One particularly big challenge is limited data \citep{min_deep_2017}.
 While the amount of data in fields such as image and speech recognition has been increased dramatically with the content available in the internet, the amount of usable genetic or medical data remains comparatively small.
 The problem of small sample sizes is particularly prevalent when dealing with genetic variant data
 because there is a high number of genetic variants, and, at the same time, the sequencing of genomes is still relatively expensive.
-Moreover, sharing genomic data can threaten the privacy of individuals because it can potentially be used for identifying individuals and their risks of diseases or for discovering other personal traits \citep{bonomi_privacy_2020}.
+Moreover, sharing genomic data can threaten the privacy of individuals because it can potentially be used for identifying individuals and predicting their risks of diseases or for discovering other personal traits \citep{bonomi_privacy_2020}.
 Therefore, genomic data of humans is subject to data protection in many cases, and cannot be made available in a simple way.
 This results in data sets with relatively few samples compared to the number of dimensions in data sets of genetic variants.
 Also for clinical data, the availability of high-quality data is one of the key challenges \citep{machine_learning_review_nejm}.
 Although there is an abundance of routine care data, sample sizes are often small when it comes to curated data or data from clinical studies.
-Additionally, general privacy restrictions make it difficult to use health information of humans for research and further limit the amount of accessible data.
+Additionally, general privacy restrictions make it difficult to use health information of humans for research.
+This further limits the amount of accessible data.
 For example, the European General Data Protection Regulation (GDPR) requires an explicit consent for analyzing the health care data of individuals, which makes it hard to collect large amounts of data that can be used for various research purposes \citep{rumbold_effect_2017, shabani_re-identifiability_2019}.
 Thus, approaches that can yield good results with only a limited amount of data are needed in many cases when applying deep learning on biomedical data.
 
@@ -171,6 +172,20 @@ Other generative approaches in the field of deep learning are variational autoen
 In a comparison of GANs, VAEs, and DBMs on genetic variant data of different rather small sample sizes, DBMs showed a good generative performance \citep{nussberger_synthetic_2020}.
 Besides generating data, DBMs and VAEs can be used for dimensionality reduction by analysing the activation in higher-level layers of the network, which encode features of increasing complexity in the data.
 This has, e.g., been applied to find patterns in gene expression data \citep{ding_interpretable_2018, hess_exploring_2020}.
+
+
+Unsupervised learning is also called self-supervised learning if the model is designed to predict parts of the input from other parts \citep{lecun_selfsupervised_2019}.
+One advantage of DBMs is that it is particularly easy to perform such predictions of parts of data based on other parts.
+This can be achieved via conditional sampling, i.e., drawing from the learned distribution conditioned on certain values of input variables \citep{salakhutdinov2015generativemodels}.
+The flexibility in conditional sampling separates DBMs from VAEs and GANs, where this is not possible.
+Variants of VAEs and GANs have been proposed for this, called {\em conditional VAEs} \citep{cvae} and {\em conditional GANs} \citep{cgan}.
+The latter has also been applied to gene expression data \citep{wang_conditional_2018}.
+There, the prediction of gene activation from so-called landmark genes, which are suspected to contain most information of the genome, has been improved.
+For this, and in conditional VAEs and conditional GANs in general, the variables that are used as conditions need to be specified in the training.
+DBMs have the advantage that the specification of specific variables as conditions is not necessary and conditions can be set on arbitrary variables.
+Conditional sampling in DBMs could therefore be used to simulate the regulation of arbitrary gene expression patterns based on a DBM model that has been trained on genetic expression data.
+Such a model that has learned the overall structure of a data set is then also able to utilize the information about the whole distribution when making inferences about smaller subgroups.
+
 
 Another possible application of generative models is to create synthetic data for privacy-preserving analyses.
 Synthetic data is data that has properties similar to original data but that is not linked to individual samples of the original data.
@@ -196,17 +211,7 @@ The question is here, whether deep learning techniques can also be brought to Da
 
 %Idee: DBMs multimodal , e. g. clinical, gene expression, and single nucleotide polymorphism (SNP) data
 
-Unsupervised learning is also called self-supervised learning if the model is designed to predict parts of the input from other parts \citep{lecun_selfsupervised_2019}.
-One advantage of DBMs is that it is particularly easy to perform such predictions of parts of data based on other parts.
-This can be achieved via conditional sampling, i.e., drawing from the learned distribution conditioned on certain values of input variables \citep{salakhutdinov2015generativemodels}.
-The flexibility in conditional sampling separates DBMs from VAEs and GANs, where this is not possible.
-Variants of VAEs and GANs have been proposed for this, called {\em conditional VAEs} \citep{cvae} and {\em conditional GANs} \citep{cgan}.
-The latter has also been applied to gene expression data \citep{wang_conditional_2018}.
-There, the prediction of gene activation from so-called landmark genes, which are suspected to contain most information of the genome, has been improved.
-For this, and in conditional VAEs and conditional GANs in general, the variables that are used as conditions need to be specified in the training.
-DBMs have the advantage that the specification of specific variables as conditions is not necessary and conditions can be set on arbitrary variables.
-Conditional sampling in DBMs could therefore be used to simulate the regulation of arbitrary gene expression patterns based on a DBM model that has been trained on genetic expression data.
-Such a model that has learned the overall structure of a data set is then also able to utilize the information about the whole distribution when making inferences about smaller subgroups.
+
 
 Apparently deep Boltzmann machines exhibit promising qualities for deep learning on biomedical data, where limited sample size and privacy restrictions are common challenges.
 An additional big challenge for deep learning on biomedical data is finding good hyperparameters for the optimization algorithms \citep{min_deep_2017}.
@@ -215,14 +220,15 @@ As the success of the learning depends critically on good hyperparameters, a spe
 
 \subsection{Aims of the thesis}
 
-Small sample sizes and privacy restrictions are major obstacles for performing deep learning on biomedical data.
-Using synthetic data is a possibility for analyzing distributed data sets that cannot be pooled due to privacy restrictions.
-It is to be shown that DBMs can be used for creating synthetic data that captures the structure of the original data and does not disclose information about individuals.
-This work aims to investigate how DBMs can be used as generative models for deep learning on biomedical data and how they can become an accessible tool for this purpose.
+Small sample sizes and privacy restrictions are major obstacles for performing deep learning on biomedical data \citep{min_deep_2017}.
+Using synthetic data is a possibility for analyzing distributed data sets that cannot be pooled due to privacy restrictions \citep{manriquevallier_bayesian_2018, quick_generating_2018, goncalves}.
+It is to be shown that DBMs can be used for creating synthetic data that capture the structure of the original data and do not disclose information about individuals.
+More generally, this work aims to investigate how DBMs can be used as generative models for deep learning on biomedical data and how they can become an accessible tool for this purpose.
 
 In a first step, the algorithms for training and evaluating DBMs need to be implemented in a way that they are easy to use and suitable for experimentation (Section \ref{bmpart}).
 This implementation can then be used to examine the hypothesis that DBMs can produce useful synthetic data in scenarios with small sample size and also with distributed data (Section \ref{simuexp} and Section \ref{realexp}).
 For employing DBMs in settings with sensitive health information, the disclosure risk of synthetic data created by DBMs must be investigated as well.
+For this purpose, DBMs are compared with VAEs, GANs, and simpler approaches, such as multiple imputation by chained logistic regression models \citep{mice}, with respect to generative performance and the disclosure risk of synthetic data that has been generated by these approaches (Section \ref{realexp}).
 After this, DBMs can be considered for generating synthetic data in the DataSHIELD infrastructure for distributed privacy-preserving analyses.
 Since DataSHIELD is based on the R programming language, the algorithms for training and evaluating DBMs must also be made available in R (Section \ref{juliaconnectorpart}).
 Finally, a solution for applying DBMs via DataSHIELD can be provided (Section \ref{dsBoltzmannMachinesImpl}).
