@@ -1373,7 +1373,7 @@ Here we use 80\%  of the original data set \inlinecode{x} as training data and 2
 xtrain, xtest = splitdata(x, 0.2)
 \end{lstlisting}
 
-Monitoring the training progress can be done via passing monitoring functions and data for monitoring data as arguments to the training functions.
+Monitoring the training progress can be done via passing monitoring functions and data for monitoring as arguments to the training functions.
 
 The advantage of this approach is that is very simple to pass any kind of user defined function, e.g., for printing information about the training progress.
 \begin{lstlisting}[language=Julia]
@@ -1383,7 +1383,7 @@ fitrbm(x; epochs = 20,
 
 The \inlinecode{fitdbm} function allows to monitor the pre-training as well as the fine-tuning.
 An overview of the most important pre-defined functions that can be used for monitoring can be found in Table \ref{monfun}.
-For each of the training functions in Table \ref{juliaFunTableTrain}, there is also a function prefixed with ``\inlinecode{monitoring\_}", which allows to write the monitoring with functions in Table \ref{monfun} in a compact way.
+For each of the training functions in Table \ref{juliaFunTableTrain}, there is also a function prefixed with ``\inlinecode{monitoring\_}", which allows to write the monitoring with functions such as those listed in Table \ref{monfun} in a compact way.
 This works also for other user-defined functions that accept the same input arguments as the pre-defined monitoring functions.
 
 \begin{lstlisting}[language=Julia,caption={Monitoring pre-training and fine-tuning}, label={lst:monfitdbm}]
@@ -1399,8 +1399,8 @@ monitors, dbm = monitored_fitdbm(x; nhiddens = [6,2],
 In Listing \ref{lst:monfitdbm}, the different data sets that are to be used in monitoring are at first collected in a \inlinecode{DataDict} object and then passed to the training function via the  \inlinecode{monitoringdata} argument.
 For monitoring the pre-training of higher layers, the input data in the \inlinecode{datadict} is propagated upwards by using the induced deterministic activation potential in the same way as it is done with the data for training the higher layers.
 
-The monitoring functions are expected to write their results in the \inlinecode{Monitor} objects (see p.\ \pageref{bms_Monitor}) that are received as first argument of the monitoring functions.
-These \inlinecode{Monitor} objects are collected and returned in form of a vector as the first result of the monitored training function.
+The monitoring functions are expected to write their results into the \inlinecode{Monitor} objects (see p.\ \pageref{bms_Monitor}) that are received as first argument of the monitoring functions.
+These \inlinecode{Monitor} objects are collected and returned in form of a vector as the first result of the monitored training functions.
 
 
 
@@ -1476,7 +1476,7 @@ In this particular case, the language bridge was needed to integrate the functio
 For this purpose, a new approach was chosen, resulting in the creation of the \apkg{JuliaConnectoR} R package, which has been published in the Comprehensive R Archive Network.\footnote{\url{https://cran.r-project.org/package=JuliaConnectoR}}
 
 There are two other R packages for calling Julia from R, namely \apkg{JuliaCall} \citep{JuliaCallPaper} and \apkg{XRJulia} \citep{chambersExtendingR}, which predate the \apkg{JuliaConnectoR}.
-The main reason for developing a new software was that the other packages did not work reliably.
+The main reason for developing new software was that the other packages did not work reliably.
 One issue was run-time stability, which is important for a software that needs to be deployed across a number of different sites and that has to function without human intervention.
 Of course, also during local development, crashes are not desirable.
 Other issues were the incompatibilities with some R and Julia versions and a lack of documentation.
@@ -1523,7 +1523,7 @@ Let-syntax & Yes & No & No & \ref{juliaconnectorDbmexample} \\
 \end{table}
 
 In the following, these features and the differences between the packages are detailed.
-Subsequently, in \ref{juliaconnectorDbmexample}, it is demonstrated how these features help to train and evaluate DBMs in R.
+Subsequently, in Section \ref{juliaconnectorDbmexample}, it is demonstrated how these features help to train and evaluate DBMs in R.
 In Appendix \ref{JuliaConnectoRDoku}, the documentation of the \apkg{JuliaConnectoR} package can be found.
 There, the usage of the different functions is described in greater detail from a user perspective.
 
@@ -1552,7 +1552,7 @@ This aspect was kept in mind in the design of the \apkg{JuliaConnectoR}.
 As a result, the higher-level approach taken by the \apkg{JuliaConnectoR} is compatible with a wide range of R and Julia versions (tested on R 3.2-4.0 and Julia 1.0-1.6), requiring only minimal adaptions for keeping cross-version compatibility.
 As another disadvantage, the coupling via a C-interface requires that R is built as a shared/dynamic library.
 For using \apkg{RCall}, this is required\footnote{The option \inlinecode{-enable-R-shlib} is required when installing R, see installation instructions of \apkg{RCall}: \url{https://github.com/JuliaInterop/RCall.jl/blob/v0.13.4/docs/src/installation.md}}.
-In its default installation, R is not configured as shared/dynamic library because this can reduce the performance of R by 10-20\% \citep{rAdmin}.
+In its default installation, R is not configured as a shared/dynamic library because this can reduce the performance of R by 10-20\% \citep{rAdmin}.
 
 
 \apkg{XRJulia} also uses TCP as underlying communication mechanism but it transports the information via JSON messages.
@@ -1582,7 +1582,7 @@ An example for this can be to use deep learning in Julia but perform data prepro
 The function \inlinecode{juliaImport} (see also on p.~\pageref{rdokitem_juliaImport}ff.) of the \apkg{JuliaConnectoR} can inspect a Julia package and then return all Julia functions, including type constructors, in the form of an environment that contains R functions that wrap the Julia functions.
 This approach helps to handle external packages in a simple way, and it aids in writing more concise code, as can be seen in the following.
 
-At first, a minimal example, employing the \apkg{Flux} Julia package in R, is shown in Listing \ref{fluximportJulia} and Listing \ref{fluximportR}.
+At first, a minimal example employing the \apkg{Flux} Julia package in R is shown in Listing \ref{fluximportJulia} and Listing \ref{fluximportR}.
 Later, in Section \ref{juliaconnectorDbmexample}, a more detailed example using DBMs and the \apkg{BoltzmannMachines} package is given.
 This demonstrates that the \apkg{JuliaConnectoR} can be used for importing arbitrary packages.
 In Listing \ref{fluximportJulia} and Listing \ref{fluximportR}, two different packages are involved.
@@ -1612,14 +1612,13 @@ model <- Flux$Chain(Flux$Dense(4L, 4L, Flux$relu),
                     Flux$Dense(4L, 1L))
 \end{lstlisting}
 
-An alternative to importing a package in this way is to address the functions via their name as strings with the \inlinecode{juliaCall} function. 
+An alternative to importing a package in this way is to address the functions via their name as strings with the \inlinecode{juliaCall} function of the \apkg{JuliaConnectoR} package (see p.~\pageref{rdokitem_juliaCall}). 
 For example, lines 2 and 3 in Listing \ref{fluximportR} could be replaced with:
 \begin{lstlisting}[language=R]
 juliaEval("import Pkg")
 juliaCall("Pkg.add", name = "Flux", version = "0.11") 
 \end{lstlisting}
-(For more information on \inlinecode{juliaEval}, which simply evaluates a given string in Julia and returns the result, see p.~\pageref{rdokitem_juliaEval}. 
-For more details on the usage of \inlinecode{juliaCall} see p.~\pageref{rdokitem_juliaCall}.)
+(For more information on \inlinecode{juliaEval}, which simply evaluates a given string in Julia and returns the result, see p.~\pageref{rdokitem_juliaEval}.)
 
 When considering the next lines, the advantage of the automatic importing becomes more obvious.
 Replacing the imported functions with \inlinecode{juliaCall} there would deteriorate the legibility in a significant way.
@@ -1715,7 +1714,7 @@ R extends this standard and uses one of the several representations of \inlineco
 This makes it possible that both \inlinecode{c(1,NA)} and \inlinecode{c(1, NaN)} are of type \inlinecode{double}.
 
 Julia has also a concept for missing values.
-In contrast to R, missing values are represented by the \inlinecode{missing} object, which is of type \inlinecode{Missing}. Accordingly, the vector \inlinecode{[1.0, missing]} is of type \inlinecode{Array\{Union\{Missing, Float64\},1\}}, while \inlinecode{[1.0, NaN]} is of type \inlinecode{Array\{Float64,1\}}.
+In contrast to R, missing values are represented in Julia by the \inlinecode{missing} object, which is of type \inlinecode{Missing}. Accordingly, the vector \inlinecode{[1.0, missing]} is of type \inlinecode{Array\{Union\{Missing, Float64\},1\}}, while \inlinecode{[1.0, NaN]} is of type \inlinecode{Array\{Float64,1\}}.
 
 The \apkg{JuliaConnectoR} makes sure that \inlinecode{NA} values in R are translated to \inlinecode{missing} values in Julia and vice versa, while \inlinecode{NaN} values are treated as floating point values according to the standard.
 In the following code snippet, this is demonstrated via performing an addition of two R vectors in Julia:
@@ -1827,7 +1826,7 @@ Pkg$add("BoltzmannMachines")
 BMs <- juliaImport("BoltzmannMachines")
 \end{lstlisting}
 
-After this, all functions in the \apkg{BoltzmannMachines} package are available via the variable \inlinecode{BMs} and fitting DBMs and RBMs is possible.
+After this, all functions in the \apkg{BoltzmannMachines} package are available via the variable \inlinecode{BMs}, and fitting DBMs and RBMs is possible.
 
 \begin{lstlisting}[language=R, float=!h]
 rbm = BMs$fitrbm(x)
@@ -1846,7 +1845,7 @@ dbm <- BMs$fitdbm(x, pretraining = list(
           BMs$TrainLayer(nhidden = 2L)))
 \end{lstlisting}
 
-The functions of the \apkg{BoltzmannMachines} package are sensitive concerning the argument types and it is required that the numbers have the correct types.
+The functions of the \apkg{BoltzmannMachines} package are sensitive with respect to the argument types and it is required that the numbers have the correct types.
 For passing a vector of complex objects to Julia, such as the vector of objects in the \inlinecode{pretraining} argument, R lists can be used.
 These are translated to vectors with the most specific type that can be inferred from the arguments.
 In this case, the inferred type of the vector is \inlinecode{Array\{AbstractTrainLayer,1\}} as the common supertype of \inlinecode{TrainLayer} and \inlinecode{TrainPartitionedLayer} is \inlinecode{AbstractTrainLayer}.
@@ -1885,7 +1884,7 @@ A convenient way to construct objects involving complex Julia syntax via the \ap
 After this preparation of the data that is used later for monitoring, the training is performed via calling \inlinecode{monitored\_fitdbm} in lines 8-12 in Listing \ref{lst:monfitdbmr}.
 The monitoring functions of the \apkg{BoltzmannMachines} package can be passed as arguments via R.
 The names of these functions end with exclamation marks, as it is the convention for Julia functions that mutate their arguments.
-For the use in R, the function names need to be enclosed with backticks (lines 10-11).
+For the use in R, the function names need to be enclosed with backticks (lines 10-11 in Listing \ref{lst:monfitdbmr}).
 
 The \apkg{JuliaConnectoR} allows to fully translate Julia objects into R objects.
 This can be used to translate a DBM to an R object and serialize it with the R session.
