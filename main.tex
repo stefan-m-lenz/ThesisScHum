@@ -222,8 +222,9 @@ As the success of the learning depends critically on good hyperparameters, a spe
 
 Small sample sizes and privacy restrictions are major obstacles for performing deep learning on biomedical data \citep{min_deep_2017}.
 Using synthetic data is a possibility for analyzing distributed data sets that cannot be pooled due to privacy restrictions \citep{manriquevallier_bayesian_2018, quick_generating_2018, goncalves}.
-It is to be shown that DBMs can be used for creating synthetic data that capture the structure of the original data and do not disclose information about individuals.
-More generally, this work aims to investigate how DBMs can be used as generative models for deep learning on biomedical data and how they can become an accessible tool for this purpose.
+DBMs are a promising approach for modeling the distribution of high-dimensional data of small sample size \citep{hess2017partitioned, nussberger_synthetic_2020}.
+It is to be shown that DBMs can be used for creating synthetic data that capture the structure of the original data while also ensuring that using DBMs for this purpose does not pose an intolerable privacy risk.
+More generally, this work aims to investigate how DBMs can be used as generative models for deep learning on biomedical data and how they can become an accessible and practically usable tool for this purpose.
 
 In a first step, the algorithms for training and evaluating DBMs need to be implemented in a way that they are easy to use and suitable for experimentation (Section \ref{bmpart}).
 This implementation can then be used to examine the hypothesis that DBMs can produce useful synthetic data in scenarios with small sample size and also with distributed data (Section \ref{simuexp} and Section \ref{realexp}).
