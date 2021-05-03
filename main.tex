@@ -641,7 +641,7 @@ This leads us to the next section, where we want to take a closer look at method
 
 
 \subsubsection{Evaluating restricted and deep Boltzmann machines}\label{evaluatingbms}
-A special challenge for unsupervised learning on non-image data in general is the lack of performance indicators.
+A special challenge for unsupervised learning in general is the difficulty of evaluating the performance.
 In supervised training, the classification accuracy is the natural evaluation criterion, which is also easy to implement.
 In unsupervised training with a well investigated class of data such as images, there is already much experience available for choosing the model architecture and the hyperparameters. If models are to be trained on very diverse data, the problem of finding good hyperparameters is exacerbated as parameter tuning can pose a different challenge for each data set.
 
@@ -656,7 +656,7 @@ In most cases, the likelihood cannot be calculated exactly but it can only be es
 \label{methodExactloglik}
 As mentioned in Section \ref{rbmtraining}, the exact calculation of partition functions is only computationally feasible for very small models as its complexity grows exponentially. Exploiting the layerwise structure allows a faster exact calculation of $Z$ such that the computation time does not grow exponentially with the number of all nodes but only grows exponentially with the number of elements in a subset of the nodes. It is possible to utilize the formula for the free energy in restricted Boltzmann machines (see (\ref{eqn:freenergy_rbm}) and (\ref{eqn:freenergy_gbrbm})), where the hidden layer is summed out analytically.
 With this it is possible to reduce the number of summands.
-The complexity for calculating the partition function for all the different types of  models described here is then still $\mathcal{O}(2^n)$, but with an $n$ smaller than the number of nodes:
+The complexity for calculating the partition function for all the different types of  models described here is then still $\mathcal{O}(2^n)$, but with an $n$ that is smaller than the number of nodes:
 
 By using the formulas for the free energy and the symmetry of restricted Boltzmann with binary nodes, $n = \min(n_V, n_H)$ with $n_V$ and $n_H$ being the number of visible/hidden nodes, respectively.
 In RBMs with one of layer Gaussian nodes and one layer of binary nodes, $n$ is the number of binary nodes, since the contribution of the Gaussian nodes can be integrated analytically.
@@ -674,7 +674,7 @@ In case of a deep Boltzmann machine, it is possible to sum out each second layer
 For annealed importance sampling we need a sequence of intermediate distributions
 $p_0, \dots p_K$ with
 $p_0 = p_A$ and $p_K = p_B$. The ratio $\frac{Z_B}{Z_A}$ is then estimated by the mean of a number of so called {\em importance weights}.
-Each importance weight is determined via sampling a new chain of values $x^{(0)}, \dots, x^{(k)}$ and then calculating the product of the ratios of unnormalized probabilities
+Each importance weight is determined via sampling a new chain of values $x^{(0)}, \dots, x^{(K)}$ and then calculating the product of the ratios of unnormalized probabilities
 \[
    \prod_{k=1}^K \frac{p^*_k(x^{(k)})}{p^*_{k-1}(x^{(k)})}.
 \]
@@ -733,15 +733,15 @@ Here the visible layer $v$ and the second hidden layer $h^{(2)}$ have been summe
 %This trick can be used to fit AIS for GBRBMs in the same schema as RBMs with Bernoulli distributed nodes.
 
 
-It can be noted that the term in the first line of Equation \ref{eqn:aisunnormalizedprob} is equal to the unnormalized probability of the hidden nodes in a RBM with Bernoulli distributed nodes.
+It can be noted that the term in the first line of Equation (\ref{eqn:aisunnormalizedprob}) is equal to the unnormalized probability of the hidden nodes in a RBM with Bernoulli distributed nodes.
 This procedure can be generalized for AIS on multimodal DBMs.
 If we have the unnormalized probability $p^*(h)$ for each type of RBM that receives the data input, it becomes possible to calculate the unnormalized probability of sampled hidden values in a multimodal DBM in the same way as for a standard DBM with only Bernoulli distributed nodes.
-The formula for the unnormalized probability for the respective RBM type (see Section \ref{unnormalizedprobsrbm}) can then be used for summing out the visible units in Equation \ref{eqn:aisunnormalizedprob} by substituting the term in the first line with the product of the unnormalized probabilities for all RBMs in the visible layer.
+The formula for the unnormalized probability for the respective RBM type (see Section \ref{unnormalizedprobsrbm}) can then be used for summing out the visible units in Equation (\ref{eqn:aisunnormalizedprob}) by substituting the term in the first line with the product of the unnormalized probabilities for all RBMs in the visible layer.
 
 \paragraph{Calculating or estimating likelihoods in deep Boltzmann machines}
 For a restricted Boltzmann machine, the likelihood can be calculated using Equation (\ref{eqn:pRBMfreeenergy}) if the partition function is known. This is not so easily possible in a DBM, for which calculating the distribution of the hidden nodes is of exponential complexity.
 Estimating the likelihood of DBMs is possible using AIS by constructing a smaller DBM for each sample and estimating its partition function.
-The smaller DBM is constructed by removing the visible layer, and incorporating contribution of the sample to the energy of the first RBM - consisting only of visible and first hidden layer - into the bias of the new visible layer which was the first hidden layer of the original model.
+The smaller DBM is constructed by removing the visible layer, and incorporating the contribution of the sample to the energy of the first RBM - consisting only of visible and first hidden layer - into the bias of the new visible layer which was the first hidden layer of the original model.
 The partition function of this smaller model is then the unnormalized probability of the sample in the original model \citep{salakhutdinov2009DBMs}.
 In a setting with very large sample size, the cost of estimating the actual likelihood with this procedure may be too expensive. But if the sample size is small enough, can be affordable to estimate the likelihood and not fall back on the lower bound.
 
@@ -753,6 +753,7 @@ Thus, often there are other statistics used for quickly checking the training pr
 The free energy cannot be used for comparing different models because it does not include the normalization by $Z$.
 It can, however, be used to compare how well the same model fits different data sets.
 One application for this is monitoring the overfitting by comparing the training data set and a test data set \citep{hinton_practical_2012}.
+
 \label{reconstructionerror}
 Another popular statistics, which behaves similar to the likelihood in RBMs in most cases, is the {\em reconstruction error} \citep{hinton_practical_2012}.
 For defining this, one first needs to define the term {\em reconstruction} in an RBM.
@@ -784,10 +785,10 @@ Gibbs sampling can also be performed in the same way, using the conditional prob
 Categorical values are common in biomedical data.
 For most applications in machine learning, categorical data is usually encoded in dummy variables \citep{hastie_elements}.
 It would be possible to use the binary dummy variables as input to a restricted or deep Boltzmann machine with Bernoulli distributed visible units as well.
-But when sampling from such a Boltzmann machine model all combinations of visible nodes have a positive probability. This can be seen from the formula of the conditional probability (\ref{eqn:condprobrbm}) and the fact that the values of the sigmoid function are strictly positive.
+But when sampling from such a Boltzmann machine model, all combinations of visible nodes have a positive probability. This can be seen from the formula of the conditional probability (\ref{eqn:condprobrbm}) and the fact that the values of the sigmoid function are strictly positive.
 Therefore, the resulting data is not properly encoded in general  because illegal combinations of the values of dummy variables can occur.
 This means that sampled values cannot be mapped to the original categories any more.
-Using dummy variables as input to Boltzmann machines with Bernoulli distributed variables makes it also more difficult to learn higher level patterns, as the Boltzmann machine has at first to learn the pattern that results from the dummy encoding  by itself. Hence it is advised to use a Boltzmann machine that has the knowledge about the encoding built into its energy function and probability distribution like described in the following.
+Using dummy variables as input to Boltzmann machines with Bernoulli distributed visible nodes makes it also more difficult to learn higher level patterns, as the Boltzmann machine has at first to learn the pattern that results from the dummy encoding  by itself. Hence it is advised to use a Boltzmann machine that has the knowledge about the encoding built into its energy function and probability distribution like described in the following.
 
 
 For encoding categorical variables, the most popular encoding used by the machine learning frameworks \apkg{TensorFlow} \citep{tensorflow}, \apkg{scikit-learn} \citep{scikit-learn} or \apkg{Flux} \citep{flux} is the so-called ``one-hot encoding", which encodes a variable with $k$ categories in a binary vector of $k$ components, where exactly one component is one and all others are zero.
@@ -837,11 +838,11 @@ p^*(h) &= \sum_v  \exp (-E(v,h)) \nonumber \\
 
 The notation $\sum_{v_{i \notin C_k}}$ here indicates that the sum goes over all possible combinations of values for the visible nodes that do not belong to $C_k$.
 
-The input from the hidden nodes can further be extracted from $ \sum_{v_{i \notin C_k}} e^{-E(v_{k=1}, v_{i \neq k}, h)}$ by regrouping the summands:
+The input from the hidden nodes can further be extracted from $ \sum_{v_{i \notin C_k}} e^{-E(v_{c=1}, v_{i \notin C_k}, h)}$ by regrouping the summands:
 \begin{align}
 &\sum_{v_{i \notin C_k}} \exp ( - E(v_c = 1, v_{i \notin C_k},  h)) = \nonumber \\
 &\quad = \sum_{v_{i \notin C_k}} \exp \left( \sum_{i \notin C_k} v_i h_j w_{ij} + \sum_{i \notin C_k} a_i v_i + a_k  + \sum_j h_j w_{kj} +\sum_j h_j b_j \right) \nonumber \\
-&\quad = \exp \left( (Wh)_k + a_k \right) \sum_{v_{i \notin C_k}} \exp \left(-E(v_{i \in C_k} = 0, v_{i \notin C_k}, h) \right)
+&\quad = \exp \left( (Wh)_c + a_c \right) \sum_{v_{i \notin C_k}} \exp \left(-E(v_{i \in C_k} = 0, v_{i \notin C_k}, h) \right)
 \label{eqn:sumvksoftmax}
 \end{align}
 
@@ -857,7 +858,7 @@ With this, the conditional probability of a dummy variable being equal to one ca
 \begin{align*}
 p(v_k = 1 \mid h) &= \frac{p(v_k = 1, h)}{p(h)} \\
   &= \frac{p^*(v_k = 1, h)}{p^*(h)}\\
-  &= \frac{\sum_{v_{i \notin C_k}} e^{-E(v_{k=1}, v_{i \neq k}, h)}}{p^*(h)} \\
+  &= \frac{\sum_{v_{i \notin C_k}} e^{-E(v_{k=1}, v_{i \notin C_k}, h)}}{p^*(h)} \\
  %&=  \frac{\sum_{v_{i \notin C_k}} \exp \left( \sum_{i \notin C_k} v_i h_j w_{ij} + \sum_{i \notin C_k} a_i v_i + a_k  + \sum h_j w_{kj} +\sum_j h_j b_j \right)}{p^*(h)} \\
  &\stackrel{(\ref{eqn:sumvksoftmax})}{=} \frac{\exp \left( (Wh)_k + a_k \right) \sum_{v_{i \notin C_k}} \exp \left(-E(v_{i \in C_k} = 0, v_{i \notin C_k}, h) \right)}{p^*(h)}\\
 &\stackrel{(\ref{eqn:unnormalizedhiddensplit})}{=} \frac{\exp((Wh)_k + a_k)}{1 + \sum_{c \in C_k} \exp ((Wh)_c + a_c)}
@@ -892,9 +893,9 @@ With that, the unnormalized probability of the hidden nodes in a {\bf Gaussian R
 \begin{align*}
    p^*(h) &= \intrnv e^{-E \left(v,h \right)} dv \\
    &= \intrnv \exp \left( -\sum_{i=1}^{n_V}\frac{(v_i - a_i)^2}{2\sigma_i^2} + b^T h + \sum_{i=1}^{n_V} \sum_{j=1}^{n_H} \frac{v_i}{\sigma_i}h_j w_{ij} \right) dv\\
-   &= e^{b^T h} \intrnv \exp \left( \frac{v_i^2 -2 a_i v_i + a_i^2 - 2 v_i (Wh)_i \sigma_i}{2 \sigma_i^2} \right) dv \\
+   &= e^{b^T h} \intrnv \exp \left( - \sum_{i=1}^{n_V} \frac{v_i^2 -2 a_i v_i + a_i^2 - 2 v_i (Wh)_i \sigma_i}{2 \sigma_i^2} \right) dv \\
    &= e^{b^T h} \intrnv \exp \left(
-      - \sum_{i=1}^{n_V} \frac{{\left( v_i - \left( (Wh)_i \sigma_i + a_i \right) \right)}^2}{2\sigma_i^2} + \frac{1}{2}(Wh)_i^2 + (Wh)_i \frac{a_i}{\sigma_i} \right ) dv \\
+      - \sum_{i=1}^{n_V} \frac{{\left( v_i - \left( (Wh)_i \sigma_i + a_i \right) \right)}^2}{2\sigma_i^2} + \sum_{i=1}^{n_V} \frac{1}{2}(Wh)_i^2 + (Wh)_i \frac{a_i}{\sigma_i} \right ) dv \\
    \begin{split}
       &= \exp \left(b^T h + \sum_{i=1}^{n_V} \frac{1}{2}(Wh)_i^2 + (Wh)_i \frac{a_i}{\sigma_i} \right ) \cdot \\
       & \quad \quad \intrnv \exp \left ( - \sum_{i=1}^{n_V} \frac{{\left( v_i - ((Wh)_i \sigma_i + a_i) \right)}^2}{2\sigma_i^2} \right) dv
@@ -909,11 +910,11 @@ For {\bf Cho's alternative parameterization} (see Equation (\ref{eqn:energyformu
 \allowdisplaybreaks
 \begin{align*}
    p^*(h) &= \intrnv e^{-E \left(v,h \right)} dv \\
-   &= \intrnv \exp \left( - \sum_{i=1}^{n_V} \frac{(v_i - a_i)^2}{2\sigma_i^2} + \sum_{i=1}^{n_V} \sum_{j=1}^{n_H} h_j w_{ij} \frac{v_i}{\sigma_i^2} - \sum_{i=1}^{n_H} b_j h_j \right) dv \\
+   &= \intrnv \exp \left( - \sum_{i=1}^{n_V} \frac{(v_i - a_i)^2}{2\sigma_i^2} + b^T h + \sum_{i=1}^{n_V} \sum_{j=1}^{n_H} h_j w_{ij} \frac{v_i}{\sigma_i^2} \right) dv \\
    &= e^{b^T h} \intrnv \exp\left( - \sum_{i=1}^{n_V} \frac{(v_i - a_i)^2 - 2 v_i (Wh)_i}{2 \sigma_i^2} \right) dv \\
-   &= e^{b^T h} \intrnv \exp \left( - \sum_{i=1}^{n_V} \frac{\left((v_i - ((Wh)_i + a_i) \right)^2}{2 \sigma_i^2}  + \sum_{i=1}^{n_V} \frac{(Wh)_i^2 + 2 a_i (Wh)_i}{2\sigma_i^2} \right) dv\\
+   &= e^{b^T h} \intrnv \exp \left( - \sum_{i=1}^{n_V} \frac{\left(v_i - ((Wh)_i + a_i) \right)^2}{2 \sigma_i^2}  + \sum_{i=1}^{n_V} \frac{(Wh)_i^2 + 2 a_i (Wh)_i}{2\sigma_i^2} \right) dv\\
    &= \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{(Wh)_i^2 + 2 a_i (Wh)_i}{2\sigma_i^2} \right) \cdot \\
-   & \quad \quad \intrnv \exp \left(- \sum_{i=1}^{n_V} \frac{\left((v_i - ((Wh)_i + a_i) \right)^2}{2 \sigma_i^2} \right) dv\\
+   & \quad \quad \intrnv \exp \left(- \sum_{i=1}^{n_V} \frac{\left(v_i - ((Wh)_i + a_i) \right)^2}{2 \sigma_i^2} \right) dv\\
    &\stackrel{(\ref{eqn:densitynormal})}{=} \exp \left( b^T h + \sum_{i=1}^{n_V} \frac{\frac{1}{2}(Wh)_i^2 + (Wh)_i a_i}{\sigma_i^2} \right ) \prod_{i=1}^{n_V}\left(\sqrt{2\pi} \sigma_i \right).
 \end{align*}
 \endgroup
@@ -922,7 +923,7 @@ For the RBM for {\bf categorical variables with the dummy encoding with referenc
 \begin{align}
 e^{-E(v,h)} &= \exp \left(\sum_j b_j h_j + \sum_{i,j} w_{ij} v_i h_j + \sum_i a_i v_i \right) \nonumber \\
 &= \exp \left( \sum_i b_j h_j + \sum_i v_i \left( a_i + \sum_j w_{ij} h_j \right) \right) \nonumber \\
-&= e^{\sum b_h h_j} \prod_i \underbrace{e^{v_i (a_i + \sum_j w_{ij} h_j)}}_{(*)}
+&= e^{\sum_j b_h h_j} \prod_i \underbrace{e^{v_i (a_i + \sum_j w_{ij} h_j)}}_{(*)}
 \label{eqn:freeenergytrick}
 \end{align}
 \begin{equation*}
