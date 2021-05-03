@@ -122,7 +122,7 @@
 %Additionally to likelihood estimation, this package offers convenience methods to monitor a number of other statistics and it allows to easily extend the monitoring of the training.
 
 Deep Boltzmann machines (DBMs) are considered as a promising approach for deep learning on data of small sample size, which is common in biomedical data sets.
-To make DBMs available for experimentation, an easily extensible implementation of DBMs was created in form \apkg{BoltzmannMachines} Julia package, which has been registered in the official Julia package repository.
+To make DBMs available for experimentation, an easily extensible implementation of DBMs was created in form of the \apkg{BoltzmannMachines} Julia package, which has been registered in the official Julia package repository.
 The implementation offers several unique features, in particular for evaluation and monitoring of the training of DBMs.
 This is especially important for biomedical data sets, where finding good hyperparameters is hard due to the diversity of the data.
 
@@ -182,7 +182,7 @@ Variants of VAEs and GANs have been proposed for this, called {\em conditional V
 The latter has also been applied to gene expression data \citep{wang_conditional_2018}.
 There, the prediction of gene activation from so-called landmark genes, which are suspected to contain most information of the genome, has been improved.
 For this, and in conditional VAEs and conditional GANs in general, the variables that are used as conditions need to be specified in the training.
-DBMs have the advantage that the specification of specific variables as conditions is not necessary and conditions can be set on arbitrary variables.
+DBMs have the advantage that the designation of certain variables as conditions is not necessary and conditions can be set on arbitrary variables.
 Conditional sampling in DBMs could therefore be used to simulate the regulation of arbitrary gene expression patterns based on a DBM model that has been trained on genetic expression data.
 Such a model that has learned the overall structure of a data set is then also able to utilize the information about the whole distribution when making inferences about smaller subgroups.
 
@@ -191,7 +191,7 @@ Another possible application of generative models is to create synthetic data fo
 Synthetic data is data that has properties similar to original data but that is not linked to individual samples of the original data.
 In the same way as the previously mentioned generated paintings are not simply modified versions of original paintings but entirely new fabrications,
 synthetic patient data is not created from single patients but from the distribution of patient characteristics that have been learned by a generative model.
-The advantage of synthetic data is that it can be used with less data protection restrictions of the original data as it does not contain individual-level data of real individuals.
+The advantage of synthetic data is that it can be used with less data protection restrictions than the original data as it does not contain individual-level data of real individuals.
 This can be useful in settings where data is distributed and sharing the data of individuals is prohibited due to privacy concerns.
 For example, in the MIRACUM consortium \citep{prokosch_miracum_2018}, which includes ten German University hospitals,
 one of the goals is to jointly analyze data that is distributed across multiple sites.
@@ -249,7 +249,7 @@ Configurations with a lower energy have a higher probability of occurring.
 This connection between energy and and probability also holds for Boltzmann machines.
 It makes Boltzmann machines a type of so-called ``energy-based" models \citep{ranzato_ebm}.
 
-The analogy of lattices of molecules with magnetic spin are networks of neurons in the nervous system, where each cell may have a neural activation.
+The analogy of lattices of molecules with magnetic spin are networks of neurons in the nervous system, where each cell has a neural activation.
 The analogy goes further.
 Neural networks receive input from data in special nodes.
 The information about the data can then be learned by the network.
@@ -279,7 +279,7 @@ The so called \emph{free energy}, a notation also inspired by physics, is define
 \]
 With this definition, we can rewrite the formula of the partition function as $Z = \sum_v e^{-F(v)}$.
 That is useful because the formula for the free energy of restricted Boltzmann machines can be simplified by using the layerwise structure (see e.g.~\cite{martens_representational_2013}, Appendix A.1).
-Thus the complexity of calculating the free energy becomes linear in the number of hidden nodes, as can be seen in the formulas for the free energy in the different types of models that are described below.
+Thus the complexity of calculating the free energy becomes linear regarding the number of hidden nodes, as can be seen in the formulas for the free energy in the different types of models that are described below.
 If the partition function $Z$ is given, the log-likelihood
 \begin{equation}
    \log p(v) = - F(v) - \log Z
@@ -298,8 +298,8 @@ For an intuitive overview of the architectures of the different types that are c
 
    \centering
    \includegraphics[scale=3.]{images/BMsOverview.eps}
-   \caption{Graph view on different types of Boltzmann machines. Visible units (i. e. input units) are depicted as nodes with doubled circle lines. Hidden units are simple circles.
- {\bf A}: General Boltzmann machine, with all nodes connected to each other. {\bf B}: Restricted Boltzmann machine (RBM). Each of the lines corresponds to a weight, i.e. an entry in the weight matrix $W$, like in the formulas in (\ref{eqn:energyformularbm})  and (\ref{eqn:energyformulagbrbm}).
+   \caption{Graph view on different types of Boltzmann machines. Visible units (i.e., input units) are depicted as nodes with doubled circle lines. Hidden units are simple circles.
+ {\bf A}: General Boltzmann machine, with all nodes connected to each other. {\bf B}: Restricted Boltzmann machine (RBM). Each of the lines corresponds to a weight, i.e., an entry in the weight matrix $W$, like in the formulas in (\ref{eqn:energyformularbm})  and (\ref{eqn:energyformulagbrbm}).
 {\bf C}: Deep Boltzmann machine. From a graph perspective, this is simply a stack of RBMs.
 {\bf D} and {\bf E}: Multimodal/partitioned deep Boltzmann machines. In a multimodal DBM, the different partitions of the visible nodes may also have different distributions.}
    \label{fig:bmsoverview}
@@ -360,7 +360,7 @@ One approach for modeling continuous values for $v$ are restricted Boltzmann mac
    \label{eqn:energyformulagbrbm}
 \end{equation}
 
-The number of visible and hidden nodes is denoted as $n_V$ and $n_H$, respectively. The parameters of this model are $\theta = (W, a, b, \sigma)$ with weight matrix $W$, visible bias $a$ hidden bias $b$ and standard deviation $\sigma$. The role of $\sigma$ as standard deviation becomes clearer by looking at the conditional distributions of the $v_i$ given $h$, which are distributed according to the normal distribution $\mathcal{N}(a_i + \sigma_i(Wh)_i, \sigma_i^2)$. For the hidden nodes, one can show that $p(h_j | v) = \sigm \left (b_j + \sum_{i=1}^{n_V} w_{ij} \frac{v_i}{\sigma_i} \right )$.
+The number of visible and hidden nodes is denoted as $n_V$ and $n_H$, respectively. The parameters of this model are $\theta = (W, a, b, \sigma)$ with weight matrix $W$, visible bias $a$ hidden bias $b$ and standard deviation $\sigma$. The role of $\sigma$ as standard deviation becomes clearer by looking at the conditional distributions $p(v_i | h)$, which are equal to the normal distributions $\mathcal{N}(a_i + \sigma_i(Wh)_i, \sigma_i^2)$. For the hidden nodes, one can show that $p(h_j | v) = \sigm \left (b_j + \sum_{i=1}^{n_V} w_{ij} \frac{v_i}{\sigma_i} \right )$.
 The free energy is
 \begin{equation}
    F(v) = \sum_{i=1}^{n_V}\frac{(v_i - a_i)^2}{2\sigma_i^2} + \sum_{j=1}^{n_H} \log \left (1 + e^{b_j + \sum_{i=1}^{n_V} \frac{v_i}{\sigma_i} w_{ij}} \right)
@@ -386,18 +386,18 @@ The conditional distribution of the hidden nodes is $p(h_j | v) = \sigm \left (b
 
 \subsubsection{Gibbs sampling in restricted Boltzmann machines}\label{gibbssamplingrbm}
 In the previous sections concerning RBMs with different input distributions, one could see that it was possible to specify a formula for the conditional probability that has the same  algorithmic complexity of the matrix multiplication in all cases.
-However, the formula for the simple probability $p(v)$ of a sample $v$ requires calculating the partition function $Z$ (see formula (\ref{eqn:probbm})), and calculating $Z$ is not feasible for most practical scenarios, as the number of summands in $Z$ grows exponentially with the number of nodes in the model (see also later in \ref{methodExactloglik}).
+However, the formula for the simple probability $p(v)$ of a sample $v$ requires calculating the partition function $Z$ (see Equation (\ref{eqn:probbm})), and calculating $Z$ is not feasible for most practical scenarios, as the number of summands in $Z$ grows exponentially with the number of nodes in the model (see also later in \ref{methodExactloglik}).
 This means that using RBMs as generative models, i.e., drawing samples according to the distribution captured in its parameters, is not as straightforward as calculating $p(v)$ and sampling according to the distribution.
 
-But because of the layered structure of RBMs and the closed form (\ref{eqn:condprobrbm}) of the conditional distributions $p(v \mid h)$ and $p(h \mid v)$, which is fast to evaluate, it becomes possible to efficiently apply a Markov chain Monte Carlo technique \citep{mcmc_handbook_2011} called \emph{Gibbs sampling} \citep{gibbssamplingorig} for approximating the distribution of the RBM.
-The Gibbs sampling  algorithm for RBMs can be formulated as follows:
+Due to the layered structure of RBMs and the closed form (\ref{eqn:condprobrbm}) of the conditional distributions $p(v \mid h)$ and $p(h \mid v)$, which is fast to evaluate, it becomes possible to efficiently apply a Markov chain Monte Carlo technique \citep{mcmc_handbook_2011} called \emph{Gibbs sampling} \citep{gibbssamplingorig} for approximating the distribution of the RBM.
+The Gibbs sampling  algorithm for RBMs can be formulated as follows\footnote{The tilde over the variable symbol is used here and in the following to denote that the variable stands for a concrete realization and is not a random variable.}:
 
 \begin{enumerate}
-\item Start with an arbitrary $v_1$.
-\item Draw $h_1$ according to $p(h \mid v_1)$.
-\item Draw $v_2$ according to $p(v \mid h_1)$.
+\item Start with an arbitrary $\tilde{v}^{(1)}$.
+\item Draw $\tilde{h}^{(1)}$ according to $p(h \mid \tilde{v}^{(1)})$.
+\item Draw $\tilde{v}^{(2)}$ according to $p(v \mid \tilde{h}^{(1)})$.
 \item Repeat steps 2 and 3 until convergence.
-\item Result: After $n$ steps, $v_n$ and $h_n$ have been drawn according to the joint distribution $p(v,h)$ of the model.
+\item Result: After $n$ steps, $\tilde{v}^{(n)}$ and $\tilde{h}^{(n)}$ have been drawn according to the joint distribution $p(v,h)$ of the model.
 \end{enumerate}
 
 This works because the iteration forms a Markov chain that has the distribution $p(v,h)$ of the model as its equilibrium distribution.
@@ -410,7 +410,6 @@ This, of course, works analogously for hidden nodes as conditions.
 
 \subsubsection{Training of restricted Boltzmann machines}\label{rbmtraining}
 The goal of the training procedure of restricted Boltzmann machines is to maximize the likelihood $\prod_{k=1}^n p(\tilde{v}^{(k)})$ for a given data set $(\tilde{v}^{(1)}, \dots, \tilde{v}^{(n)})$.
-(The tilde over the variable is used here and in the following to denote that the variable stands for a concrete realization and not a random variable.)
 
 Maximizing the likelihood with respect to the parameters $\theta$ is equal to maximizing the log-likelihood
 \[
@@ -475,7 +474,7 @@ Using mini-batches can also be advantageous because of another reason: The varia
 For performing batch gradient optimization, the Gibbs sampling procedure is also modified for RBM training to speed up the learning process.
 In other applications, thousands of iterations are used for Gibbs sampling  \citep{gibbssamplingorig}. For training RBMs, a shortcut is used, which is called {\em contrastive divergence} (CD) \citep{cdorig, perpinan_contrastive_2005}.
 In CD, the number of Gibbs sampling steps is reduced drastically. In most cases, even only one step is used, which is denoted with $\text{CD}_1$ \citep{hinton_practical_2012}.
-Instead of using a random starting point, CD uses the original sample $\tilde{v}$, for which the gradient shall be computed, as starting point $v_1$ of the sampling procedure. This should ensure that the starting point is already close to the desired distribution.
+Instead of using a random starting point, CD uses the original sample $\tilde{v}$, for which the gradient shall be computed, as starting point $\tilde{v}^{(1)}$ of the sampling procedure. This should ensure that the starting point is already close to the desired distribution.
 
 Another modification of the Gibbs sampling procedure used for training of RBMs is {\em persistent contrastive divergence} (PCD).
 Similar to CD, this procedure also uses only very few steps. Here, the state of the Gibbs sampling chain for calculating the last update is reused and used as starting point. \cite{hinton_practical_2012} recommends PCD over $\text{CD}_1$ or even $\text{CD}_{10}$.
@@ -484,7 +483,7 @@ Similar to CD, this procedure also uses only very few steps. Here, the state of 
 
 In an RBM with Bernoulli distributed nodes, Equation (\ref{eqn:nablaresult}) leads to the following formulas for the gradients with respect to the weights and biases:
 \begin{align*}
-\frac{\partial}{\partial W}  \log p(\tilde{v}) &= \EX_{P_\text{data}}  \tilde{v}^T h - \EX_{P_\text{model}} v^T h \\
+\frac{\partial}{\partial W}  \log p(\tilde{v}) &= \EX_{P_\text{data}}  \tilde{v} h^T - \EX_{P_\text{model}} v h^T \\
 \frac{\partial}{\partial a}  \log p(\tilde{v}) &=  \EX_{P_\text{data}}
 \tilde{v} - \EX_{P_\text{model}}  v = \tilde{v} - \EX_{P_\text{model}} v\\
 \frac{\partial}{\partial b}  \log p(\tilde{v}) &=  \EX_{P_\text{data}} h - \EX_{P_\text{model}} h
@@ -492,7 +491,7 @@ In an RBM with Bernoulli distributed nodes, Equation (\ref{eqn:nablaresult}) lea
 
 In an RBM with Gaussian visible nodes \citep{krizhevsky2009tinyimagesthesis}, the  gradients are:
 \begin{align*}
-\frac{\partial}{\partial W} \log p(\tilde{v}) &= \frac{1}{\sigma_i} \left ( \EX_{P_\text{data}} \tilde{v}^T h - \EX_{P_\text{model}} v^T h \right) \\
+\frac{\partial}{\partial W} \log p(\tilde{v}) &= \frac{1}{\sigma_i} \left ( \EX_{P_\text{data}} \tilde{v} h^T - \EX_{P_\text{model}} v h^T \right) \\
 \frac{\partial}{\partial a} \log p(\tilde{v}) &= \frac{1}{\sigma_i^2} \left(\tilde{v} - \EX_{P_\text{model}} v \right)\\
 \frac{\partial}{\partial b} \log p(\tilde{v}) &= \EX_{P_\text{data}} h - \EX_{P_\text{model}} h \\
 \frac{\partial}{\partial \sigma_{i}} \log p(\tilde{v}) &= \EX_{P_\text{data}} \left( \frac{(\tilde{v}_i - a_i)^2}{\sigma_i^3} - \sum_{j=1}^{n_H} h_j \frac{w_{ij} \tilde{v}_i}{\sigma_i^2}\right) \\ & \quad \quad - \EX_{P_\text{model}} \left(\frac{(v_i - a_i)^2}{\sigma_i^3} -\sum_{j=1}^{n_H} h_j \frac{w_{ij} v_i}{\sigma_i^2} \right)
@@ -500,7 +499,7 @@ In an RBM with Gaussian visible nodes \citep{krizhevsky2009tinyimagesthesis}, th
 
 In the alternative formulation of \cite{cho2011improved}, the gradients are:
 \begin{align*}
-\frac{\partial}{\partial W} \log p(\tilde{v}) &= \frac{1}{\sigma_i^2} \left ( \EX_{P_\text{data}} \tilde{v}^T h - \EX_{P_\text{model}} v^T h \right) \\
+\frac{\partial}{\partial W} \log p(\tilde{v}) &= \frac{1}{\sigma_i^2} \left ( \EX_{P_\text{data}} \tilde{v} h^T - \EX_{P_\text{model}} v h^T \right) \\
 \frac{\partial}{\partial a} \log p(\tilde{v}) &= \frac{1}{\sigma_i^2} \left(\tilde{v} - \EX_{P_\text{model}} v \right)\\
 \frac{\partial}{\partial b} \log p(\tilde{v}) &= \EX_{P_\text{data}} h - \EX_{P_\text{model}} h \\
 \frac{\partial}{\partial \sigma_{i}} \log p(\tilde{v}) &=  \frac{1}{\sigma_i^3} \Bigg( \EX_{P_\text{data}} \left( (\tilde{v}_i - a_i)^2 - 2\sum_{j=1}^{n_H} h_j w_{ij} \tilde{v}_i  \right) \\ & \quad \quad - \EX_{P_\text{model}} \left((v_i - a_i)^2 -2\sum_{j=1}^{n_H} h_j w_{ij} v_i \right) \Bigg)
@@ -541,7 +540,7 @@ A deep Boltzmann machine, as defined by \cite{salakhutdinov2009DBMs}, with $n_L$
 \]
 The energy is defined as
 \[
-E(v, h^{(1)}, \dots, h^{(n_L)}) = - a^T v - v^T W^{(1)} h^{(1)} - \sum_{k=1}^{n_L} b^{(k)} h^{(k)} -  \sum_{k=2}^{n_L} h^{(k-1)}W^{(k)}h^{(k)}.
+E(v, h^{(1)}, \dots, h^{(n_L)}) = - a^T v - v^T W^{(1)} h^{(1)} - \sum_{k=1}^{n_L} (b^{(k)})^T h^{(k)} -  \sum_{k=2}^{n_L} (h^{(k-1)})^T W^{(k)}h^{(k)}.
 \]
 For the connection between the formula and the resulting network architecture see Figure \ref{fig:dbmweights}.
 \begin{figure}[h]
@@ -554,14 +553,14 @@ For the connection between the formula and the resulting network architecture se
 A deep Boltzmann machine has Bernoulli distributed nodes.
 Due to the layer-wise structure, the conditional probability of the visible nodes $p(v \mid h) = p(v \mid h^{(1)})$ depends only on the first hidden layer and can be calculated like in an RBM with Bernoulli distributed nodes.
 The conditional probability of the final hidden layer $p \left( h^{n_L} \mid v, h^{(1)}, \dots, h^{(n_L -1)} \right) = p \left( h^{n_L} \mid h^{(n_L -1)} \right)$ can similarly be calculated by knowing only $h^{(n_L-1)}$.
-For the intermediate layers, the conditional probability can be calculated if the neighboring layers are given as
+For the intermediate layers, the conditional probabilities depending on the neighboring layers can be calculated as
 \begin{equation}
 p\left(h^{(1)} \mid v, h^{(2)}\right) = \sigm \bigg( b^{(1)} + (W^{(1)})^T v + W^{(2)} h^{(2)} \bigg)
 \label{dbmcondprobfirsthidden}
 \end{equation}
 for the first hidden layer and
 \begin{equation}
-p\left(h^{(k)} \mid h^{(k-1)}, h^{(k+1)} \right) = \sigm \bigg( b^{(k)} + (W^{(k-1)})^T h^{(k-1)} + W^{(k+1)} h^{(k+1)} \bigg)
+p\left(h^{(k)} \mid h^{(k-1)}, h^{(k+1)} \right) = \sigm \bigg( b^{(k)} + (W^{(k)})^T h^{(k-1)} + W^{(k+1)} h^{(k+1)} \bigg)
 \label{dbmcondprobintermediate}
 \end{equation}
 for all other intermediate hidden layers.
@@ -581,8 +580,7 @@ These conditional probabilities can be used to perform Gibbs sampling in deep Bo
 
 In context of DBMs, the DBN learning algorithm (see \ref{dbns}) is called greedy layerwise pre-training.
 This pre-training helps the algorithm for training a general Boltzmann machine to find a better optimum.
-An intermediate layer in a DBM receives input from its neighboring layers (see Equation (\ref{dbmcondprobintermediate}) and Figure \ref{fig:dbmsampling}), but during pre-training it only gets input from the layer below. To account for this, the DBN training is modified for training a DBM and the input from the visible layer ($ = (W^{(1)})^T v$) and from the last hidden layer (= $W^{(n_L-1)} h^{(n_L)}$) is doubled
-\citep{salakhutdinov2009DBMs}.
+An intermediate layer in a DBM receives input from its neighboring layers (see Equation (\ref{dbmcondprobintermediate}) and Figure \ref{fig:dbmsampling}), but during pre-training it only gets input from the layer below. To account for this, the DBN training is modified for pre-training a DBM and the total input  that the intermediate layers receive (i.e., the argument of the $\sigm$ function in the formulas for the conditional probabilities) is doubled \citep{salakhutdinov2009DBMs}.
 
 
 Using the pre-trained DBM as starting point, the fine-tuning of the weights can then be performed by the algorithm for training a general Boltzmann machine
@@ -626,8 +624,8 @@ Analogously to Equation (\ref{eqn:nablaresult}) for calculating the gradient of 
 \end{align*}
 This results in the following gradients for the different types of model parameters:
 \begin{align*}
-\frac{\partial}{\partial W^{(1)}} \ELBO(\tilde{v}, \mu) &= \tilde{v}^T \mu - \EX_{P_\text{model}} v^T h^{(1)} \\
-\frac{\partial}{\partial W^{(k)}} \ELBO(\tilde{v}, \mu) &= (\mu^{(k-1)})^T \mu^{(k)}  - \EX_{P_\text{model}} (h^{(k-1)})^T h^{(k)} &\quad(k = 1, \dots, n_L)\\
+\frac{\partial}{\partial W^{(1)}} \ELBO(\tilde{v}, \mu) &= \tilde{v} (\mu^{(1)})^T - \EX_{P_\text{model}} v (h^{(1)})^T \\
+\frac{\partial}{\partial W^{(k)}} \ELBO(\tilde{v}, \mu) &= \mu^{(k-1)} (\mu^{(k)})^T  - \EX_{P_\text{model}} h^{(k-1)} (h^{(k)})^T &\quad(k = 2, \dots, n_L)\\
 \frac{\partial}{\partial a}  \ELBO(\tilde{v}, \mu) &=  \tilde{v} - \EX_{P_\text{model}}  v \\
 \frac{\partial}{\partial b^{(k)}}  \ELBO(\tilde{v}, \mu) &=  \mu^{(k)} - \EX_{P_\text{model}} h^{(k)}  &\quad ( k = 1, \dots, n_L)
 \end{align*}
@@ -637,7 +635,7 @@ This Gibbs sampler is run with a number of parallel persistent chains, which are
 For the convergence of the gradient optimization, it is necessary to decrease the learning rate $\epsilon_t$ over time such that the series $\sum_{k=1}^\infty \epsilon_t^2$ converges, e.g., $\epsilon_t = \frac{c}{d+t}$ with constants $c, d > 0$ \citep{sala2012anefficient}.
 
 Since the training procedure is very complex and depends on many hyperparameters, it is necessary to test whether the training works well by examining the training objective.
-Although the likelihood is not the best criterion for all kinds of applications \citep{theis_note_2015}, it is essential to have a way to get a value for the likelihood as primary optimization criterion.
+Although the likelihood is not the best criterion for all kinds of applications \citep{theis_note_2015}, it is essential to have a way to get a value for the (lower bound of the) likelihood as primary optimization criterion.
 Being able to inspect the learning process is important for finding the best choice of hyperparameters and also for ensuring the quality of the software implementation of the learning algorithm.
 This leads us to the next section, where we want to take a closer look at methods for calculating and estimating the likelihood, and the lower bound of the likelihood, in case of DBMs.
 
