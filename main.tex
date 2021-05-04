@@ -247,7 +247,7 @@ In physics, Ising models aim at modeling the magnetic spin in lattices of atoms 
 In Ising models the probability of the magnetic spin of molecules in a lattice of molecules is determined by an energy function that assigns an energy to each possible configuration of magnetic spins in the lattice.
 Configurations with a lower energy have a higher probability of occurring.
 This connection between energy and and probability also holds for Boltzmann machines.
-It makes Boltzmann machines a type of so-called ``energy-based" models \citep{ranzato_ebm}.
+It makes Boltzmann machines a type of so-called ``energy-based'' models \citep{ranzato_ebm}.
 
 The analogy of lattices of molecules with magnetic spin are networks of neurons in the nervous system, where each cell has a neural activation.
 The analogy goes further.
@@ -350,7 +350,7 @@ F(v) = - a^T v - \sum_{j=1}^{n_H} \log \left (1 + e^{(W^T v + b)_j}\right).
 \label{eqn:freenergy_rbm}
 \end{equation}
 
-The trick for deriving the formula of the free energy is to ``analytically sum out" the hidden units \citep{sala2012anefficient}.
+The trick for deriving the formula of the free energy is to ``analytically sum out'' the hidden units \citep{sala2012anefficient}.
 The master thesis of \cite{krizhevsky2009tinyimagesthesis} is a very good resource for looking up the complete derivations of these formulas. This holds not only for the theory of RBMs with Bernoulli distributed nodes but also in particular for RBMs with Gaussian distributed visible nodes, which are presented next.
 
 \paragraph{Gaussian distributed visible nodes}\label{gaussianrbm}
@@ -443,7 +443,7 @@ In the second term of Equation (\ref{eqn:nablaresult}), the sum goes over all no
 Calculating this term is technically not feasible in normal cases, as the number of summands grows exponentially with the number of nodes.
 This means that it is not possible to simply equate the gradient of the log-likelihood with zero and solve the equation to get an optimum. Also finding an optimum with gradient descent \citep{gradientdescent}, walking with small steps in the direction of the gradient to find an optimum, is not possible directly, because this would as well require the calculation of the whole gradient in each iteration step.
 Via Gibbs sampling (see Section \ref{gibbssamplingrbm}), however, the term can be estimated.
-With this, it becomes possible to use the estimated gradients in gradient descent, or here rather ``gradient ascent" as we would like to find a (local) maximum.
+With this, it becomes possible to use the estimated gradients in gradient descent, or here rather ``gradient ascent'' as we would like to find a (local) maximum.
 
 \paragraph{Batch gradient optimization and the role of mini-batches}
 
@@ -598,7 +598,7 @@ This \emph{variational lower bound} or \emph{evidence lower bound} (ELBO) \citep
 \log p(v) \geq \sum_h q(h|v) \log p(v,h) + \mathcal{H}(q)
 \]
 $\mathcal{H}(q)$ denotes the entropy of the distribution $q$.
-Here a ``mean-field approximation" $q$ is used, where all hidden nodes are assumed to be independent.
+Here a ``mean-field approximation'' $q$ is used, where all hidden nodes are assumed to be independent.
 The distribution $q$ for this approach is given by $q(h) = \prod_{k=1}^{n_L} \prod_j^{n_{H,k}} q(h_j^{(k)})$ with $q(h_j^{(k)} = 1) = \mu_j^{(k)}$ for some fixed values $\mu_j^{(k)}$ for each  node $j$ in a hidden layer $k$.
 ($n_L$ denotes the number of hidden layers and $n_{H,k}$ the number of nodes in hidden layer $k$.)
 This leads to the lower bound of the log-likelihood, which will be optimized in the fine-tuning algorithm:
@@ -631,7 +631,7 @@ This results in the following gradients for the different types of model paramet
 \end{align*}
 
 The expected values under the distribution of the model ($\EX_{P_\text{model}}$) are estimated like in the RBM by running a Gibbs sampler (see Figure \ref{fig:dbmsampling}).
-This Gibbs sampler is run with a number of parallel persistent chains, which are called ``fantasy particles" \citep{salakhutdinov2009DBMs}. The results are averaged over the number of fantasy particles to get better estimations for the expected values in the distribution of the model.
+This Gibbs sampler is run with a number of parallel persistent chains, which are called ``fantasy particles'' \citep{salakhutdinov2009DBMs}. The results are averaged over the number of fantasy particles to get better estimations for the expected values in the distribution of the model.
 For the convergence of the gradient optimization, it is necessary to decrease the learning rate $\epsilon_t$ over time such that the series $\sum_{k=1}^\infty \epsilon_t^2$ converges, e.g., $\epsilon_t = \frac{c}{d+t}$ with constants $c, d > 0$ \citep{sala2012anefficient}.
 
 Since the training procedure is very complex and depends on many hyperparameters, it is necessary to test whether the training works well by examining the training objective.
@@ -757,7 +757,7 @@ One application for this is monitoring the overfitting by comparing the training
 \label{reconstructionerror}
 Another popular statistics, which behaves similar to the likelihood in RBMs in most cases, is the {\em reconstruction error} \citep{hinton_practical_2012}.
 For defining this, one first needs to define the term {\em reconstruction} in an RBM.
-The reconstruction \citep{hinton_practical_2012} for a sample $\tilde{v}$ in an RBM is calculated by using the conditional probabilities as deterministic ``activation potential".
+The reconstruction \citep{hinton_practical_2012} for a sample $\tilde{v}$ in an RBM is calculated by using the conditional probabilities as deterministic ``activation potential''.
 With $f_{hidden}(\tilde{v}) := p(h|\tilde{v})$ and $f_{visible}(\tilde{h}) :=  p(v|\tilde{h})$, the reconstruction $r(v)$ can be defined as $r(\tilde{v}) := f_{visible}(f_{hidden}(\tilde{v}))$.
 (For continuously valued variables, the expected value can be used instead of the probability.)
 The reconstruction error is then the distance between the sample $\tilde{v}$ and its reconstruction $r(\tilde{v})$, e.g., measured as absolute distance or quadratic distance.
@@ -791,7 +791,7 @@ This means that sampled values cannot be mapped to the original categories any m
 Using dummy variables as input to Boltzmann machines with Bernoulli distributed visible nodes makes it also more difficult to learn higher level patterns, as the Boltzmann machine has at first to learn the pattern that results from the dummy encoding  by itself. Hence it is advised to use a Boltzmann machine that has the knowledge about the encoding built into its energy function and probability distribution like described in the following.
 
 
-For encoding categorical variables, the most popular encoding used by the machine learning frameworks \apkg{TensorFlow} \citep{tensorflow}, \apkg{scikit-learn} \citep{scikit-learn} or \apkg{Flux} \citep{flux} is the so-called ``one-hot encoding", which encodes a variable with $k$ categories in a binary vector of $k$ components, where exactly one component is one and all others are zero.
+For encoding categorical variables, the most popular encoding used by the machine learning frameworks \apkg{TensorFlow} \citep{tensorflow}, \apkg{scikit-learn} \citep{scikit-learn} or \apkg{Flux} \citep{flux} is the so-called ``one-hot encoding'', which encodes a variable with $k$ categories in a binary vector of $k$ components, where exactly one component is one and all others are zero.
 An advantage of this is that all categories are treated equally.
 Here, I tried a slightly different variant.
 A categorical variable with $k$ categories is encoded in $k-1$ binary dummy variables.
@@ -868,7 +868,7 @@ p(v_k = 1 \mid h) &= \frac{p(v_k = 1, h)}{p(h)} \\
 \subsubsection{Generalizing annealed importance sampling for multimodal DBMs} \label{unnormalizedprobsrbm}
 
 To generalize the evaluation of the lower bound of the likelihood in multimodal DBMs, the AIS algorithm for estimating the partition function via AIS can be generalized.
-This can be done by ``summing out" or ``integrating out" the different types of visible nodes (see Figure \ref{aissummingout} C).
+This can be done by ``summing out'' or ``integrating out'' the different types of visible nodes (see Figure \ref{aissummingout} C).
 In Section \ref{methodAIS}, AIS for binary DBMs is described.
 In Equation (\ref{eqn:aisunnormalizedprob}) the binary visible layer is summed out by using the formula
 \[
@@ -1051,7 +1051,7 @@ The \apkg{darch} package uses the GPL-3 license \citep{gplv3}, which enforces th
 Starting from the original MATLAB implementation of \cite{hinton_reducing_2006}, the first attempt for experimenting with the algorithms was to use MATLAB.
 The resulting MATLAB implementation was very slow, however, and the possibilities for making MATLAB code run faster are limited.
 At some point, if the performance needs to be increased further,  it becomes necessary to switch to C for time-critical portions of the code and to call the C code using the MATLAB C interface.
-This complication, which similarly occurs in Python and R, is known as the ``two-language problem".
+This complication, which similarly occurs in Python and R, is known as the ``two-language problem''.
 It has been the main motivation behind the Julia programming language \citep{bezanson2017julia}.
 In contrast to MATLAB or R, it is possible to gradually optimize the speed of code in Julia.
 One particular optimization strategy is to minimize the amount of memory allocations by reusing allocated space as much as possible.
@@ -1388,7 +1388,7 @@ fitrbm(x; epochs = 20,
 
 The \inlinecode{fitdbm} function allows to monitor the pre-training as well as the fine-tuning.
 An overview of the most important pre-defined functions that can be used for monitoring can be found in Table \ref{monfun}.
-For each of the training functions in Table \ref{juliaFunTableTrain}, there is also a function prefixed with ``\inlinecode{monitoring\_}", which allows to write the monitoring with functions such as those listed in Table \ref{monfun} in a compact way.
+For each of the training functions in Table \ref{juliaFunTableTrain}, there is also a function prefixed with ``\inlinecode{monitoring\_}'', which allows to write the monitoring with functions such as those listed in Table \ref{monfun} in a compact way.
 This works also for other user-defined functions that accept the same input arguments as the pre-defined monitoring functions.
 
 \begin{lstlisting}[language=Julia,caption={Monitoring pre-training and fine-tuning}, label={lst:monfitdbm}]
@@ -1986,7 +1986,7 @@ Since the number of model parameters in neural networks may even exceed the amou
 This in turn raises practical issues because the networks need to be serialized, transferred, and deserialized, which can consume much time for large networks.
 But most importantly, it makes it hard to argue that no individual data leave the sites if large quantities of data are exchanged.
 An alternative approach to conduct analyses in such a scenario is to use synthetic data \citep{bonofiglio2020}.
-The goal of synthetic data is to create data that captures the underlying structure of the original data but is not linked to the individuals and can be used without or with less privacy restrictions compared to the original data.
+The goal of synthetic data is to create data that captures the underlying structure of the original data but that is not linked to the individuals and can be used without or with less privacy restrictions compared to the original data.
 In this chapter I first investigate the feasibility of distributed analyses based on synthetic observations generated from deep generative approaches.
 This includes a comparison of DBMs with two other neural network approaches, GANs and VAEs, and with multiple imputation as a simpler method.
 Finally, I introduce a software based on the DataSHIELD infrastructure that can generate synthetic data using DBMs.
@@ -2191,7 +2191,7 @@ This proportion grows if the similarity  between the generated data and the trai
 \subsection{An experiment with simulated genetic variant data}\label{simuexp}
 
 This experiment investigates whether the approach of generating data in a distributed manner across different sites, as depicted in Figure \ref{fig:syntheticdataprinciple}, is feasible using DBMs.
-In particular, I investigate how the number of participating sites and the numbers of samples at each sites influence the quality of the synthetic data.
+In particular, I investigate how the number of participating sites and the numbers of samples at each site influence the quality of the synthetic data.
 
 The experiment is based on simulated genetic variant data with patterns that are clearly visible in a binary heatmap with a hierarchical clustering \citep{hclust} of the  samples.
 With these clearly visible patterns it is possible to evaluate the synthetic samples visually by judging whether the original patterns can be recovered in the synthetic data.
@@ -2217,13 +2217,13 @@ Figure \ref{fig:experimentalsetup} shows the different steps of the experiment.
 The simulated data are inspired by genetic variant data, more specifically, single nucleotide polymorphisms (SNPs).
 In SNP data, each variable stands for a defined location on a chromosome and the values indicate whether the sample deviates from a defined reference genome at this location.
 There are 50 binary variables in the simulated data set.
-The 500 samples in the data set are split into ``cases" and ``controls" in a ratio of 1:1.
-In all 50 variables, the ``control" samples consist of independently sampled binary values, which are set to 1 with a probability of 0.1.
-The ``cases" differ from this in 5 groups of 5 SNP variables.
+The 500 samples in the data set are split into ``cases'' and ``controls'' in a ratio of 1:1.
+In all 50 variables, the ``control'' samples consist of independently sampled binary values, which are set to 1 with a probability of 0.1.
+The ``cases'' differ from this in 5 groups of 5 SNP variables.
 There are 5 disjoint subgroups among the cases, which have all values set to 1 in either the variables 1-5, or 10-15, or 20-25, or 30-35, or 40-45.
-In all other variables, the ``cases" follow the same distribution as the ``controls".
+In all other variables, the ``cases'' follow the same distribution as the ``controls''.
 As a motivation behind the properties of the simulation data set, one can consider the following:
-If a group like the groups of 5 SNP variables is present in patients with a certain condition (``cases"), this could indicate that these mutations must occur together to activate or deactivate certain genetic pathways, thereby leading to the condition.
+If a group like the groups of 5 SNP variables is present in patients with a certain condition (``cases''), this could indicate that these mutations must occur together to activate or deactivate certain genetic pathways, thereby leading to the condition.
 
 
 \subsubsection{Results}\label{simuexpresults}
@@ -2527,7 +2527,7 @@ Another option for data protection that can be set in the Opal server is the min
 
 The \apkg{BoltzmannMachinesRPlots} package has implicitly been loaded as well when loading the \inlinecode{dsBoltzmannMachinesClient} package. 
 With its \inlinecode{plotmonitoring} function, the learning curves \citep{ml_encyclopedia} can be displayed.
-The resulting curves look similar to the ones shown in Figure \ref{fig:monitoring_bmplots}.
+The resulting curves look similar to the ones shown in Figure \ref{fig:monitoring_bmplots} (p.~\pageref{fig:monitoring_bmplots}).
 
 \begin{lstlisting}[language=R, float=!h]
 plotMonitoring(result)
@@ -2542,7 +2542,7 @@ These measurements show empirically what is expected theoretically, i.e., that t
 \begin{figure}[hb]
    \centering
    \includegraphics[scale=.6]{images/trainingtimes.pdf}
-   \caption{Training duration of DBMs using the dsBoltzmannMachines package. On the left, the DBMs are trained on data sets with 50 variables and a varying number of samples. The DBMs have two hidden layers with 50 and 10 nodes, respectively. On the right, the number of samples is fixed as 2500. The DBMs are trained using data sets with varying numbers of variables. The hidden layers are scaled proportionally. In all cases the training consists of 30 epochs pre-training and 30 epochs fine-tuning and the monitoring is performed on the training data set and a test data set with 10 percent of the samples in the training data set. The times were measured on a virtual machine with one core, giving a lower bound of the performance. As can be seen, the performance scales in the same way as matrix multiplication. }
+   \caption{Training duration of DBMs using the \apkg{dsBoltzmannMachines} package. On the left, the DBMs are trained on data sets with 50 variables and a varying number of samples. The DBMs have two hidden layers with 50 and 10 nodes, respectively. On the right, the number of samples is fixed as 2500. The DBMs are trained using data sets with varying numbers of variables. The hidden layers are scaled proportionally. In all cases the training consists of 30 epochs pre-training and 30 epochs fine-tuning and the monitoring is performed on the training data set and a test data set with 10 percent of the samples in the training data set. The times were measured on a virtual machine with one core, giving a lower bound of the performance. As can be seen, the performance scales in the same way as matrix multiplication. }
    \label{fig:dbmtrainingtimes}
  \end{figure}
 
@@ -2581,7 +2581,7 @@ The five subgroups of the cases and the control group (see also Section \ref{sim
    \label{fig:dbmvspca}
  \end{figure}
 
-In addition to DBMs, it is also possible to train RBMs and DBNs like in the \apkg{BoltzmannMachines} Julia package.
+In addition to DBMs, it is also possible to train RBMs and DBNs like in the \apkg{Boltzmann\-Machines} Julia package.
 More complex partitioned architectures can be constructed as well by defining the parameters for individual layers via \inlinecode{ds.bm.defineLayer} and \inlinecode{ds.bm.definePartitionedLayer}.
 Table \ref{tab:dsBoltzmannFuns} provides a summary of the available functions.
 More detailed descriptions, including an explanation of the arguments, can be found in the documentation of the \apkg{dsBoltzmannMachinesClient} package, which is also reproduced in Appendix \ref{dsbmsdoku}.
@@ -2610,14 +2610,14 @@ Define a partitioned layer using other layers as parts \\
 \inlinecode{ds.dbm.top2LatentDims} \rightpageref{rdokitem_ds.dbm.top2LatentDims} \\
 Get a two-dimensional representation of latent features \\
 \inlinecode{ds.rbm.loglikelihood} \rightpageref{rdokitem_ds.rbm.loglikelihood} \\
-Estimates the partition function of an RBM with AIS and then calculates the log-likelihood \\
+Estimate the partition function of an RBM with AIS and then calculates the log-likelihood \\
 \inlinecode{ds.dbm.loglikelihood} \rightpageref{rdokitem_ds.dbm.loglikelihood} \\
 Performs a separate AIS run for each of the samples to estimate the log-likelihood of a DBM \\
 \inlinecode{ds.dbm.logproblowerbound} \rightpageref{rdokitem_ds.dbm.logproblowerbound} \\
-Estimates the variational lower bound of the likelihood of a DBM with AIS \\
+Estimate the variational lower bound of the likelihood of a DBM with AIS \\
 \inlinecode{ds.rbm.exactloglikelihood} /
 \inlinecode{ds.dbm.exactloglikelihood} \rightpagerefs{rdokitem_ds.dbm.exactloglikelihood}{rdokitem_ds.rbm.exactloglikelihood} \\
-Calculates the log-likelihood for a RBM/DBM (exponential complexity)\\
+Calculate the log-likelihood for a RBM/DBM (exponential complexity)\\
    \Xhline{1pt}
 \end{tabularx}
 \end{table}
@@ -2652,7 +2652,7 @@ The exact calculation and the estimation of the likelihood of DBMs and RBMs are 
 More importantly, evaluating the training of DBMs is necessary for finding good hyperparameters.
 Learning curves that can be generated from evaluating the models during the training.
 This monitoring information can help in the choice of hyperparameters (see Section \ref{monitoring}).
-In addition to standard evaluation metrics such as the (lower bound of the) likelihood or the reconstruction error (see Section \ref{alternativebmevaluations}), the monitoring of the training is fully customizable and can be used with any kind of evaluation (see \ref{juliaconnectorDbmexample} for an example).
+In addition to standard evaluation metrics such as the (lower bound of the) likelihood or the reconstruction error (see Section \ref{alternativebmevaluations}), the monitoring of the training is fully customizable and can be used with any kind of evaluation (see Section \ref{juliaconnectorDbmexample} for an example).
 This allows users to examine all possible aspects of RBM and DBM training.
 
 The \apkg{BoltzmannMachines} package also allows a convenient access to the distribution of the hidden nodes.
@@ -2719,7 +2719,7 @@ For genetic variant data, an approach using sparse regression for partitioning c
 
 \subsection{Disclosure risk of synthetic data}
 In addition to evaluating the performance, the disclosure risk is regarded here as well, with a focus on membership disclosure \citep{li_membership_2013}.
-For this, a new approach to evaluate the disclosure risk by assessing the overfitting via the proposed ``proportion of overfitting'' (see Section \ref{proportionoverfitting}).
+For this, a new approach is presented here, which evaluates the disclosure risk by assessing the overfitting via the proposed ``proportion of overfitting'' (see Section \ref{proportionoverfitting}).
 As an additional method for measuring the disclosure risk, simulated membership attacks are performed \citep{goncalves}.
 Both disclosure metrics can be applied directly to the synthetic data without having to distort the data or having to modify the training to control the disclosure, as it is needed when applying differential privacy \citep{dwork_differential_2008, abadi_deep_2016}.
 
@@ -2737,7 +2737,7 @@ This is in contrast to the possible intuition that the more complex approaches m
 Since DataSHIELD allows to extract information via logistic regression models and it is therefore possible to use the MICE method to generate synthetic data from the DataSHIELD client side already, one can argue that using DBMs or VAEs as generative approaches does not lower the level of privacy in a setting where DataSHIELD is used.
 
 In DataSHIELD only known users are allowed to conduct analyses and their activity is logged to prevent analyses with malicious intent.
-If data is to be released completely without restrictions, e.g., by putting it on a internet site for anyone to download and analyze, the privacy concerns are higher than in a setting where only known users analyze data via DataSHIELD.
+If data is to be released completely without restrictions, e.g., by putting them on an internet site for anyone to download and analyze, the privacy concerns are higher than in a setting where only known users analyze data via DataSHIELD.
 In an unrestricted scenario, additional measures are needed to ensure the best confidence in the protection of sensitive data.
 Yet, this applies regardless of the data protection method, as all approaches for managing the disclosure risk work with thresholds, which are hard to validate and also cannot give an absolute certainty (see Section \ref{privacyconcepts}).
 A combination of different disclosure metrics and human assessment can minimize the risk in such cases.
@@ -2764,7 +2764,7 @@ Ensembles of predictive models are used to increase the predictive performance.
 Multiple models are trained on the data and their predictions are combined to get a better predictor.
 Unsupervised ensembles have been used for outlier detection \citep{unsupervised_outlier}.
 The heterogeneity between the models can prevent overfitting and thereby leads to results that generalize better \citep{ensemble_learning_survey_2018}.
-Translating this idea to increase the quality of synthetic data could therefore be promising, in particularly in setting of small sample size, where the issue of overfitting is most important.
+Translating this idea to increase the quality of synthetic data could therefore be promising, particularly in settings of small sample size, where the issue of overfitting is most important.
 Using generative ensembles has been investigated in GANs to prevent mode collapse and increase the diversity of generated samples \citep{toutouh_ensemblegan_2020}.
 For creating synthetic data, multiple models can be used to enhance the performance with respect to a performance criterion that is applied on combined data from different models.
 Experimentally this could be investigated with a similar setup to the one in the distributed experiments (see Section \ref{simuexp} and Section \ref{realexp}).
