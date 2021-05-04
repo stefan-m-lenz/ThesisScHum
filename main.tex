@@ -1482,7 +1482,7 @@ For this purpose, a new approach was chosen, resulting in the creation of the \a
 
 There are two other R packages for calling Julia from R, namely \apkg{JuliaCall} \citep{JuliaCallPaper} and \apkg{XRJulia} \citep{chambersExtendingR}, which predate the \apkg{JuliaConnectoR}.
 The main reason for developing new software was that the other packages did not work reliably.
-One issue was run-time stability, which is important for a software that needs to be deployed across a number of different sites and that has to function without human intervention.
+One issue was run-time stability, which is important for software that needs to be deployed across a number of different sites and that has to function without human intervention.
 Of course, also during local development, crashes are not desirable.
 Other issues were the incompatibilities with some R and Julia versions and a lack of documentation.
 The fresh start allowed to design a clean interface and to develop several new and unique features.
@@ -1555,7 +1555,7 @@ With the high frequency of new Julia releases, the costs of maintaining a low-le
 Keeping complexity low is particularly important for creating sustainable open source software \citep{midha_improving_2010}.
 This aspect was kept in mind in the design of the \apkg{JuliaConnectoR}.
 As a result, the higher-level approach taken by the \apkg{JuliaConnectoR} is compatible with a wide range of R and Julia versions (tested on R 3.2-4.0 and Julia 1.0-1.6), requiring only minimal adaptions for keeping cross-version compatibility.
-As another disadvantage, the coupling via a C-interface requires that R is built as a shared/dynamic library.
+Another disadvantage of the coupling via a C-interface is that this requires that R is built as a shared/dynamic library.
 For using \apkg{RCall}, this is required\footnote{The option \inlinecode{-enable-R-shlib} is required when installing R, see installation instructions of \apkg{RCall}: \url{https://github.com/JuliaInterop/RCall.jl/blob/v0.13.4/docs/src/installation.md}}.
 In its default installation, R is not configured as a shared/dynamic library because this can reduce the performance of R by 10-20\% \citep{rAdmin}.
 
@@ -1684,7 +1684,7 @@ In Julia, tabular structures are not part of the standard library but are only a
 In addition to defining a data type for holding tabular structure, the Julia package \apkg{DataFrames} \citep{juliaDataFramesGithub} offers tools for working with tabular data.
 Its design is inspired by the R package \apkg{dplyr} \citep{dplyr} and the Python package \apkg{pandas} \citep{pandas}, which aim to streamline data analysis by offering solutions for many common data analysis tasks.
 There are also other Julia packages supporting tabular structures that do not build on the \apkg{DataFrames} package.
-To unify the different approaches, the \apkg{Tables} package \citep{tables.jl} was created, which defines an minimal common interface.
+To unify the different approaches, the \apkg{Tables} package \citep{tables.jl} was created, which defines a minimal common interface.
 This interface is used by the \apkg{DataFrames} package and also by many other packages, e.g., by the \apkg{CSV} \citep{juliacsvGithub} package for reading CSV files and the \apkg{JuliaDB} package \citep{juliadbGithub} for working with large persistent data sets.
 Due to the broader goal of the \apkg{DataFrames} Julia package, it has reached version 1.0 only very recently (April 21st 2021) and there have been many breaking changes in the course of the development.
 Because the interface of the \apkg{Tables} package has been stable for a longer time, with version 1.0 released in February 2020, and because of its lightweight implementation, the \apkg{Tables} package was used as the basis for the support of tabular structures in the \apkg{JuliaConnectoR}.
@@ -1766,7 +1766,7 @@ R> juliaCall("map", times2, c(1,2,3))
 The code in Listing \ref{rfunascallback} is less efficient than the code in Listing \ref{juliafunascallback}, because in Listing \ref{rfunascallback}, Julia and R need to communicate in every separate application of the \inlinecode{times2} function.
 However, this mechanism makes it possible to interweave R and Julia code.
 In such a simple case, this is, of course, not really beneficial.
-In \ref{juliaconnectorDbmexample}, a more useful example for using callback functions is given.
+In Section \ref{juliaconnectorDbmexample}, a more useful example for using callback functions is given.
 It shows how an R function can be used for displaying monitoring output during the training of a deep learning model.
 In such a scenario, the overhead of calling back to R after every training epoch is negligible when compared to the overall computation time.
 
@@ -1814,8 +1814,8 @@ This allows that the output is displayed before the function returns, which is i
 \subsection{Using \apkg{BoltzmannMachines} in R via the \apkg{JuliaConnector}}\label{juliaconnectorDbmexample}
 The previous examples for using the \apkg{JuliaConnectoR} were kept minimal to demonstrate the basic features of the package in a compact way.
 The next examples show how easy it becomes to translate Julia code to R code that calls Julia behind the scenes.
-For this purpose some examples from using the \apkg{BoltzmannMachines} package, shown in \ref{bmusage}, are translated to R.
-Additionally, these examples shows how DBMs can be trained in R via the \apkg{BoltzmannMachines} package.
+For this purpose, some examples for using the \apkg{BoltzmannMachines} package, shown in \ref{bmusage}, are translated to R.
+Additionally, these examples show how DBMs can be trained in R via the \apkg{BoltzmannMachines} package.
 As mentioned in \ref{BMfeatures}, there is currently no R package that implements deep Boltzmann machines.
 But via the \apkg{JuliaConnectoR}, all features of the \apkg{BoltzmannMachines} package become conveniently usable in R.
 
@@ -1909,7 +1909,7 @@ A simple example for this is shown in Listing \ref{callbackexample}.
 The corresponding plot is shown in Figure \ref{fig:callbackplot}.
 
 The function \inlinecode{plotValVsEpoch} (lines 8-18 in Listing \ref{callbackexample}) creates a new plot in the first epoch, evaluates the model and adds the results of the evaluations to the plot in subsequent epochs.
-Such a function can, e.g., be passed to \inlinecode{fitrbm} as \inlinecode{monitoring} argument (line 21). (For the arguments of \inlinecode{fitrbm}, see p.~\pageref{bms_fitrbm}).
+Such a function can, e.g., be passed to \inlinecode{fitrbm} as \inlinecode{monitoring} argument (line 21 in Listing \ref{callbackexample}). (For the arguments of \inlinecode{fitrbm}, see p.~\pageref{bms_fitrbm}).
 Callback functions can also be used for monitoring DBMs via the \inlinecode{monitoring} argument of \inlinecode{TrainLayer} (see p.~\pageref{bms_TrainLayer}) or the \inlinecode{monitoring} argument of \inlinecode{fitdbm} (see p.~\pageref{bms_fitdbm}).
 
 The evaluation used here is the euclidean distance between the covariance matrix of synthetic samples, which are generated by the RBM or DBM model, and the covariance matrix of the original data (lines 1-4 in Listing \ref{callbackexample}).
